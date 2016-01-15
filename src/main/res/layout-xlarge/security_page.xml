@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="@drawable/tiled_bg">
+	
+    <FrameLayout
+		android:id="@+id/title"
+		android:layout_width="fill_parent"
+		android:layout_height="60dp"
+		android:layout_alignParentTop="true"
+		android:background="@drawable/titlebar" >
+
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent" >
+
+			<TextView
+				android:id="@+id/topic"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:gravity="center"
+				android:shadowColor="#80000000"
+				android:shadowDx="1"
+				android:shadowDy="2"
+				android:shadowRadius="2"
+				android:text="@string/home_security"
+				android:textColor="#FFFFFF"
+				android:textSize="32sp"
+				android:textStyle="bold"/>
+			
+		</RelativeLayout>
+	</FrameLayout>
+
+	<ScrollView
+	    android:layout_below="@+id/title"
+	    android:layout_above="@+id/options"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent" >
+
+		<LinearLayout 
+		    android:orientation="vertical"
+		    android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+			
+		    <LinearLayout 
+		        android:paddingLeft="30dp"
+		        android:paddingTop="15dp"
+		        android:orientation="horizontal"
+		        android:layout_width="fill_parent"
+				android:layout_height="fill_parent">
+				
+		        <TextView
+		            android:textColor="#445e8e"
+		            android:textSize="20sp"
+		            android:layout_marginRight="30dp"
+		            android:text="@string/instant_contact"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+		        
+		        <EditText
+					android:id="@+id/contact1"
+					android:layout_width="320dp"
+					android:layout_height="wrap_content"
+					android:hint="@string/instant_contact"
+					android:background="@drawable/edit_bg"
+					android:inputType="phone"
+					android:maxLength="14"
+					android:padding="12dp"
+					android:singleLine="true"
+					android:textColor="#ff445e8e"
+					android:textColorHighlight="#ff6f8ef5"
+					android:textSize="20sp" />
+		        
+		        <ImageView
+					android:id="@+id/photo1"
+					android:layout_marginLeft="20dp"
+					android:layout_width="50dp"
+					android:layout_height="50dp"
+					android:padding="5dp"/>
+		        
+		    </LinearLayout>
+		    
+		    <LinearLayout 
+		        android:paddingLeft="30dp"
+		        android:paddingTop="15dp"
+		        android:orientation="horizontal"
+		        android:layout_width="fill_parent"
+				android:layout_height="fill_parent">
+				
+		        <TextView
+		            android:textColor="#445e8e"
+		            android:textSize="20sp"
+		            android:layout_marginRight="30dp"
+		            android:text="@string/instant_contact"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+		        
+		        <EditText
+					android:id="@+id/contact2"
+					android:layout_width="320dp"
+					android:layout_height="wrap_content"
+					android:hint="@string/instant_contact"
+					android:background="@drawable/edit_bg"
+					android:inputType="phone"
+					android:maxLength="14"
+					android:padding="12dp"
+					android:singleLine="true"
+					android:textColor="#ff445e8e"
+					android:textColorHighlight="#ff6f8ef5"
+					android:textSize="20sp" />
+		        
+		        <ImageView
+					android:id="@+id/photo2"
+					android:layout_marginLeft="20dp"
+					android:layout_width="50dp"
+					android:layout_height="50dp"
+					android:padding="5dp"/>
+		        
+		    </LinearLayout>
+		    
+		    <LinearLayout 
+		        android:paddingLeft="30dp"
+		        android:paddingTop="15dp"
+		        android:orientation="horizontal"
+		        android:layout_width="fill_parent"
+				android:layout_height="fill_parent">
+				
+		        <TextView
+		            android:textColor="#445e8e"
+		            android:textSize="20sp"
+		            android:layout_marginRight="30dp"
+		            android:text="@string/instant_contact"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+		        
+		        <EditText
+					android:id="@+id/contact3"
+					android:layout_width="320dp"
+					android:layout_height="wrap_content"
+					android:hint="@string/instant_contact"
+					android:background="@drawable/edit_bg"
+					android:inputType="phone"
+					android:maxLength="14"
+					android:padding="12dp"
+					android:singleLine="true"
+					android:textColor="#ff445e8e"
+					android:textColorHighlight="#ff6f8ef5"
+					android:textSize="20sp" />
+		        
+		        <ImageView
+					android:id="@+id/photo3"
+					android:layout_marginLeft="20dp"
+					android:layout_width="50dp"
+					android:layout_height="50dp"
+					android:padding="5dp"/>
+		        
+		    </LinearLayout>
+		    
+		    <LinearLayout 
+		        android:paddingLeft="30dp"
+		        android:paddingTop="15dp"
+		        android:orientation="horizontal"
+		        android:layout_width="fill_parent"
+				android:layout_height="fill_parent">
+				
+		        <TextView
+		            android:textColor="#445e8e"
+		            android:textSize="20sp"
+		            android:layout_marginRight="30dp"
+		            android:text="@string/instant_contact"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+		        
+		        <EditText
+					android:id="@+id/contact4"
+					android:layout_width="320dp"
+					android:layout_height="wrap_content"
+					android:hint="@string/instant_contact"
+					android:background="@drawable/edit_bg"
+					android:inputType="phone"
+					android:maxLength="14"
+					android:padding="12dp"
+					android:singleLine="true"
+					android:textColor="#ff445e8e"
+					android:textColorHighlight="#ff6f8ef5"
+					android:textSize="20sp" />
+		        
+		        <ImageView
+					android:id="@+id/photo4"
+					android:layout_marginLeft="20dp"
+					android:layout_width="50dp"
+					android:layout_height="50dp"
+					android:padding="5dp"/>
+		        
+		    </LinearLayout>
+		    
+		    <LinearLayout 
+		        android:paddingLeft="30dp"
+		        android:paddingTop="15dp"
+		        android:orientation="horizontal"
+		        android:layout_width="fill_parent"
+				android:layout_height="fill_parent">
+				
+		        <TextView
+		            android:textColor="#445e8e"
+		            android:textSize="20sp"
+		            android:layout_marginRight="30dp"
+		            android:text="@string/instant_contact"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"/>
+		        
+		        <EditText
+					android:id="@+id/contact5"
+					android:layout_width="320dp"
+					android:layout_height="wrap_content"
+					android:hint="@string/instant_contact"
+					android:background="@drawable/edit_bg"
+					android:inputType="phone"
+					android:maxLength="14"
+					android:padding="12dp"
+					android:singleLine="true"
+					android:textColor="#ff445e8e"
+					android:textColorHighlight="#ff6f8ef5"
+					android:textSize="20sp" />
+		        
+		        <ImageView
+					android:id="@+id/photo5"
+					android:layout_marginLeft="20dp"
+					android:layout_width="50dp"
+					android:layout_height="50dp"
+					android:padding="5dp"/>
+		        
+		    </LinearLayout>
+		    
+		</LinearLayout>
+	</ScrollView>
+
+	<FrameLayout
+		android:id="@+id/options"
+		android:layout_width="fill_parent"
+		android:layout_height="60dp"
+		android:layout_alignParentBottom="true"
+		android:background="@drawable/optionbar" >
+
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:gravity="center_vertical"
+			android:orientation="horizontal"
+			android:paddingBottom="2dp"
+			android:paddingTop="2dp" >
+
+			<Button
+				android:id="@+id/bFafauser"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_weight="1"
+				android:background="@drawable/tabbtn"
+				android:paddingLeft="20dp"
+				android:drawablePadding="-30dp"
+				android:drawableLeft="@drawable/tab_user"
+				android:text="@string/friends"
+				android:textColor="@color/optionbtn_text"
+				android:textStyle="bold"
+				android:textSize="18sp"/>
+
+			<Button
+				android:id="@+id/bMessage"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_weight="1"
+				android:background="@drawable/tabbtn"
+				android:paddingLeft="20dp"
+				android:focusable="true"
+				android:drawablePadding="-30dp"
+				android:drawableLeft="@drawable/tab_msg"
+				android:text="@string/messages"
+				android:textColor="@color/optionbtn_text"
+				android:textStyle="bold"
+				android:textSize="18sp"/>
+			
+			<Button
+				android:id="@+id/bSipOut"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_weight="1"
+				android:background="@drawable/tabbtn"
+				android:paddingLeft="20dp"
+				android:focusable="true"
+				android:drawablePadding="-30dp"
+				android:drawableLeft="@drawable/tab_sipcall"
+				android:text="@string/aire_free_call"
+				android:textColor="@color/optionbtn_text"
+				android:textStyle="bold"
+				android:textSize="18sp"/>
+
+			<Button
+				android:id="@+id/bSearch"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_weight="1"
+				android:background="@drawable/tabbtn_focused"
+				android:paddingLeft="20dp"
+				android:focusable="true"
+				android:drawablePadding="-30dp"
+				android:drawableLeft="@drawable/searchkey_pressed"
+				android:text="@string/security"
+				android:textColor="#ffffff"
+				android:textStyle="bold"
+				android:textSize="18sp"/>
+
+			<Button
+				android:id="@+id/bSetting"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_weight="1"
+				android:focusable="true"
+				android:background="@drawable/tabbtn"
+				android:paddingLeft="20dp"
+				android:drawablePadding="-30dp"
+				android:drawableLeft="@drawable/tab_setting"
+				android:text="@string/setting"
+				android:textColor="@color/optionbtn_text"
+				android:textStyle="bold"
+				android:textSize="18sp"/>
+		</LinearLayout>
+	</FrameLayout>
+
+</RelativeLayout>

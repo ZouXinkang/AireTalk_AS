@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="8dp"
+  	android:layout_width="fill_parent"
+  	android:layout_height="fill_parent">
+  	
+    <ImageView
+        android:id="@+id/photo"
+        android:layout_margin="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_width="80dp"
+		android:layout_height="80dp"/>
+    
+	<TextView
+		android:id="@+id/displayname"
+		android:text="@string/unknown_person"
+		android:textColor="#606060"
+		android:textSize="26sp"
+		android:paddingTop="10dp"
+		android:paddingLeft="10dp"
+		android:singleLine="true"
+		android:textStyle="bold"
+		android:layout_alignParentTop="true"
+		android:layout_toRightOf="@+id/photo"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+	  
+	<TextView
+		android:id="@+id/address"
+		android:text="@string/unknown_person"
+		android:textColor="#a0a0a0"
+		android:textSize="20sp"
+		android:singleLine="true"
+		android:paddingLeft="10dp"
+		android:paddingBottom="4dp"
+		android:layout_alignParentBottom="true"
+		android:layout_toRightOf="@+id/photo"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+	
+	<TextView
+		android:id="@+id/cost"
+		android:textColor="#d06060"
+		android:textSize="18sp"
+		android:singleLine="true"
+		android:paddingRight="12dp"
+		android:layout_centerVertical="true"
+		android:layout_alignParentRight="true"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+
+	<ImageView
+		android:id="@+id/checked"
+		android:paddingRight="10dp"
+		android:paddingBottom="8dp"
+		android:paddingTop="10dp"
+		android:src="@drawable/okay"
+		android:visibility="gone"
+		android:layout_centerVertical="true"
+		android:layout_alignParentRight="true"
+		android:layout_width="60dp"
+		android:layout_height="60dp"/>
+	
+</RelativeLayout>

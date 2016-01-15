@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:id="@+id/main_content">
+
+    <RelativeLayout 
+        android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+		
+        <RelativeLayout
+		    android:visibility="visible"
+		    android:id="@+id/sidebar_ghost"
+		    android:layout_width="70dp"
+			android:layout_height="match_parent"
+			android:layout_alignParentLeft="true"/>
+	
+		<FrameLayout
+			android:id="@+id/title"
+			android:layout_width="fill_parent"
+			android:layout_height="53dp"
+			android:layout_alignParentTop="true"
+			android:background="@drawable/titlebar" >
+            
+		    <RelativeLayout 
+		        android:layout_width="fill_parent"
+				android:layout_height="fill_parent">
+		        
+				<ImageView
+				    android:id="@+id/menu_main"
+				    android:src="@drawable/ic_menu_w"
+				    android:layout_width="60dp"
+					android:layout_height="match_parent"
+					android:layout_marginLeft="10dp"
+					android:focusable="true"
+					android:clickable="true"/>
+		        
+				<Button
+				    android:visibility="visible"
+					android:id="@+id/back"
+					android:paddingRight="20dp"
+					android:layout_marginLeft="35dp"
+					android:layout_toRightOf="@+id/menu_main"
+					android:layout_centerVertical="true"
+					android:drawableLeft="@drawable/cancel2"
+					android:layout_width="wrap_content"
+					android:layout_height="fill_parent"
+					android:background="@drawable/tabbtn"
+					android:text="@string/back"
+					android:textColor="#ffffff"
+					android:textSize="24sp" />
+				
+				<TextView
+					android:id="@+id/topic"
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:gravity="center"
+					android:text="@string/bar1_name"
+					android:textColor="#FFFFFF"
+					android:textSize="33sp"/>
+				
+				<LinearLayout
+				    android:id="@+id/oncall"
+				    android:background="#000000"
+				    android:layout_alignParentRight="true"
+				    android:orientation="horizontal"
+				    android:layout_width="240dp"
+					android:layout_height="fill_parent"/>
+			
+			</RelativeLayout>
+			
+		</FrameLayout>
+		
+		<FrameLayout
+			android:id="@+id/content"
+			android:background="@color/background_main1"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:layout_below="@+id/title">
+		</FrameLayout>
+		
+		<ImageView
+		    android:background="@drawable/shadow_line"
+		    android:layout_below="@+id/title"
+		    android:layout_width="fill_parent"
+			android:layout_height="6dp"/>
+		
+		<FrameLayout
+			android:id="@+id/notification"
+			android:layout_width="280dp"
+			android:layout_height="100dp"
+			android:layout_alignParentRight="true"
+			android:layout_alignBottom="@+id/content">
+		</FrameLayout>
+	
+	</RelativeLayout>
+		
+	<RelativeLayout
+		android:id="@+id/sidebar_frame_drawer"
+	    android:layout_width="140dp"
+	    android:layout_height="match_parent"
+		android:background="@drawable/sidebar_bg"
+	    android:layout_gravity="start" >
+	    
+	    <LinearLayout
+		    android:id="@+id/sidebar_frame"
+		    android:layout_above="@+id/settings"
+		    android:paddingTop="10dp"
+		    android:paddingLeft="10dp"
+		    android:paddingRight="10dp"
+		    android:layout_width="140dp"
+			android:layout_height="match_parent"
+	        android:orientation="vertical"
+	        android:gravity="center">
+	        
+	        <RelativeLayout
+	            android:layout_weight="1"
+	            android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_marginTop="10dp"
+	            android:layout_marginBottom="10dp">
+				
+	            <ImageView
+	                android:id="@+id/bar1"
+	                android:background="@drawable/barbtn"
+	                android:src="@drawable/bar1_focused"
+	                android:clickable="true"
+	                android:focusable="true"
+	                android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:gravity="center"/>
+	            
+				<TextView
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:paddingBottom="5dp"
+	                android:layout_centerHorizontal="true"
+	                android:layout_alignParentBottom="true"
+	                android:text="@string/bar1_name"
+	                android:textColor="#ffffff"
+	                android:textSize="18sp"
+	                android:textStyle="bold"
+	            	android:layout_marginBottom="20dp"/>
+				
+	        </RelativeLayout>
+	        
+	        <RelativeLayout
+	            android:layout_weight="1"
+	            android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_marginTop="10dp"
+	            android:layout_marginBottom="10dp">
+				
+	            <ImageView
+	                android:id="@+id/bar7"
+	                android:background="@drawable/barbtn"
+	                android:src="@drawable/bar7"
+	                android:clickable="true"
+	                android:focusable="true"
+	                android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:gravity="center"
+	            	android:paddingBottom="5dp"/>
+	            
+				<TextView
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:paddingBottom="5dp"
+	                android:layout_centerHorizontal="true"
+	                android:layout_alignParentBottom="true"
+	                android:text="@string/bar7_name"
+	                android:textColor="#c0c0c0"
+	                android:textSize="18sp"
+	                android:textStyle="bold"
+	            	android:layout_marginBottom="25dp" />
+				
+	        </RelativeLayout>
+	        
+	        <RelativeLayout
+	            android:id="@+id/bar9_block"
+	            android:layout_weight="1"
+	            android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_marginTop="10dp"
+	            android:layout_marginBottom="30dp">
+				
+	            <ImageView
+	                android:id="@+id/bar9"
+	                android:background="@drawable/barbtn"
+	                android:src="@drawable/bar9_png"
+	                android:clickable="true"
+	                android:focusable="true"
+	                android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:gravity="center"
+	            	android:paddingBottom="35dp"/>
+	            
+				<TextView
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:paddingBottom="5dp"
+	                android:layout_centerHorizontal="true"
+	                android:layout_alignParentBottom="true"
+	                android:text="@string/bar9_name"
+	                android:textColor="#c0c0c0"
+	                android:textSize="18sp"
+	                android:textStyle="bold"
+	            	android:layout_marginBottom="20dp" />
+	        
+	        </RelativeLayout>
+	           
+		</LinearLayout>
+	    
+	</RelativeLayout>
+	
+</android.support.v4.widget.DrawerLayout>

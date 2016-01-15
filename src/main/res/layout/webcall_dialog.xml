@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="15dp"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    
+    <LinearLayout 
+        android:id="@+id/title"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        
+    <ImageView
+        android:id="@+id/icon"
+        android:src="@drawable/aire_logo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="5dp"/>
+
+    <LinearLayout 
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/topic"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="@string/aire_free_call"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:shadowColor="#80000000"
+		android:shadowDx="1"
+		android:shadowDy="2"
+		android:shadowRadius="2"
+        android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/status_label"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/making_call"
+        android:textColor="#909090"
+        android:textSize="13sp"/>
+    </LinearLayout>
+    </LinearLayout>
+    
+    <Button 
+		android:id="@+id/cancel"
+		android:layout_below="@+id/title"
+		android:text="@string/cancel"
+		android:textColor="#ffffff"
+		android:shadowColor="#80000000"
+  	  	android:shadowDx="1"
+  	  	android:shadowDy="2"
+  	  	android:shadowRadius="2"
+		android:background="@drawable/dialogbtn"
+		android:layout_centerHorizontal="true"
+		android:gravity="center"
+		android:textSize="18sp"
+		android:layout_margin="4dp"
+		android:layout_width="150dp"
+		android:layout_height="40sp"/>
+		
+</RelativeLayout>

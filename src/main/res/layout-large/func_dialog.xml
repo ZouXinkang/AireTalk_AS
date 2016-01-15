@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="10dp"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:orientation="horizontal">
+	
+    <LinearLayout
+		android:id="@+id/pic_frame"
+        android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginRight="10dp">
+		
+		<ImageView
+			android:id="@+id/photo"
+			android:clickable="true"
+			android:layout_width="300dp"
+			android:layout_height="300dp"
+			android:focusable="true"
+	        android:padding="5dp"
+	        android:background="@drawable/optionbtn"
+			android:layout_margin="10dp"/>"
+	
+		<TextView
+			android:id="@+id/displayname"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:textStyle="bold"
+			android:paddingLeft="10dp"
+			android:paddingRight="10dp"
+			android:textColor="#3a3b3d"
+			android:textSize="30sp"
+			android:layout_marginTop="20dp"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp"
+			android:layout_marginBottom="10dp"/>
+	
+		<TextView
+			android:id="@+id/mood"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:ellipsize="end"
+			android:paddingLeft="10dp"
+			android:paddingRight="10dp"
+			android:gravity="center"
+			android:lines="2"
+			android:textColor="#3a3b3d"
+			android:textSize="22sp"
+			android:layout_margin="10dp"/>
+        
+    </LinearLayout>
+    
+    <LinearLayout
+		android:id="@+id/button_frame"
+        android:orientation="vertical"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
+		
+	    <Button
+			android:id="@+id/chat"
+			android:layout_margin="10dp"
+			android:layout_width="240dp"
+			android:layout_height="140dp"
+			android:layout_weight="1"
+			android:focusable="true"
+			android:background="@drawable/plainbtn"
+			android:drawableLeft="@drawable/chat"
+			android:drawablePadding="0dp"
+			android:paddingLeft="20dp"
+			android:text="@string/chat"
+			android:textSize="30sp"
+			android:textStyle="bold"
+			android:textColor="#ffffff"/>
+	    
+		<Button
+			android:id="@+id/call"
+			android:layout_margin="10dp"
+			android:layout_width="240dp"
+			android:layout_height="140dp"
+			android:layout_weight="1"
+			android:focusable="true"
+			android:background="@drawable/plainbtn"
+			android:drawableLeft="@drawable/func_call"
+			android:drawablePadding="0dp"
+			android:paddingLeft="20dp"
+			android:text="@string/call"
+			android:textSize="30sp"
+			android:textStyle="bold"
+			android:textColor="#ffffff"/>
+		
+		<Button
+			android:id="@+id/videocall"
+			android:layout_margin="10dp"
+			android:layout_width="240dp"
+			android:layout_height="140dp"
+			android:layout_weight="1"
+			android:focusable="true"
+			android:background="@drawable/plainbtn"
+			android:drawableLeft="@drawable/func_video"
+			android:drawablePadding="0dp"
+			android:paddingLeft="20dp"
+			android:text="@string/videocall"
+			android:textSize="30sp"
+			android:textStyle="bold"
+			android:textColor="#ffffff"/>
+        
+    </LinearLayout>
+    
+<!--     <ImageView -->
+<!-- 		android:id="@+id/close" -->
+<!-- 		android:clickable="true" -->
+<!-- 		android:src="@drawable/closexhdpi" -->
+<!-- 		android:background="@drawable/optionbtn" -->
+<!-- 		android:layout_width="70dp" -->
+<!-- 		android:layout_height="70dp" -->
+<!-- 		android:layout_alignParentTop="true" -->
+<!-- 		android:layout_alignParentRight="true" -->
+<!-- 		android:padding="5dp" -->
+<!-- 		android:focusable="true" -->
+<!-- 		android:layout_marginRight="10dp" -->
+<!-- 		android:layout_marginTop="5dp"/> -->
+	
+</LinearLayout>

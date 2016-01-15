@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ebf0f1" >
+
+    <ImageView
+        android:id="@+id/bkimg"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="centerCrop" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:id="@+id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="top"
+            android:background="@drawable/titlebar" >
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+
+                <ImageView 
+				    android:id="@+id/cancel" 
+				    android:src="@drawable/back_arrow"
+				    android:background="@drawable/optionbtn"
+				    android:padding="2dp"
+				    android:clickable="true"
+				    android:focusable="true"
+					android:layout_alignParentLeft="true"
+					android:layout_width="wrap_content"
+					android:layout_height="fill_parent"/>
+
+                <TextView
+                    android:id="@+id/sendee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_vertical"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+                
+                <ImageView 
+				    android:id="@+id/removeall" 
+				    android:src="@drawable/removeall"
+				    android:background="@drawable/optionbtn"
+				    android:padding="2dp"
+				    android:clickable="true"
+				    android:focusable="true"
+					android:layout_alignParentRight="true"
+					android:layout_width="wrap_content"
+					android:layout_height="fill_parent"/>
+                
+            </RelativeLayout>
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/talkframe"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="0px"
+            android:layout_weight="1" >
+            
+            <RelativeLayout
+		        android:id="@+id/members"
+				android:paddingLeft="30dp"
+				android:paddingRight="30dp"
+				android:visibility="gone"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"/>
+            
+            <LinearLayout 
+                android:orientation="horizontal"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:layout_width="fill_parent"
+         		android:layout_height="wrap_content">
+                
+                <Button 
+                    android:id="@+id/voicesms"
+                    android:background="@drawable/plainbtn"
+                    android:drawableLeft="@drawable/func_vm"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/voicememo"
+                    android:textSize="16sp"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:layout_width="fill_parent"
+         			android:layout_height="wrap_content"/>
+                
+                <Button 
+                    android:id="@+id/media"
+                    android:background="@drawable/plainbtn"
+                    android:drawableLeft="@drawable/func_pic"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/fafauser_pic"
+                    android:textSize="16sp"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:layout_width="fill_parent"
+         			android:layout_height="wrap_content"/>
+                
+                <Button 
+                    android:id="@+id/filesms"
+                    android:background="@drawable/plainbtn"
+                    android:drawableLeft="@drawable/func_file"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/filememo"
+                    android:textSize="16sp"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:layout_width="fill_parent"
+         			android:layout_height="wrap_content"/>
+                
+            </LinearLayout>
+            
+            <View
+		        android:background="@drawable/seperator"
+		        android:layout_marginTop="10dp"
+		        android:layout_marginBottom="5dp"
+		        android:layout_width="fill_parent"
+				android:layout_height="5dp"/>
+
+            <ListView
+                android:id="@+id/talklist"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="0dp"
+                android:fadingEdge="vertical"
+                android:fadingEdgeLength="20dp"
+                android:background="#00000000"
+                android:cacheColorHint="#00000000"
+                android:divider="#00000000"
+                android:dividerHeight="0px"
+                android:listSelector="@drawable/null_select" />
+
+        </LinearLayout>
+
+        
+        <FrameLayout
+            android:id="@+id/inputFrameLayout"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bkpanel" >
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+                
+                <ImageView
+                    android:id="@+id/smile"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/optionbtn"
+                    android:focusable="true"
+                    android:padding="2dp"
+                    android:src="@drawable/smiley" />
+
+                <Button
+                    android:id="@+id/sendmsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/sendbtn"
+                    android:focusable="true"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:paddingTop="10dp"
+                    android:text="@string/sendmsg"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
+
+                <EditText
+                    android:id="@+id/msginput"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toLeftOf="@+id/sendmsg"
+                    android:layout_toRightOf="@+id/smile"
+                    android:background="@drawable/edit_bg"
+                    android:focusable="true"
+                    android:inputType="text"
+                    android:lines="1"
+                    android:paddingTop="6dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="6dp"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/speaker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/anispeaker"
+        android:visibility="gone" />
+
+    <View
+        android:id="@+id/large"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone" />
+
+</RelativeLayout>

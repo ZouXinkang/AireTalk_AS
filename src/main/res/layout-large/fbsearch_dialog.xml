@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:gravity="center_vertical"
+	android:minWidth="400dp"
+	android:maxWidth="510dp"
+	android:layout_width="fill_parent"
+	android:layout_height="120dp">
+    
+	<TextView 
+		android:id="@+id/msgcontent"
+		android:gravity="center"
+		android:textColor="#000000"
+		android:text="@string/searching_friends"
+		android:textSize="24sp"
+		android:padding="10dp"
+		android:layout_centerVertical="true"
+		android:layout_gravity="center_vertical"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"/>
+</RelativeLayout>

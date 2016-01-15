@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	package="com.pingshow.airecenter"
+	android:installLocation="auto"
+	android:versionCode="1212"
+	android:versionName="1.2.12">
+	
+    <supports-screens
+        android:largeScreens="true"
+        android:normalScreens="false"
+        android:smallScreens="false"
+        android:xlargeScreens="true" />
+	
+    <uses-sdk android:minSdkVersion="18" android:targetSdkVersion="18"/>
+	
+	<uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="android.permission.READ_CONTACTS"/>
+	<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="android.permission.VIBRATE"/>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+	<uses-permission android:name="android.permission.UPDATE_DEVICE_STATS"/>
+	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+	<uses-permission android:name="android.permission.WAKE_LOCK"/>
+	<uses-permission android:name="android.permission.RECORD_AUDIO"/>
+	<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+	<uses-permission android:name="android.permission.CAMERA"/>
+	<uses-permission android:name="android.permission.BROADCAST_STICKY"/>
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+	<uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+	<uses-permission android:name="android.permission.RAISED_THREAD_PRIORITY"/>
+	<uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE" />
+	<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_GPS" />
+	<uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
+	<uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/>
+	<uses-permission android:name="android.permission.WRITE_SETTINGS" />
+	<uses-permission android:name="android.permission.BLUETOOTH"/>
+	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+	<uses-permission android:name="android.permission.GET_TASKS"/>
+	
+	<uses-feature android:name="android.hardware.usb.host" />
+	<uses-permission android:name="android.permission.USB_PERMISSION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+	<uses-feature android:name="android.hardware.telephony" android:required="false"/>
+	<uses-feature android:name="android.hardware.bluetooth" android:required="false"/>
+	<uses-feature android:name="android.hardware.camera" android:required="false"/>
+	<uses-feature android:name="android.hardware.location" android:required="false"/>
+	<uses-feature android:name="android.hardware.location.gps" android:required="false"/>
+	<uses-feature android:name="android.hardware.location.network" android:required="false"/>
+	<uses-feature android:name="android.hardware.microphone" android:required="false"/>
+	<uses-feature android:name="android.hardware.screen.portrait" android:required="false"/>
+	<uses-feature android:name="android.hardware.wifi" android:required="false"/>
+	
+	<application
+		android:icon="@drawable/aire_icon"
+		android:screenOrientation="landscape"
+		android:largeHeap="true"
+		android:label="@string/app_name"
+		android:name="com.pingshow.airecenter.AireApp"
+		android:hardwareAccelerated="true" >
+<!-- 		android:debuggable="false" -->
+		
+	    <uses-library android:name="com.google.android.maps" android:required="false"/>
+	    
+		<activity
+			android:name="com.pingshow.airecenter.SplashScreen" android:launchMode="singleTop"
+			android:screenOrientation="landscape"
+			android:theme="@android:style/Theme.NoTitleBar">
+			<intent-filter>
+			    <action android:name="android.intent.action.CREATE_SHORTCUT"/>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
+		
+		<activity
+			android:name="com.pingshow.airecenter.WebCallSplash"
+			android:theme="@style/AmperDialogTheme">
+			<intent-filter>
+		        <action android:name="android.intent.action.VIEW" />
+		        <category android:name="android.intent.category.BROWSABLE" />
+		        <category android:name="android.intent.category.DEFAULT" />
+		        <data android:scheme="airetalk" />
+		    </intent-filter>
+		</activity>
+		
+		<activity
+			android:name="com.pingshow.airecenter.MainActivity"
+			android:screenOrientation="landscape"
+			android:launchMode="singleTop"
+			android:configChanges="keyboardHidden|orientation"
+			android:windowSoftInputMode="stateHidden|adjustPan"
+			android:theme="@android:style/Theme.NoTitleBar" >
+			<intent-filter>
+			    <action android:name="android.intent.action.VIEW" />
+				<action android:name="android.intent.action.DIAL" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:scheme="tel" />
+			</intent-filter>
+		</activity>
+        
+		<activity
+			android:name="com.pingshow.airecenter.ShoppingActivity"
+			android:icon="@drawable/shopping_icon"
+			android:label="@string/shopping"
+			android:screenOrientation="landscape"
+			android:launchMode="singleTop"
+			android:configChanges="keyboardHidden|orientation"
+			android:windowSoftInputMode="stateHidden|adjustPan"
+			android:theme="@android:style/Theme.NoTitleBar">
+			<intent-filter>
+			    <action android:name="android.intent.action.CREATE_SHORTCUT"/>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
+		
+		<activity
+			android:name="com.pingshow.airecenter.SecurityNewActivity"
+			android:icon="@drawable/security_icon"
+			android:label="@string/security"
+			android:screenOrientation="landscape"
+			android:launchMode="singleTop"
+			android:configChanges="keyboardHidden|orientation"
+			android:windowSoftInputMode="stateHidden|adjustPan"
+			android:theme="@android:style/Theme.NoTitleBar">
+			<intent-filter>
+			    <action android:name="android.intent.action.CREATE_SHORTCUT"/>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		    <intent-filter>
+		        <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+		    </intent-filter>
+	        <meta-data
+	            android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+	            android:resource="@xml/device_filter" />
+		</activity>
+		
+		<activity
+			android:name="com.pingshow.airecenter.HomeIOTActivity"
+			android:icon="@drawable/security_icon"
+			android:label="@string/homeiot_dev"
+			android:screenOrientation="landscape"
+			android:launchMode="singleTop"
+			android:configChanges="keyboardHidden|orientation"
+			android:windowSoftInputMode="stateHidden|adjustPan"
+			android:theme="@android:style/Theme.NoTitleBar">
+		</activity>
+		
+		<activity android:name="com.pingshow.airecenter.GallerySender"
+		    android:label="@string/app_name"
+		    android:description="@string/app_name"
+		    android:theme="@android:style/Theme.NoTitleBar"
+		    android:icon="@drawable/aire_icon">
+			<intent-filter>
+			    <action android:name="android.intent.action.SEND"/>
+			    <category android:name="android.intent.category.DEFAULT" /> 
+			    <data android:mimeType="image/*"/>
+			    <data android:mimeType="video/*"/>
+			    <data android:mimeType="application/mail"/>
+			</intent-filter>
+		</activity>
+		
+		<activity 
+			android:name="com.pingshow.airecenter.LocationSettingActivity"
+			android:icon="@drawable/location_icon"
+			android:label="@string/sharing_location"
+			android:screenOrientation="landscape" 
+			android:launchMode="singleTop" 
+			android:configChanges="keyboardHidden|orientation" 
+			android:windowSoftInputMode="stateHidden|adjustPan" 
+			android:theme="@android:style/Theme.NoTitleBar">
+<!-- 			<intent-filter> -->
+<!-- 			    <action android:name="android.intent.action.CREATE_SHORTCUT"/> -->
+<!-- 				<action android:name="android.intent.action.MAIN"/> -->
+<!-- 				<category android:name="android.intent.category.LAUNCHER"/> -->
+<!-- 			</intent-filter> -->
+		</activity>
+		
+		<activity
+			android:name="com.pingshow.airecenter.ProfileActivity"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+			android:name="com.pingshow.airecenter.ScreenSharing"
+			android:windowSoftInputMode="stateHidden"
+			android:launchMode="singleTask"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+			android:name="com.pingshow.airecenter.FilePushActivity"
+			android:windowSoftInputMode="stateHidden"
+			android:launchMode="singleTask"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+		    android:name="com.pingshow.airecenter.SurveillanceDialog"
+			android:launchMode="singleInstance"
+        	android:theme="@style/BlackDialogTheme"
+			android:configChanges="keyboardHidden|orientation"/>
+		
+		<activity
+			android:name="com.pingshow.airecenter.CreateGroupActivity"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+			android:name="com.pingshow.airecenter.SecurityHistoryActivity"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+			android:name="com.pingshow.airecenter.SelectUserActivity"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@style/BlackDialogTheme"
+			android:configChanges="keyboardHidden|orientation"/>
+			
+		<activity
+			android:name="com.pingshow.airecenter.FeedbackActivity"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+			android:name="com.pingshow.airecenter.FeedbackActivity2"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity 
+		    android:name="com.pingshow.airecenter.FacebookSearch"
+		    android:theme="@style/BlackDialogTheme"
+			android:configChanges="keyboardHidden|orientation"/>
+		
+		<activity 
+		    android:name="com.pingshow.airecenter.CommonDialog"
+		    android:theme="@style/BlackDialogTheme"
+			android:configChanges="keyboardHidden|orientation"/>
+		
+		<activity 
+			android:name="com.pingshow.airecenter.ConfirmDialog" 
+			android:theme="@style/BlackDialogTheme" 
+			android:configChanges="keyboardHidden|orientation"/>
+		
+		<activity 
+			android:name="com.pingshow.airecenter.MediaDialog" 
+			android:theme="@style/BlackDialogTheme" 
+			android:configChanges="keyboardHidden|orientation"/>
+		
+		<activity 
+		    android:name="com.pingshow.airecenter.register.EulaDialog"
+		    android:windowSoftInputMode="stateHidden"
+		    android:theme="@android:style/Theme.NoTitleBar"
+			android:configChanges="keyboardHidden|orientation"/>
+		
+		<activity android:name="com.pingshow.airecenter.message.PopupDialog"
+		    android:theme="@style/BlackDialogTheme"
+			android:launchMode="singleTask"
+			android:configChanges="keyboardHidden|orientation">
+		</activity>
+		
+		<activity
+			android:name="com.pingshow.airecenter.ConversationActivity"
+			android:screenOrientation="landscape"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+			android:name="com.pingshow.airecenter.ComposeActivity"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+			android:name="com.pingshow.airecenter.SmileyActivity"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@style/BlackDialogTheme"/>
+		<activity
+			android:name="com.pingshow.airecenter.SearchDialog"
+			android:launchMode="singleTask"
+			android:windowSoftInputMode="stateHidden|adjustPan"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+			android:name="com.pingshow.airecenter.PickupActivity"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+			android:name="com.pingshow.airecenter.PictureRotationActivity"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+			android:name="com.pingshow.airecenter.WalkieTalkieDialog"
+			android:windowSoftInputMode="stateHidden"
+			android:launchMode="singleTask"
+			android:theme="@style/BlackDialogTheme"/>
+		<activity
+			android:name="com.pingshow.airecenter.Tooltip"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@style/NullTheme"/>
+		<activity
+			android:name="com.pingshow.airecenter.VoiceRecordingDialog"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@style/BlackDialogTheme"/>
+		<activity
+			android:name="com.pingshow.airecenter.MessageDetailActivity"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+			android:name="com.pingshow.airecenter.FunctionActivity"
+			android:theme="@style/BlackDialogTheme"
+			android:configChanges="keyboardHidden|orientation"/>
+		
+		<activity
+			android:name="com.pingshow.airecenter.GroupFunctionActivity"
+			android:theme="@style/BlackDialogTheme"
+			android:configChanges="keyboardHidden|orientation"/>
+		
+		<activity
+			android:name="com.pingshow.airecenter.GroupDialogActivity"
+			android:theme="@style/BlackDialogTheme"
+			android:configChanges="keyboardHidden|orientation"/>
+		
+		<activity
+			android:name="com.pingshow.airecenter.AddCallDialog"
+			android:launchMode="singleInstance"
+        	android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+			android:configChanges="keyboardHidden|orientation"/>
+		
+		<activity
+			android:name="com.pingshow.airecenter.CorpMemberActivity"
+			android:theme="@style/BlackDialogTheme"
+			android:configChanges="keyboardHidden|orientation"/>
+		
+		<activity
+			android:name="com.pingshow.airecenter.AddAsFriendActivity"
+			android:theme="@style/BlackDialogTheme"
+			android:configChanges="keyboardHidden|orientation"/>
+		<activity
+			android:name="com.pingshow.airecenter.JoinNewGroupActivity"
+			android:theme="@style/BlackDialogTheme"
+			android:configChanges="keyboardHidden|orientation"/>
+		<activity
+			android:name="com.pingshow.airecenter.BlackListActivity"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+		    android:name="com.pingshow.voip.DialerActivity"
+		    android:screenOrientation="landscape"
+			android:launchMode="singleTop"
+        	android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+        	android:hardwareAccelerated="true" />
+		
+		<activity
+		    android:name="com.pingshow.voip.VideoConf"
+			android:launchMode="singleTop"
+        	android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+		
+		<activity
+		    android:name="com.pingshow.voip.FileTransferActivity"
+			android:launchMode="singleTop"
+        	android:theme="@style/FileTransferDialogTheme"
+			android:configChanges="keyboardHidden|orientation"/>
+		
+		<activity
+		    android:name="com.pingshow.voip.VideoCallActivity"
+		    android:launchMode="singleTop"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:hardwareAccelerated="true"/>
+		
+		<activity 
+		    android:name="com.pingshow.voip.RingDialog"
+		    android:theme="@style/RingDialogTheme"/>
+        
+		<activity
+		    android:name="com.pingshow.airecenter.map.MapViewLocation"
+			android:launchMode="singleInstance"
+			android:screenOrientation="landscape"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+		    android:name="com.pingshow.airecenter.map.SelfMapView"
+			android:launchMode="singleInstance"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity 
+		    android:name="com.pingshow.airecenter.FileBrowerActivity"
+      		android:windowSoftInputMode="stateHidden"
+      		android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity android:name="com.tencent.tauth.TAuthView" android:theme="@style/ThemeActivity" android:launchMode="singleTask" android:configChanges="keyboardHidden|navigation|orientation">
+			<intent-filter>  
+			    <action android:name="android.intent.action.VIEW" />  
+			    <category android:name="android.intent.category.DEFAULT" />  
+			    <category android:name="android.intent.category.BROWSABLE" />  
+			    <data android:scheme="tencent500000002"/>   
+			</intent-filter>  
+        </activity>
+        
+		<activity android:theme="@style/ContentOverlay"
+        	android:launchMode="singleTask"
+			android:configChanges="keyboardHidden|orientation"                           
+			android:windowSoftInputMode="adjustPan|stateAlwaysVisible" android:name="com.weibo.net.ShareActivity">
+		</activity>
+		
+        <activity
+            android:name="com.pingshow.qrcode.CaptureActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+        
+		<receiver android:name="com.pingshow.network.NetworkMonitor">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+        
+		<receiver android:name="com.pingshow.airecenter.BootReceiver">
+			<intent-filter android:priority="90000">
+				<action android:name="android.intent.action.BOOT_COMPLETED"/>
+			</intent-filter>
+		</receiver>
+		
+		<receiver android:name="com.pingshow.airecenter.PowerOnReceiver">  
+        	<intent-filter android:priority="90000">
+            	<action android:name="android.intent.action.USER_PRESENT"/>  
+        	</intent-filter>
+        </receiver>
+	    
+		<receiver android:name="com.pingshow.airecenter.AmpAlarmReceiver"/>
+		
+		<service android:name="com.pingshow.airecenter.AireJupiter"/>
+		<service android:name="com.pingshow.airecenter.ServiceZ"/>
+        <service android:name="com.pingshow.voip.AireVenus"/>
+        <service android:name="com.pingshow.airecenter.ServiceNeverDie"/>
+        <service android:name="com.pingshow.airecenter.PlayService"/>
+        <service android:name="com.pingshow.homesafeguard.HomeSafeguardService"/>
+        
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" >
+        </service>
+        <activity android:name="com.pingshow.airecenter.BDMapViewLocation"
+            android:screenOrientation="landscape" 
+			android:launchMode="singleTask" 
+			android:configChanges="keyboardHidden|orientation" 
+			android:windowSoftInputMode="stateHidden|adjustPan" 
+			android:theme="@android:style/Theme.NoTitleBar">
+            
+        </activity>
+        <activity android:name="com.pingshow.airecenter.map.bd.BDSelfMapView"
+            android:launchMode="singleInstance"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+        </activity>
+
+        <service android:name="com.pingshow.beehive.BeeHiveService"/>
+        
+        <meta-data android:name="UMENG_APPKEY" android:value="502cab085270151eda0000af"></meta-data>
+        
+<!--         <activity -->
+<!--             android:name="com.pingshow.airecenter.browser.MainBrowser" -->
+<!--             android:label="@string/browser_name" -->
+<!-- 			android:configChanges="keyboardHidden|orientation"  -->
+<!-- 			android:theme="@android:style/Theme.NoTitleBar" -->
+<!-- 			android:icon="@drawable/bar8b_png_active" -->
+<!-- 			android:screenOrientation="landscape"  -->
+<!-- 			android:launchMode="singleTop" > -->
+<!--             <intent-filter> -->
+<!-- 			    <action android:name="android.intent.action.CREATE_SHORTCUT"/> -->
+<!--                 <action android:name="android.intent.action.MAIN" /> -->
+<!-- 				<category android:name="android.intent.category.LAUNCHER"/> -->
+<!--             </intent-filter> -->
+<!--             <intent-filter> -->
+<!--                 <action android:name="com.pingshow.airecenter.browser.SettingsICE_ATTACHED" /> -->
+<!--             </intent-filter> -->
+<!--         </activity> -->
+<!--         <activity -->
+<!--             android:name="com.pingshow.airecenter.browser.Settings" -->
+<!--             android:label="@string/browser_name" -->
+<!-- 			android:configChanges="keyboardHidden|orientation"  -->
+<!-- 			android:windowSoftInputMode="stateHidden|adjustPan" -->
+<!-- 			android:icon="@drawable/bar8b_png_active" -->
+<!-- 			android:screenOrientation="landscape" /> -->
+        
+	</application>
+
+</manifest>

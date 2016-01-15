@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	
+    <FrameLayout
+	    android:id="@+id/sidebar"
+	    android:background="@drawable/sidebar_bg"
+	    android:layout_width="60dp"
+		android:layout_height="fill_parent">
+		
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+            
+            <ImageView
+                android:id="@+id/bar1"
+                android:background="#00000000"
+                android:src="@drawable/bar1_focused"
+                android:layout_weight="0.9"
+                android:layout_width="wrap_content"
+				android:layout_height="fill_parent"/>
+            
+            <ImageView
+                android:id="@+id/bar6"
+                android:background="#00000000"
+                android:src="@drawable/bar6"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+				android:layout_height="fill_parent"/>
+            
+            <ImageView
+                android:id="@+id/bar7"
+                android:background="#00000000"
+                android:src="@drawable/bar7"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+				android:layout_height="fill_parent"/>
+            
+            <ImageView
+                android:id="@+id/bar8"
+                android:background="#00000000"
+                android:src="@drawable/bar8"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+				android:layout_height="fill_parent"/>
+            
+        </LinearLayout>
+	</FrameLayout>
+
+    <RelativeLayout 
+        android:layout_toRightOf="@+id/sidebar"
+        android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+		
+		<FrameLayout
+			android:id="@+id/title"
+			android:layout_width="fill_parent"
+			android:layout_height="30dp"
+			android:layout_alignParentTop="true"
+			android:background="@drawable/titlebar" >
+            
+		    <RelativeLayout 
+		        android:layout_width="fill_parent"
+				android:layout_height="fill_parent">
+				
+<!-- 			    //tml|phoebe*** alpha ui -->
+				<Button
+					android:id="@+id/back"
+					android:paddingRight="20dp"
+					android:layout_centerVertical="true"
+					android:drawableLeft="@drawable/cancel2"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:background="@drawable/tabbtn"
+					android:text="@+id/back"
+					android:textColor="#ffffff"
+					android:textSize="20sp" />
+				<TextView
+					android:id="@+id/topic"
+					android:padding="15dp"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:gravity="center"
+					android:text="@string/friends"
+					android:textColor="#FFFFFF"
+					android:textSize="33sp"/>
+			
+				<LinearLayout
+				    android:id="@+id/oncall"
+				    android:background="#000000"
+				    android:layout_alignParentRight="true"
+				    android:orientation="horizontal"
+				    android:layout_width="120dp"
+					android:layout_height="fill_parent"/>
+				
+			</RelativeLayout>
+		</FrameLayout>
+		
+		<FrameLayout
+			android:id="@+id/content"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:layout_below="@+id/title"
+			android:layout_above="@+id/options">
+		</FrameLayout>
+		
+		<FrameLayout
+			android:id="@+id/options"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentBottom="true"
+			android:background="@drawable/optionbar" >
+	
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="40dp"
+				android:orientation="horizontal">
+	
+<!-- 			    //tml|phoebe*** alpha ui/ -->
+				<Button
+					android:id="@+id/add"
+					android:drawableLeft="@drawable/friend"
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_weight="1"
+					android:background="@drawable/tabbtn"
+					android:text="@string/go_friends"
+					android:textColor="#ffffff"
+					android:textSize="16sp"/>
+	
+				<Button
+					android:id="@+id/add_group"
+					android:drawableLeft="@drawable/add_group_s"
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_weight="1"
+					android:background="@drawable/tabbtn"
+					android:text="@string/create_group"
+					android:textColor="#ffffff"
+					android:textSize="15sp"/>
+	
+				<Button
+					android:id="@+id/airecall"
+					android:drawableLeft="@drawable/tab_sipcall"
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_weight="1"
+					android:background="@drawable/tabbtn"
+					android:text="@string/aire_free_call"
+					android:textColor="#ffffff"
+					android:textSize="15sp"/>
+				
+				<Button
+					android:id="@+id/conference"
+					android:drawableLeft="@drawable/conference"
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_weight="1"
+					android:background="@drawable/tabbtn"
+					android:drawablePadding="-20dp"
+					android:text="@string/conference"
+					android:textColor="#ffffff"
+					android:textSize="15sp"/>
+	
+				<Button
+					android:id="@+id/setting"
+					android:drawableLeft="@drawable/tab_setting"
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_weight="1"
+					android:background="@drawable/tabbtn"
+					android:text="@string/setting"
+					android:textColor="#ffffff"
+					android:textSize="15sp" />
+			</LinearLayout>
+		</FrameLayout>
+	
+	</RelativeLayout>
+	
+</RelativeLayout>

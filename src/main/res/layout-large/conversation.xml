@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/background_main2" >
+
+    <ImageView
+        android:id="@+id/bkimg"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="centerCrop" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:id="@+id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="53dp"
+            android:layout_gravity="top"
+            android:background="@drawable/titlebar" >
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+
+                <ImageView 
+				    android:id="@+id/cancel" 
+				    android:src="@drawable/back_arrow"
+				    android:background="@drawable/optionbtn"
+				    android:padding="15dp"
+				    android:clickable="true"
+				    android:focusable="true"
+					android:layout_alignParentLeft="true"
+					android:layout_width="wrap_content"
+					android:layout_height="fill_parent"/>
+
+                <TextView
+                    android:id="@+id/sendee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_vertical"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="#ffffff"
+                    android:textSize="33sp"/>
+                
+                <ImageView 
+				    android:id="@+id/removeall" 
+				    android:src="@drawable/removeall"
+				    android:background="@drawable/optionbtn"
+				    android:padding="15dp"
+				    android:clickable="true"
+				    android:focusable="true"
+					android:layout_alignParentRight="true"
+					android:layout_width="wrap_content"
+					android:layout_height="fill_parent"/>
+                
+                <LinearLayout
+				    android:id="@+id/oncall"
+				    android:background="#000000"
+				    android:layout_alignParentRight="true"
+				    android:orientation="horizontal"
+				    android:layout_width="240dp"
+					android:layout_height="fill_parent"/>
+                
+            </RelativeLayout>
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/talkframe"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="0px"
+            android:layout_weight="1" >
+            
+            <RelativeLayout
+		        android:id="@+id/members"
+				android:paddingLeft="60dp"
+				android:paddingRight="60dp"
+				android:visibility="gone"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"/>
+            
+            <LinearLayout 
+                android:orientation="horizontal"
+                android:paddingLeft="75dp"
+                android:paddingRight="75dp"
+                android:layout_width="fill_parent"
+         		android:layout_height="wrap_content">
+                
+                <Button 
+                    android:id="@+id/voicesms"
+                    android:background="@drawable/plainbtn"
+                    android:drawableLeft="@drawable/func_vm"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="@string/voicememo"
+                    android:textSize="28sp"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:layout_width="fill_parent"
+         			android:layout_height="70dp"/>
+                
+                <Button 
+                    android:id="@+id/call"
+                    android:background="@drawable/plainbtn"
+                    android:drawableLeft="@drawable/func_call"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="@string/call"
+                    android:textSize="28sp"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:layout_width="fill_parent"
+         			android:layout_height="70dp"/>
+                
+                <Button 
+                    android:id="@+id/videocall"
+                    android:background="@drawable/plainbtn"
+                    android:drawableLeft="@drawable/func_video"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="@string/videocall"
+                    android:textSize="28sp"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:layout_width="fill_parent"
+         			android:layout_height="70dp"/>
+                
+                <Button 
+                    android:visibility="gone"
+                    android:id="@+id/media"
+                    android:background="@drawable/plainbtn"
+                    android:drawableLeft="@drawable/func_pic"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="@string/fafauser_pic"
+                    android:textSize="28sp"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:layout_width="fill_parent"
+         			android:layout_height="70dp"/>
+                
+                <Button 
+                    android:visibility="gone"
+                    android:id="@+id/filesms"
+                    android:background="@drawable/plainbtn"
+                    android:drawableLeft="@drawable/func_file"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="@string/filememo"
+                    android:textSize="28sp"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:layout_width="fill_parent"
+         			android:layout_height="70dp"/>
+                
+            </LinearLayout>
+	
+			<TextView
+				android:id="@+id/mood"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:ellipsize="end"
+				android:paddingLeft="10dp"
+				android:paddingRight="10dp"
+				android:gravity="center"
+				android:lines="1"
+				android:textColor="#7f7f7f"
+				android:textSize="22sp"
+				android:text="testing my mood"
+				android:textStyle="italic"
+				android:layout_marginTop="5dp"
+				android:layout_marginBottom="0dp"
+				android:layout_marginLeft="30dp"
+				android:layout_marginRight="30dp"/>
+            
+            <View
+		        android:background="@drawable/seperator"
+		        android:layout_marginTop="10dp"
+		        android:layout_marginBottom="5dp"
+		        android:layout_width="fill_parent"
+				android:layout_height="5dp"/>
+
+            <ListView
+                android:id="@+id/talklist"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="0dp"
+                android:fadingEdge="vertical"
+                android:fadingEdgeLength="20dp"
+                android:background="#00000000"
+                android:cacheColorHint="#00000000"
+                android:divider="#00000000"
+                android:dividerHeight="0px"
+                android:listSelector="@drawable/null_select" />
+
+        </LinearLayout>
+
+        
+        <FrameLayout
+            android:id="@+id/inputFrameLayout"
+            android:paddingTop="10dp"
+            android:paddingBottom="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bkpanel" >
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+                
+                <ImageView
+                    android:id="@+id/attachments"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/optionbtn"
+                    android:focusable="true"
+                    android:padding="5dp"
+                    android:src="@drawable/add_view" />
+                
+                <ImageView
+                    android:id="@+id/smile"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/optionbtn"
+                    android:layout_toRightOf="@+id/attachments"
+                    android:focusable="true"
+                    android:padding="5dp"
+                    android:src="@drawable/smiley" />
+
+                <Button
+                    android:id="@+id/sendmsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/sendbtn"
+                    android:focusable="true"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="25dp"
+                    android:paddingTop="10dp"
+                    android:text="@string/sendmsg"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:textSize="23sp"/>
+
+                <EditText
+                    android:id="@+id/msginput"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toLeftOf="@+id/sendmsg"
+                    android:layout_toRightOf="@+id/smile"
+                    android:background="@drawable/edit_bg"
+                    android:focusable="true"
+                    android:inputType="text"
+                    android:lines="1"
+                    android:paddingTop="6dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="6dp"
+                    android:textSize="26sp" />
+            </RelativeLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/speaker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/anispeaker"
+        android:visibility="gone" />
+
+    <View
+        android:id="@+id/large"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone" />
+
+</RelativeLayout>

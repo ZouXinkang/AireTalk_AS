@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobile="http://www.xingfafa.com"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/titlebar" >
+
+        <ImageView
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="@drawable/optionbtn"
+            android:padding="15dp"
+            android:src="@drawable/back_arrow" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_centerInParent="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/moveto"
+            android:textColor="#ffffff"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+        
+        <Button
+            android:id="@+id/done"
+            android:background="@drawable/optionbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:paddingRight="24dp"
+            android:paddingLeft="24dp"
+            android:textColor="#ffffff"
+            android:textSize="24sp"
+			android:text="@string/done"/>
+        
+    </RelativeLayout>
+
+    <com.pingshow.airecenter.view.FileBrowser
+        android:id="@+id/filebrowser"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/background_main2"
+        android:cacheColorHint="#ffffff"
+        android:divider="#dddddd"
+        android:dividerHeight="1px"
+        mobile:folderImage="@drawable/folder"
+        mobile:onlyFolder="true"
+        mobile:otherFileImage="@drawable/sm71" />
+
+</LinearLayout>

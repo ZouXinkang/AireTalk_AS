@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<FrameLayout
+	    android:id="@+id/title"
+		android:layout_gravity="top"
+		android:background="#9babb0"
+		android:layout_width="fill_parent" 
+		android:layout_height="80dp">
+		
+		<RelativeLayout
+		    android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+			
+			<ImageView
+			    android:id="@+id/cancel"
+			    android:src="@drawable/back"
+			    android:background="@drawable/optionbtn"
+				android:padding="15dp" 
+				android:layout_centerVertical="true"
+				android:layout_alignParentLeft="true" 
+				android:layout_width="80dp"
+				android:layout_height="80dp"/>
+			
+			<TextView
+			    android:text="@string/black_list"
+				android:singleLine="true" 
+				android:textSize="32sp"
+				android:textColor="#000000"
+				android:shadowColor="#ffffffff"
+				android:shadowDx="0"
+				android:shadowDy="-2"
+				android:gravity="center"
+				android:shadowRadius="1"
+				android:textStyle="bold" 
+				android:layout_centerInParent="true"
+				android:layout_width="fill_parent" 
+				android:layout_height="wrap_content" />
+		</RelativeLayout>
+	</FrameLayout>
+	<FrameLayout 
+	    android:background="#6b7a7e"
+		android:layout_width="fill_parent" 
+		android:layout_height="0px"
+		android:layout_weight="1">
+
+		<ListView 
+		    android:id="@+id/blacklist" 
+		    android:background="#6b7a7e"
+		    android:cacheColorHint="#6b7a7e"
+			android:divider="#000000"
+			android:dividerHeight="1px"
+			android:layout_width="fill_parent" 
+			android:layout_height="fill_parent" />
+	</FrameLayout>
+</LinearLayout>
+	
+
+

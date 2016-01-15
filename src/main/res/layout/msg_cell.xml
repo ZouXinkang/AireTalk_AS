@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content">
+  	
+  	<ImageView
+        android:id="@+id/photo"
+        android:background="@drawable/empty"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="6dp"
+    	android:layout_marginBottom="6dp"
+        android:padding="6dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_width="60dp"
+        android:layout_height="60dp"/>
+		
+	<TextView
+		android:id="@+id/time"
+		android:textColor="@color/thread_time"
+		android:textSize="13sp"
+		android:paddingRight="8dp"
+		android:singleLine="true"
+		android:layout_alignParentRight="true"
+		android:layout_centerVertical="true"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+		
+	<TextView
+		android:id="@+id/displayname"
+		android:textColor="@color/darkgray"
+		android:textSize="17sp"
+		android:paddingLeft="5dp"
+		android:singleLine="true"
+		android:ellipsize="end"
+		android:layout_alignTop="@+id/photo"
+		android:paddingTop="1dp"
+		android:layout_toRightOf="@+id/photo"
+		android:layout_toLeftOf="@+id/time"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"/>
+		
+	<TextView
+		android:id="@+id/unread"
+		android:textColor="#ffffff"
+		android:background="@drawable/unread_bg"
+		android:textSize="13sp"
+		android:textStyle="bold"
+		android:gravity="center"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentTop="true"
+		android:layout_margin="4dp"
+		android:layout_width="24dp"
+		android:layout_height="24dp"/>
+		
+	<TextView
+		android:id="@+id/msgcontent"
+		android:textColor="@color/thread_msg"
+		android:textSize="13sp"
+		android:paddingLeft="7dp"
+		android:paddingRight="3dp"
+		android:paddingBottom="5dp"
+		android:singleLine="true"
+		android:ellipsize="end"
+		android:gravity="center_vertical"
+		android:layout_toRightOf="@+id/photo"
+		android:layout_toLeftOf="@+id/time"
+		android:layout_below="@+id/displayname"
+		android:layout_alignBottom="@+id/photo"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"/>
+		
+</RelativeLayout>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:padding="10dp"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content">
+	
+	<LinearLayout 
+        android:id="@+id/title"
+        android:orientation="horizontal"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+		
+		<ToggleButton 
+			android:id="@+id/smileys"
+			android:background="@drawable/plainbtn"
+			android:padding="6dp"
+			android:textOn="@string/smiletitle"
+			android:textOff="@string/smiletitle"
+			android:gravity="center"
+			android:textColor="#ffffff"
+			android:textSize="26sp"
+			android:textStyle="bold"
+			android:focusable="true"
+			android:layout_weight="1"
+			android:layout_marginRight="10dp"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"/>
+		
+		<ToggleButton 
+			android:id="@+id/animated"
+			android:padding="6dp"
+			android:background="@drawable/plainbtn"
+			android:textOn="@string/animated"
+			android:textOff="@string/animated"
+			android:focusable="true"
+			android:gravity="center"
+			android:textColor="#ffffff"
+			android:textSize="26sp"
+			android:textStyle="bold"
+			android:layout_weight="1"
+			android:layout_marginLeft="10dp"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"/>
+	</LinearLayout>
+	
+	<Button 
+		android:id="@+id/close" 
+		android:text="@string/cancel"
+		android:textSize="26sp"
+		android:textColor="#ffffff"
+		android:layout_marginTop="10dp"
+		android:layout_alignParentBottom="true"
+		android:layout_centerHorizontal="true"
+		android:background="@drawable/plainbtn"
+		android:gravity="center"
+		android:textStyle="bold"
+		android:layout_width="320dp"
+		android:layout_height="wrap_content"/>
+	
+	<ScrollView
+		android:layout_below="@+id/title"
+		android:layout_above="@+id/close"
+		android:layout_width="fill_parent"
+	  	android:layout_height="wrap_content"
+	  	android:fadingEdge="vertical"
+	  	android:fadingEdgeLength="30dp"
+	  	android:scrollbars="none">
+		<LinearLayout
+			android:id="@+id/smiles"
+			android:orientation="horizontal"
+			android:gravity="center_horizontal"
+			android:paddingBottom="18sp"
+		  	android:layout_width="fill_parent"
+		  	android:layout_height="wrap_content">
+		</LinearLayout>
+	</ScrollView>
+</RelativeLayout>

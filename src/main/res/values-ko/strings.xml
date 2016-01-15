@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="app_name">AireTV</string>
+<string name="contacts">연락처</string>
+<string name="edit">편집</string>
+<string name="sendmsg">보내기</string>
+<string name="textinput">메시지 입력</string>
+<string name="nonetwork">인터넷 연결 실패, 다시 시도 하세요…</string>
+<string name="OK">확인</string>
+<string name="next">다음</string>
+<string name="newmessage">새로운 메시지</string>
+<string name="messages">메시지</string>
+<string name="register">가입</string>
+<string name="login">로그인</string>
+<string name="cancel">취소</string>
+<string name="clear">모두 지우기</string>
+<string name="compose_new">새로운 메시지 작성</string>
+<string name="sendto">받는 사람:</string>
+<string name="attachment">첨부 파일</string>
+<string name="done">완료</string>
+<string name="recording_vmemo">녹음 중</string>
+<string name="recording_timeup">시간이 다 되었습니다</string>
+
+<string name="i_agree">나는 가입약관을 읽어 보았고 이에 동의 합니다</string>
+<string name="eula_disagree"> 당신은 가입약관에 동의하지 않았습니다.</string>
+
+<string name="choose_attachment_type">첨부파일 유형을 선택하세요</string>
+<string name="voicememo">음성 메시지</string>
+<string name="picmsg">사진 메시지</string>
+<string name="pickpicture">사진 갤러리</string>
+<string name="takepicture">사진 찍기</string>
+<string name="choose_photo_source">사진 소스를 선택하세요</string>
+
+<string name="setting">설정</string>
+<string name="server_ip">서버 IP</string>
+<string name="checkout">보기</string>
+<string name="reply">회신</string>
+<string name="close">닫기</string>
+<string name="ignore">무시</string>
+<string name="delete_confirm">삭제 확인</string>
+<string name="delete_thread_confirm"> 이전 대화 내용을 모두 지울까요?</string>
+
+<string name="in_progress">처리 중</string>
+<string name="in_call">전화가 왔습니다</string>
+<string name="fafayou_in_call">AIRE is in call</string>
+<string name="answercallhint">밀어서 전화를 받으세요</string>
+<string name="end_call">통화종료</string>
+<string name="hide_keypad">키패드 숨기기</string>
+<string name="yes">예</string>
+<string name="no">아니오</string>
+<string name="unknown_person">번호정보 없음</string>
+<string name="missed_call">부재중 전화</string>
+<string name="unanswered_call">답변하지 않은 전화</string>
+<string name="call_duration">통화시간</string>
+<string name="incoming_call">전화가 왔습니다</string>
+<string name="outgoing_call">다이얼 중입니다</string>
+<string name="phone_call">전화 거는 사람</string>
+
+<string name="username">사용자 이름</string>
+<string name="phonenumber">전화번호</string>
+<string name="password">비밀번호</string>
+<string name="password_confirm">비밀번호 확인</string>
+<string name="email">이메일</string>
+<string name="email_hint">사용하시는 이메일 주소</string>
+<string name="register_immediately">가입하기</string>
+
+<string name="forget_password">비밀번호를 잊으셨습니까?</string>
+<string name="passwords_dont_match">비밀번호가 일치하지 않습니다.</string>
+<string name="password_error">비밀번호가 틀립니다.</string>
+<string name="nonmember">에얼리톡의 회원이 아닙니다. 등록 후 이용 바랍니다.</string>
+<string name="username_invalid">이 사용자 이름은 사용하실 수 없습니다. 반드시 소문자 알파벳으로 시작해야 하며 최소 6자 이상입니다.</string>
+<string name="phonenumber_hint">사용하시는 전화번호</string>
+<string name="phonenumber_invalid">입력하신 전화번호가 맞지 않습니다</string>
+<string name="email_invalid">이 이메일 주소는 유효하지 않습니다</string>
+<string name="login_title">로그인</string>
+<string name="account_exists">에얼리톡의 계정이 이미 존재합니다. 바로 로그인 하세요</string>
+<string name="retrieve_password">이메일을 통해서 비밀번호를 찾겠습니까?</string>
+<string name="waiting_for_sms_to_register">가입을 위해서 인증정보가 문자로 보내졌습니다. \n잠시 후 확인하세요</string>
+<string name="sms_confirm_timeout">인증시간 초과. 전화번호가 맞는지 확인하시고 다시 시도해 주세요</string>
+<string name="welcome"> 에얼리톡에 오신 것을 환영합니다</string>
+<string name="username_hint">사용자 이름(최소 6자 이상)</string>
+
+<string name="dial_this">통화</string>
+<string name="delete_thread">대화 내용 삭제</string>
+<string name="delete_msg">메시지 삭제</string>
+<string name="view_contact">추가 기능</string>
+<string name="add_contact">연락처에 추가</string>
+<string name="pickup_contact">연락처 선택</string>
+<string name="surname">성</string>
+<string name="name">이름</string>
+<string name="input_hint">전화 할 전화번호</string>
+
+<string name="location_not_found">위치를 알 수 없음</string>
+<string name="nonmember_no_service">에얼리톡 사용자 이외에는 전화를 하실 수 없습니다</string>
+
+<string name="msg_is_sent">메시지 보냄</string>
+
+<string name="making_call">전화 걸기</string>
+<string name="call_connected">연결 됨</string>
+<string name="call_end">통화종료</string>
+<string name="call_declined">통화 중</string>
+<string name="no_response">응답 없음</string>
+<string name="callee_not_found">상대를 찾을 수 없음</string>
+
+<string name="new_version_found">새 버전 %s이 사용 가능 합니다. 애플 앱스토어 혹은 구글 Play에서 업그레이드하십시오.</string>
+<string name="force_update"> 에얼리톡 최신 버전으로 업데이트 해야 합니다.</string>
+<string name="dont_worry">걱정하지 마세요. 데이터는 영향 받지 않았습니다.</string>
+<string name="update">업데이트</string>
+
+<string name="request_location_sharing">위치공유 허가를 요청하시겠습니까? (한 번 동의하면, 당신의 위치는 1시간 동안 공유 됩니다.)</string>
+<string name="sharing_location_request">서로의 위치를 1시간 동안 공유하도록 허락하시겠습니까?</string>
+<string name="sharing_done">위치공유 성공</string>
+
+<string name="displayname">이름 표시</string>
+<string name="photo_gallery">사진첩</string>
+
+<string name="friends">친구</string>
+<string name="copysms">복사</string>
+<string name="copied_to_clipboard">클립보드로 복사</string>
+<string name="mylocation_address">내 위치</string>
+<string name="friend_address">위치</string>
+<string name="keypad">키패드</string>
+<string name="track">트랙</string>
+<string name="traffic">통화량</string>
+<string name="satellite">위성</string>
+<string name="delete_the_contact">연락처 삭제</string>
+<string name="back">뒤로</string>
+<string name="mute">음소거</string>
+<string name="speaker">스피커</string>
+<string name="add_call">전화 추가</string>
+<string name="hold">일시 정지</string>
+
+<string name="missed_call_remind_1">당신은 ~로부터 %d 통의 부재중 전화가 있습니다.</string>
+<string name="missed_call_remind_2">, %s. 중요한 전화에 회신하시기 바랍니다.</string>
+<string name="pcode_desc">인증SMS를 받으셨다면 4자리 숫자를 입력해주세요:</string>
+<string name="help">도움말</string>
+<string name="img_error">적합하지 않은 사진입니다</string>
+<string name="email_register"> 당신의 이메일로 인증 메일을 발송했습니다. 에얼리톡 계정을 활성화시키세요.</string>
+<string name="login_error">서버가 통신 중입니다. 잠시만 기다려주세요. 곧 자동으로 로그인 됩니다.</string>
+<string name="pwdemail_title">전화번호와 사용자이름을 입력하세요. 당신의 이메일로 암호를 보내겠습니다..</string>
+<string name="pwdemailfailed">이메일로 비밀번호 전송에 실패했습니다</string>
+<string name="pwdemailsuccess">이메일이 성공적으로 보내졌습니다.</string>
+<string name="no_sdcard">SD 카드가 없거나 USB 저장장치가 연결 되지 않았습니다.</string>
+<string name="no_sdcard_receive_voice_message">음성메시지를 수신할 SD card가 없습니다.</string>
+<string name="no_sdcard_receive_picture_message">사진메시지를 수신할 SD 카드가 없습니다.</string>
+<string name="sms_manager">SMS 관리하세요</string>
+<string name="try_again">나중에 재시도하세요</string>
+
+<string name="share"> 에얼리톡 공유…</string>
+<string name="smile">스마일</string> 
+<string name="smiletitle">이모티콘</string> 
+
+<string name="keypad_menu_open">키 소리 켜기</string>
+<string name="keypad_menu_close">키 소리 끄기</string>
+<string name="setnet">이동</string>
+<string name="add">추가</string>
+<string name="auto_notify_joins"> 저는 에얼리톡 사용자입니다! 지금부터 이 앱을 통해 저에게 무료로 전화주세요.-}</string>
+<string name="international_sms_alert">국제 SMS 일 수 있습니다, 계속 하시겠습니까?</string>
+
+<string name="call">전화</string>
+
+<string name="smspopup">메시지 팝업</string>
+<string name="notification_sound">알림 소리</string>
+<string name="receive_vibrate">받을 때 진동</string>
+<string name="send_vibrate">보낼 때 진동</string>
+
+<string name="pcode_check">4자리 숫자를 입력하세요</string>
+
+<string name="net_error">연결 된 네트웍이 없습니다…</string>
+<string name="shownotification">알림 아이콘</string>
+
+<string name="agree_share_sms"> 당신과 내 위치를 공유하는 것에 동의 합니다.</string>
+<string name="ask_share">(위치공유 요청 보냄B-})</string>
+<string name="photo_large">이 사진은 너무 커서 보낼 수 없습니다.</string>
+<string name="savedraft">임시보관 했습니다</string>
+<string name="hasaskshare">%1$s ~가 위치공유를 요청하였습니다</string>
+
+<string name="helper_name1">도우미</string>
+
+<string name="interphone_smile">목소리</string>
+<string name="send_voice_interphone">누른상태로 말하세요</string>
+
+<string name="fafauser_sms">SMS</string>
+<string name="fafauser_vmemo">음성메시지</string>
+<string name="fafauser_pic">사진전송</string>
+<string name="fafauser_map">위치공유</string>
+
+<string name="hint_mood">상태 메시지</string>
+
+<string name="sms_parese_stringbuf">%1$s 로 부터 %2$s 를 수신하였습니다 </string>
+<string name="interphone">무전기</string>
+<string name="textmessage">문자메시지</string>
+<string name="RecvManySms">여러 메시지</string>
+
+<string name="sharing_location">위치</string>
+<string name="driving">운전</string>
+<string name="walking">도보</string>
+<string name="path">길</string>
+<string name="notfound_direction">길이 찾을 수 없습니다</string>
+
+
+<string name="smsfail">전송 실패, 네트웍 상태를 확인 하세요</string>
+<string name="videomemo">비디오 메시지</string>
+<string name="video">비디오</string>
+<string name="file">파일</string>
+<string name="filememo">파일 전송</string>
+<string name="filememo_send">파일 전송</string>
+<string name="filememo_recv">파일 수신</string>
+<string name="chose_file">보낼 파일을 선택하세요</string>
+
+<string name="file_othernet">파일 전송을 위해 3G,LTE 혹은 Wi-Fi 망을 사용하세요.</string>
+<string name="file_dnnotnet">파일 수신을 위한 네트웍이 없습니다</string>
+<string name="file_dnwifinet">파일 사이즈가 %1$s 입니다, 다운로드 하시겠습니까? 저장 경로는 %2$s입니다</string>
+<string name="file_dnothernet">파일 다운로드를 위해 3G, LTE 혹은 Wi-Fi 망을 사용하세요.</string>
+<string name="download">다운로드</string>
+<string name="downloading">다운로드 중</string>
+<string name="downloadsucess">다운로드 완료</string>
+<string name="downloaderror">다운로드 실패</string>
+<string name="fileandvideosingle">하나의 파일만 첨부 할 수 있습니다.</string>
+<string name="file_err">파일 오류</string>
+<string name="sd_availablespare">SD 카드에 공간이 없습니다</string>
+<string name="sd_notfound">SD 카드가 없습니다</string>
+<string name="recording_incall">전화가 왔습니다. 비디오 녹화를 중지하세요</string>
+<string name="filename_longerr">파일명이 너무 깁니다</string>
+<string name="save_photo_SD">그림 내보내기</string>
+<string name="more_sms">더 많은 메시지</string>
+<string name="copyfile">~원하는 위치로 복사: </string>
+<string name="fileLarge">최대 파일 크기는 %dMB 입니다</string>
+<string name="notfound_photo">(사진이 존재하지 않습니다)</string>
+
+<string name="filedownloading">파일 다운로드 중입니다. 잠시 후 다시 시도 하세요</string>
+<string name="fileuploading">파일 업로드 중입니다. 잠시 후 다시 시도 하세요 </string>
+
+<string name="downloadedfile">%s 파일이 성공적으로 다운로드 되었습니다</string>
+<string name="downloadedvideo">(vdo) 비디오가 성공적으로 다운로드 되었습니다.</string>
+<string name="video_err">비디오 파일이 존재하지 않습니다</string>
+<string name="nodata">파일 크기가 0 입니다</string>
+<string name="send_again">메시지를 다시 보냅니다</string>
+
+<string name="fafamissed_call">에얼리톡 부재중 전화</string>
+<string name="sysmissed_call">일반 부재중 전화</string>
+
+<string name="progress_wait">잠시만 기다려주세요</string>
+<string name="aire_welcome_desc">에얼리톡에 오신 것을 환영합니다! :-) 이 앱에 대해 질문이 있으면 전화주세요!</string>
+<string name="txtspinner_desc">전화번호 또는 에얼리톡 사용자 이름을 입력하시면 됩니다</string>
+<string name="findpwd">전화번호 또는 사용자 이름</string>
+<string name="findpwd_input_err">올바른 전화번호를 입력 하시거나 ARIE 사용자 이름을 입력하세요</string>
+
+<string name="bluetooth">블루투스</string>
+<string name="no_sim_hint">전화기에 SIM 카드가 없습니다. 이 전화번호로 로그인은 허가 되지 않습니다.</string>
+<string name="nonsupport_googlemap">죄송합니다. 구글맵은 이 시스템에서 지원하지 않습니다. 에얼리톡 Baidu 버전으로 시도해주세요</string>
+<string name="makesure_phonenumber_1">SMS를 보내 드리겠습니다:</string>
+<string name="makesure_phonenumber_2">숫자가 맞는지 확인 바랍니다.</string>
+<string name="take_picture_error">카메라 실행에 실패하였습니다</string>
+<string name="talk_background">백그라운드 이미지</string>
+
+<string name="add_photo">사진을\n추가하세요</string>
+<string name="registration_body">에얼리톡 가입 메시지. 에얼리톡을 사용해주셔서 감사합니다:</string>
+
+<string name="making_video_call">영상통화 걸기</string>
+<string name="incoming_video_call">영상통화가 왔습니다</string>
+
+<string name="no_video_hint">죄송합니다. 비디오를 플레이 하기에는 인터넷 속도가 너무 느립니다</string>
+<!-- new strings -->
+<string name="nickname">이름</string>
+<string name="nickname_hint">성과 이름</string>
+<string name="register_desc">에얼리톡을 처음 사용합니다</string>
+<string name="eula_title">사용자 라이선스 동의</string>
+<string name="personal_info">당신의 개인 정보를 채워 넣으시기 바랍니다.</string>
+
+<string name="register_desc_0">당신의 이메일 주소를 넣으세요, 스팸 메일을 전송하지는 않겠습니다. </string>
+<string name="register_desc_1">보안 및 개인정보 보호를 위해 연락 받으실 전화번호를 입력 하세요.</string>
+<string name="register_desc_2"> 이 양식을 작성하세요. 등록 과정은 빠르고 쉽습니다.</string>
+<string name="login_desc_0">직접 로그인 하세요. 사용자를 위한 정보를 확인 하도록 하겠습니다.</string>
+<string name="login_desc_1">사용 중이신 올바른 전화번호를 입력하세요. 사용자를 위한 정보를 확인 하도록 하겠습니다.. </string>
+<string name="login_desc_2">로그인을 위해 에얼리톡 아이디와 비밀번호를 입력하세요</string>
+<string name="login_nonmember">죄송합니다. 에얼리톡 회원이 아닙니다. 등록 먼저 하시기 바랍니다.</string>
+
+<string name="nickname_invalid">이름으로 단어의 부족 수</string>
+
+<string name="male">남성</string>
+<string name="female">여성</string>
+<string name="search">친구 찾기</string>
+<string name="copyright">ⓒ 저작권 2015. Pingshow Inc.</string>
+<string name="black_list">블랙리스트</string>
+<string name="block">차단</string>
+<string name="unblock">차단해제</string>
+<string name="put_in_blacklist">블랙리스트에\n추가</string>
+<string name="chat">대화</string>
+<string name="videocall">영상통화</string>
+<string name="buy">구매</string>
+<string name="aire_free_call">AireCall</string>
+<string name="add_as_friend">친구로 등록</string>
+<string name="login_by_facebook">페이스북으로 가입</string>
+<string name="facebook_login_desc">페이스북 계정으로 에얼리톡에 직접 로그인 할 수 있습니다.</string>
+<string name="read_contacts">에얼리톡은 당신의 주소록을 읽기 위해서는 당신의 허가가 필요로 합니다. 연락처 정보가 있다면, 당신은 더 많은 친구들과 전화를 하거나 채팅을 할 수 있습니다.</string>
+<string name="unblock_this_user">사용자 %1$s를 블랙리스트로부터 해제 하시는 것이 맞습니까?</string>
+<string name="accept_this_stranger">%1$s 를 아시나요?  친구로 추가 하시겠습니까?</string>
+<string name="search_desc">에얼리톡 친구를 찾기 위해 아무 키워드나 입력하세요.</string>
+<string name="search_result">%d 사용자 찾음</string>
+<string name="credit">잔고: %.3f</string>
+<string name="credit_not_enough">전화를 하기에는 잔고가 부족합니다…</string>
+<string name="help_aire_free_call">에얼리콜 평가 판의 전화는 무료입니다! 에얼리콜을 경험해보세요! 지금 친구들에게 소개 해 주세요.\n\n</string>
+<string name="help_photo_is_needed">아직 당신의 사진을 업로드 하지 않았습니다. 친구가 알아 볼 수 있도록 프로필 사진을 추가하세요.\n\n</string>
+<string name="help_complete_profile">에얼리톡에 오신 것을 환영합니다! 프로필 설정을 완료하여주세요. 특별히 이름과 친구들이 당신을 알아볼 수 있는 잘나온 사진으로 설정해주세요.\n</string>
+<string name="walkietalkie">무전기</string>
+<string name="wt_sound_out">무전기 소리 자동 재생</string>
+<string name="send_location">내 위치 전송</string>
+<string name="loading">로딩중…</string>
+<string name="call_back"> %s?에게 다시 전화 걸기</string>
+<string name="possible_friends">당신이 알 수도 있는 친구</string>
+<string name="sortbyname">이름순으로 정렬</string>
+<string name="sortbytime">시간 순으로 정렬</string>
+<string name="sortbystatus">상태 별로 정렬</string>
+<string name="joint">%d 이 함께 알고 있는 친구입니다</string>
+<string name="weibo_sign_in"> Sina Weibo로 등록</string>
+<string name="share_by_email">이메일로 공유</string>
+<string name="share_by_sms"> SMS로 공유</string>
+<string name="share_on_facebook">페이스북에 공유</string>
+<string name="share_on_qq"> QQ에 공유</string>
+<string name="share_on_weibo"> Sina Weibo에 공유</string>
+<string name="invitation_title"> 에얼리톡이 맘에 들어요, 에얼리콜로 무료 전화를 걸어 봅시다.</string>
+<string name="invitation">나는 에얼리톡을 사용하고 있습니다. 바로 설치해서 저에게 전화하세요! http://play.google.com/store/apps/details?id=com.pingshow.amper</string>
+<string name="weibo_login_desc">당신은 Sina Weibo 계정으로 에얼리톡에 직접 로그인 할 수 있습니다.</string>
+<string name="help_multiple_send">메시지 보낼 친구를 추가하기 위해 파란색 추가 버튼을 클릭하세요 ( 여러 사람에게 선택된 동일한 메시지가 전송 됩니다)</string>
+<string name="multi_send_location">당신의 위치를 그들에게 보내시겠습니까?</string>
+<string name="shared_successfully">성공적으로 공유 됨</string>
+<string name="shared_failed">공유 실패</string>
+<string name="webcall_not_valid">죄송합니다. 이 번호는 지금 유효하지 않습니다.</string>
+<string name="webcall_not_support">죄송합니다. 당신의 안드로이드 버전이 WebCall을 지원 하지 않습니다.</string>
+<string name="read_contacts_check">검색을 위해 전화번호부를 읽어보세요</string>
+<string name="rotate_right">오른쪽으로 회전</string>
+<string name="rotate_left">왼쪽으로 회전</string>
+
+<string name="searching_friends">친구를 찾는 중, 잠시만 기다려 주세요…</string>
+<string name="searching_friends_desc">에얼리톡은 페이스북 계정을 통해 당신의 친구를 찾을 수 있습니다. 이 작업은 단지 몇 초 정도만 소요됩니다.</string>
+
+<string name="feedback">피드백</string>
+<string name="feedback_desc">건의해주세요, 에얼리톡이 더 좋아 질 수 있습니다.. 에얼리톡이 맘에 드시나요?</string>
+<string name="favor_level_1">네 맘에 듭니다!</string>
+<string name="favor_level_2">아니오 별로요:-)</string>
+<string name="favor_level_3">그저 그래요</string>
+<string name="favor_level_4">아주 좋지는 않습니다</string>
+<string name="favor_level_5">맘에 들지 않아요</string>
+<string name="suggsay_text">제안</string>
+<string name="sugg_checkbox1">오디오 품질이 나쁨</string>
+<string name="sugg_checkbox2">비디오 품질이 나쁨</string>
+<string name="sugg_checkbox3">메시지 분실</string>
+<string name="sugg_checkbox4">친구를 찾지 못함</string>
+<string name="sugg_checkbox5">앱 충돌</string>
+<string name="sugg_dis_text"> 에얼리톡을 사용하면서 문제점이 있었나요?</string>
+<string name="feedback_has_been_sent">당신의 피드백이 전달 되었습니다. 나중에 다시 시도해보세요.</string>
+<string name="suggCustomer">충고 감사합니다. 요청하신 부분에 대해 빠른 대응하도록 하겠습니다. 에얼리톡을 같이 개선하고 만들어 나갑시다. \nserial code: </string>
+<string name="animated">애니매이션 이모티콘</string>
+
+<string name="blocking_strangers">모르는 사람 차단</string>
+<string name="facebook_search">페이스 북에 친구를 찾기</string>
+<string name="phonebook_search">주소록에 친구를 찾기</string>
+
+<string name="help_public_radio">AIRE 라디오 스튜디오에 오신 것을 환영합니다! 당신을위한 많은 채널이 있습니다. 당신은 어떤 채널에 친구를 초대 할 수 있습니다. 당신은 또한 낯선 사람과 채팅 할 수 있습니다.\n\n</string>
+<string name="help_public_radio_2">같은 채널에 모두들 당신이 무슨 말을 듣게됩니다.깜박이는 녹색 빛이 채널 전환을 의미합니다. 당신은 빛이 녹색 일 때 얘기를 시작할 수 있습니다. 사람이 말을하면, 빛은 노란색입니다. 당신이 말할 때, 빛은 빨간색으로 변합니다.\n</string>
+<string name="aire_studio">스튜디오</string>
+
+<string name="the_group">그룹</string>
+<string name="create_group">그룹 만들기</string>
+<string name="group_name">그룹의 이름</string>
+<string name="group_desc">그룹의 이름을 지정하고, 회원을 선택하십시오. 모든 회원은 같은 시간에 메시지를 받게 됩니다.</string>
+<string name="add_in_group">%1$s 그룹에 추가하려 합니다: %2$s\n당신은 요청을 수락 하시겠습니까?</string>
+<string name="group_number_exceeds">죄송합니다, 이미 그룹의 최대 수를 초과했습니다.</string>
+
+<string name="file_transfer_waiting">응답을 기다리는 중</string>
+<string name="file_transfer_connected">전송</string>
+<string name="file_transfer_error">전송 오류</string>
+<string name="file_transfer_stop">전송 중지</string>
+<string name="file_transfer_finished">전송 완료</string>
+<string name="file_transfer_incoming">파일 전송을 수락 하시겠습니까?</string>
+
+<string name="add_new_member_in_group">이 그룹에 새 구성원을 추가해야합니다?</string>
+<string name="group_invite_new_member">%1$s는\"%2$s\"그룹에 추가되었습니다</string>
+
+<!-- from iphone -->
+<string name="aire_call">에얼리콜</string>
+<string name="purchase">구매</string>
+<string name="airecall_credits">에얼리콜 잔액</string>
+<string name="credit_desc">요금은 서로다른 통신 회사와 환율에 따라 달라질 수 있습니다. 요금표는  참조사항입니다.</string>
+<string name="rate_detail_desc">국가별 자세한 전화 요금. </string>
+
+<string name="detail_rate">대상 국가: %1$s (%2$s)\n\"%3$s\"가 선택되어\n\n고정 전화를 호출하려면:\n\t매 분마다 약 %4$s $%5$.3f\n\t(매 분마다 약 %6$s %7$s%8$.2f)\n\n휴대폰을 호출하려면:\n\t매 분마다 약 %9$s $%10$.3f\n\t(매 분마다 약 %11$s %12$s%13$.2f)\n\n환율은 참고 용이다.</string>
+
+<string name="rate_statement">환율은 서로 다른 통신 회사와 환율에 따라 달라질 수 있습니다. 환율은 참고 용이다.</string>
+
+<string name="thank_you_for_purchase">\"%s\"를 구입해 주셔서 감사합니다</string>
+<string name="trade_detail">거래 내역</string>
+
+<string name="query_rate">정확한 요금을 알아보세요</string>
+<string name="query_rate_desc">정확한 요금 확인을 위해 거시고자 하는 전화번호를 입력하세요</string>
+<string name="any_phone_number">전화번호 입력</string>
+<string name="precise_rate">매 분마다 %1$s $%2$.3f\n매 분마다 약 %3$s %4$s%5$.2f\n\n%6$s\n(%7$s)</string>
+
+<string name="class_selection">요금제 선택</string>
+<string name="class_desc"> 에얼리콜(AireCall)은 3가지의 요금제를 제공합니다. 고가의 요금제일수록 우수한 서비스 품질을 제공 합니다.</string>
+<string name="standard_class">표준 요금제</string>
+<string name="premium_class">프리미엄 요금제</string>
+<string name="business_class">비즈니스 요금제</string>
+
+<string name="standard_desc">표준 요금제: 가장 저렴한 요금으로 서비스를 이용하실 수 있습니다.</string>
+<string name="premium_desc">프리미엄 요금제: 보다 우수한 VoIP 품질로 이용하실 수 있습니다.</string>
+<string name="business_desc">비즈니스 요금제: 일반 전화에 비해 동등 이상의 품질로 이용하실 수 있습니다.</string>
+
+<string name="please_visit">구매 위하여 우리의 웹 사이트를 방문하십시오</string>
+<string name="call_log">통화 로그</string>
+<string name="home_guard">홈 보안</string>
+<string name="send_suvei">당신은 %s에 대한 감시 명령을 보내시겠습니까?</string>
+<string name="start">스타트</string>
+<string name="stop">정지</string>
+
+<string name="delete_this_call_log">삭제</string>
+<string name="delete_all_call_log">모두 삭제</string>
+
+<string name="answer">답변</string>
+<string name="chat_room">회의실</string>
+<string name="security">안전</string>
+<string name="home_security">가정 안전</string>
+<string name="instant_contact">긴급 번호</string>
+
+<string name="loginairetalk_desc_1">AireVoice Call in</string>
+<string name="enablesipin">Enable AireVoice</string>
+
+<string name="conference">전화 회의</string>
+
+<string name="save_changes">변경 사항을 저장</string>
+<string name="block_this_user">당신은 %1$s를 차단 하시겠습니까? </string>
+<string name="delete_this_user">당신은 %1$s을 삭제 하시겠습니까?</string>
+<string name="rapid_rate">%1$s %2$s%3$.3f/분</string>
+<string name="rapid_rate_unsure">%1$s %2$s----/분</string>
+<string name="send_picture_to">당신은 %s로 사진을 보내 하시겠습니까? </string>
+<string name="add_as_friend_desc">당신이 연락처로 %s을 추가 하시겠습니까? </string>
+<string name="delete">삭제</string>
+<string name="shopping">쇼핑</string>
+
+<string name="bar1_name">채팅</string>
+<string name="bar6_name">쇼핑</string>
+<string name="bar7_name">보안</string>
+<string name="bar8_name">파일</string>
+
+<string name="free">무료</string>
+<string name="monitoring">모니터링</string>
+<string name="history">역사</string>
+<string name="share_location_with">연락처와 공유 위치…</string>
+<string name="auto_answer_ind">모니터링을\n허용</string>
+<string name="auto_answer_ind2">자동\n응답</string>
+<string name="auto_answer_tooltip">긴급 연락처는, AireTV 자동 응답 할 것이다, 화상 통화를 통해 일방향 모니터링 원격 사이트를 모니터링 할</string>
+<string name="auto_answer_tooltip2">비상 연락처 AireTV가 자동으로 응답 할 것이다, 화상 통화를 통해 현장에서 통신 할 수있는 것은 양방향 통신이다</string>
+<string name="security_on">보안 모드가 있습니다!</string>
+<string name="security_off">보안 모드가 꺼져 있습니다.</string>
+
+<string name="security_plan">보안 가입 계획</string>
+<string name="security_plan_1">매월: USD $7.95 / 월</string>
+<string name="security_plan_2">연간: USD $79.00 / 년 </string>
+<string name="next_billing">다음 청구일</string>
+<string name="expired">만료</string>
+<string name="deactivated">비활성화 </string>
+<string name="submit_payment">지금 주문</string>
+<string name="subscription_desc_1">당신은 당신의 보안 가입이 원하는 시간 계획을 변경할 수는 있지만 변경시 부과됩니다.</string>
+<string name="subscription_desc_2">당신이 당신의 보안 계정을 비활성화하고자하는 경우, 연락 주시기 바랍니다 1&#8211;408&#8211;599&#8211;3030</string>
+<string name="moveto">로 이동&#8230;</string>
+
+<string name="conf_desc">전화 회의를하려면, 연락처에서 참가자를 선택합니다. 작업이 완료되면 "회의 시작"를 클릭합니다.</string>
+<string name="begin_conf">회의 시작</string>
+<string name="credit_pack">신용</string>
+<string name="search_friends">검색 친구</string>
+<string name="security_switch">보안 모니터를 사용</string>
+<string name="security_desc">의심스러운 활동이 발생하는 경우 즉시 연락처 알림을 받게됩니다.</string>
+<string name="add_instant_contact">+ 인스턴트 연락처 추가</string>
+<string name="no_instant_contact">어떤 순간 접촉이 할당되지</string>
+<string name="hd_video">HD를 사용</string>
+<string name="location_switch">위치 공유</string>
+<string name="map">지도</string>
+<string name="location_desc">그들이 동의하면 당신은 한 시간 연락처와 위치를 공유 할 수 있습니다.</string>
+<string name="sure_to_create_group">당신은 그룹을 만들 하시겠습니까?</string>
+<string name="media_type">공유 할 수있는 다음 중 하나를 선택합니다:</string>
+<string name="video_record">비디오 녹화</string>
+<string name="sort_desc">정렬 연락처:</string>
+<string name="addressbook">전화 번호부</string>
+<string name="enter_number">번호를 입력</string>
+
+<string name="recording_func">비디오 레코딩 기능</string>
+<string name="recording_desc">의심스러운 활동이 검출되면, 그것은 활성의 영상을 녹화 할 것이다. 당신은이 동영상을 볼 수있는 것은 "역사"의 탭입니다.</string>
+<string name="security_notif_setting">보안 알림의 설정</string>
+<string name="security_notif_desc">AireTV 의심스러운 활동을 감지하면, 당신을 보낼 것이다:</string>
+<string name="setting_tab">설정</string>
+<string name="send_sms">SMS</string>
+<string name="send_picture">사진</string>
+<string name="send_voice_call">음성 통화</string>
+<string name="sound_detection">사운드 감지</string>
+<string name="motion_detection">이미지 검색</string>
+
+<string name="terms">서비스 및 구매 계약의 조건</string>
+<string name="buy10">AireCall에 10달러 USD 추가</string>
+<string name="time_remaining">남은 시간:</string>
+<string name="to_activate">보안을 시작하는 방법:</string>
+<string name="terms_security">보안 정액제 서비스 약관</string>
+<string name="delete_contact">연락처\n삭제</string>
+<string name="security_instruction">1. 인스턴트 접점 (적어도 하나의 AireTalk 사용자)를 추가합니다.\n2. 수신 할 알림 ​​유형을 선택 %1$s설정%2$s을 선택합니다.\n3. 당신이 집을 떠날 때, 당신의 AireTV 연락처를 선택 AireTalk를 사용하고 %3$s 아이콘을 클릭합니다.</string>
+<string name="partners">파트너</string>
+<string name="trial_due">시험 유효 기간:</string>
+
+<string name="bwr_video">비디오</string>
+<string name="bwr_images">영상</string>
+<string name="bwr_music">음악</string>
+<string name="bwr_files">파일 아카이브</string>
+<string name="bwr_security">보안 모니터링</string>
+<string name="bwr_external">외부 저장</string>
+<string name="browser_name">파일</string>
+</resources>
+

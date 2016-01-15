@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <FrameLayout
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/titlebar" >
+
+        <TextView
+            android:id="@+id/topic"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/pickup_contact"
+            android:textColor="#FFFFFF"
+            android:textSize="29sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/oncall"
+            android:layout_width="240dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="right"
+            android:background="#000000"
+            android:orientation="horizontal" />
+    </FrameLayout>
+
+    <GridView
+        android:id="@+id/friendsGridView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/title"
+        android:background="@color/background_main2"
+        android:gravity="center"
+        android:listSelector="@drawable/optionbtn"
+        android:numColumns="5"
+        android:padding="20dp"
+        android:verticalSpacing="0dp" />
+
+</RelativeLayout>

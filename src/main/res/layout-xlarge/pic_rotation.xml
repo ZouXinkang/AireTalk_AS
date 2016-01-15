@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:background="#000000"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<Button 
+		android:id="@+id/rotateRight" 
+		android:text="@string/rotate_right"
+		android:textSize="24sp"
+		android:padding="16dp"
+		android:background="@drawable/bluebtn"
+		android:textColor="#ffffff"
+		android:gravity="center"
+		android:layout_margin="10dp"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentTop="true"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+	
+	<Button 
+		android:id="@+id/rotateLeft" 
+		android:text="@string/rotate_left"
+		android:textSize="24sp"
+		android:padding="16dp"
+		android:background="@drawable/bluebtn"
+		android:textColor="#ffffff"
+		android:gravity="center"
+		android:layout_margin="10dp"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentTop="true"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+		
+	<ImageView
+		android:id="@+id/photo"
+		android:src="@drawable/empty"
+		android:padding="20dp"
+		android:layout_width="300dp"
+		android:layout_height="300dp"
+		android:layout_centerInParent="true"/>
+	
+	<Button 
+		android:id="@+id/done" 
+		android:text="@string/done"
+		android:textSize="26sp"
+		android:background="@drawable/bluebtn"
+		android:textColor="#ffffff"
+		android:gravity="center"
+		android:layout_margin="40dip"
+		android:layout_below="@+id/photo"
+		android:layout_centerHorizontal="true"
+		android:layout_width="240dp"
+		android:layout_height="56dp"/>
+</RelativeLayout>

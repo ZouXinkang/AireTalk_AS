@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:padding="5dp"
+	android:background="#ffffff"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	
+    <TextView 
+		android:id="@+id/title" 
+		android:textColor="#ffffff"
+		android:background="@drawable/title_bg"
+		android:shadowColor="#80000000"
+  	  	android:shadowDx="1"
+  	  	android:shadowDy="2"
+  	  	android:shadowRadius="2"
+		android:layout_marginTop="5dp"
+		android:layout_alignParentTop="true"
+		android:textSize="32dp"
+		android:text="@string/eula_title"
+		android:gravity="center_horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"/>
+		
+	<Button 
+		android:id="@+id/next" 
+		android:text="@string/next"
+		android:textSize="26sp"
+		android:background="@drawable/bluebtn"
+		android:textColor="#ffffff"
+		android:gravity="center"
+		android:layout_margin="15dip"
+		android:layout_alignParentBottom="true"
+		android:layout_width="fill_parent"
+		android:layout_height="64dp"/>
+		
+	<CheckBox android:id="@+id/eula_check"
+		android:textColor="#000000"
+		android:text="@string/i_agree"
+		android:textSize="24sp"
+		android:checked="false"
+		android:layout_margin="5dp"
+		android:layout_above="@+id/next"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"/>
+		
+	<WebView 
+		android:id="@+id/eula"
+	 	android:textSize="10sp"
+		android:layout_margin="5dp"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_above="@+id/eula_check"
+		android:layout_below="@+id/title"
+		android:scrollbarAlwaysDrawVerticalTrack="true"
+		android:scrollbarStyle="insideInset" 
+		android:scrollbarSize="20dp"/>
+		
+</RelativeLayout>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:background="@drawable/tiled_bg"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+
+	<ScrollView
+ 		android:layout_width="fill_parent"
+ 		android:layout_height="fill_parent">  
+ 		
+	<LinearLayout 
+		android:orientation="vertical"
+		android:paddingRight="8dp"
+		android:paddingLeft="8dp"
+		android:gravity="center"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+		
+		<LinearLayout
+			android:gravity="center_horizontal"
+			android:padding="15dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+		  	<TextView 
+				android:id="@+id/title" 
+				android:textColor="#ffffff"
+				android:background="@drawable/title_bg"
+				android:shadowColor="#80000000"
+		  	  	android:shadowDx="1"
+		  	  	android:shadowDy="2"
+		  	  	android:shadowRadius="2"
+				android:textSize="20dp"
+				android:text="@string/login_by_facebook"
+				android:gravity="center_horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"/>
+	 	</LinearLayout>
+		 	
+		<LinearLayout 
+			android:orientation="vertical"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:paddingRight="30dp"
+			android:paddingLeft="30dp">
+		  	
+			<TextView 
+				android:id="@+id/id_desc" 
+				android:textColor="#808080"
+				android:textSize="16sp"
+				android:padding="10dp"
+				android:gravity="center"
+				android:text="@string/facebook_login_desc"
+				android:paddingLeft="30dp"
+				android:paddingBottom="30dp"
+				android:layout_gravity="center_vertical"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"/>
+			
+			<ImageView
+			    android:id="@+id/logo"
+			    android:src="@drawable/facebook_logo"
+			    android:layout_gravity="center"
+			    android:padding="20dp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+			
+			<TextView android:id="@+id/username" 
+				android:textColor="#c0c0c0"
+				android:textSize="18sp"
+				android:text="@string/nickname"
+				android:layout_marginTop="20dp"
+				android:background="#00ffffff"
+				android:gravity="center"
+				android:paddingBottom="5dp"
+				android:singleLine="true"
+				android:maxLength="32"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"/>
+			
+			<View
+			    android:id="@+id/hr1"
+			    android:background="#50909090"
+			   	android:layout_width="fill_parent"
+				android:layout_height="1dp"/>
+		
+			
+			<Button android:id="@+id/back"
+				android:text="@string/back"
+				android:background="@drawable/bluebtn"
+				android:textColor="#ffffff"
+				android:layout_gravity="center_horizontal"
+				android:layout_marginTop="50dp"
+				android:textSize="17sp"
+				android:minWidth="235dp"
+				android:layout_width="wrap_content" 
+				android:layout_height="46dp"/>
+		</LinearLayout>
+	</LinearLayout>
+	</ScrollView>
+	
+</LinearLayout>

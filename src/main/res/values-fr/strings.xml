@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="app_name">AireTV</string>
+<string name="contacts">Contacts</string>
+<string name="edit">Modifier</string>
+<string name="sendmsg">Envoyer</string>
+<string name="textinput">Saisissez un message</string>
+<string name="nonetwork">Pas de réseau, s\'il vous plaît essayez de nouveau</string>
+<string name="OK">OK</string>
+<string name="next">Suivant</string>
+<string name="newmessage">nouveau message</string>
+<string name="messages">Messages</string>
+<string name="register">Enregistrer</string>
+<string name="login">Connexion</string>
+<string name="cancel">Annuler</string>
+<string name="clear">Effacer</string>
+<string name="compose_new">Nouveau message</string>
+<string name="sendto">À:</string>
+<string name="attachment">attachement</string>
+<string name="done">Fini</string>
+<string name="recording_vmemo">Enregistrement…</string>
+<string name="recording_timeup">temps jusqu\'à</string>
+
+<string name="i_agree">J\'ai lu et accepté les termes et conditions</string>
+<string name="eula_disagree">Vous n\'avez pas d\'accord avec les termes et conditions</string>
+
+<string name="choose_attachment_type">sélectionner le type de pièce jointe</string>
+<string name="voicememo">Message Vocal</string>
+<string name="picmsg">Message photo</string>
+<string name="pickpicture">la galerie de photos</string>
+<string name="takepicture">Prendre une photo</string>
+<string name="choose_photo_source">la source de photo</string>
+
+<string name="setting">Réglages</string>
+<string name="server_ip">Server IP</string>
+<string name="checkout">Voir</string>
+<string name="reply">Répondre</string>
+<string name="close">Fermer</string>
+<string name="ignore">Ignorer</string>
+<string name="delete_confirm">Confirmer la suppression</string>
+<string name="delete_thread_confirm">Supprimer ce fil de conversation?</string>
+
+<string name="in_progress">Chargement…</string>
+<string name="in_call">en appel…</string>
+<string name="fafayou_in_call">AIRE est en appel</string>
+<string name="answercallhint">glisser pour répondre</string>
+<string name="end_call">Fin</string>
+<string name="hide_keypad">Menu</string>
+<string name="yes">Oui</string>
+<string name="no">Aucun</string>
+<string name="unknown_person">Contacter inconnue</string>
+<string name="missed_call">Manqué</string>
+<string name="unanswered_call">Manqué</string>
+<string name="call_duration">Durée</string>
+<string name="incoming_call">Reçus</string>
+<string name="outgoing_call">émis</string>
+<string name="phone_call">dialer</string>
+
+<string name="username">Nom d\'utilisateur</string>
+<string name="phonenumber">Numéro de téléphone</string>
+<string name="password">Mot de passe</string>
+<string name="password_confirm">Confirmer mot de passe</string>
+<string name="email">E-mail</string>
+<string name="email_hint">E-mail est requis</string>
+<string name="register_immediately">Enregistrer</string>
+
+<string name="forget_password">Mot de passe oublié?</string>
+<string name="passwords_dont_match">Désolé, les mots de passe ne correspondent pas</string>
+<string name="password_error">Désolé, mot de passe est incorrect</string>
+<string name="nonmember">Désolé, vous n\'êtes pas un membre AIRE. S\'il vous plaît d\'abord vous inscrire.</string>
+<string name="username_invalid">Désolé, cet identifiant n\'est pas valide. Doit commencer par un alphabet minuscules et comporter au moins 6 caractères.</string>
+<string name="phonenumber_hint">Numéro de téléphone requis</string>
+<string name="phonenumber_invalid">Désolé, le numéro de téléphone que vous entrez est incorrect</string>
+<string name="email_invalid">Désolé, l\'adresse e-mail est invalide</string>
+<string name="login_title">Connexion</string>
+<string name="account_exists">AIRE compte existe déjà, s\'il vous plaît vous connecter</string>
+<string name="retrieve_password">Récupérer mot de passe par votre email?</string>
+<string name="waiting_for_sms_to_register">Enregistrement par SMS de vérification a été envoyé. S\'il vous plaît patienter…</string>
+<string name="sms_confirm_timeout">Délai de vérification, s\'il vous plaît assurez-vous que le numéro de téléphone est correct et essayez à nouveau</string>
+<string name="welcome">Bienvenue à AIRE</string>
+<string name="username_hint">Nom d\'utilisateur</string>
+
+<string name="dial_this">Appeler</string>
+<string name="delete_thread">Supprimer la conversation</string>
+<string name="delete_msg">Supprimer le message</string>
+<string name="view_contact">Plus</string>
+<string name="add_contact">Ajouter ce contact</string>
+<string name="pickup_contact">Choisissez Contacts</string>
+<string name="surname">Nom de famille</string>
+<string name="name">Nom</string>
+<string name="input_hint">Numéro de téléphone à appeler</string>
+
+<string name="location_not_found">Emplacement introuvable</string>
+<string name="nonmember_no_service">Contactez-pas membre</string>
+
+<string name="msg_is_sent">Message envoyé</string>
+
+<string name="making_call">Appel</string>
+<string name="call_connected">Lié</string>
+<string name="call_end">Appel terminé</string>
+<string name="call_declined">Ligne occupée</string>
+<string name="no_response">Pas de réponse</string>
+<string name="callee_not_found">Introuvable</string>
+
+<string name="new_version_found">Nouvelle version %s est disponible dès maintenant, s\'il vous plaît mettre à jour.</string>
+<string name="force_update">Vous devez mettre à niveau vers la dernière version AIRE.</string>
+<string name="dont_worry">Ne vous inquiétez pas, vos données ne seront pas affectés.</string>
+<string name="update">Mettre à jour</string>
+
+<string name="request_location_sharing">Demander la permission de partager votre localisation? (Une fois approuvés, les localisation seront partagés pendant 1 heure)</string>
+<string name="sharing_location_request"> demande que vous partagez l\'autre localisations pendant une heure. Autoriser?</string>
+<string name="sharing_done">Localisation partagée avec succès</string>
+
+<string name="displayname">afficher le nom</string>
+<string name="photo_gallery">Galerie de photos</string>
+
+<string name="friends">Amis</string>
+<string name="copysms">Copier</string>
+<string name="copied_to_clipboard">Copié dans le Presse-papiers</string>
+<string name="mylocation_address">Ma localisation</string>
+<string name="friend_address">Localisation</string>
+<string name="keypad">Clavier</string>
+<string name="track">Piste</string>
+<string name="traffic">Trafic</string>
+<string name="satellite">Satellite</string>
+<string name="delete_the_contact">Supprimer le contact</string>
+<string name="back">Arrière</string>
+<string name="mute">silence</string>
+<string name="speaker">haut-parleur</string>
+<string name="add_call">ajouter</string>
+<string name="hold">pause</string>
+
+<string name="missed_call_remind_1">Vous avez 1 appel manqué de </string>
+<string name="missed_call_remind_2">, %s. AIRE vous rappelle de répondre aux appels importants.</string>
+<string name="pcode_desc">Vous avez sans doute reçu un SMS de vérification, s\'il vous plaît entrez le numéro à 4 chiffres:</string>
+<string name="help">Aider</string>
+<string name="img_error">image non valide</string>
+<string name="email_register">Nous avons envoyé un e-mail de vérification de votre adresse e-mail, s\'il vous plaît activer votre compte AIRE.</string>
+<string name="login_error">Désolé, le serveur est occupé. S\'il vous plaît attendez un moment.</string>
+<string name="pwdemail_title">Entrez votre numéro de téléphone ou le nom d\'utilisateur, nous allons envoyer immédiatement le mot de passe à votre adresse e-mail.</string>
+<string name="pwdemailfailed">Impossible d\'envoyer des e-mail</string>
+<string name="pwdemailsuccess">Votre courriel a été envoyé avec succès</string>
+<string name="no_sdcard">Aucune carte SD ou périphérique de stockage USB connecté</string>
+<string name="no_sdcard_receive_voice_message">pas de carte SD pour recevoir un message vocal</string>
+<string name="no_sdcard_receive_picture_message">pas de carte SD pour recevoir l\'image</string>
+<string name="sms_manager">Manage SMS</string>
+<string name="try_again">Réessayez plus tard</string>
+
+<string name="share">AIRE part d\'amis…</string>
+<string name="smile">Smileys</string> 
+<string name="smiletitle">Emot\'icon</string> 
+
+<string name="keypad_menu_open">Key Tone On</string>
+<string name="keypad_menu_close">Key Tone Off</string>
+<string name="setnet">Go To</string>  
+<string name="add">Ajouter</string>
+<string name="auto_notify_joins">J\'utilise AIRE maintenant! S\'il vous plaît appelez-moi avec ce grand app à partir de maintenant! C\'est gratuit! B-}</string>
+<string name="international_sms_alert">Cela pourrait être une des SMS internationaux, êtes-vous certain de vouloir continuer?</string>
+
+<string name="call">Appeler</string>
+
+<string name="notification_sound">Son de notification</string>
+<string name="receive_vibrate">Vibrer</string>
+<string name="send_vibrate">Envoi Vibreur</string>
+<string name="smspopup">Message Apparaît</string>
+
+<string name="pcode_check">S\'il vous plaît entrez numéro à 4 chiffres</string>
+
+<string name="net_error">Pas de connexion réseau…</string>
+<string name="shownotification">Icône de notification</string>
+
+<string name="agree_share_sms">Je suis d\'accord avec vous pour partager ma position pendant %1$s.</string>
+<string name="ask_share">(Demande de partage Localisation envoyé B-})</string>
+<string name="photo_large">La photo est trop grande, ne peut pas être envoyé.</string>
+<string name="savedraft">Saved as draft</string>
+<string name="hasaskshare">%1$s demande pour le partage de localisation avec vous</string>
+
+<string name="helper_name1">Soutien</string>
+
+<string name="interphone_smile">Voix</string>
+<string name="send_voice_interphone">appuyez pour parler</string>
+
+<string name="fafauser_sms">SMS</string>
+<string name="fafauser_vmemo">Voix</string>
+<string name="fafauser_pic">Médias</string>
+<string name="fafauser_map">Localisation</string>
+
+<string name="hint_mood">Message d\'état</string>
+
+<string name="sms_parese_stringbuf">Vous avez %2$s de %1$s</string>
+<string name="interphone">talkie-walkie</string>
+<string name="textmessage">message</string>
+<string name="RecvManySms">plusieurs messages</string>
+
+<string name="sharing_location">Localisation</string>
+<string name="driving">Conduire</string>
+<string name="walking">Marcher</string>
+<string name="path">Chemin</string>
+<string name="notfound_direction">Chemin n\'est plus disponible</string>
+
+
+<string name="smsfail">L\'envoi a échoué, s\'il vous plaît vérifier le réseau</string>
+<string name="videomemo">Message vidéo</string>
+<string name="video">Vidéo</string>
+<string name="file">Fichiers</string>
+<string name="filememo">Transférer</string>
+<string name="filememo_send">Transféré du fichier</string>
+<string name="filememo_recv">Fichier reçu</string>
+<string name="chose_file">Choisissez un fichier à envoyer</string>
+
+<string name="file_othernet">S\'il vous plaît utiliser le réseau 3G ou WiFi pour transférer le fichier.</string>
+<string name="file_dnnotnet">Pas de réseau pour télécharger le fichier</string>
+<string name="file_dnwifinet">La taille du fichier est %1$s, voulez-vous le télécharger? Chemin de destination est %2$s</string>
+<string name="file_dnothernet">S\'il vous plaît utiliser le réseau 3G ou WiFi pour télécharger le fichier.</string>
+<string name="download">Télécharger</string>
+<string name="downloading">Téléchargement…</string>
+<string name="downloadsucess">Télécharger compléter</string>
+<string name="downloaderror">Le téléchargement a échoué</string>
+<string name="fileandvideosingle">Un seul fichier peut être joint</string>
+<string name="file_err">Erreur de fichier</string>
+<string name="sd_availablespare">Carte SD est pleine</string>
+<string name="sd_notfound">Carte SD n\'existe pas</string>
+<string name="recording_incall">Appel entrant, l\'enregistrement vidéo d\'arrêt</string>
+<string name="filename_longerr">Nom de fichier est trop long</string>
+<string name="save_photo_SD">Export image</string>
+<string name="more_sms">Plus messages</string>
+<string name="copyfile">Copie à: </string>
+<string name="fileLarge">La taille maximale est de 30MB</string>
+<string name="notfound_photo">(Photo n\'existe pas)</string>
+
+<string name="filedownloading">Le fichier est téléchargé, s\'il vous plaît essayer plus tard</string>
+<string name="fileuploading">Fichier est le téléchargement, s\'il vous plaît essayer plus tard</string>
+
+<string name="downloadedfile">%s fichier a été téléchargé avec succès</string>
+<string name="downloadedvideo">Vidéo (vdo) a été téléchargé</string>
+<string name="video_err">Video file doesn\'t exist</string>
+<string name="nodata">Fichier est 0 en taille</string>
+<string name="send_again">Renvoyer un message</string>
+
+<string name="fafamissed_call">Appel manqué</string>
+<string name="sysmissed_call">Appel manqué</string>
+
+<string name="progress_wait">S\'il vous plaît attendez un moment…</string>
+<string name="aire_welcome_desc">Bienvenue à AIRE! :-) Appelez-moi si vous avez des questions à propos de cette appli!</string>
+<string name="txtspinner_desc">Vous pouvez numéro de téléphone d\'entrée ou AIRE ID</string>
+<string name="findpwd">Numéro de téléphone ou le nom d\'utilisateur</string>
+<string name="findpwd_input_err">S\'il vous plaît entrer le numéro de téléphone ou cellulaire correcte AIRE nom d\'utilisateur</string>
+
+<string name="bluetooth">bluetooth</string>
+<string name="no_sim_hint">Il n\'ya pas de carte SIM dans le téléphone, le numéro de téléphone n\'est pas autorisé à se connecter</string>
+<string name="nonsupport_googlemap">Désolé, Google map n\'est pas pris en charge dans le système.</string>
+<string name="makesure_phonenumber_1">Nous allons envoyer un SMS de vérification à:</string>
+<string name="makesure_phonenumber_2">S\'il vous plaît assurez-vous que le numéro est correct.</string>
+<string name="take_picture_error">Impossible d\'ouvrir la caméra</string>
+<string name="talk_background">Image de fond</string>
+
+<string name="add_photo">ajouter\nphoto</string>
+<string name="registration_body">AIRE Registration Message. Thank you for using AIRE. Code:</string>
+
+<string name="making_video_call">Faire appel vidéo</string>
+<string name="incoming_video_call">Appel vidéo entrant</string>
+
+<string name="no_video_hint">Désolé, le réseau est trop lent pour afficher la vidéo</string>
+<!-- new strings -->
+<string name="nickname">Nom</string>
+<string name="nickname_hint">Nom et Prénom</string>
+<string name="register_desc">C\'est ma première fois en utilisant AIRE</string>
+<string name="eula_title">Contrat de Licence Utilisateur</string>
+<string name="personal_info">S\'il vous plaît remplir vos informations personnelles.</string>
+
+<string name="register_desc_0">S\'il vous plaît entrer votre adresse e-mail, nous ne vous enverrons pas des spams.</string>
+<string name="register_desc_1">Pour la sécurité et la confidentialité, un SMS de vérification sera envoyé à ce numéro. S\'il vous plaît le numéro de téléphone d\'entrée correcte.</string>
+<string name="register_desc_2">S\'il vous plaît remplir le formulaire, le processus d\'enregistrement est rapide et facile.</string>
+<string name="login_desc_0">S\'il vous plaît vous connecter directement, nous allons vérifier les informations pour vous.</string>
+<string name="login_desc_1">S\'il vous plaît le numéro de téléphone d\'entrée correcte, nous allons vérifier les informations pour vous. </string>
+<string name="login_desc_2">S\'il vous plaît entrer AIRE ID et mot de passe pour vous connecter</string>
+<string name="login_nonmember">Désolé, impossible de localiser le membre AIRE. S\'il vous plaît d\'abord vous inscrire.</string>
+
+<string name="nickname_invalid">La longueur de votre nom est trop court</string>
+
+<string name="male">Masculin</string>
+<string name="female">Féminin</string>
+<string name="search">Rechercher</string>
+<string name="copyright">© Copyright 2015. Pingshow Inc.</string>
+<string name="black_list">Liste noire</string>
+<string name="block">Bloquer</string>
+<string name="unblock">Débloquer</string>
+<string name="put_in_blacklist">Mettre en\nliste noire</string>
+<string name="chat">Parler</string>
+<string name="videocall">Appel vidéo</string>
+<string name="buy">Buy</string>
+<string name="aire_free_call">AireCall</string>
+<string name="add_as_friend">Ajouter comme ami</string>
+<string name="login_by_facebook">Connexion avec facebook</string>
+<string name="facebook_login_desc">Vous pouvez vous connecter directement par votre compte Facebook</string>
+<string name="read_contacts">AIRE a besoin de votre autorisation de lire les contacts. Avec les informations de contact, vous pouvez appeler et discuter avec vos amis.</string>
+<string name="unblock_this_user">Etes-vous sûr de débloquer «%1$s» de la liste noire?</string>
+<string name="accept_this_stranger">Savez-vous «%1$s»?\nVoulez-vous accepter son/sa demande d\'autorisation?</string>
+<string name="search_desc">S\'il vous plaît entrez un mot clé pour chercher des amis.</string>
+<string name="search_result">%d ont trouvé</string>
+<string name="credit">Crédit: %.3f</string>
+<string name="credit_not_enough">Le crédit n\'est pas suffisant pour faire un appel…</string>
+<string name="help_aire_free_call">AireCall est gratuit pour essai! Pour vivre l\'expérience AireCall, faire un appel gratuit de dire bonjour à n\'importe lequel de vos ami maintenant!\n</string>
+<string name="help_photo_is_needed">Vous n\'avez pas téléchargé votre photo de profil. Pour permettre à vos amis de vous reconnaître, s\'il vous plaît ajouter une photo de profil.\n</string>
+<string name="help_complete_profile">Bienvenue à AIRE! S\'il vous plaît compléter le réglage de profil, en particulier votre nom. Choisissez une belle photo de vous-même et vos amis peuvent vous reconnaître!\n</string>
+<string name="walkietalkie">talkie walkie</string>
+<string name="wt_sound_out">Son talkie-walkie Auto</string>
+<string name="send_location">Envoyer votre position à \'%s\'?</string>
+<string name="loading">Chargement…</string>
+<string name="call_back">Faire un appel à %s?</string>
+<string name="possible_friends">Amis que vous connaissez peut-être</string>
+<string name="sortbyname">Trier par nom</string>
+<string name="sortbytime">Trier par le temps</string>
+<string name="sortbystatus">Trier par état</string>
+<string name="joint">%d amis communs</string>
+<string name="weibo_sign_in">Connexion avec Sina Weibo</string>
+<string name="share_by_email">Partager par e-mail</string>
+<string name="share_by_sms">Partager par SMS</string>
+<string name="share_on_facebook">Partager sur Facebook</string>
+<string name="share_on_qq">Partager sur QQ</string>
+<string name="share_on_weibo">Partager sur Sina Weibo</string>
+<string name="invitation_title">J\'aime AIRE, nous allons faire appel gratuitement avec elle.</string>
+<string name="invitation">J\'utilise AIRE, il suffit d\'installer et appelez-moi gratuitement! http://play.google.com/store/apps/details?id=com.pingshow.amper</string>
+<string name="weibo_login_desc">Vous pouvez vous connecter directement par votre compte Sina Weibo</string>
+<string name="help_multiple_send">Cliquez sur le bouton bleu pour choisir quels amis au message. (choix multiples sera envoyer le même message à plusieurs personnes)</string>
+<string name="multi_send_location">Envoyer votre position pour eux?</string>
+<string name="shared_successfully">Partagé avec succès</string>
+<string name="shared_failed">Impossible de partager</string>
+<string name="webcall_not_valid">Désolé, ce numéro de téléphone n\'est pas valable maintenant.</string>
+<string name="webcall_not_support">Désolé, votre version Android ne supporte pas WebCall.</string>
+<string name="read_contacts_check">Lisez votre répertoire pour rechercher</string>
+<string name="rotate_right">Rotation à droite</string>
+<string name="rotate_left">Rotation à gauche</string>
+
+<string name="searching_friends">Recherche des amis, s\'il vous plaît attendez un moment…</string>
+<string name="searching_friends_desc">AIRE pouvez trouver des amis pour vous avec votre compte facebook. Cela ne prend que quelques secondes.</string>
+
+<string name="feedback">Retour d\'information</string>
+<string name="feedback_desc">S\'il vous plaît aviser, AIRE peut être mieux. Aimez-vous AIRE?</string>
+<string name="favor_level_1">Oui, je l\'aime beaucoup!</string>
+<string name="favor_level_2">Pas mal :-)</string>
+<string name="favor_level_3">Eh bien, je vais l\'utiliser</string>
+<string name="favor_level_4">Pas très bon</string>
+<string name="favor_level_5">Je n\'aime pas ça</string>
+<string name="suggsay_text">Suggestion</string>
+<string name="sugg_checkbox1">Une mauvaise qualité audio</string>
+<string name="sugg_checkbox2">Une mauvaise qualité vidéo</string>
+<string name="sugg_checkbox3">Message perdu</string>
+<string name="sugg_checkbox4">Aucun ami trouvé</string>
+<string name="sugg_checkbox5">application se bloque</string>
+<string name="sugg_dis_text">Avez-vous rencontré des problèmes avec AIRE?</string>
+<string name="feedback_has_been_sent">Vos commentaires ont été livrés. S\'il vous plaît essayez de nouveau 1 heure plus tard.</string>
+<string name="suggCustomer">Merci pour vos conseils, nous traiterons votre feedback dès que possible. Faisons AIRE mieux!\nserial code: </string>
+<string name="animated">Animat\'icon</string>
+
+<string name="blocking_strangers">Bloquer inconnus</string>
+<string name="facebook_search">Rechercher amis sur Facebook</string>
+<string name="phonebook_search">Recherche par répertoire téléphonique</string>
+
+<string name="help_public_radio">Bienvenue à AIRE Radio Studio! Il ya beaucoup de chaînes publiques de différentes langues pour vous. Vous pouvez inviter vos amis à chatter sur n\'importe quel canal, ou chatter avec des inconnus.\n\n</string>
+<string name="help_public_radio_2">Toutes les personnes du même canal peuvent entendre ce que vous dites. La lumière verte clignotante signifie changement de canal. Quand il s\'arrête, vous pouvez appuyer sur le bouton pour parler. La lumière jaune signifie que quelqu\'un parle. Quand vous parlez, la lumière devient rouge.\n</string>
+<string name="aire_studio">Studio</string>
+
+<string name="the_group">Groupe</string>
+<string name="create_group">Créer un Groupe</string>
+<string name="group_name">Nom du groupe</string>
+<string name="group_desc">S\'il vous plaît attribuer le nom de votre groupe, et sélectionner les membres. Tous les membres de recevoir les messages en même temps.</string>
+<string name="add_in_group">%1$s souhaite vous ajouter dans le groupe: %2$s\nVoulez-vous accepter la demande?</string>
+<string name="group_number_exceeds">Désolé, vous avez déjà nombre maximum de groupes.</string>
+
+<string name="file_transfer_waiting">En attente de réponse</string>
+<string name="file_transfer_connected">Transfert</string>
+<string name="file_transfer_error">Erreur de transfert</string>
+<string name="file_transfer_stop">Transfert arrêter</string>
+<string name="file_transfer_finished">Transfert terminé</string>
+<string name="file_transfer_incoming">Accepter ce fichier?</string>
+
+<string name="add_new_member_in_group">Etes-vous sûr d\'ajouter de nouveaux membres dans le groupe?</string>
+<string name="group_invite_new_member">%1$s a été invité au groupe «%2$s»</string>
+
+<!-- from iphone -->
+<string name="aire_call">AireCall</string>
+<string name="purchase">Acheter</string>
+<string name="airecall_credits">AireCall Crédits</string>
+<string name="credit_desc">Vous pouvez économiser beaucoup avec AireCall appeler téléphones fixes et mobiles partout dans le monde</string>
+<string name="rate_detail_desc">La liste des pays de destination pour les tarifs détaillés.</string>
+
+<string name="detail_rate">Pays de destination: %1$s (%2$s)\n«%3$s est sélectionné»\n\nPour appeler téléphone fixe:\n\tEnviron %4$s $%5$.3f par minute\n\t(Environ %6$s %7$s%8$.2f)\n\nPour appeler les mobiles:\n\tEnviron %9$s $%10$.3f par minute\n\t(Environ %11$s %12$s%13$.2f)\n\nLe taux est juste pour la référence.</string>
+
+<string name="rate_statement">Les tarifs peuvent varier en raison de différentes entreprises de télécom et le taux de change. Tables de taux est juste pour la référence.</string>
+<string name="thank_you_for_purchase">Merci d\'avoir acheté «%s»</string>
+<string name="trade_detail">Transactions</string>
+
+<string name="query_rate">Découvrir Tarif</string>
+<string name="query_rate_desc">Vous pouvez entrer n\'importe quel numéro de téléphone dans le monde, et nous allons vous dire le prix exact, nous facturons pour ce numéro.</string>
+<string name="any_phone_number">Numéro de téléphone</string>
+<string name="precise_rate">%1$s $%2$.3f par minute\nEnviron %3$s %4$s%5$.3f par minute\n\n%6$s\n(%7$s)</string>
+
+<string name="class_selection">Classe Sélection</string>
+<string name="class_desc">Nous vous fournissons 3 types de routage pour AireCall. Niveau élevé pourrait coûter un peu plus, mais serait de vous fournir plus de service.</string>
+<string name="standard_class">Classe Standard</string>
+<string name="premium_class">Classe Premium</string>
+<string name="business_class">Classe Affaires</string>
+
+<string name="standard_desc">Classe Standard est idéal pour un plan axé sur les prix</string>
+<string name="premium_desc">Classe Premium est un parcours axé sur la qualité</string>
+<string name="business_desc">C\'est le routage de haute qualité. Elle est égale ou supérieure à celle de l\'appel téléphonique directe.</string>
+
+<string name="please_visit">S\'il vous plaît visitez notre site web à l\'achat:</string>
+<string name="call_log">Journal des appels</string>
+<string name="home_guard">Sécurité à domicile</string>
+<string name="send_suvei">Voulez-vous envoyer la commande de surveillance à «%s»?</string>
+<string name="start">Démarrer</string>
+<string name="stop">Arrêter</string>
+
+<string name="delete_this_call_log">Supprimer</string>
+<string name="delete_all_call_log">Supprimer tous</string>
+
+<string name="answer">Answer</string>
+<string name="chat_room">Salle de réunion</string>
+<string name="security">Sécurité</string>
+<string name="home_security">Sécurité à la Maison</string>
+<string name="instant_contact">Numéro d\'urgencet</string>
+
+<string name="loginairetalk_desc_1">AireVoice Call in</string>
+<string name="enablesipin">Enable AireVoice</string>
+
+<string name="conference">Conférence téléphonique</string>
+
+<string name="save_changes">Enregistrer</string>
+<string name="block_this_user">Etes-vous sûr de bloquer %1$s?</string>
+<string name="delete_this_user">Êtes-vous sûr de vouloir supprimer %1$s?</string>
+<string name="rapid_rate">%1$s %2$s%3$.3f/min</string>
+<string name="rapid_rate_unsure">%1$s %2$s----/min</string>
+<string name="send_picture_to">Assurez-vous d\'envoyer cette photo à \"%s\"?</string>
+<string name="add_as_friend_desc">Voulez-vous ajouter \"%s\" comme un contact?</string>
+<string name="delete">Effacer</string>
+<string name="shopping">Shopping</string>
+
+<string name="bar1_name">AIRETALK</string>
+<string name="bar6_name">ACHATS</string>
+<string name="bar7_name">SÉCURITÉ</string>
+<string name="bar8_name">FICHIER</string>
+
+<string name="free">Gratuit</string>
+<string name="monitoring">SURVEILLANCE</string>
+<string name="history">HISTOIRE</string>
+<string name="share_location_with">emplacement de partage avec…</string>
+<string name="auto_answer_ind">Autoriser\nle contrôle</string>
+<string name="auto_answer_ind2">réponse\nautomatique</string>
+<string name="auto_answer_tooltip">Contacts d\'urgence peuvent surveiller site distant via des appels vidéo, AireTV répondra automatiquement, un contrôle unidirectionnel</string>
+<string name="auto_answer_tooltip2">Contacts d\'urgence peuvent communiquer par le biais des appels vidéo et sur site, AireTV répondra automatiquement est une communication bidirectionnelle</string>
+<string name="security_on">Mode de sécurité est activé.</string>
+<string name="security_off">Mode de sécurité est désactivé.</string>
+
+<string name="security_plan">PLAN DE SÉCURITÉ DE SOUSCRIPTION</string>
+<string name="security_plan_1">Mensuel: 3,99 $ / mois</string>
+<string name="security_plan_2">Chaque année: 40,00 $ / an</string>
+<string name="next_billing">Prochaine date de facturation:</string>
+<string name="expired">expiré</string>
+<string name="deactivated">désactivé</string>
+<string name="submit_payment">Presentar Pago</string>
+<string name="subscription_desc_1">Vous pouvez modifier votre abonnement de sécurité planifier chaque fois que vous voulez, mais vous serez facturé à changer.</string>
+<string name="subscription_desc_2">Si vous souhaitez désactiver votre compte de la sécurité, s\'il vous plaît appelez  1&#8211;408&#8211;599&#8211;3030</string>
+<string name="moveto">Passer à&#8230;</string>
+
+<string name="conf_desc">Pour faire une conférence téléphonique, sélectionnez les participants de vos contacts. Lorsque vous avez terminé, cliquez sur \"Commencer conférence.\"</string>
+<string name="begin_conf">Commencez conférence</string>
+<string name="credit_pack">Crédit</string>
+<string name="search_friends">Rechercher des amis</string>
+<string name="security_switch">Activer le moniteur de sécurité</string>
+<string name="security_desc">Vos contacts instantanés recevront des notifications si toute activité suspecte qui se passe.</string>
+<string name="add_instant_contact">+ Ajouter un contact instantané</string>
+<string name="no_instant_contact">Pas de contact instantané attribué </string>
+<string name="hd_video">Activer HD</string>
+<string name="location_switch">Partage de Localisation</string>
+<string name="map">CARTE</string>
+<string name="location_desc">Vous pouvez partager vos localisation avec vos contacts pendant une heure une fois qu\'ils sont d\'accord.</string>
+<string name="sure_to_create_group">Voulez-vous créer un groupe?</string>
+<string name="media_type">Choisissez une des options suivantes à partager:</string>
+<string name="video_record">Enregistrement vidéo</string>
+<string name="sort_desc">Trier les contacts par:</string>
+<string name="addressbook">Répertoire</string>
+<string name="enter_number">Entrez le numéro</string>
+
+<string name="recording_func">Fonction d\'enregistrement</string>
+<string name="recording_desc">Lorsque l\'activité suspecte est détectée, il va enregistrer une vidéo de l\'activité. Vous pouvez visionner ces vidéos est l\'onglet de \"Histoire\".</string>
+<string name="security_notif_setting">Paramètres de Notification de Sécurité</string>
+<string name="security_notif_desc">Lorsque AireTV détecte une activité suspecte, il vous enverra:</string>
+<string name="setting_tab">PARAMÉTRES</string>
+<string name="send_sms">SMS</string>
+<string name="send_picture">Photos</string>
+<string name="send_voice_call">Appels</string>
+<string name="sound_detection">Détection du son </string>
+<string name="motion_detection">Détection de mouvement</string>
+
+<string name="terms">Termes de l\'accord d\'achat et de service</string>
+<string name="buy10">Ajouter 10 $ US à AireCall</string>
+<string name="time_remaining">Temps restant:</string>
+<string name="to_activate">POUR ACTIVER LA SÉCURITÉ:</string>
+<string name="terms_security">Sécurité Abonnement Conditions d\'utilisation</string>
+<string name="delete_contact">Supprimer\ncontact</string>
+<string name="security_instruction">1 Ajouter un contact instantané (au moins un utilisateur de AireTalk).\n2 Choisissez les %1$sPARAMÉTRES%2$s pour choisir le type de notifications à recevoir.\n3 Lorsque vous quittez la maison, allumer AireTalk, sélectionnez votre contact AireTV, et cliquez sur l\'icône de %3$s. </string>
+<string name="partners">PARTENAIRES</string>
+<string name="trial_due">Essai date d\'expiration:</string>
+
+<string name="bwr_video">vidéo</string>
+<string name="bwr_images">image</string>
+<string name="bwr_music">musique</string>
+<string name="bwr_files">Archive File</string>
+<string name="bwr_security">surveillance de la sécurité</string>
+<string name="bwr_external">stockage externe</string>
+<string name="browser_name">FICHIER</string>
+</resources>

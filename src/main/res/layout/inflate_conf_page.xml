@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#ebf0f1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:orientation="vertical">
+        
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:padding="3dp"
+            android:layout_marginTop="2dp"
+            android:text="Select contacts and click begin Conference. More members can be added during the call."
+            android:textColor="#303f52"
+            android:textStyle="bold"
+            android:textSize="14sp"/>
+
+        <Button
+            android:id="@+id/done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/plainbtn"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:text="Begin Conference"
+            android:layout_gravity="center"/>
+        
+		<View
+			android:background="@drawable/seperator"
+			android:layout_marginTop="10dp"
+			android:layout_marginBottom="10dp"
+			android:layout_width="fill_parent"
+			android:layout_height="5dp"/>
+	    
+	    <GridView
+	        android:background="#ebf0f1"
+	        android:id="@+id/friends"
+	        android:listSelector="@drawable/optionbtn"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:gravity="center"
+	        android:numColumns="6"
+	        android:verticalSpacing="0dp"/>
+	    
+	</LinearLayout>
+    
+</RelativeLayout>

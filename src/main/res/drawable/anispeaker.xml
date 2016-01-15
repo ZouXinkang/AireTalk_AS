@@ -1,0 +1,9 @@
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+    <item android:drawable="@drawable/vmicon0" android:duration="100" />
+    <item android:drawable="@drawable/vmicon1" android:duration="100" />
+    <item android:drawable="@drawable/vmicon2" android:duration="100" />
+    <item android:drawable="@drawable/vmicon3" android:duration="100" />
+    <item android:drawable="@drawable/vmicon4" android:duration="100" />
+    <item android:drawable="@drawable/vmicon5" android:duration="100" />
+</animation-list>
