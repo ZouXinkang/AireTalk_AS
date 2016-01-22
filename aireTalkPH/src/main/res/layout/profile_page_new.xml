@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+	android:background="@drawable/blankbackground"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	
+    <RelativeLayout
+		android:id="@+id/title"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:layout_alignParentTop="true"
+		android:background="@drawable/titlebar" >
+        
+        <ImageButton
+            android:id="@+id/left"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/optionbtn"
+            android:src="@drawable/sm57"/>
+            
+	    <TextView
+			android:id="@+id/topic"
+            android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:gravity="center"
+			android:layout_centerInParent="true"
+			android:shadowColor="#80000000"
+			android:shadowDx="1"
+			android:shadowDy="2"
+			android:shadowRadius="2"
+			android:text="@string/register"
+			android:textColor="#FFFFFF"
+			android:textSize="19sp"
+			android:textStyle="bold" />
+		    
+        <ImageButton
+            android:id="@+id/right"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/optionbtn"
+            android:src="@drawable/sm57"/>
+           
+    </RelativeLayout>
+
+	<ScrollView 
+		android:id="@+id/content"
+		android:layout_width="fill_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@+id/title" >
+        
+		<LinearLayout 
+			android:orientation="vertical"
+			android:padding="20dp"
+			android:gravity="center"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			
+			<RelativeLayout
+				android:gravity="center"
+				android:layout_marginBottom="5dp"
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content">
+			  	
+				<ImageView
+					android:id="@+id/photo"
+					android:clickable="true"
+					android:background="@drawable/empty"
+					android:padding="8dp"
+					android:layout_width="96dp"
+					android:layout_height="96dp"/>
+				<TextView
+				    android:id="@+id/my_photo_hint"
+				    android:text="@string/add_photo"
+				    android:gravity="center"
+				  	android:layout_width="96dp"
+				  	android:layout_height="96dp"/>
+				
+			</RelativeLayout>
+				
+			<EditText
+			    android:id="@+id/nickname"
+				android:hint="@string/nickname"
+				android:layout_marginTop="15dp"
+				android:textColor="#007192"
+				android:background="#00ffffff"
+				android:gravity="bottom"
+				android:paddingBottom="5dp"
+				android:singleLine="true"
+				android:paddingLeft="10dp"
+				android:inputType="textCapWords|textPersonName"
+				android:maxLength="30"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"/>
+			
+			<View
+		    	android:background="#50909090"
+		   		android:layout_width="fill_parent"
+				android:layout_height="1dp"/>
+			
+			<EditText
+			    android:id="@+id/location"
+				android:hint="@string/mylocation_address"
+				android:layout_marginTop="15dp"
+				android:textColor="#007192"
+				android:background="#00ffffff"
+				android:gravity="bottom"
+				android:paddingBottom="5dp"
+				android:singleLine="true"
+				android:paddingLeft="10dp"
+				android:inputType="textCapWords"
+				android:maxLength="30"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"/>
+			
+			<View
+		    	android:background="#50909090"
+		   		android:layout_width="fill_parent"
+				android:layout_height="1dp"/>
+			
+			<RadioGroup
+			    android:layout_marginTop="10dp"
+				android:gravity="center_horizontal"
+			    android:orientation="horizontal"
+			    android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+				
+				<RadioButton
+				    android:id="@+id/male"
+				    android:textColor="#ff445e8e"
+				    android:layout_marginRight="20dp"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="@string/male"/>
+	
+				<RadioButton
+				    android:id="@+id/female"
+				    android:textColor="#ff445e8e"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="@string/female"/>
+				
+			</RadioGroup>
+			
+			<CheckBox
+			    android:id="@+id/read_contact"
+				android:textColor="#007192"
+				android:text="@string/read_contacts_check"
+				android:textSize="13sp"
+				android:checked="true"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"/>
+			
+			<Button
+			    android:id="@+id/done"
+			    android:layout_marginTop="20dp"
+				android:text="@string/done"
+				android:background="@drawable/bluebtn"
+				android:textColor="#f0f0f0"
+				android:textSize="17sp"
+				android:minWidth="235dp"
+				android:layout_width="wrap_content" 
+				android:layout_height="46dp"/>
+			
+		</LinearLayout>
+		
+	</ScrollView>
+	
+</RelativeLayout>

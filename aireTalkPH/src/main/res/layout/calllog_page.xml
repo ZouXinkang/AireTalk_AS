@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<FrameLayout
+	    android:id="@+id/title"
+		android:layout_gravity="top"
+		android:background="@drawable/titlebar"
+		android:layout_width="fill_parent" 
+		android:layout_height="50dp">
+		
+		<RelativeLayout
+		    android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+			
+			<ImageView
+			    android:id="@+id/cancel"
+			    android:src="@drawable/back"
+			    android:background="@drawable/optionbtn"
+				android:padding="10dp" 
+				android:layout_centerVertical="true"
+				android:layout_alignParentLeft="true" 
+				android:layout_width="50dp"
+				android:layout_height="50dp"/>
+			
+			<TextView
+			    android:text="@string/call_log"
+				android:singleLine="true" 
+				android:textSize="18sp"
+				android:textColor="#ffffff"
+				android:shadowColor="#80000000"
+				android:shadowDx="0"
+				android:shadowDy="-1"
+				android:gravity="center"
+				android:shadowRadius="1"
+				android:textStyle="bold" 
+				android:layout_centerInParent="true"
+				android:layout_width="fill_parent" 
+				android:layout_height="wrap_content" />
+			
+			<ImageView
+			    android:id="@+id/delete"
+			    android:src="@drawable/empty_trash"
+			    android:background="@drawable/optionbtn"
+				android:padding="10dp" 
+				android:layout_centerVertical="true"
+				android:layout_alignParentRight="true" 
+				android:layout_width="50dp"
+				android:layout_height="50dp"/>
+		</RelativeLayout>
+	</FrameLayout>
+	<FrameLayout 
+	    android:background="#efeeef"
+		android:layout_width="fill_parent" 
+		android:layout_height="0px"
+		android:layout_weight="1">
+
+		<ListView 
+		    android:id="@+id/list" 
+		  	 android:background="#efeeef"
+			android:cacheColorHint="#efeeef"
+			android:divider="#e1dbdb"
+			android:dividerHeight="1dp"
+			android:layout_width="fill_parent" 
+			android:layout_height="fill_parent" />
+	</FrameLayout>
+</LinearLayout>
+	
+
+

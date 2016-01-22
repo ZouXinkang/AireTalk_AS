@@ -1,0 +1,844 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Manifest Merging:
+-----------------
+Your project uses libraries that provide manifests, and your Eclipse
+project did not explicitly turn on manifest merging. In Android Gradle
+projects, manifests are always merged (meaning that contents from your
+libraries' manifests will be merged into the app manifest. If you had
+manually copied contents from library manifests into your app manifest
+you may need to remove these for the app to build correctly.
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+From AireTalkPH:
+* .gitignore
+* _AireTalkPH_TML_changelog.txt
+* __MACOSX/
+* __MACOSX/._AndroidManifest.xml
+* __MACOSX/._proguard-paypal.cnf
+* __MACOSX/._proguard.cfg
+* __MACOSX/libs/
+* __MACOSX/libs/._.DS_Store
+* __MACOSX/libs/._android-support-v4.jar
+* __MACOSX/libs/._armeabi
+* __MACOSX/libs/._armeabi-v7a
+* __MACOSX/libs/armeabi-v7a/
+* __MACOSX/libs/armeabi-v7a/._.DS_Store
+* __MACOSX/libs/armeabi-v7a/._libncodec.so
+* __MACOSX/libs/armeabi-v7a/._libscodec.so
+* __MACOSX/libs/armeabi-v7a/._libupnp.so
+* __MACOSX/libs/armeabi/
+* __MACOSX/libs/armeabi/._libncodec.so
+* __MACOSX/libs/armeabi/._libscodec.so
+* __MACOSX/libs/armeabi/._libupnp.so
+* __MACOSX/proguard/
+* __MACOSX/proguard/._mapping.txt
+* __MACOSX/res/
+* __MACOSX/res/._.DS_Store
+* __MACOSX/res/drawable-large/
+* __MACOSX/res/drawable-large/._.DS_Store
+* __MACOSX/res/drawable-large/._frame_bg.png
+* __MACOSX/res/drawable/
+* __MACOSX/res/drawable/._.DS_Store
+* __MACOSX/res/drawable/._add.png
+* __MACOSX/res/drawable/._add_group.png
+* __MACOSX/res/drawable/._add_group_s.png
+* __MACOSX/res/drawable/._add_user.png
+* __MACOSX/res/drawable/._aire_icon.png
+* __MACOSX/res/drawable/._aire_logo.png
+* __MACOSX/res/drawable/._aire_logo_2.png
+* __MACOSX/res/drawable/._aire_logo_small.png
+* __MACOSX/res/drawable/._att_small_normal.png
+* __MACOSX/res/drawable/._att_small_pressed.png
+* __MACOSX/res/drawable/._audio_msg.png
+* __MACOSX/res/drawable/._back.png
+* __MACOSX/res/drawable/._balloon_tail_right.png
+* __MACOSX/res/drawable/._big_mic.png
+* __MACOSX/res/drawable/._bighead.png
+* __MACOSX/res/drawable/._bkimg_dawn.jpg
+* __MACOSX/res/drawable/._bkimg_day.jpg
+* __MACOSX/res/drawable/._bkimg_night.jpg
+* __MACOSX/res/drawable/._bkimg_sunset.jpg
+* __MACOSX/res/drawable/._black.png
+* __MACOSX/res/drawable/._blacklist.png
+* __MACOSX/res/drawable/._blank.jpg
+* __MACOSX/res/drawable/._blankbackground.jpg
+* __MACOSX/res/drawable/._block.png
+* __MACOSX/res/drawable/._block_big.png
+* __MACOSX/res/drawable/._blue.png
+* __MACOSX/res/drawable/._bluetooth.png
+* __MACOSX/res/drawable/._btn_map.png
+* __MACOSX/res/drawable/._btn_pic_disabled.png
+* __MACOSX/res/drawable/._btn_pic_normal.png
+* __MACOSX/res/drawable/._btn_video.png
+* __MACOSX/res/drawable/._btn_vmemo.png
+* __MACOSX/res/drawable/._btnpic.png
+* __MACOSX/res/drawable/._business.png
+* __MACOSX/res/drawable/._buy.png
+* __MACOSX/res/drawable/._call_log.png
+* __MACOSX/res/drawable/._channels.png
+* __MACOSX/res/drawable/._classes.png
+* __MACOSX/res/drawable/._clear.png
+* __MACOSX/res/drawable/._close.png
+* __MACOSX/res/drawable/._cloud1.png
+* __MACOSX/res/drawable/._cloud2.png
+* __MACOSX/res/drawable/._comment.png
+* __MACOSX/res/drawable/._compose.png
+* __MACOSX/res/drawable/._conf.png
+* __MACOSX/res/drawable/._conference.png
+* __MACOSX/res/drawable/._delete.png
+* __MACOSX/res/drawable/._delete_small.png
+* __MACOSX/res/drawable/._done.png
+* __MACOSX/res/drawable/._driving.png
+* __MACOSX/res/drawable/._dropdown.png
+* __MACOSX/res/drawable/._dropdown_up.png
+* __MACOSX/res/drawable/._eject_normal.png
+* __MACOSX/res/drawable/._eject_pressed.png
+* __MACOSX/res/drawable/._em001.gif
+* __MACOSX/res/drawable/._em002.gif
+* __MACOSX/res/drawable/._em003.gif
+* __MACOSX/res/drawable/._em004.gif
+* __MACOSX/res/drawable/._em005.gif
+* __MACOSX/res/drawable/._em006.gif
+* __MACOSX/res/drawable/._em007.gif
+* __MACOSX/res/drawable/._em008.gif
+* __MACOSX/res/drawable/._em009.gif
+* __MACOSX/res/drawable/._em010.gif
+* __MACOSX/res/drawable/._em011.gif
+* __MACOSX/res/drawable/._em012.gif
+* __MACOSX/res/drawable/._em013.gif
+* __MACOSX/res/drawable/._em014.gif
+* __MACOSX/res/drawable/._em015.gif
+* __MACOSX/res/drawable/._em016.gif
+* __MACOSX/res/drawable/._em017.gif
+* __MACOSX/res/drawable/._em018.gif
+* __MACOSX/res/drawable/._em019.gif
+* __MACOSX/res/drawable/._em020.gif
+* __MACOSX/res/drawable/._em021.gif
+* __MACOSX/res/drawable/._em022.gif
+* __MACOSX/res/drawable/._em023.gif
+* __MACOSX/res/drawable/._em024.gif
+* __MACOSX/res/drawable/._em025.gif
+* __MACOSX/res/drawable/._em026.gif
+* __MACOSX/res/drawable/._em027.gif
+* __MACOSX/res/drawable/._em028.gif
+* __MACOSX/res/drawable/._em029.gif
+* __MACOSX/res/drawable/._em030.gif
+* __MACOSX/res/drawable/._em031.gif
+* __MACOSX/res/drawable/._em032.gif
+* __MACOSX/res/drawable/._em033.gif
+* __MACOSX/res/drawable/._em034.gif
+* __MACOSX/res/drawable/._em035.gif
+* __MACOSX/res/drawable/._em036.gif
+* __MACOSX/res/drawable/._em037.gif
+* __MACOSX/res/drawable/._em038.gif
+* __MACOSX/res/drawable/._em039.gif
+* __MACOSX/res/drawable/._em040.gif
+* __MACOSX/res/drawable/._em041.gif
+* __MACOSX/res/drawable/._em042.gif
+* __MACOSX/res/drawable/._em043.gif
+* __MACOSX/res/drawable/._em044.gif
+* __MACOSX/res/drawable/._em045.gif
+* __MACOSX/res/drawable/._em046.gif
+* __MACOSX/res/drawable/._em047.gif
+* __MACOSX/res/drawable/._em048.gif
+* __MACOSX/res/drawable/._em049.gif
+* __MACOSX/res/drawable/._em050.gif
+* __MACOSX/res/drawable/._em051.gif
+* __MACOSX/res/drawable/._em052.gif
+* __MACOSX/res/drawable/._em053.gif
+* __MACOSX/res/drawable/._em054.gif
+* __MACOSX/res/drawable/._em055.gif
+* __MACOSX/res/drawable/._em056.gif
+* __MACOSX/res/drawable/._em057.gif
+* __MACOSX/res/drawable/._em058.gif
+* __MACOSX/res/drawable/._em059.gif
+* __MACOSX/res/drawable/._em060.gif
+* __MACOSX/res/drawable/._em061.gif
+* __MACOSX/res/drawable/._em062.gif
+* __MACOSX/res/drawable/._em063.gif
+* __MACOSX/res/drawable/._em064.gif
+* __MACOSX/res/drawable/._em065.gif
+* __MACOSX/res/drawable/._em066.gif
+* __MACOSX/res/drawable/._em067.gif
+* __MACOSX/res/drawable/._em068.gif
+* __MACOSX/res/drawable/._em069.gif
+* __MACOSX/res/drawable/._em070.gif
+* __MACOSX/res/drawable/._em071.gif
+* __MACOSX/res/drawable/._em072.gif
+* __MACOSX/res/drawable/._em073.gif
+* __MACOSX/res/drawable/._em074.gif
+* __MACOSX/res/drawable/._em075.gif
+* __MACOSX/res/drawable/._em076.gif
+* __MACOSX/res/drawable/._em077.gif
+* __MACOSX/res/drawable/._em078.gif
+* __MACOSX/res/drawable/._em079.gif
+* __MACOSX/res/drawable/._em080.gif
+* __MACOSX/res/drawable/._em081.gif
+* __MACOSX/res/drawable/._em082.gif
+* __MACOSX/res/drawable/._em083.gif
+* __MACOSX/res/drawable/._em084.gif
+* __MACOSX/res/drawable/._em085.gif
+* __MACOSX/res/drawable/._em086.gif
+* __MACOSX/res/drawable/._em087.gif
+* __MACOSX/res/drawable/._em088.gif
+* __MACOSX/res/drawable/._em089.gif
+* __MACOSX/res/drawable/._em090.gif
+* __MACOSX/res/drawable/._em091.gif
+* __MACOSX/res/drawable/._em092.gif
+* __MACOSX/res/drawable/._em093.gif
+* __MACOSX/res/drawable/._em094.gif
+* __MACOSX/res/drawable/._em095.gif
+* __MACOSX/res/drawable/._em096.gif
+* __MACOSX/res/drawable/._em097.gif
+* __MACOSX/res/drawable/._em098.gif
+* __MACOSX/res/drawable/._em099.gif
+* __MACOSX/res/drawable/._em100.gif
+* __MACOSX/res/drawable/._empty.png
+* __MACOSX/res/drawable/._empty_online.png
+* __MACOSX/res/drawable/._empty_trash.png
+* __MACOSX/res/drawable/._facebook.png
+* __MACOSX/res/drawable/._facebook_logo.png
+* __MACOSX/res/drawable/._file.png
+* __MACOSX/res/drawable/._file_mp4.png
+* __MACOSX/res/drawable/._file_pdf.png
+* __MACOSX/res/drawable/._file_word.png
+* __MACOSX/res/drawable/._fileupload.png
+* __MACOSX/res/drawable/._folder.png
+* __MACOSX/res/drawable/._frame_bg.png
+* __MACOSX/res/drawable/._func_call_disabled.png
+* __MACOSX/res/drawable/._func_call_enabled.png
+* __MACOSX/res/drawable/._func_chat.png
+* __MACOSX/res/drawable/._func_file.png
+* __MACOSX/res/drawable/._func_less.png
+* __MACOSX/res/drawable/._func_loc_2.png
+* __MACOSX/res/drawable/._func_loc_disabled.png
+* __MACOSX/res/drawable/._func_loc_enabled.png
+* __MACOSX/res/drawable/._func_more.png
+* __MACOSX/res/drawable/._func_pic.png
+* __MACOSX/res/drawable/._func_video_disabled.png
+* __MACOSX/res/drawable/._func_video_enabled.png
+* __MACOSX/res/drawable/._func_vm_disabled.png
+* __MACOSX/res/drawable/._func_vm_enabled.png
+* __MACOSX/res/drawable/._func_wt_disabled.png
+* __MACOSX/res/drawable/._func_wt_enabled.png
+* __MACOSX/res/drawable/._galaxy.jpg
+* __MACOSX/res/drawable/._gray.png
+* __MACOSX/res/drawable/._green.png
+* __MACOSX/res/drawable/._group_bg.png
+* __MACOSX/res/drawable/._group_empty.png
+* __MACOSX/res/drawable/._group_head.png
+* __MACOSX/res/drawable/._guard.png
+* __MACOSX/res/drawable/._help.png
+* __MACOSX/res/drawable/._history.png
+* __MACOSX/res/drawable/._hold_off.png
+* __MACOSX/res/drawable/._hold_on.png
+* __MACOSX/res/drawable/._ic_progress.png
+* __MACOSX/res/drawable/._ic_progress_w.png
+* __MACOSX/res/drawable/._icon_incall.png
+* __MACOSX/res/drawable/._icon_sms.png
+* __MACOSX/res/drawable/._ignore.png
+* __MACOSX/res/drawable/._jpg.png
+* __MACOSX/res/drawable/._k_0.png
+* __MACOSX/res/drawable/._k_1.png
+* __MACOSX/res/drawable/._k_2.png
+* __MACOSX/res/drawable/._k_3.png
+* __MACOSX/res/drawable/._k_4.png
+* __MACOSX/res/drawable/._k_5.png
+* __MACOSX/res/drawable/._k_6.png
+* __MACOSX/res/drawable/._k_7.png
+* __MACOSX/res/drawable/._k_8.png
+* __MACOSX/res/drawable/._k_9.png
+* __MACOSX/res/drawable/._k_call.png
+* __MACOSX/res/drawable/._k_del.png
+* __MACOSX/res/drawable/._k_hash.png
+* __MACOSX/res/drawable/._k_star.png
+* __MACOSX/res/drawable/._keypad_off.png
+* __MACOSX/res/drawable/._keypad_on.png
+* __MACOSX/res/drawable/._languages.jpg
+* __MACOSX/res/drawable/._led.png
+* __MACOSX/res/drawable/._likeit.png
+* __MACOSX/res/drawable/._likeit2.png
+* __MACOSX/res/drawable/._lock.png
+* __MACOSX/res/drawable/._mapview.png
+* __MACOSX/res/drawable/._missed.png
+* __MACOSX/res/drawable/._mode_grid.png
+* __MACOSX/res/drawable/._mode_list.png
+* __MACOSX/res/drawable/._more.png
+* __MACOSX/res/drawable/._msg_normal.png
+* __MACOSX/res/drawable/._msg_pressed.png
+* __MACOSX/res/drawable/._music.png
+* __MACOSX/res/drawable/._mute_off.png
+* __MACOSX/res/drawable/._mute_on.png
+* __MACOSX/res/drawable/._myloc.xml
+* __MACOSX/res/drawable/._myloc_off.png
+* __MACOSX/res/drawable/._myloc_on.png
+* __MACOSX/res/drawable/._newfeature.png
+* __MACOSX/res/drawable/._next.png
+* __MACOSX/res/drawable/._noalbum.png
+* __MACOSX/res/drawable/._novideo.jpg
+* __MACOSX/res/drawable/._offline.png
+* __MACOSX/res/drawable/._okay.png
+* __MACOSX/res/drawable/._online.png
+* __MACOSX/res/drawable/._online_light.png
+* __MACOSX/res/drawable/._orange.png
+* __MACOSX/res/drawable/._pause.png
+* __MACOSX/res/drawable/._paypal.png
+* __MACOSX/res/drawable/._paypal_verified.png
+* __MACOSX/res/drawable/._pick_bg.png
+* __MACOSX/res/drawable/._play.png
+* __MACOSX/res/drawable/._premium.png
+* __MACOSX/res/drawable/._progress.png
+* __MACOSX/res/drawable/._progress_bg.png
+* __MACOSX/res/drawable/._purple.png
+* __MACOSX/res/drawable/._radio_ind.png
+* __MACOSX/res/drawable/._radio_ind_conn.png
+* __MACOSX/res/drawable/._radio_ind_recv.png
+* __MACOSX/res/drawable/._radio_ind_send.png
+* __MACOSX/res/drawable/._ratequery.png
+* __MACOSX/res/drawable/._red.png
+* __MACOSX/res/drawable/._remove_disabled.png
+* __MACOSX/res/drawable/._remove_normal.png
+* __MACOSX/res/drawable/._remove_pressed.png
+* __MACOSX/res/drawable/._retract_normal.png
+* __MACOSX/res/drawable/._retract_pressed.png
+* __MACOSX/res/drawable/._rwt_normal.png
+* __MACOSX/res/drawable/._rwt_pressed.png
+* __MACOSX/res/drawable/._rwtbtn.xml
+* __MACOSX/res/drawable/._satellite.xml
+* __MACOSX/res/drawable/._satellite_off.png
+* __MACOSX/res/drawable/._satellite_on.png
+* __MACOSX/res/drawable/._search.png
+* __MACOSX/res/drawable/._search2.png
+* __MACOSX/res/drawable/._searchkey_normal.png
+* __MACOSX/res/drawable/._searchkey_pressed.png
+* __MACOSX/res/drawable/._seg0.png
+* __MACOSX/res/drawable/._seg1.png
+* __MACOSX/res/drawable/._seg2.png
+* __MACOSX/res/drawable/._seg3.png
+* __MACOSX/res/drawable/._seg4.png
+* __MACOSX/res/drawable/._seg5.png
+* __MACOSX/res/drawable/._seg6.png
+* __MACOSX/res/drawable/._seg7.png
+* __MACOSX/res/drawable/._seg8.png
+* __MACOSX/res/drawable/._seg9.png
+* __MACOSX/res/drawable/._sega.png
+* __MACOSX/res/drawable/._sendbtn_normal.png
+* __MACOSX/res/drawable/._sendbtn_pressed.png
+* __MACOSX/res/drawable/._setting_normal.png
+* __MACOSX/res/drawable/._setting_pressed.png
+* __MACOSX/res/drawable/._sipcall_normal.png
+* __MACOSX/res/drawable/._sipcall_pressed.png
+* __MACOSX/res/drawable/._sm67.png
+* __MACOSX/res/drawable/._sm68.png
+* __MACOSX/res/drawable/._sm71.png
+* __MACOSX/res/drawable/._smiley.png
+* __MACOSX/res/drawable/._speaker_off.png
+* __MACOSX/res/drawable/._speaker_on.png
+* __MACOSX/res/drawable/._speaking.png
+* __MACOSX/res/drawable/._standard.png
+* __MACOSX/res/drawable/._start_play.png
+* __MACOSX/res/drawable/._start_playing.png
+* __MACOSX/res/drawable/._stop_playing.png
+* __MACOSX/res/drawable/._strength.png
+* __MACOSX/res/drawable/._strength_bg.png
+* __MACOSX/res/drawable/._switch_on.png
+* __MACOSX/res/drawable/._talking.png
+* __MACOSX/res/drawable/._teal.png
+* __MACOSX/res/drawable/._timeline.png
+* __MACOSX/res/drawable/._tooltip_next.png
+* __MACOSX/res/drawable/._track.xml
+* __MACOSX/res/drawable/._track_off.png
+* __MACOSX/res/drawable/._track_on.png
+* __MACOSX/res/drawable/._traffic.xml
+* __MACOSX/res/drawable/._traffic_off.png
+* __MACOSX/res/drawable/._traffic_on.png
+* __MACOSX/res/drawable/._tune_g_left.png
+* __MACOSX/res/drawable/._tune_g_right.png
+* __MACOSX/res/drawable/._tune_gh_left.png
+* __MACOSX/res/drawable/._tune_gh_right.png
+* __MACOSX/res/drawable/._tune_gl_left.png
+* __MACOSX/res/drawable/._tune_gl_right.png
+* __MACOSX/res/drawable/._tuner.png
+* __MACOSX/res/drawable/._tuner_0.png
+* __MACOSX/res/drawable/._users_normal.png
+* __MACOSX/res/drawable/._users_pressed.png
+* __MACOSX/res/drawable/._wait1.png
+* __MACOSX/res/drawable/._wait2.png
+* __MACOSX/res/drawable/._wait3.png
+* __MACOSX/res/drawable/._wait4.png
+* __MACOSX/res/drawable/._walk.png
+* __MACOSX/res/drawable/._wtbtn_normal.png
+* __MACOSX/res/drawable/._wtbtn_pressed.png
+* __MACOSX/res/drawable/._wtout_off.png
+* __MACOSX/res/drawable/._wtout_on.png
+* __MACOSX/res/drawable/._yellow.png
+* __MACOSX/res/drawable/._yourzoom.xml
+* __MACOSX/res/drawable/._yourzoom_off.png
+* __MACOSX/res/drawable/._yourzoom_on.png
+* __MACOSX/res/layout/
+* __MACOSX/res/layout/._class_select_page.xml
+* __MACOSX/res/raw/
+* __MACOSX/res/raw/._.DS_Store
+* __MACOSX/res/raw/._wts.mp3
+* __MACOSX/res/values-ar/
+* __MACOSX/res/values-ar/._.DS_Store
+* __MACOSX/res/values-fr/
+* __MACOSX/res/values-fr/._array.xml
+* __MACOSX/res/values-fr/._strings.xml
+* __MACOSX/res/values-ko/
+* __MACOSX/res/values-ko/._strings.xml
+* __MACOSX/res/values-my/
+* __MACOSX/res/values-my/._strings.xml
+* __MACOSX/res/values/
+* __MACOSX/res/values/._array.xml
+* __MACOSX/src/
+* __MACOSX/src/._.DS_Store
+* __MACOSX/src/com/
+* __MACOSX/src/com/._.DS_Store
+* __MACOSX/src/com/pingshow/
+* __MACOSX/src/com/pingshow/._.DS_Store
+* __MACOSX/src/com/pingshow/amper/
+* __MACOSX/src/com/pingshow/amper/._.DS_Store
+* __MACOSX/src/com/pingshow/amper/._ClassSelectActivity.java
+* __MACOSX/src/com/pingshow/amper/._ConversationActivity.java
+* __MACOSX/src/com/pingshow/amper/._ProfileActivity.java
+* __MACOSX/src/com/pingshow/video/
+* __MACOSX/src/com/pingshow/video/._.DS_Store
+* __MACOSX/src/com/pingshow/voip/
+* __MACOSX/src/com/pingshow/voip/._.DS_Store
+* org.eclipse.core.resources.prefs
+* proguard-paypal.cnf
+* proguard-project.txt
+* proguard/
+* proguard/dump.txt
+* proguard/mapping.txt
+* proguard/seeds.txt
+* proguard/usage.txt
+From com_facebook_android:
+* build.gradle
+* build.xml
+* build/
+* build/generated/
+* build/generated/source/
+* build/generated/source/buildConfig/
+* build/generated/source/buildConfig/debug/
+* build/generated/source/buildConfig/debug/com/
+* build/generated/source/buildConfig/debug/com/facebook/
+* build/generated/source/buildConfig/debug/com/facebook/android/
+* build/generated/source/buildConfig/debug/com/facebook/android/BuildConfig.java
+* build/generated/source/buildConfig/test/
+* build/generated/source/buildConfig/test/debug/
+* build/generated/source/buildConfig/test/debug/com/
+* build/generated/source/buildConfig/test/debug/com/facebook/
+* build/generated/source/buildConfig/test/debug/com/facebook/android/
+* build/generated/source/buildConfig/test/debug/com/facebook/android/test/
+* build/generated/source/buildConfig/test/debug/com/facebook/android/test/BuildConfig.java
+* build/generated/source/r/
+* build/generated/source/r/debug/
+* build/generated/source/r/debug/com/
+* build/generated/source/r/debug/com/facebook/
+* build/generated/source/r/debug/com/facebook/android/
+* build/generated/source/r/debug/com/facebook/android/R.java
+* build/generated/source/r/test/
+* build/generated/source/r/test/debug/
+* build/generated/source/r/test/debug/com/
+* build/generated/source/r/test/debug/com/facebook/
+* build/generated/source/r/test/debug/com/facebook/android/
+* build/generated/source/r/test/debug/com/facebook/android/R.java
+* build/generated/source/r/test/debug/com/facebook/android/test/
+* build/generated/source/r/test/debug/com/facebook/android/test/R.java
+* build/intermediates/
+* build/intermediates/bundles/
+* build/intermediates/bundles/debug/
+* build/intermediates/bundles/debug/AndroidManifest.xml
+* build/intermediates/bundles/debug/R.txt
+* build/intermediates/bundles/debug/classes.jar
+* build/intermediates/bundles/debug/res/
+* build/intermediates/bundles/debug/res/drawable-hdpi-v4/
+* build/intermediates/bundles/debug/res/drawable-hdpi-v4/close.png
+* build/intermediates/bundles/debug/res/drawable-hdpi-v4/facebook_icon.png
+* build/intermediates/bundles/debug/res/drawable-ldpi-v4/
+* build/intermediates/bundles/debug/res/drawable-ldpi-v4/close.png
+* build/intermediates/bundles/debug/res/drawable-ldpi-v4/facebook_icon.png
+* build/intermediates/bundles/debug/res/drawable-mdpi-v4/
+* build/intermediates/bundles/debug/res/drawable-mdpi-v4/close.png
+* build/intermediates/bundles/debug/res/drawable-mdpi-v4/facebook_icon.png
+* build/intermediates/bundles/debug/res/drawable-xhdpi-v4/
+* build/intermediates/bundles/debug/res/drawable-xhdpi-v4/close.png
+* build/intermediates/bundles/debug/res/drawable/
+* build/intermediates/bundles/debug/res/drawable/close.png
+* build/intermediates/bundles/debug/res/drawable/facebook_icon.png
+* build/intermediates/classes/
+* build/intermediates/classes/debug/
+* build/intermediates/classes/debug/com/
+* build/intermediates/classes/debug/com/facebook/
+* build/intermediates/classes/debug/com/facebook/android/
+* build/intermediates/classes/debug/com/facebook/android/AsyncFacebookRunner$1.class
+* build/intermediates/classes/debug/com/facebook/android/AsyncFacebookRunner$2.class
+* build/intermediates/classes/debug/com/facebook/android/AsyncFacebookRunner$RequestListener.class
+* build/intermediates/classes/debug/com/facebook/android/AsyncFacebookRunner.class
+* build/intermediates/classes/debug/com/facebook/android/BuildConfig.class
+* build/intermediates/classes/debug/com/facebook/android/DialogError.class
+* build/intermediates/classes/debug/com/facebook/android/Facebook$1.class
+* build/intermediates/classes/debug/com/facebook/android/Facebook$DialogListener.class
+* build/intermediates/classes/debug/com/facebook/android/Facebook$ServiceListener.class
+* build/intermediates/classes/debug/com/facebook/android/Facebook$TokenRefreshServiceConnection$1.class
+* build/intermediates/classes/debug/com/facebook/android/Facebook$TokenRefreshServiceConnection.class
+* build/intermediates/classes/debug/com/facebook/android/Facebook.class
+* build/intermediates/classes/debug/com/facebook/android/FacebookError.class
+* build/intermediates/classes/debug/com/facebook/android/FbDialog$1.class
+* build/intermediates/classes/debug/com/facebook/android/FbDialog$FbWebViewClient.class
+* build/intermediates/classes/debug/com/facebook/android/FbDialog.class
+* build/intermediates/classes/debug/com/facebook/android/R$attr.class
+* build/intermediates/classes/debug/com/facebook/android/R$drawable.class
+* build/intermediates/classes/debug/com/facebook/android/R.class
+* build/intermediates/classes/debug/com/facebook/android/Util.class
+* build/intermediates/incremental/
+* build/intermediates/incremental/aidl/
+* build/intermediates/incremental/aidl/debug/
+* build/intermediates/incremental/aidl/debug/dependency.store
+* build/intermediates/incremental/aidl/test/
+* build/intermediates/incremental/aidl/test/debug/
+* build/intermediates/incremental/aidl/test/debug/dependency.store
+* build/intermediates/incremental/mergeAssets/
+* build/intermediates/incremental/mergeAssets/debug/
+* build/intermediates/incremental/mergeAssets/debug/merger.xml
+* build/intermediates/incremental/mergeAssets/test/
+* build/intermediates/incremental/mergeAssets/test/debug/
+* build/intermediates/incremental/mergeAssets/test/debug/merger.xml
+* build/intermediates/incremental/mergeResources/
+* build/intermediates/incremental/mergeResources/test/
+* build/intermediates/incremental/mergeResources/test/debug/
+* build/intermediates/incremental/mergeResources/test/debug/merger.xml
+* build/intermediates/incremental/packageResources/
+* build/intermediates/incremental/packageResources/debug/
+* build/intermediates/incremental/packageResources/debug/merger.xml
+* build/intermediates/manifests/
+* build/intermediates/manifests/test/
+* build/intermediates/manifests/test/debug/
+* build/intermediates/manifests/test/debug/AndroidManifest.xml
+* build/intermediates/manifests/tmp/
+* build/intermediates/manifests/tmp/manifestMerger4340307570457967730.xml
+* build/intermediates/res/
+* build/intermediates/res/resources-debug-test.ap_
+* build/intermediates/res/test/
+* build/intermediates/res/test/debug/
+* build/intermediates/res/test/debug/drawable-hdpi-v4/
+* build/intermediates/res/test/debug/drawable-hdpi-v4/close.png
+* build/intermediates/res/test/debug/drawable-hdpi-v4/facebook_icon.png
+* build/intermediates/res/test/debug/drawable-ldpi-v4/
+* build/intermediates/res/test/debug/drawable-ldpi-v4/close.png
+* build/intermediates/res/test/debug/drawable-ldpi-v4/facebook_icon.png
+* build/intermediates/res/test/debug/drawable-mdpi-v4/
+* build/intermediates/res/test/debug/drawable-mdpi-v4/close.png
+* build/intermediates/res/test/debug/drawable-mdpi-v4/facebook_icon.png
+* build/intermediates/res/test/debug/drawable-xhdpi-v4/
+* build/intermediates/res/test/debug/drawable-xhdpi-v4/close.png
+* build/intermediates/res/test/debug/drawable/
+* build/intermediates/res/test/debug/drawable/close.png
+* build/intermediates/res/test/debug/drawable/facebook_icon.png
+* build/intermediates/symbols/
+* build/intermediates/symbols/test/
+* build/intermediates/symbols/test/debug/
+* build/intermediates/symbols/test/debug/R.txt
+* build/outputs/
+* build/outputs/aar/
+* build/outputs/aar/com_facebook_android-debug.aar
+* build/tmp/
+* build/tmp/packageDebugJar/
+* build/tmp/packageDebugJar/MANIFEST.MF
+* com_facebook_android.iml
+* proguard-project.txt
+From com_weibo_android:
+* Android平台微博SDK说明文档.docx
+* README.txt
+* build.gradle
+* build/
+* build/generated/
+* build/generated/source/
+* build/generated/source/buildConfig/
+* build/generated/source/buildConfig/debug/
+* build/generated/source/buildConfig/debug/com/
+* build/generated/source/buildConfig/debug/com/weibo/
+* build/generated/source/buildConfig/debug/com/weibo/android/
+* build/generated/source/buildConfig/debug/com/weibo/android/BuildConfig.java
+* build/generated/source/buildConfig/test/
+* build/generated/source/buildConfig/test/debug/
+* build/generated/source/buildConfig/test/debug/com/
+* build/generated/source/buildConfig/test/debug/com/weibo/
+* build/generated/source/buildConfig/test/debug/com/weibo/android/
+* build/generated/source/buildConfig/test/debug/com/weibo/android/test/
+* build/generated/source/buildConfig/test/debug/com/weibo/android/test/BuildConfig.java
+* build/generated/source/r/
+* build/generated/source/r/debug/
+* build/generated/source/r/debug/com/
+* build/generated/source/r/debug/com/weibo/
+* build/generated/source/r/debug/com/weibo/android/
+* build/generated/source/r/debug/com/weibo/android/R.java
+* build/generated/source/r/test/
+* build/generated/source/r/test/debug/
+* build/generated/source/r/test/debug/com/
+* build/generated/source/r/test/debug/com/weibo/
+* build/generated/source/r/test/debug/com/weibo/android/
+* build/generated/source/r/test/debug/com/weibo/android/R.java
+* build/generated/source/r/test/debug/com/weibo/android/test/
+* build/generated/source/r/test/debug/com/weibo/android/test/R.java
+* build/intermediates/
+* build/intermediates/bundles/
+* build/intermediates/bundles/debug/
+* build/intermediates/bundles/debug/AndroidManifest.xml
+* build/intermediates/bundles/debug/R.txt
+* build/intermediates/bundles/debug/classes.jar
+* build/intermediates/bundles/debug/res/
+* build/intermediates/bundles/debug/res/drawable-hdpi-v4/
+* build/intermediates/bundles/debug/res/drawable-hdpi-v4/bg_btn.png
+* build/intermediates/bundles/debug/res/drawable-hdpi-v4/bg_content.9.png
+* build/intermediates/bundles/debug/res/drawable-hdpi-v4/bg_delwords_nor.png
+* build/intermediates/bundles/debug/res/drawable-hdpi-v4/bg_delwords_sel.png
+* build/intermediates/bundles/debug/res/drawable-hdpi-v4/bg_title.9.png
+* build/intermediates/bundles/debug/res/drawable-hdpi-v4/close_normal.png
+* build/intermediates/bundles/debug/res/drawable-hdpi-v4/close_press.png
+* build/intermediates/bundles/debug/res/drawable-hdpi-v4/del_pic.png
+* build/intermediates/bundles/debug/res/drawable-hdpi-v4/dialog_bg.9.png
+* build/intermediates/bundles/debug/res/drawable-hdpi-v4/dota.jpg
+* build/intermediates/bundles/debug/res/drawable-hdpi-v4/icon.png
+* build/intermediates/bundles/debug/res/drawable-hdpi-v4/icon_delwords.png
+* build/intermediates/bundles/debug/res/drawable-hdpi-v4/title_logo.png
+* build/intermediates/bundles/debug/res/drawable-ldpi-v4/
+* build/intermediates/bundles/debug/res/drawable-ldpi-v4/icon.png
+* build/intermediates/bundles/debug/res/drawable-mdpi-v4/
+* build/intermediates/bundles/debug/res/drawable-mdpi-v4/close_normal.png
+* build/intermediates/bundles/debug/res/drawable-mdpi-v4/close_press.png
+* build/intermediates/bundles/debug/res/drawable-mdpi-v4/del_pic.png
+* build/intermediates/bundles/debug/res/drawable-mdpi-v4/icon.png
+* build/intermediates/bundles/debug/res/drawable-mdpi-v4/image_background.9.png
+* build/intermediates/bundles/debug/res/drawable-mdpi-v4/title_logo.png
+* build/intermediates/bundles/debug/res/drawable/
+* build/intermediates/bundles/debug/res/drawable/bg_delwords.xml
+* build/intermediates/bundles/debug/res/drawable/close_selector.xml
+* build/intermediates/bundles/debug/res/layout/
+* build/intermediates/bundles/debug/res/layout/share_mblog_view.xml
+* build/intermediates/bundles/debug/res/values/
+* build/intermediates/bundles/debug/res/values/values.xml
+* build/intermediates/classes/
+* build/intermediates/classes/debug/
+* build/intermediates/classes/debug/android/
+* build/intermediates/classes/debug/android/net/
+* build/intermediates/classes/debug/android/net/http/
+* build/intermediates/classes/debug/android/net/http/SslError.class
+* build/intermediates/classes/debug/android/webkit/
+* build/intermediates/classes/debug/android/webkit/WebViewClient.class
+* build/intermediates/classes/debug/com/
+* build/intermediates/classes/debug/com/weibo/
+* build/intermediates/classes/debug/com/weibo/android/
+* build/intermediates/classes/debug/com/weibo/android/BuildConfig.class
+* build/intermediates/classes/debug/com/weibo/android/R$attr.class
+* build/intermediates/classes/debug/com/weibo/android/R$color.class
+* build/intermediates/classes/debug/com/weibo/android/R$dimen.class
+* build/intermediates/classes/debug/com/weibo/android/R$drawable.class
+* build/intermediates/classes/debug/com/weibo/android/R$id.class
+* build/intermediates/classes/debug/com/weibo/android/R$layout.class
+* build/intermediates/classes/debug/com/weibo/android/R$string.class
+* build/intermediates/classes/debug/com/weibo/android/R$style.class
+* build/intermediates/classes/debug/com/weibo/android/R.class
+* build/intermediates/classes/debug/com/weibo/net/
+* build/intermediates/classes/debug/com/weibo/net/AccessToken.class
+* build/intermediates/classes/debug/com/weibo/net/AccessTokenHeader.class
+* build/intermediates/classes/debug/com/weibo/net/AsyncWeiboRunner$1.class
+* build/intermediates/classes/debug/com/weibo/net/AsyncWeiboRunner$RequestListener.class
+* build/intermediates/classes/debug/com/weibo/net/AsyncWeiboRunner.class
+* build/intermediates/classes/debug/com/weibo/net/DialogError.class
+* build/intermediates/classes/debug/com/weibo/net/HttpHeaderFactory.class
+* build/intermediates/classes/debug/com/weibo/net/Oauth2AccessToken.class
+* build/intermediates/classes/debug/com/weibo/net/Oauth2AccessTokenHeader.class
+* build/intermediates/classes/debug/com/weibo/net/RequestHeader.class
+* build/intermediates/classes/debug/com/weibo/net/RequestToken.class
+* build/intermediates/classes/debug/com/weibo/net/RequestTokenHeader.class
+* build/intermediates/classes/debug/com/weibo/net/ShareActivity$1.class
+* build/intermediates/classes/debug/com/weibo/net/ShareActivity$2.class
+* build/intermediates/classes/debug/com/weibo/net/ShareActivity$3.class
+* build/intermediates/classes/debug/com/weibo/net/ShareActivity$4.class
+* build/intermediates/classes/debug/com/weibo/net/ShareActivity$5.class
+* build/intermediates/classes/debug/com/weibo/net/ShareActivity.class
+* build/intermediates/classes/debug/com/weibo/net/Token.class
+* build/intermediates/classes/debug/com/weibo/net/Utility$MySSLSocketFactory$1.class
+* build/intermediates/classes/debug/com/weibo/net/Utility$MySSLSocketFactory.class
+* build/intermediates/classes/debug/com/weibo/net/Utility.class
+* build/intermediates/classes/debug/com/weibo/net/Weibo$1.class
+* build/intermediates/classes/debug/com/weibo/net/Weibo.class
+* build/intermediates/classes/debug/com/weibo/net/WeiboDialog$1.class
+* build/intermediates/classes/debug/com/weibo/net/WeiboDialog$WeiboWebViewClient.class
+* build/intermediates/classes/debug/com/weibo/net/WeiboDialog.class
+* build/intermediates/classes/debug/com/weibo/net/WeiboDialogListener.class
+* build/intermediates/classes/debug/com/weibo/net/WeiboException.class
+* build/intermediates/classes/debug/com/weibo/net/WeiboParameters.class
+* build/intermediates/classes/debug/com/weibo/net/XAuthHeader.class
+* build/intermediates/incremental/
+* build/intermediates/incremental/aidl/
+* build/intermediates/incremental/aidl/debug/
+* build/intermediates/incremental/aidl/debug/dependency.store
+* build/intermediates/incremental/aidl/test/
+* build/intermediates/incremental/aidl/test/debug/
+* build/intermediates/incremental/aidl/test/debug/dependency.store
+* build/intermediates/incremental/mergeAssets/
+* build/intermediates/incremental/mergeAssets/debug/
+* build/intermediates/incremental/mergeAssets/debug/merger.xml
+* build/intermediates/incremental/mergeAssets/test/
+* build/intermediates/incremental/mergeAssets/test/debug/
+* build/intermediates/incremental/mergeAssets/test/debug/merger.xml
+* build/intermediates/incremental/mergeResources/
+* build/intermediates/incremental/mergeResources/test/
+* build/intermediates/incremental/mergeResources/test/debug/
+* build/intermediates/incremental/mergeResources/test/debug/merger.xml
+* build/intermediates/incremental/packageResources/
+* build/intermediates/incremental/packageResources/debug/
+* build/intermediates/incremental/packageResources/debug/merger.xml
+* build/intermediates/manifests/
+* build/intermediates/manifests/test/
+* build/intermediates/manifests/test/debug/
+* build/intermediates/manifests/test/debug/AndroidManifest.xml
+* build/intermediates/manifests/tmp/
+* build/intermediates/manifests/tmp/manifestMerger696443956331398351.xml
+* build/intermediates/res/
+* build/intermediates/res/resources-debug-test.ap_
+* build/intermediates/res/test/
+* build/intermediates/res/test/debug/
+* build/intermediates/res/test/debug/drawable-hdpi-v4/
+* build/intermediates/res/test/debug/drawable-hdpi-v4/bg_btn.png
+* build/intermediates/res/test/debug/drawable-hdpi-v4/bg_content.9.png
+* build/intermediates/res/test/debug/drawable-hdpi-v4/bg_delwords_nor.png
+* build/intermediates/res/test/debug/drawable-hdpi-v4/bg_delwords_sel.png
+* build/intermediates/res/test/debug/drawable-hdpi-v4/bg_title.9.png
+* build/intermediates/res/test/debug/drawable-hdpi-v4/close_normal.png
+* build/intermediates/res/test/debug/drawable-hdpi-v4/close_press.png
+* build/intermediates/res/test/debug/drawable-hdpi-v4/del_pic.png
+* build/intermediates/res/test/debug/drawable-hdpi-v4/dialog_bg.9.png
+* build/intermediates/res/test/debug/drawable-hdpi-v4/dota.jpg
+* build/intermediates/res/test/debug/drawable-hdpi-v4/icon.png
+* build/intermediates/res/test/debug/drawable-hdpi-v4/icon_delwords.png
+* build/intermediates/res/test/debug/drawable-hdpi-v4/title_logo.png
+* build/intermediates/res/test/debug/drawable-ldpi-v4/
+* build/intermediates/res/test/debug/drawable-ldpi-v4/icon.png
+* build/intermediates/res/test/debug/drawable-mdpi-v4/
+* build/intermediates/res/test/debug/drawable-mdpi-v4/close_normal.png
+* build/intermediates/res/test/debug/drawable-mdpi-v4/close_press.png
+* build/intermediates/res/test/debug/drawable-mdpi-v4/del_pic.png
+* build/intermediates/res/test/debug/drawable-mdpi-v4/icon.png
+* build/intermediates/res/test/debug/drawable-mdpi-v4/image_background.9.png
+* build/intermediates/res/test/debug/drawable-mdpi-v4/title_logo.png
+* build/intermediates/res/test/debug/drawable/
+* build/intermediates/res/test/debug/drawable/bg_delwords.xml
+* build/intermediates/res/test/debug/drawable/close_selector.xml
+* build/intermediates/res/test/debug/layout/
+* build/intermediates/res/test/debug/layout/share_mblog_view.xml
+* build/intermediates/res/test/debug/values/
+* build/intermediates/res/test/debug/values/values.xml
+* build/intermediates/symbols/
+* build/intermediates/symbols/test/
+* build/intermediates/symbols/test/debug/
+* build/intermediates/symbols/test/debug/R.txt
+* build/outputs/
+* build/outputs/aar/
+* build/outputs/aar/com_weibo_android-debug.aar
+* build/tmp/
+* build/tmp/packageDebugJar/
+* build/tmp/packageDebugJar/MANIFEST.MF
+* com_weibo_android.iml
+* proguard.cfg
+From xwalk_core_library-ARM:
+* .DS_Store
+* ant.properties
+* build.gradle
+* build.xml
+
+Replaced Jars with Dependencies:
+--------------------------------
+The importer recognized the following .jar files as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the .jar file in your project was of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the jar replacement in the import wizard and try again:
+
+android-support-v4.jar => com.android.support:support-v4:19.1.0
+android-support-v7-appcompat.jar => com.android.support:appcompat-v7:19.1.0
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+In com_facebook_android:
+* AndroidManifest.xml => com_facebook_android/src/main/AndroidManifest.xml
+* assets/ => com_facebook_android/src/main/assets
+* lint.xml => com_facebook_android/lint.xml
+* res/ => com_facebook_android/src/main/res/
+* src/ => com_facebook_android/src/main/java/
+In com_weibo_android:
+* AndroidManifest.xml => com_weibo_android/src/main/AndroidManifest.xml
+* assets/ => com_weibo_android/src/main/assets
+* lint.xml => com_weibo_android/lint.xml
+* res/ => com_weibo_android/src/main/res/
+* src/ => com_weibo_android/src/main/java/
+In xwalk_core_library-ARM:
+* AndroidManifest.xml => xwalk_core_libraryARM/src/main/AndroidManifest.xml
+* assets/ => xwalk_core_libraryARM/src/main/assets
+* libs/armeabi-v7a/libxwalkcore.so => xwalk_core_libraryARM/src/main/jniLibs/armeabi-v7a/libxwalkcore.so
+* libs/xwalk_core_library_java_app_part.jar => xwalk_core_libraryARM/libs/xwalk_core_library_java_app_part.jar
+* libs/xwalk_core_library_java_library_part.jar => xwalk_core_libraryARM/libs/xwalk_core_library_java_library_part.jar
+* lint.xml => xwalk_core_libraryARM/lint.xml
+* res/ => xwalk_core_libraryARM/src/main/res/
+* src/ => xwalk_core_libraryARM/src/main/java
+* src/README.md => xwalk_core_libraryARM/src/main/resources/README.md
+In AireTalkPH:
+* AndroidManifest.xml => aireTalkPH/src/main/AndroidManifest.xml
+* assets/ => aireTalkPH/src/main/assets/
+* common/ => aireTalkPH/src/main/java/
+* libs/BaiduLBS_Android.jar => aireTalkPH/libs/BaiduLBS_Android.jar
+* libs/apache-mime4j-0.6.jar => aireTalkPH/libs/apache-mime4j-0.6.jar
+* libs/armeabi-v7a/libBaiduMapSDK_v3_3_0_15.so => aireTalkPH/src/main/jniLibs/armeabi-v7a/libBaiduMapSDK_v3_3_0_15.so
+* libs/armeabi-v7a/libfafavoip.7.so => aireTalkPH/src/main/jniLibs/armeabi-v7a/libfafavoip.7.so
+* libs/armeabi-v7a/liblocSDK5.so => aireTalkPH/src/main/jniLibs/armeabi-v7a/liblocSDK5.so
+* libs/armeabi-v7a/libmotion.so => aireTalkPH/src/main/jniLibs/armeabi-v7a/libmotion.so
+* libs/armeabi-v7a/libncodec.so => aireTalkPH/src/main/jniLibs/armeabi-v7a/libncodec.so
+* libs/armeabi-v7a/libscodec.so => aireTalkPH/src/main/jniLibs/armeabi-v7a/libscodec.so
+* libs/armeabi-v7a/libupnp.so => aireTalkPH/src/main/jniLibs/armeabi-v7a/libupnp.so
+* libs/armeabi/libBaiduMapSDK_v3_3_0_15.so => aireTalkPH/src/main/jniLibs/armeabi/libBaiduMapSDK_v3_3_0_15.so
+* libs/armeabi/libfafavoip.so => aireTalkPH/src/main/jniLibs/armeabi/libfafavoip.so
+* libs/armeabi/liblocSDK5.so => aireTalkPH/src/main/jniLibs/armeabi/liblocSDK5.so
+* libs/armeabi/libmotion.so => aireTalkPH/src/main/jniLibs/armeabi/libmotion.so
+* libs/armeabi/libncodec.so => aireTalkPH/src/main/jniLibs/armeabi/libncodec.so
+* libs/armeabi/libscodec.so => aireTalkPH/src/main/jniLibs/armeabi/libscodec.so
+* libs/armeabi/libupnp.so => aireTalkPH/src/main/jniLibs/armeabi/libupnp.so
+* libs/httpmime-4.0.1.jar => aireTalkPH/libs/httpmime-4.0.1.jar
+* libs/tencent_openapi.jar => aireTalkPH/libs/tencent_openapi.jar
+* libs/umeng_sdk.jar => aireTalkPH/libs/umeng_sdk.jar
+* libs/zxing.jar => aireTalkPH/libs/zxing.jar
+* lint.xml => aireTalkPH/lint.xml
+* proguard.cfg => aireTalkPH/proguard.cfg
+* res/ => aireTalkPH/src/main/res/
+* src/ => aireTalkPH/src/main/java/
+* src/com/android/internal/telephony/ITelephony.aidl => aireTalkPH/src/main/aidl/com/android/internal/telephony/ITelephony.aidl
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)

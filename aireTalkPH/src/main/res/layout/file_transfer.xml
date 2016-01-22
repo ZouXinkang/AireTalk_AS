@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+ 	android:layout_width="fill_parent"
+ 	android:layout_height="wrap_content">
+
+  	<RelativeLayout
+  		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+	
+	 	<ImageView
+			android:id="@+id/close"
+			android:src="@drawable/close"
+			android:background="@drawable/optionbtn"
+			android:padding="10dp"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentLeft="true"
+			android:layout_width="54dp"
+			android:layout_height="54dp"/>
+	 		
+	 	<ImageView
+		  	android:id="@+id/bighead"
+		  	android:background="@drawable/empty"
+		  	android:src="@drawable/bighead"
+		  	android:layout_centerVertical="true"
+		  	android:padding="7dp"
+		  	android:layout_marginLeft="50dp"
+		  	android:layout_marginTop="30dp"
+		  	android:layout_width="80dp"
+			android:layout_height="80dp"/>
+		 
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_toRightOf="@+id/bighead"
+			android:layout_centerVertical="true"
+			android:layout_marginTop="30dp"
+			android:paddingLeft="15dp"
+	  		android:layout_width="fill_parent"
+	  		android:layout_height="wrap_content">
+		 
+			<TextView android:id="@+id/displayname"
+			  	android:textSize="18sp"
+			  	android:padding="3dp"
+			  	android:text="@string/displayname"
+			  	android:textColor="#FFFFFF"
+			  	android:textStyle="bold"
+			  	android:ellipsize="end"
+			  	android:maxLines="3"
+			  	android:layout_width="fill_parent"
+			  	android:layout_height="wrap_content"/>
+		  	
+			<TextView android:id="@+id/status_label"
+			  	android:textSize="16sp"
+			  	android:text="0:00 / 0%"
+			  	android:gravity="left"
+			  	android:paddingLeft="15dp"
+			  	android:textColor="#FFFFFF"
+			  	android:layout_width="fill_parent"
+			  	android:layout_height="wrap_content"/>
+		 </LinearLayout>
+			 
+  	    <LinearLayout 
+  	    	android:id="@+id/status"
+  	    	android:orientation="horizontal"
+  	    	android:layout_marginTop="5dp" 
+  	    	android:layout_centerHorizontal="true"
+  	        android:layout_height="24dp" 
+		    android:layout_width="wrap_content">
+			
+	  	    <ImageView
+			    android:id="@+id/ind0"
+			    android:layout_height="24dp" 
+			    android:layout_width="18dp"/>
+	  	    
+	  	    <ImageView
+			    android:id="@+id/ind1"
+			    android:layout_height="24dp" 
+			    android:layout_width="18dp"/>
+	  	    
+	  	    <ImageView
+			    android:id="@+id/ind2"
+			    android:layout_height="24dp" 
+			    android:layout_width="18dp"/>
+	  	    
+	  	    <ImageView
+			    android:id="@+id/ind3"
+			    android:layout_height="24dp" 
+			    android:layout_width="18dp"/>
+  	    
+  	    </LinearLayout>
+  	    
+  	    <TextView 
+			android:id="@+id/file_info"
+			android:layout_below="@+id/bighead"
+		  	android:textSize="16sp"
+		  	android:gravity="center"
+		  	android:shadowColor="#c0000000"
+		  	android:shadowDx="0"
+		  	android:shadowDy="2"
+		  	android:shadowRadius="3"
+		  	android:lines="1"
+		  	android:ellipsize="end"
+		  	android:paddingTop="5dp"
+		  	android:paddingBottom="5dp"
+		  	android:paddingRight="20dp"
+		  	android:paddingLeft="20dp"
+		  	android:textColor="#c0FFFFA0"
+		  	android:layout_width="fill_parent"
+		  	android:layout_height="wrap_content"/>
+  	    
+  	     <com.pingshow.amper.view.ProgressBar 
+			android:id="@+id/progressbar"
+		  	android:layout_below="@+id/file_info"
+		  	android:layout_centerHorizontal="true"
+		  	android:visibility="gone"
+		  	android:layout_width="200dp"
+		  	android:layout_height="36dp"/>
+  	    
+	</RelativeLayout>
+	
+	<LinearLayout
+		android:orientation="horizontal"
+		android:gravity="center"
+		android:layout_marginBottom="10dp"
+		android:layout_gravity="center_horizontal"
+ 		android:layout_width="fill_parent"
+ 		android:layout_height="wrap_content">
+		
+		<Button
+		  	android:id="@+id/hangup"
+		  	android:text="@string/cancel"
+		  	android:textColor="#000000"
+		  	android:textSize="16sp"
+		  	android:layout_width="96dp"
+		  	android:layout_height="wrap_content"/>
+		  	
+		<Button
+		  	android:id="@+id/answer"
+		  	android:textColor="#000000"
+		  	android:textSize="16sp"
+		  	android:text="@string/OK"
+		  	android:layout_width="96dp"
+		  	android:layout_height="wrap_content"/>
+	</LinearLayout>
+</LinearLayout>
+

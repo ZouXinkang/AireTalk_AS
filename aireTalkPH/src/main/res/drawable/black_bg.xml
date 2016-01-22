@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+   <item>
+	  <shape>
+      	 <gradient
+	    	android:startColor="#c0a0a0a0"
+	    	android:centerColor="#b0707070"
+			android:endColor="#a0404040"
+			android:angle="270"/>
+		 <corners android:radius="30dip"/>
+<!-- 		 //tml*** beta ui -->
+		 <stroke android:width="2dip" android:color="#e0ffffff"/>
+	  </shape>
+   </item>
+   <item>
+	  <shape>
+	    <solid android:color="#00000000"/>
+	    <corners android:radius="30dip"/>
+	   	<stroke android:width="1dip" android:color="#80c0c0c0"/>
+	  </shape>
+   </item>
+</layer-list>

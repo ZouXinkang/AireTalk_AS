@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Animations.SplashScreen" parent="@android:Animation">
+        <item name="android:windowExitAnimation">@anim/disappear</item>
+        <item name="android:windowEnterAnimation">@anim/appear</item>
+    </style>
+
+    <style name="Theme.Transparent" parent="android:Theme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowAnimationStyle">@style/Animations.SplashScreen</item>
+    </style>
+    
+    <style name="AmperDialogTheme" parent="android:style/Theme.Dialog">
+		<item name="android:background">@null</item>
+		<item name="android:windowBackground">@drawable/popup_bg</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+	</style>
+	
+    <style name="AmperDarkDialogTheme" parent="android:style/Theme.Dialog">
+		<item name="android:background">@null</item>
+		<item name="android:windowBackground">@drawable/popup_dark_bg</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+	</style>
+	
+    <style name="BlackDialogTheme" parent="android:style/Theme.Dialog">
+		<item name="android:background">@null</item>
+		<item name="android:windowBackground">@drawable/black_bg</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+	</style>
+	
+    <style name="FileTransferDialogTheme" parent="android:style/Theme.Dialog">
+		<item name="android:background">@null</item>
+		<item name="android:windowBackground">@drawable/blue_bg</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+	</style>
+	
+    <style name="NullTheme" parent="android:style/Theme.Dialog">
+		<item name="android:background">@null</item>
+		<item name="android:windowBackground">@drawable/null_draw</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+	</style>
+	
+    <style name="SlidingDialogTheme" parent="android:style/Theme.Dialog">
+		<item name="android:background">@null</item>
+		<item name="android:windowBackground">@drawable/dim_bg</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+	</style>
+	
+    <style name="AnimationActivity" parent="@android:style/Animation.Activity">
+		<item name="android:activityOpenEnterAnimation">@anim/zoom_enter</item>
+		<item name="android:activityOpenExitAnimation">@null</item>
+		<item name="android:activityCloseEnterAnimation">@null</item>
+		<item name="android:activityCloseExitAnimation">@anim/zoom_exit</item>
+	</style>
+        
+	 <style name="ThemeActivity">
+		<item name="android:windowAnimationStyle">@style/AnimationActivity</item>
+	</style>
+
+</resources>

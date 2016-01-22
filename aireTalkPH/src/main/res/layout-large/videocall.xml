@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/video_frame"
+  android:layout_height="fill_parent" 
+  android:layout_width="fill_parent">
+<RelativeLayout
+  android:layout_height="fill_parent" 
+  android:layout_width="fill_parent">
+  
+<com.pingshow.video.display.GL2JNIView 
+    android:visibility="visible" 
+    android:layout_height="fill_parent" 
+    android:layout_width="fill_parent" 
+    android:id="@+id/video_surface">
+</com.pingshow.video.display.GL2JNIView>
+
+<TextView 
+    android:layout_height="fill_parent" 
+    android:layout_width="fill_parent"
+    android:text="@string/no_video_hint"
+    android:textColor="#c0ffffff"
+    android:textSize="20sp"
+    android:padding="60sp"
+    android:gravity="center"
+    android:visibility="gone"
+    android:id="@+id/no_video_hint"/>
+
+<SurfaceView
+    android:clickable="true"
+	android:layout_height="244dip"
+	android:layout_width="200dip"
+	android:id="@+id/video_capture_surface" 
+	android:layout_alignParentBottom="true"
+	android:layout_alignParentLeft="true"
+	android:layout_marginBottom="75dip"
+	android:layout_marginLeft="25dip"/>
+ 		
+        <LinearLayout
+            android:id="@+id/bpanel"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/cpanel"
+            android:gravity="center_vertical|right"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:weightSum="11" >
+			
+            <ImageButton
+                android:id="@+id/monitorrecord"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="3"
+                android:background="@drawable/security"
+                android:padding="5dip"
+                android:visibility="gone" />
+
+        </LinearLayout>
+        
+		<LinearLayout 
+		    android:id="@+id/cpanel"
+		    android:layout_alignParentBottom="true"
+			android:orientation="horizontal"
+			android:gravity="center_vertical"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+            android:weightSum="11">
+			
+		    <ToggleButton android:id="@+id/mute"
+				android:background="@drawable/vidoptionbtn"
+				android:paddingTop="7dip"
+				android:drawableTop="@drawable/ft_mute_btn"
+				android:textOn=""
+				android:textOff=""
+				android:layout_weight="3"
+				android:layout_width="0dp"
+				android:layout_height="50dp"/>
+		    
+		    <ImageButton android:id="@+id/hangup"
+				android:src="@drawable/hangup_phone"
+				android:background="@drawable/hangup"
+				android:padding="5dip"
+				android:layout_weight="3"
+				android:layout_width="0dp"
+				android:layout_height="50dp"/>
+				
+			<ImageButton android:id="@+id/switchcamera"
+				android:src="@drawable/switchcamera"
+				android:background="@drawable/vidoptionbtn"
+				android:padding="5dip"
+				android:layout_weight="3"
+				android:layout_width="0dp"
+				android:layout_height="50dp"/>
+            
+            <ImageButton
+                android:id="@+id/chatview"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="2"
+                android:background="@drawable/vidoptionbtn"
+                android:src="@drawable/func_chat"
+                android:padding="5dp" />
+			
+		</LinearLayout>
+		
+        <TextView
+            android:id="@+id/displayname"
+            android:layout_above="@+id/cpanel"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#a0a0a0"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="#20ffffff" />
+<!--         //tml*** chatview -->
+        <LinearLayout
+            android:visibility="gone"
+		    android:id="@+id/chatframe"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_margin="15dp"
+            android:orientation="vertical"
+            android:gravity="bottom"
+            android:weightSum="6" >
+			<LinearLayout
+	    		android:orientation="vertical"
+				android:layout_width="fill_parent"
+				android:layout_height="0dp"
+				android:layout_weight="3" >
+				<RelativeLayout 
+				    android:layout_width="wrap_content"
+					android:layout_height="wrap_content">
+					<RelativeLayout 
+					    android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:background="@drawable/titlebar">
+						<ImageView
+						    android:id="@+id/cancel" 
+						    android:src="@drawable/clear"
+						    android:background="@drawable/optionbtn"
+							android:padding="5dp"
+							android:layout_centerVertical="true"
+							android:layout_alignParentLeft="true" 
+							android:layout_width="50dp"
+							android:layout_height="50dp"/>
+					</RelativeLayout>
+				</RelativeLayout>
+				
+				<FrameLayout 
+    				android:background="#f0ecf0f1"
+				    android:id="@+id/talkframe"
+					android:layout_width="fill_parent" 
+					android:layout_height="match_parent"
+					android:layout_weight="1">
+					<ListView 
+					    android:id="@+id/talklist" 
+					    android:layout_marginBottom="0dp"
+					    android:background="#00000000"
+					    android:listSelector="@drawable/null_select"
+					    android:cacheColorHint="#00000000"
+						android:divider="#00000000" 
+						android:dividerHeight="0px"
+						android:transcriptMode="normal"
+						android:layout_width="fill_parent" 
+						android:layout_height="fill_parent" />
+				</FrameLayout>
+				
+				<FrameLayout 
+				    android:id="@+id/inputFrameLayout"
+				    android:background="@drawable/bkpanel"
+					android:layout_width="fill_parent" 
+					android:layout_height="wrap_content">
+					<RelativeLayout 
+						android:orientation="horizontal"
+						android:gravity="center_vertical"
+						android:layout_width="fill_parent" 
+						android:layout_height="50dp">
+						<Button 
+						    android:text="@string/sendmsg" 
+						    android:id="@+id/sendmsg"
+						    android:visibility="visible"
+							android:textColor="#99ffffff" 
+							android:textSize="15dip"
+							android:background="@drawable/sendbtn"
+							android:layout_alignParentRight="true" 
+							android:layout_centerVertical="true"
+							android:paddingTop="5dp"
+							android:paddingBottom="5dp"
+							android:paddingLeft="10dp"
+							android:paddingRight="10dp"
+							android:layout_margin="3dp"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"/>
+						
+						<EditText
+						    android:id="@+id/msginput" 
+						    android:hint="@string/textinput"
+						    android:textColorHint="#c0c0c0"
+							android:background="@drawable/edit_bg"
+							android:textSize="18sp"
+							android:padding="6sp"
+							android:layout_marginTop="5dp"
+							android:layout_marginBottom="5dp"
+							android:layout_marginLeft="15dp"
+							android:layout_marginRight="5dp"
+							android:layout_centerVertical="true"
+							android:maxLines="3"
+		                    android:inputType="text"
+							android:layout_toLeftOf="@+id/sendmsg"
+							android:layout_width="fill_parent" 
+							android:layout_height="wrap_content" />
+					</RelativeLayout>
+				</FrameLayout>
+			
+			</LinearLayout>
+        </LinearLayout>
+<!-- 		//***tml -->
+		
+	<LinearLayout 
+		android:id="@+id/status"
+ 		android:orientation="horizontal"
+ 		android:layout_alignParentTop="true"
+ 		android:layout_alignParentLeft="true"
+ 		android:visibility="gone"
+ 		android:layout_height="24dp" 
+	    android:layout_width="wrap_content">
+		
+  	    <ImageView
+			    android:id="@+id/ind0"
+			    android:layout_height="24dp" 
+			    android:layout_width="18dp"/>
+	  	    
+  	    <ImageView
+		    android:id="@+id/ind1"
+		    android:layout_height="24dp" 
+		    android:layout_width="18dp"/>
+  	    
+  	    <ImageView
+		    android:id="@+id/ind2"
+		    android:layout_height="24dp" 
+		    android:layout_width="18dp"/>
+  	    
+  	    <ImageView
+		    android:id="@+id/ind3"
+		    android:layout_height="24dp" 
+		    android:layout_width="18dp"/>
+ 	    
+ 	 </LinearLayout>
+<!--         //yang*** zoom -->
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:visibility="invisible" />
+            
+        <TextView
+            android:id="@+id/incv"
+            android:layout_width="40dp"
+            android:layout_height="25dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:text=""
+            android:textSize="16sp"
+            android:textColor="#ffffff"
+            android:background="#000000"
+            android:visibility="gone" />
+        
+ 	 <FrameLayout
+	    android:id="@+id/debug"
+	  	android:layout_centerInParent="true"
+	  	android:visibility="gone"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
+	    <TextView 
+	        android:id="@+id/debuginfo"
+	        android:textColor="#40f040"
+	        android:textSize="11sp"
+	        android:layout_width="fill_parent"
+			android:layout_height="wrap_content"/>
+	  </FrameLayout>
+</RelativeLayout>
+</FrameLayout>

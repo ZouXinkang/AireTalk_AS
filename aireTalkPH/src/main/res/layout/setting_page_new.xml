@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="#ecf0f1" >
+	
+    <RelativeLayout
+		android:id="@+id/title"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:layout_alignParentTop="true"
+		android:background="@drawable/titlebar" >
+        
+        <ImageButton
+            android:id="@+id/left"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/optionbtn"
+            android:src="@drawable/sm57"/>
+            
+	    <TextView
+			android:id="@+id/topic"
+            android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:gravity="center"
+			android:layout_centerInParent="true"
+			android:shadowColor="#80000000"
+			android:shadowDx="1"
+			android:shadowDy="2"
+			android:shadowRadius="2"
+			android:text="@string/setting"
+			android:textColor="#FFFFFF"
+			android:textSize="19sp"
+			android:textStyle="bold" />
+		    
+        <ImageButton
+            android:id="@+id/right"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/optionbtn"
+            android:src="@drawable/sm57"/>
+           
+    </RelativeLayout>
+	
+    <LinearLayout
+		android:id="@+id/content"
+		android:layout_width="fill_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@+id/title"
+		android:layout_above="@+id/pagenav"
+		android:orientation="vertical" >
+	
+    </LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/pagenav"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:gravity="center"
+		android:orientation="horizontal"
+		android:paddingBottom="2dp"
+		android:paddingTop="2dp"
+		android:background="@drawable/optionbar"
+		android:layout_alignParentBottom="true" >
+        
+		<Button
+			android:id="@+id/page1"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginLeft="2dp"
+			android:layout_marginRight="1dp"
+			android:layout_weight="1"
+			android:background="@drawable/tabbtn"
+			android:paddingTop="5dp"
+			android:drawablePadding="-5dp"
+			android:drawableTop="@drawable/sm57"
+			android:text="@string/friends"
+			android:textColor="#ffffff"
+			android:textSize="10dp" />
+		
+		<Button
+			android:id="@+id/page2"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="1dp"
+			android:layout_weight="1"
+			android:background="@drawable/tabbtn"
+			android:paddingTop="5dp"
+			android:drawablePadding="-5dp"
+			android:drawableTop="@drawable/sm57"
+			android:text="@string/friends"
+			android:textColor="#ffffff"
+			android:textSize="10dp" />
+		
+		<Button
+			android:id="@+id/page3"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="1dp"
+			android:layout_weight="1"
+			android:background="@drawable/tabbtn"
+			android:paddingTop="5dp"
+			android:drawablePadding="-5dp"
+			android:drawableTop="@drawable/sm57"
+			android:text="@string/friends"
+			android:textColor="#ffffff"
+			android:textSize="10dp" />
+		
+		<Button
+			android:id="@+id/page4"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="2dp"
+			android:layout_weight="1"
+			android:background="@drawable/tabbtn_focused"
+			android:paddingTop="5dp"
+			android:drawablePadding="-5dp"
+			android:drawableTop="@drawable/sm57"
+			android:text="@string/friends"
+			android:textColor="#ffffff"
+			android:textSize="10dp" />
+			
+	</LinearLayout>
+
+</RelativeLayout>

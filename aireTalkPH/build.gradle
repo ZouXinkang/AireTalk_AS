@@ -1,0 +1,33 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 'Google Inc.:Google APIs:19'
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "com.pingshow.amper"
+        minSdkVersion 10
+        targetSdkVersion 10
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles 'proguard.cfg'
+        }
+    }
+}
+
+dependencies {
+    compile project(':com_facebook_android')
+    compile project(':com_weibo_android')
+    compile project(':xwalk_core_libraryARM')
+    compile 'com.android.support:support-v4:19.1.0'
+    compile 'com.android.support:appcompat-v7:19.1.0'
+    compile files('libs/BaiduLBS_Android.jar')
+    compile files('libs/apache-mime4j-0.6.jar')
+    compile files('libs/httpmime-4.0.1.jar')
+    compile files('libs/tencent_openapi.jar')
+    compile files('libs/umeng_sdk.jar')
+    compile files('libs/zxing.jar')
+}

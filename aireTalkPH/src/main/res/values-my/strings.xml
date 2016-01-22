@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="app_name">AireTalk</string>
+<string name="contacts">အဆက္အသြယ္မ်ားါ</string>
+<string name="edit">ျပင္ပါ။</string>
+<string name="sendmsg">ေပးပို ့ပါ။</string>
+<string name="textinput">စာသား မက္ေဆ ့ခ်္</string>
+<string name="nonetwork">အင္တာနက္ ကြန္ရက္ မခ်ိတ္ဆက္ထားပါ။ ေက်းဇူးျပဳ၍ ထပ္မံၾကိဳးစားပါ။</string>
+<string name="OK">OK</string>
+<string name="next">ေနာက္ထပ္</string>
+<string name="newmessage">မက္ေဆ ့ခ်္ အသစ္</string>
+<string name="messages">မက္ေဆ ့ခ်္ မ်ား</string>
+<string name="register">မွတ္ပံုတင္ပါ။</string>
+<string name="login">ေလာ့အင္၀င္ပါ။</string>
+<string name="cancel">ပယ္ဖ်က္ပါ။</string>
+<string name="clear">ရွင္းလင္းပါ။</string>
+<string name="compose_new">မက္ေဆ ့ခ်္ အသစ္</string>
+<string name="sendto">သို ့ပို ့ပါ။</string>
+<string name="attachment">ပူးတြဲပါ ဖိုင္ (သို ့) ဗီြဒီယို မက္ေဆ့ခ်္ (သို ့) အသံ မက္ေဆ့ခ်္မ်ား</string>
+<string name="done">ျပီးျပီ။</string>
+<string name="recording_vmemo">အသံဖမ္းယူျခင္း</string>
+<string name="recording_timeup">အခ်ိန္ကုန္သြားပါျပီ။</string>
+
+<string name="i_agree">ကၽြႏု္ပ္သည္ စည္းကမ္းခ်က္၊သတ္မွတ္ခ်က္မ်ားႏွင့္ အေျခအေနမ်ားကို ဖတ္ျပီး သေဘာတူပါသည္။</string>
+<string name="eula_disagree">သင္သည္ စည္းကမ္းခ်က္၊ သတ္မွတ္ခ်က္မ်ားႏွင့္ အေျခအေနမ်ားကို သေဘာမတူခဲ့ပါ။</string>
+
+<string name="choose_attachment_type">ပူးတြဲပါ အမ်ဳိးအစားကို ေရြးခ်ယ္ပါ။</string>
+<string name="voicememo">အသံ မက္ေဆ့ခ်္</string>
+<string name="picmsg">ရုပ္ပံု မက္ေဆ့ခ်္</string>
+<string name="pickpicture">ဓါတ္ပံု သိမ္းေသာ ေနရာ(သို ့) ဖိုဒါ</string>
+<string name="takepicture">ဓါတ္ပံု ရုိက္ပါ။</string>
+<string name="choose_photo_source">ဓါတ္ပံု ၏ အရင္းအျမစ္</string>
+
+<string name="setting">ဆက္တင္မ်ား</string>
+<string name="server_ip">ဆာဗာ အင္တာနက္ ပရုိတိုေကာ</string>
+<string name="checkout">ၾကည့္ပါ။</string>
+<string name="reply">ျပန္ေျပာပါ (သို ့) ျပန္ၾကားပါ။</string>
+<string name="close">ပိတ္ပါ။</string>
+<string name="ignore">မသိက်ိဳးကၽြန္ျပဳသည္ (သို ့) လ်စ္လ်ဴ႐ႈသည္။</string>
+<string name="delete_confirm">ပယ္ဖ်က္ျခင္းကို အတည္ျပဳပါ။</string>
+<string name="delete_thread_confirm">ဤ စကားစျမည္ အျပန္အလွန္ ေျပာဆိုျခင္း ကို ဖ်က္မွာ လား?</string>
+
+<string name="in_progress">အလုပ္လုပ္ေနတုန္းျဖစ္သည္။</string>
+<string name="in_call">ေခၚဆိုေနစဥ္အတြင္း</string>
+<string name="fafayou_in_call">AireTalk သည္ ေခၚဆိုေနစဥ္အတြင္း ျဖစ္သည္။</string>
+<string name="answercallhint">အ၀င္ ေခၚဆိုျခင္းကို ေျဖေပးရန္ screen ကို slide လုပ္ပါ။</string>
+<string name="end_call">ျပီးပါျပီ။</string>
+<string name="hide_keypad">ပုန္းသည္ (သို ့) မျမင္ေအာင္ ကြယ္၀ွက္သည္။</string>
+<string name="yes">ဟုတ္တယ္ (သို ့) ဟုတ္ကဲ </string>
+<string name="no">မဟုတ္ဘူး။</string>
+<string name="unknown_person">မသိေသာ အဆက္အသြယ္</string>
+<string name="missed_call">လြတ္သြားေသာ ေခၚဆိုမႈ</string>
+<string name="unanswered_call">ေျဖဆိုျခင္းမရွိပါ။</string>
+<string name="call_duration">အခ်ိန္ကာလ (သို ့) ၾကာျမင့္ခ်ိန္</string>
+<string name="incoming_call">၀င္လာျခင္း (သို ့) အ၀င္</string>
+<string name="outgoing_call">တယ္လီဖုန္း ေခၚဆိုသည္။</string>
+<string name="phone_call">တယ္လီဖုန္း ေခၚဆိုသူ</string>
+
+<string name="username">သံုးစြဲသူအမည္</string>
+<string name="phonenumber">ဖုန္းနံပါတ္</string>
+<string name="password">စကား၀ွက္</string>
+<string name="password_confirm">အတည္ျပဳရန္ ထပ္မံထည့္သြင္းေသာ စကား၀ွက္</string>
+<string name="email">အီးေမးလ္</string>
+<string name="email_hint">အီးေမးလ္ ထည့္သြင္းရန္ လိုပါသည္။</string>
+<string name="register_immediately">မွတ္ပံုတင္ အခ်က္အလက္ မ်ားထည့္သြင္းရန္ ေပ့ခ်္သို ့သြားပါ။</string>
+
+<string name="forget_password">စကား၀ွက္ မမွတ္မိ/ေမ့ သြား ပါသလား?</string>
+<string name="passwords_dont_match">၀မ္းနည္းပါတယ္/စိတ္မေကာင္းပါဘူး။ စကား၀ွက္ သည္ တူညီ/ကိုက္ညီမႈ မရွိပါ။</string>
+<string name="password_error">၀မ္းနည္းပါတယ္/စိတ္မေကာင္းပါဘူး။ စကား၀ွက္ သည္ မွန္ကန္မႈ မရွိပါ။</string>
+<string name="nonmember">၀မ္းနည္းပါတယ္/စိတ္မေကာင္းပါဘူး။   သင္သည္ AireTalk အသင္း၀င္မဟုတ္ပါ။ ေက်းဇူးျပဳ၍ မွတ္ပံုတင္ပါ။ </string>
+<string name="username_invalid">၀မ္းနည္းပါတယ္/စိတ္မေကာင္းပါဘူး။   ဤ သံုးစြဲသူအမည္သည္ မမွန္ကန္ပါ။ အကၡရာ အေသးစာလံုး (lower case alphabet) ျဖင့္စတင္ရမည္ ျဖစ္ျပီး အနည္းဆံုး ကာရက္တာစာလံုး (၆) လံုးရွိရပါမည္။</string>
+<string name="phonenumber_hint">ဖုန္းနံပါတ္ ထည့္သြင္းရန္ လိုပါသည္။</string>
+<string name="phonenumber_invalid">၀မ္းနည္းပါတယ္/စိတ္မေကာင္းပါဘူး။ ္သင္ ထည့္သြင္းေသာ ဖုန္းနံပါတ္သည္ မွားေနပါသည္။</string>
+<string name="email_invalid">၀မ္းနည္းပါတယ္/စိတ္မေကာင္းပါဘူး။ အီးေမးလ္သည္ မွားေနပါသည္။</string>
+<string name="login_title">ေလာ့အင္၀င္ပါ။</string>
+<string name="account_exists">AireTalk အေကာင့္သည္ ရွိႏွင့္ျပီးသား ျဖစ္သည္။ ေက်းဇူးျပဳ၍ ေလာ့အင္၀င္ပါ။</string>
+<string name="retrieve_password">သင္၏ အီးေမးလ္ျဖင့္ စကား၀ွက္ကို ဆြဲထုတ္ပါ။</string>
+<string name="waiting_for_sms_to_register">စစ္ေဆးေသာ မက္ေဆ ့ခ်္ အတို() မွတဆင့္ မွတ္ပံုတင္ျခင္းကို ေပးပို ့ျပီးပါျပီ။ ေက်းဇူးျပဳ၍ ေစာင့္ေပးပါ။</string>
+<string name="sms_confirm_timeout">Verification timeout, please make sure the phone number is correct and try it again</string>
+<string name="welcome">AireTalk မွ ၾကိဳဆိုပါတယ္။</string>
+<string name="username_hint">သံုးစြဲသူအမည္ (အနည္းဆံုး အကၡရာ (၆) လံုး)</string>
+
+<string name="dial_this">ေခၚဆိုသည္။</string>
+<string name="delete_thread">စကားစျမည္ အျပန္အလွန္ ေျပာဆိုျခင္း ကို ဖ်က္သည္။</string>
+<string name="delete_msg">မက္ေဆ ့ခ်္ကို ပယ္ဖ်က္သည္။</string>
+<string name="view_contact">ေနာက္ထပ္ပိုမို</string>
+<string name="add_contact">အဆက္အသြယ္ကို ထည့္သြင္းသည္။</string>
+<string name="pickup_contact">အဆက္အသြယ္မ်ားကို ေရြးယူသည္။</string>
+<string name="surname">မ်ဴိးရုိး (ေနာက္) အမည္/နာမည္</string>
+<string name="name">အမည္</string>
+<string name="input_hint">ေခၚဆိုရန္ ဖုန္းနံပါတ္</string>
+
+<string name="location_not_found">တည္ေနရာ မေတြ ့ပါ။</string>
+<string name="nonmember_no_service">အဆက္အသြယ္သည္ Aire အသင္း၀င္မဟုတ္ပါ။</string>
+
+<string name="msg_is_sent">မက္ေဆ ့ခ်္ ပို ့ျပီးပါျပီ။</string>
+
+<string name="making_call">Calling</string>
+<string name="call_connected">ဆက္သြယ္ထားသည္။</string>
+<string name="call_end">ေခၚဆိုျခင္း ျပီးပါျပီ။</string>
+<string name="call_declined">တယ္လီဖုန္းလိုင္း မအားေသးပါ။</string>
+<string name="no_response">ျပန္လည္ေျပာဆိုျခင္း မရွိပါ။</string>
+<string name="callee_not_found">မေတြ ့ပါ။</string>
+
+<string name="new_version_found">Airetalk %s ဗားရွင္း အသစ္သည္ ယခု အသံုးျပဳႏုိင္ျပီျဖစ္သည္။ ေက်းဇူးျပဳျပီး Apple Store တြင္ ၄င္းကို အဆင့္ျမင့္ (upgrade) ပါ။</string>
+<string name="force_update"> သင္သည္ Airetalk ကို ေနာက္ဆံုး ဗားရွင္းသို ့  အဆင့္ျမင့္ (upgrade) ရမည္။</string>
+<string name="dont_worry">ူစိတ္မပူပါႏွင့္။ သင္၏ အခ်က္အလက္ သည္ အက်ဳိးသက္ေရာက္မႈ ရွိမည္ မဟုတ္ပါ။</string>
+<string name="update">ျပင္ပါ။</string>
+
+<string name="request_location_sharing">တည္ေနရာကို ခြဲေ၀သံုးရန္ ခြင့္ျပဳခ်က္ ေတာင္းဆိုပါသလား?(သေဘာတူသည္ႏွင့္ တစ္ျပိဳင္နက္ သင္၏ တည္ေနရာ မ်ားကို တစ္နာရီၾကာ ခြဲေ၀သံုးႏုိင္လိမ္ ့မည္။ )</string>
+<string name="sharing_location_request"> သူငယ္ခ်င္း အခ်င္းခ်င္း တည္ေနရာကို တစ္နာရီၾကာ ခြဲေ၀သံုးရန္ ခြင့္ျပဳခ်က္ ေတာင္းဆိုျခင္းျဖစ္သည္။ ခြင့္ျပဳသလား?</string>
+<string name="sharing_done">တည္ေနရာ သည္ ေအာင္ျမင္စြာ ခြဲေ၀သံုးႏုိင္ပါသည္။</string>
+
+<string name="displayname">ေဖာ္ျပမည့္ အမည္</string>
+<string name="photo_gallery">ဓါတ္ပံု သိမ္းေသာ ေနရာ(သို ့) ဖိုဒါ</string>
+
+<string name="friends">သူငယ္ခ်င္းမ်ား</string>
+<string name="copysms">ကူးယူပါ။</string>
+<string name="copied_to_clipboard">ကူးယူမည့္ အခ်က္မ်ား ခဏသိမ္းေသာ ေနရာကို ကူးထားပါ။</string>
+<string name="mylocation_address">ကၽြႏု္ပ္၏ တည္ေနရာ</string>
+<string name="friend_address">တည္ေနရာ</string>
+<string name="keypad">ကီးမ်ား ရွိေသာ ေနရာ</string>
+<string name="track">ေျခရာေကာက္ေသာ တည္ေနရာ</string>
+<string name="traffic">အသြားအလာ၊ အဆက္အသြယ္မ်ား</string>
+<string name="satellite">ၿဂိဳဟ္တုစေလာင္း</string>
+<string name="delete_the_contact"> အဆက္အသြယ္ကို ဖ်က္ပါ။t</string>
+<string name="back">ေနာက္သို ့</string>
+<string name="mute">အသံမထြက္ေအာင္ တိုးထားသည္။</string>
+<string name="speaker">စပီကာ။</string>
+<string name="add_call">ေခၚဆိုျခင္းကို ထည့္သြင္းပါ။</string>
+<string name="hold">ကိုင္ေဆာင္ထားပါ။</string>
+
+<string name="missed_call_remind_1">You got %d missed call(s) from</string>
+<string name="missed_call_remind_2">သင္သည္  %d လြတ္သြားေသာ ဖုန္းေခၚဆိုမူမ်ားကို ရခဲ့သည္။   AireTalk သည္ အေရးၾကီးေသာ ေခၚဆိုမႈမ်ားကို ျပန္လည္ေခၚဆိုရန္ သင္ကို သတိေပးမည္ ျဖစ္သည္။</string>
+<string name="pcode_desc">သင္သည္ စစ္ေဆးေသာ မက္ေဆ ့ခ်္ အတို (verification SMS) ကို လက္ခံရရွိျပီး ျဖစ္သည္။ ေက်းဇူးျပဳ၍ ဒစ္ဂ်စ္ နံပါတ္ (၄) လံုး ထည့္သြင္းပါ။ </string>
+<string name="help">အကူအညီ</string>
+<string name="img_error">မမွန္ကန္ေသာ ရုပ္ပံု</string>
+<string name="email_register"> ကၽြႏု္ပ္တို ့သည္ စစ္ေဆးျခင္း အီးေမးလ္ကို သင္၏ အီးေမးလ္ ကို ေပးပို ့ျပီးျဖစ္သည္။ ေက်းဇူးျပဳျပီး AireTalk အေကာင့္ကို အက္တီဗိတ္လုပ္ပါ။</string>
+<string name="login_error">စိတ္မေကာင္းပါဘူး။ ကၽြႏု္ပ္တို ့သည္ ယခုအခ်ိန္တြင္ မအားေသးပါ။ ေက်းဇူးျပဳျပီး ခဏ ေစာင့္ေပးပါ။</string>
+<string name="pwdemail_title">သင္၏ ဖုန္းနံပါတ္ (သို ့) သံုးစြဲသူအမည္ကို ထည့္သြင္းေပးပါ။ ကၽြႏု္ပ္တို ့သည္ သင္၏ အီးေမးလ္သို ့ စကား၀ွက္ကို ခ်က္ခ်င္း ေပးပို ့မည္ ျဖစ္သည္။</string>
+<string name="pwdemailfailed">စကား၀ွက္ေပးပို ့ျခင္း အီးေမးလ္ မေရာက္ပါ။အဆင္မေျပပါ။</string>
+<string name="pwdemailsuccess">အီးေမးလ္ ေအာင္ျမင္စြာ ေပးပို ့ျပီးပါျပီ။</string>
+<string name="no_sdcard">SD Card မရွိပါ (သို ့) USB Storage ကို ဆက္သြယ္ထားသည္။</string>
+<string name="no_sdcard_receive_voice_message">အသံ မက္ေဆ ့ခ်္ကို လက္ခံရန္ SD Card မရွိပါ။</string>
+<string name="no_sdcard_receive_picture_message">ရုပ္ပံုကို လက္ခံရန္ SD Card မရွိပါ။</string>
+<string name="sms_manager"> (SMS) မက္ေဆ့ခ်္ အတို ေပးပို ့ျခင္း ကို စီမံခန္ ့ခြဲပါ။</string>
+<string name="try_again">ေနာက္တစ္ၾကိမ္ ထပ္မံ၍ ၾကိဳးစားပါ။r</string>
+
+<string name="share"> Airetalk ကို ခြဲေ၀သံုး/ရွဲ ပါ။ </string>
+<string name="smile">ျပံဳးျခင္း၊ ရယ္ျခင္း၊ ငိုျခင္း၊ မဲ ့ျခင္း စေသာ ခံစားမႈမ်ား ေဖာ္ျပေသာ ရုပ္ပံုေလးမ်ား</string> 
+<string name="smiletitle">ခံစားမႈမ်ား ေဖာ္ျပေသာ အိုက္ကြန္/ကြန္ပ်ဴတာပ႐ိုဂရမ္ သေကၤတ</string> 
+
+<string name="keypad_menu_open">ကီး အသံကို ဖြင့္ထားသည္။</string>
+<string name="keypad_menu_close">ကီး အသံကို ပိတ္ထားသည္။</string>
+<string name="setnet">သြားပါ။</string>  
+<string name="add">ထည့္ပါ။</string>
+<string name="auto_notify_joins">ကၽြႏ္ုပ္သည္ ယခု AireTalk ကို အသံုးျပဳေနပါသည္။ ေက်းဇူးျပဳျပီး ယခုမွစ၍ ဤ အသံုးျပဳရန္ သင့္ေတာ္ေကာင္းမြန္ေသာ အသံုးခ် ပရုိဂရမ္ (great app) ႏွင့္ ကၽြႏ္ုပ္ကို ဖုန္းေခၚဆိုပါ။ ၄င္းသည္ အခေၾကးေငြ ေပးစရာမလိုဘဲ အသံုးျပဳႏုိင္ပါသည္။  B-}</string>
+<string name="international_sms_alert">ဤအရာသည္ အျပည္ျပည္ဆိုင္ရာ မက္ေဆ ့ခ်္ အတို ေပးပို ့ျခင္း(SMS) ျဖစ္လိမ္ ့မည္၊ သင္ ဆက္လက္ လုပ္ေဆာင္ခ်င္ ပါသလား?</string>
+
+<string name="call">ေခၚဆိုသည္။</string>
+
+<string name="notification_sound">သတိေပးျခင္း အသံ</string>
+<string name="receive_vibrate">တုန္ခါသည္။</string>
+<string name="send_vibrate">တုန္ခါသံ ေပးပို ့ျခင္း</string>
+<string name="smspopup">မက္ေဆ ့ခ်္ ထြက္ေပၚလာသည္။</string>
+
+<string name="pcode_check">ေက်းဇူးျပဳျပီး ဒစ္ဂ်စ္ နံပါတ္ (၄) လံုး ထည့္သြင္းပါ။</string>
+
+<string name="net_error">ကြန္ရက္ ဆက္သြယ္မႈ မရွိပါ ?€?</string>
+<string name="shownotification">သတိေပးျခင္း အိုက္ကြန္/ ကြန္ပ်ဴတာပ႐ိုဂရမ္ သေကၤတ</string>
+
+<string name="agree_share_sms"> ကၽြႏ္ုပ္သည္ %s အတြက္ ကၽြႏု္ပ္၏ တည္ေနရာကို ခြဲေ၀/ရွဲ ရန္ သင္ႏွင့္ သေဘာတူပါသည္။</string>
+<string name="ask_share">( တည္ေနရာကို ခြဲေ၀/ရွဲ ျခင္း ေတာင္းဆိုျခင္းကို ေပးပို ့သည္ B-})</string>
+<string name="photo_large">ဓါတ္ပံု အရြယ္အစားသည္ ၾကီးလြန္း ေနသျဖင့္ မပို ့ေပးႏုိင္ပါ။</string>
+<string name="savedraft">မူၾကမ္းအေနျဖင့္ သိမ္းခဲ့သည္။</string>
+<string name="hasaskshare"> %s သည္ သင္ႏွင့္ ခြဲေ၀သံုး၊ရွဲလုပ္ မည့္ တည္ေနရာအတြက္ေမးျမန္းသည္။</string>
+
+<string name="helper_name1">အေထာက္အပံ ့ေပးသည္။</string>
+
+<string name="interphone_smile">အသံ</string>
+<string name="send_voice_interphone">စကားေျပာရန္ ကိုင္ထားပါ။</string>
+
+<string name="fafauser_sms">မက္ေဆ ့ခ်္ အတို ေပးပို ့ျခင္း</string>
+<string name="fafauser_vmemo">အသံ</string>
+<string name="fafauser_pic">အရုပ္၊အသံ စံုလင္စြာ တင္ဆက္မႈ</string>
+<string name="fafauser_map">ရွာေဖြသည္။</string>
+
+<string name="hint_mood">အေျခအေန မက္ေဆ ့ခ်္</string>
+
+<string name="sms_parese_stringbuf">%1$s မွ %2$s ရခဲ ့သည္။</string>
+<string name="interphone">လမ္းေလ်ွာက္ စကားေျပာစက္ (ေ၀ါကီ ေတာ္ကီ)</string>
+<string name="textmessage">စာသား မက္ေဆ ့ခ်္</string>
+<string name="RecvManySms">မက္ေဆ ့ခ်္ မ်ဳိးစံုမ်ား</string>
+
+<string name="sharing_location">တည္ေနရာ ေဒသ</string>
+<string name="driving">ကားေမာင္းျခင္း</string>
+<string name="walking">လမ္းေလၽွာက္ျခင္း</string>
+<string name="path">ပတ္ လမ္းေၾကာင္း</string>
+<string name="notfound_direction">ပတ္ လမ္းေၾကာင္းကို မသံုးႏုိင္/မရႏုိင္ ပါ။</string>
+
+
+<string name="smsfail">ေပးပို ့ျခင္း မေအာင္ျမင္ပါ။ ေက်းဇူးျပဳျပီး ကြန္ပ်ဴတာကြန္ရက္ကို စစ္ေဆးပါ။</string>
+<string name="videomemo">ဗီြဒီယို မက္ေဆ ့ခ်္</string>
+<string name="video">ဗီြဒီယို </string>
+<string name="file">ဖိုင္</string>
+<string name="filememo">ဖိုင္ ေရြ ့ေျပာင္းသည္။</string>
+<string name="filememo_send">ဖိုင္ ေရြ ့ေျပာင္းျပီးျပီ %s</string>
+<string name="filememo_recv">ဖိုင္ လက္ခံရရွိ ျပီးျပီ %s</string>
+<string name="chose_file">ေပးပို ့ရန္ ဖိုင္ ကို ေရြးခ်ယ္ပါ။</string>
+
+<string name="file_othernet">ေပးပို ့ျခင္း မေအာင္ျမင္ပါ။ ေက်းဇူးျပဳျပီး ကြန္ပ်ဴတာကြန္ရက္ကို စစ္ေဆးပါ။.</string>
+<string name="file_dnnotnet">ဖိုင္ကို ေဒါင္းလုပ္ လုပ္္/ကူးယူရန္ ကြန္ပ်ဴတာကြန္ရက္ မရွိပါ။</string>
+<string name="file_dnwifinet">သင္သည္ ဤဖိုင္ကို ေဒါင္းလုပ္ လုပ္/ကူးယူ ခ်င္ပါသလား?</string>
+<string name="file_dnothernet"> ေက်းဇူးျပဳ၍ ဖိုင္ကို ေဒါင္းလုပ္ လုပ္/ကူးယူ ရန္ 3G (သို ့) WiFi ကြန္ရက္ကို အသံုးျပဳပါ။</string>
+<string name="download">ေဒါင္းလုပ္ လုပ္/ကူးယူ ပါ။</string>
+<string name="downloading">ေဒါင္းလုပ္ လုပ္/ကူးယူ ေနသည္။</string>
+<string name="downloadsucess">ေဒါင္းလုပ္ လုပ္/ကူးယူ ျခင္း ျပီးဆံုးပါျပီ။</string>
+<string name="downloaderror">ေဒါင္းလုပ္ လုပ္/ကူးယူ ျခင္း မေအာင္ျမင္ပါ။</string>
+<string name="fileandvideosingle">ဖိုင္တစ္ခုသာလွ်င္ ပူးတြဲႏုိင္ပါသည္။</string>
+<string name="file_err">ဖိုင္ အမွားျဖစ္သည္။</string>
+<string name="sd_availablespare">SD Card သည္ ျပည့္သြားပါျပီ။</string>
+<string name="sd_notfound">SD Card မရွိပါ။</string>
+<string name="recording_incall">အ၀င္ ေခၚဆိုျခင္း</string>
+<string name="filename_longerr">ဖိုင္ အမည္သည္ ရွည္လြန္းပါသည္။</string>
+<string name="save_photo_SD">မ်ားျပားေသာ မက္ေဆ ့ခ်္မ်ား</string>
+<string name="more_sms">မ်ားျပားေသာ မက္ေဆ ့ခ်္မ်ား</string>
+<string name="copyfile">သို ့ ကူးယူပါ။ </string>
+<string name="fileLarge">အမ်ားဆံုး အရြယ္အစားမွာ 100MB ျဖစ္ပါသည္။</string>
+<string name="notfound_photo">(ရုပ္ပံု မရွိပါ။)</string>
+
+<string name="filedownloading">ဖိုင္ကို ေဒါင္းလုပ္ လုပ္/ကူးယူ ေနသည္။ေက်းဇူးျပဳ၍  ေနာက္မွ ၾကိဳးစားပါ။</string>
+<string name="fileuploading">ဖိုင္ကို တင္ (upload) ေနသည္။ ေက်းဇူးျပဳ၍  ေနာက္မွ ၾကိဳးစားပါ။</string>
+
+<string name="downloadedfile">ဖိုင္ \"%s\" ကို ေရြ ့ေျပာင္းျပီးပါျပီ။</string>
+<string name="downloadedvideo">ဗီြဒီယို (vdo) ေဒါင္းလုပ္ လုပ္/ကူးယူျပီးပါျပီ။</string>
+<string name="video_err">ဗီြဒီယို ဖိုင္သည္ မရွိပါ။</string>
+<string name="nodata">ဖိုင္အရြယ္အစားမွာ သုည ျဖစ္သည္။</string>
+<string name="send_again">မက္ေဆ ့ခ်္ ျပန္ပို ့ပါ။</string>
+
+<string name="fafamissed_call">လြတ္သြားေသာ ေခၚဆိုမႈ</string>
+<string name="sysmissed_call">လြတ္သြားေသာ ေခၚဆိုမႈ</string>
+
+<string name="progress_wait">ေက်းဇူးျပဳ၍  ခဏေစာင့္ပါ။</string>
+<string name="aire_welcome_desc">AireTalk မွ ၾကိဳဆိုပါတယ္ ! :-) ဤ အသံုးခ်ပရုိဂရမ္ ႏွင့္ ပတ္သက္ျပီး    သင္ ့တြင္ ေမးခြန္းမ်ားရွိလွ်င္ ကၽြႏု္ပ္   တို ့အား ေခၚဆိုဆက္သြယ္ပါ။</string>
+<string name="txtspinner_desc">သင္သည္ ဖုန္းနံပါတ္ (သို ့)  AireTalk ID ကို ထည့္သြင္းႏုိင္ပါသည္။</string>
+<string name="findpwd">ဖုန္းနံပါတ္ (သို ့) သံုးစြဲသူ အမည္</string>
+<string name="findpwd_input_err">ေက်းဇူးျပဳ၍ မွန္ကန္ေသာ ဆဲလ္ ဖုန္းနံပါတ္ (သို ့)  AireTalk သံုးစြဲသူအမည္ ကို ထည့္သြင္းပါ။</string>
+
+<string name="bluetooth">ဘလူး တု ့</string>
+<string name="no_sim_hint">ဖုန္းတြင္ SIM card မရွိပါ၊ ေလာ့အင္ ၀င္ရန္ ဖုန္းနံပါတ္ကို ခြင့္မျပဳပါ၊ ေလာ့အင္၀င္ရန္ သံုးစြဲသူအမည္ကို အသံုးျပဳပါ။</string>
+<string name="nonsupport_googlemap">၀မ္းနည္းပါတယ္။  Google map ကို စနစ္တြင္ မေပးႏုိင္ပါ။</string>
+<string name="makesure_phonenumber_1">ကၽြႏ္ုပ္တို ့သည္ စစ္ေဆးျခင္း    မက္ေဆ ့ခ်္ အတို ကို ပို ့ေပးပါမည္။</string>
+<string name="makesure_phonenumber_2">ေက်းဇူးျပဳ၍ နံပါတ္မွန္ကန္သည္မွာ ေသခ်ာပါေစ။</string>
+<string name="take_picture_error">ကင္မရာကို ဖြင့္ရန္ အဆင္မေျပ/ မေအာင္ျမင္ ပါ။</string>
+<string name="talk_background">ေနာက္ခံ ရုပ္ပံု</string>
+
+<string name="add_photo">ဓါတ္ပံု ထည့္ပါ။</string>
+<string name="registration_body">Airetalk မွတ္ပံုတင္ျခင္း မက္ေဆ ့ခ်္၊  Airetalk ကို အသံုးျပဳျခင္းအတြက္ ေက်းဇူးတင္ပါတယ္။ ကုဒ္:</string>
+
+<string name="making_video_call">ဗီြဒီယို ေခၚဆိုျခင္း (video call) ျပဳလုပ္ဖန္တီးျခင္း</string>
+<string name="incoming_video_call">ဗီြဒီယို ေခၚဆိုျခင္း (video call) ၀င္လာျခင္း/အ၀င</string>
+
+<string name="no_video_hint">၀မ္းနည္းပါတယ္။  ဗီြဒီယို ကိုျပရန္ ကြန္ပ်ဴတာ ကြန္ရက္သည္ အရမ္းေႏွးလြန္းပါသည္။</string>
+<!-- new strings -->
+<string name="nickname">အမည္</string>
+<string name="nickname_hint">အမည္ အျပည့္အစံု</string>
+<string name="register_desc">ဤ အၾကိမ္သည္ ကၽြႏု္ပ္ AireTalk ကို အသံုးျပဳျခင္း ပထမဆံုးျဖစ္သည္။</string>
+<string name="eula_title">အသံုးျပဳသူ လိုင္စင္ သေဘာတူညီခ်က္</string>
+<string name="personal_info">ေက်းဇူးျပဳ၍ သင္၏ ကိုယ္ေရး အခ်က္အလက္မ်ားကို ျဖည့္ပါ။</string>
+
+<string name="register_desc_0">ေက်းဇူးျပဳ၍ သင္၏ အီးေမးလ္ လိပ္စာကို ထည့္ပါ၊ ကၽြႏု္ပ္တို ့သည္ သင္အား မည္သည့္ အသံုးမ၀င္ေသာ ေမးလ္မ်ား (spam mails) ပို ့မည္ မဟုတ္ပါ။ </string>
+<string name="register_desc_1">လံုျခံဳေရး ႏွင့္ ကိုယ္ေရးအခ်က္မ်ား သီးသန္ ့တည္ရွိမႈ အတြက္ ဖုန္းနံပါတ္ မွန္ကန္သည္မွာ ေသခ်ာပါေစ။</string>
+<string name="register_desc_2">ေက်းဇူးျပဳ၍ ဖြန္ပံုစံတြင္ ျဖည့္ေပးပါ၊ မွတ္ပံုတင္ျခင္း လုပ္ေဆာင္ခ်က္ မ်ားသည္  ျမန္ဆန္ျပီး လြယ္ကူပါသည္။ </string>
+<string name="login_desc_0">ေက်းဇူးျပဳ၍ တိုက္႐ိုက္ ေလာ့အင္၀င္ပါ၊ ကၽြႏု္ပ္တို ့သည္ သင္ ့အတြက္ အခ်က္အလကမ်ားကို စစ္ေဆးပါမည္။ .</string>
+<string name="login_desc_1">ေက်းဇူးျပဳ၍ မွန္ကန္ေသာ ဖုန္းနံပါတ္ ကို ထည့္သြင္းပါ။ ကၽြႏု္ပ္တို ့သည္  သင္ ့အတြက္ အခ်က္အလက္မ်ားကို စစ္ေဆးပါမည္။  </string>
+<string name="login_desc_2">ေက်းဇူးျပဳ၍ မွန္ကန္ေသာ ဖုန္းနံပါတ္ ကို ထည့္သြင္းပါ။ ကၽြႏု္ပ္တို ့သည္  သင္ ့အတြက္ အခ်က္အလက္မ်ားကို စစ္ေဆးပါမည္။ </string>
+<string name="login_nonmember">စိတ္မေကာင္းပါဘူး၊ AireTalk အသင္း၀င္ကို ရွာေဖြရန္ မျဖစ္ႏုိင္ပါ၊ ေက်းဇူးျပဳ၍ အရင္ဆံုး မွတ္ပံုတင္ပါ။</string>
+
+<string name="nickname_invalid">သင္ ့အမည္၏ စာလံုး အေရအတြက္ သည္ နည္းလြန္းသည္။ (%d အနည္းဆံုး)</string>
+
+<string name="male">ေယာက္်ား/အမ်ဳိးသား</string>
+<string name="female">မိန္းမ/အမ်ဳိးသမီး</string>
+<string name="search">သူငယ္ခ်င္းမ်ား ရွာေဖြပါ။</string>
+<string name="copyright">မူပိုင္ခြင့္ သီးသန္ ့၂၀၁၁-၂၀၁၃ Pingshow Inc.</string>
+<string name="black_list">နာမည္ဆိုး/ပ်က္ စာရင္း</string>
+<string name="block">ဘေလာ ့လုပ္/တားျမစ္ထားသည္။</string>
+<string name="unblock">တားျမစ္ထားျခင္း ျပန္ဖြင့္သည္။</string>
+<string name="put_in_blacklist">နာမည္ဆိုး/ပ်က္ စာရင္း တြင္ ထားပါ။</string>
+<string name="chat">စကား စျမည္ေျပာသည္။</string>
+<string name="videocall">ဗြီဒီယို ေခၚဆိုျခင္း</string>
+<string name="buy">၀ယ္သည္။</string>
+<string name="aire_free_call">Airetalk ဖရီး/အခေပးစရာမလိုဘဲ ေခၚဆိုျခင္း</string>
+<string name="add_as_friend">သူငယ္ခ်င္းအေနျဖင့္ လက္ခံပါ။</string>
+<string name="login_by_facebook">မ်က္ႏွာစာအုပ္/ေဖ့ဘြတ္(Facebook) ျဖင့္ မွတ္ပံုတင္ပါ။</string>
+<string name="facebook_login_desc">သင္သည္ မ်က္ႏွာစာအုပ္/ ေဖ့ဘြတ္ (Facebook) အေကာင့္ ျဖင့္ AireTalk တြင္ တိုက္ရုိက္ ေလာ့အင္၀င္ ႏုိင္ပါသည္။</string>
+<string name="read_contacts">AireTalk သည္ အဆက္အသြယ္မ်ားကုိ ဖတ္/ၾကည့္ရႈရန္ သင္၏ ခြင့္ျပဳခ်က္ကို လိုအပ္ပါသည္။ ဆက္သြယ္ရန္ အခ်က္အလက္မ်ားျဖင့္ သင္သည္ သင္၏ သူငယ္ခ်င္းမ်ားႏွင့္ ဖုန္းေခၚဆိုျခင္း၊ စကားစျမည္ ေျပာဆိုျခင္းတုိ ့ျပဳလုပ္ႏုိင္ပါသည္။</string>
+<string name="unblock_this_user">သင္သည္ နာမည္ဆိုး/ပ်က္ စာရင္းမွ သံုးစြဲသူ \"%s\" ကို ျပန္လည္ ပယ္ဖ်က္ေပးမွာ ေသခ်ာပါသလား?</string>
+<string name="accept_this_stranger">သင္သိပါလား ?  သူ/သူမ ၏ ခြင့္ျပဳခ်က္ ေတာင္းခံျခင္းကို လက္ခံခ်င္ပါသလား?</string>
+<string name="search_desc">ေက်းဇူးျပဳ၍  AireTalk သူငယ္ခ်င္း တစ္ေယာက္ကို ရွာရန္ မည္သည့္ စကားလံုးကို မဆို ထည့္သြင္းပါ။</string>
+<string name="search_result">သံုးစြဲသူ(မ်ား) ကို ေတြ ့ပါသည္။</string>
+<string name="credit">Credit: %.3f</string>
+<string name="credit_not_enough">၀မ္းနည္းပါတယ္။  သင္၏ ခရက္ဒစ္သည္ ဖုန္းေခၚဆိုရန္ မလံုေလာက္ေတာ့ပါ။</string>
+<string name="help_aire_free_call">AireCall သည္ စမ္းသံုးခြင့္အတြက္ အခေၾကးေငြ မယူပါ!  AireCall တြင္ အေတြ ့အၾကံဳရရန္ မည္သည့္ သူငယ္ခ်င္းကို မဆို ႏႈတ္ဆက္ရန္ ယခု ေခၚဆိုျခင္းျပဳလုပ္ပါ!</string>
+<string name="help_photo_is_needed">သင္၏ ပရုိဖိုင္ ဓါတ္ပံု ကို မတင္ရေသးပါ။ သင္၏ သူငယ္ခ်င္းမ်ား သင္ ့ကို မွတ္မိေစရန္ ေက်းဇူးျပဳ၍ ပရုိဖိုင္ ဓါတ္ပံု တစ္ခု တင္ေပးပါ။</string>
+<string name="help_complete_profile">AireTalk မွ ၾကိဳဆိုပါတယ္ ! ေက်းဇူးျပဳ၍ ပရုိဖိုင္ ဆက္တင္ကို ျပည့္စံုေအာင္  (အထူးသျဖင့္ သင္၏ အမည္) ျဖည့္ပါ။ေကာင္းမြန္သင့္ေတာ္ေသာ ဓါတ္ပံု တစ္ခုကို သင္ ့အတြက္ ေရြးခ်ယ္ပါ။ သင္၏ သူငယ္ခ်င္းမ်ား သင္ ့ကို မွတ္မိလိမ့္မည္ !</string>
+<string name="walkietalkie">လမ္းေလွ်ာက္စကားေျပာစက္ (ေ၀ါကီေတာ္ကီ)</string>
+<string name="wt_sound_out">လမ္းေလွ်ာက္စကားေျပာစက္ (ေ၀ါကီေတာ္ကီ) အသ</string>
+<string name="send_location">သင္၏ တည္ေနရာကို %s သို ့ပို ့ပါသလား?</string>
+<string name="loading">Loading¡­</string>
+<string name="call_back"> %s ကို ဖုန္းျပန္ ေခၚပါသလား?</string>
+<string name="possible_friends">သင္ သိခ်င္သိေနမည့္ သူငယ္ခ်င္းမ်ား</string>
+<string name="sortbyname">အမည္ျဖင့္ စီစဥ္ထားသည္။</string>
+<string name="sortbytime">အခ်ိန္ျဖင့္ စီစဥ္ထားသည္။</string>
+<string name="sortbystatus">အေျခအေန/အဆင့္အတန္း ျဖင့္ စီစဥ္ထားသည္။</string>
+<string name="joint">%d သာမန္၊ ေတြ ့ေနက် သူငယ္ခ်င္းမ်ား</string>
+<string name="weibo_sign_in"> Sina Weibo ျဖင့္ စနစ္ထဲသို ့၀င္ပါ။</string>
+<string name="share_by_email">အီးေမးလ္ျဖင့္ ရွဲလုပ္ပါ။</string>
+<string name="share_by_sms">SMS ျဖင့္ ရွဲလုပ္ပါ။</string>
+<string name="share_on_facebook">မ်က္ႏွာစာအုပ္/ေဖ့ဘြတ္(Facebook) တြင္ ရွဲလုပ္ပါ။</string>
+<string name="share_on_qq"> QQ  တြင္ ရွဲလုပ္ပါ။</string>
+<string name="share_on_weibo">Sina Weibo တြင္ ရွဲပါ။</string>
+<string name="invitation_title">ကၽြႏု္ပ္သည္ AireTalk ကို ႏွစ္သက္ ပါသည္။ ၄င္းႏွင့္အတူ ဖရီး/အခမဲ ့ ေခၚဆိုျခင္း ျပဳလုပ္ၾကပါစို ့။</string>
+<string name="invitation"> ကၽြႏု္ပ္သည္ AireTalk ကို အသံုးျပဳေနပါသည္၊  ၄င္းကို ကြန္ပ်ဴတာတြင္ (install) လုပ္ျပီး ကၽြႏု္ပ္ကုိ အခမဲ ့ေခၚဆို ႏုိင္ပါသည္ ! http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=49</string>
+<string name="weibo_login_desc">သင္သည္  သင္၏ Sina Weibo အေကာင့္ကို အသံုးျပဳျပီး AireTalk ကို တိုက္ရုိက္ ေလာ ့အင္၀င္ႏုိင္ပါသည္။</string>
+<string name="help_multiple_send">မက္ေဆ ့ခ်္ ပို ့ရန္ သူငယ္ခ်င္းမ်ား ေရြးခ်ယ္ရာတြင္ အျပာေရာင္ \'add button\'  ကို ကလစ္ႏွိပ္ပါ။ (သူငယ္ခ်င္း အမ်ားၾကီး ေရြးခ်ယ္ ျခင္းျဖင့္ တူညီေသာ မက္ေဆ ့ခ်္ ကို ေရြးခ်ယ္ထားေသာ သူအားလံုးထံသို ့ ပို ့ေပးလိမ္ ့မည္)</string>
+<string name="multi_send_location">သင္၏ တည္ေနရာကို သူတို ့ထံသို ့ပို ့ျပီးျပီလား?</string>
+<string name="shared_successfully">ေအာင္ျမင္စြာ ရွဲျပီးပါျပီ။</string>
+<string name="shared_failed">ရွဲရန္ မေအာင္ျမင္ပါ။</string>
+<string name="webcall_not_valid">၀မ္းနည္းပါတယ္။ သင္၏ ခရက္ဒစ္သည္ ဖုန္းေခၚဆိုရန္ မလံုေလာက္ေတာ့ပါ (သို ့) ဤဖုန္းနံပါတ္သည္ ယခု မမွန္ကန ္ေတာ့ပါ။</string>
+<string name="webcall_not_support">၀မ္းနည္းပါတယ္။ သင္၏ Andriod ဗားရွင္းသည္ WebCall ကို အေထာက္အပံ ့မေပးႏုိင္ပါ။</string>
+<string name="read_contacts_check">ရွာေဖြရန္ သင္၏ ဖုန္းစာအုပ္ကို ဖတ္ပါ။</string>
+<string name="rotate_right"> ညာဘက္ကို လွည့္ပါ။</string>
+<string name="rotate_left">ဘယ္ဘက္ကို လွည့္ပါ။</string>
+<string name="searching_friends">သူငယ္ခ်င္းမ်ား ရွာေနတုန္းျဖစ္သည္၊ ေက်းဇူးျပဳ၍ ခဏေစာင့္ေပးပါ။</string>
+
+<string name="searching_friends_desc">AireTalk သည္ သင္၏ ေဖ ့ဘြတ္ အေကာင့္ႏွင့္အတူ သင္ ့အတြက္ သူငယ္ခ်င္းမ်ား ရွာေပးႏုိင္ပါသည္။ ၄င္းသည္ စကၠန္ ့အနည္းငယ္သာ ၾကာမည္ ျဖစ္ပါသည္။</string>
+<string name="feedback">တံု ့ျပန္ခ်က္</string>
+
+<string name="feedback_desc">AireTalk ပိုမိုေကာင္းမြန္လာေစရန္ ေက်းဇူးျပဳ၍ အၾကံဥာဏ္ေပးပါ။ သင္ AireTalk ကို ႏွစ္သက္ပါသလား?</string>
+<string name="favor_level_1">ဟုတ္ကဲ ့၊ ကၽြႏု္ပ္ ၄င္းကို ႏွစ္သက္ပါတယ္။</string>
+<string name="favor_level_2">မဆိုးပါဘူး  :-)</string>
+<string name="favor_level_3">စသျဖင့္</string>
+<string name="favor_level_4">သိပ္ အေကာင္းၾကီး မဟုတ္ပါ။</string>
+<string name="favor_level_5">ကၽြႏု္ပ္သည္ ၄င္းကို မႏွစ္သက္ပါ။</string>
+<string name="suggsay_text">အၾကံျပဳခ်က္</string>
+<string name="sugg_checkbox1"> ညံ ့ဖ်င္းေသာ အသံ/ေအာ္ဒီယို အရည္အေသြး</string>
+<string name="sugg_checkbox2"> ညံ ့ဖ်င္းေသာ ဗီြဒီယို အရည္အေသြး</string>
+<string name="sugg_checkbox3">မက္ေဆ ့ခ်္ ေပ်ာက္သြားသည္။</string>
+<string name="sugg_checkbox4">သူငယ္ခ်င္းမ်ား ရွာမေတြ ့ပါ။</string>
+<string name="sugg_checkbox5">ကြန္ပ်ဴတာ အသံုးခ်စနစ္မွ လုပ္ေဆာင္ခ်က္ ရပ္ဆိုင္းျခင္းမ်ား</string>
+<string name="sugg_dis_text"> သင္ ့တြင္ AireTalk ႏွင့္အတူ မည္သည့္ ျပႆနာမ်ားအတြက္မဆို အေတြ ့အ ၾကံဳ ရွိပါသလား ?</string>
+<string name="feedback_has_been_sent">သင္၏ တံု ့ျပန္ခ်က္ကို ေပးပို ့ျပီးပါျပီ။ ေက်းဇူးျပဳ၍ ေနာက္ ၁ နာရီ ၾကာျပီးေနာက္မွ ျပန္လည္ ၾကိဳးစားပါ။</string>
+<string name="suggCustomer">သင္၏ အၾကံဥာဏ္အတြက္ ေက်းဇူးအမ်ားၾကီးတင္ပါတယ္။ မၾကာခင္ သင္၏ တံု ့ျပန္မႈကို စနစ္တက် လုပ္ေဆာင္ သြား ပါမည္။ AireTalk ကို ပိုမိုေကာင္းမြန္ေသာ !\n အစဥ္လိုက္ကုဒ္နံပါတ္(serial code) ျဖစ္ေအာင္ ဖန္တီးလုပ္ေဆာင္ၾကပါစို ့:</string>
+<string name="animated">႐ုပ္ပံုမ်ားကို လႈပ္ရွားသက္ဝင္သည့္ ပံုရိပ္မ်ား အျဖစ္ အသြင္ဖန္တီး  ေပးေသာ ပညာရပ္ အိုင္ကြန္ </string> 
+
+<string name="blocking_strangers">မသိေသာ မ်က္ႏွာစိမ္းမ်ားကို ဘေလာ့လုပ္ပါ။</string>
+<string name="facebook_search">မ်က္ႏွာစာအုပ္/ေဖ့ဘြတ္ မွ သူငယ္ခ်င္းမ်ား ရွာေဖြပါ။</string>
+<string name="phonebook_search">ဖုန္း စာအုပ္/မွတ္တမ္း မွ သူငယ္ခ်င္းမ်ား ရွာေဖြပါ။</string>
+
+<string name="help_public_radio">AireTalk ေရဒီယို စတူဒီယို မွ ၾကိဳဆိုပါတယ္ ! သင့္အတြက္ အမ်ဳိးမ်ဳိးေသာ ဘာသာစကားမ်ား၏ အမ်ားျပည္သူသံုးရန္ ခ်ာနယ္မ်ား ရွိပါသည္။ သင္သည္ သင္၏သူငယ္ခ်င္း (သို ့) မသိေသးေသာသူစိမ္းမ်ား ကို မည္သည့္ ခ်ာနယ္ကို မဆို စကားစျမည္ေျပာဆိုရန္ ဖိတ္ၾကားႏုိင္ပါသည္။</string>
+<string name="help_public_radio_2">တူညီေသာ ခ်ာနယ္ အသံုးျပဳေနေသာ သူတိုင္းသည္ သင္ ဘာေျပာသည္ကို ၾကားႏုိင္မည္ ျဖစ္သည္။ အစိမ္းေရာင္ မွိတ္တုတ္ မွိတ္တုတ္ျဖစ္ျခင္းသည္ ခ်ာနယ္ ဖြင့္ေနျခင္းျဖစ္သည္။ ၄င္းရပ္သြားလွ်င္ သင္သည္ button ကို ႏွိပ္ျခင္းျဖင့္ စကားစေျပာႏုိင္သည္၊ အ၀ါေရာင္ အလင္း၏ အဓိပၸါယ္မွာ တစ္စံုတစ္ေယာက္ စကား ေျပာ ေနျခင္းျဖစ္သည္။</string>
+<string name="aire_studio">အသံလႊင့္သည္။</string>
+
+<string name="the_group">အုပ္စု</string>
+<string name="create_group">အုပ္စု တစ္ခု ဖန္တီးျပဳလုပ္ပါ။</string>
+<string name="group_name">အုပ္စု အမည္</string>
+<string name="group_desc">ိေက်းဇူးျပဳျပီး သင္ အုပ္စု၏အမည္ ႏွင့္ အသင္း၀င္မ်ားကို သတ္မွတ္ပါ။ အသင္း၀င္အားလံုးသည္ မက္ေဆ ့ခ်္ မ်ားကို တစ္ျပိဳင္နက္ လက္ခံရရွိလိမ္ ့မည္။</string>
+<string name="add_in_group">%1$s သည္ သင္ ့ကို အုပ္စုတြင္ ထည့္သြင္းရန္ ဆႏၵရွိသည္ %2$s\nသင္သည္ ၄င္းေတာင္းဆုိခ်က္ကို လက္ခံခ်င္ပါ သလား?</string>
+<string name="group_number_exceeds">၀မ္းနည္းပါတယ္။  သင္ ့တြင္ အမ်ားဆံုး အုပ္စုအေရအတြက္ ရွိျပီးသား ျဖစ္ပါသည္။ အုပ္စု ထပ္ဖြဲ ့ရန္ မျဖစ္ႏုိင္ပါ။</string>
+
+<string name="file_transfer_waiting">Waiting for response</string>
+<string name="file_transfer_connected">Transferring</string>
+<string name="file_transfer_error">Transfer error</string>
+<string name="file_transfer_stop">Transfer stops</string>
+<string name="file_transfer_finished">Finished</string>
+<string name="file_transfer_incoming">Accept file transfer?</string>
+
+<string name="add_new_member_in_group">Sure to add new members?</string>
+<string name="group_invite_new_member">%1$s has been invited to Group \"%2$s\"</string>
+
+<!-- from iphone -->
+<string name="aire_call">AireCall</string>
+<string name="purchase">၀ယ္ပါ။</string>
+<string name="airecall_credits">AireCall ခရက္ဒစ္မ်ား</string>
+<string name="credit_desc">ကမၻာအႏံွ႕ မိုဘိုင္းဖုန္း ႏွင့္ လုိင္းဖုန္းမ်ားအား ေခၚဆိုရန္  AireCall အသံုးျပဳျခင္းျဖင့္ သင္၏ ေငြေၾကးကုိ အမ်ားၾကီး ေခၽြတာႏုိင္သည္။</string>
+<string name="rate_detail_desc">၄င္းစာရင္းသည္ ရည္ရြယ္ရာ ႏုိင္ငံမ်ား၏ အေသးစိတ္ ႏႈန္းထားမ်ားကို ျပသည္။</string>
+
+<string name="detail_rate">အေသးစိတ္ႏႈန္း=ရည္ရြယ္ရာ : %1$s (%2$s)\n\"%3$s ကို ေရြးခ်ယ္သည္ \"\nလိုင္းဖုန္းကို ေခၚဆိုရန္ :\n\tခန္ ့မွန္းေျခ %4$s $%5$.3f per min \n\t(ခန္ ့မွန္းေျခ %6$s %7$s%8$.2f)\n\nမိုဘိုင္းဖုန္းအား ေခၚဆိုရန္ :\n\tခန္ ့မွန္းေျခ %9$s $%10$.3f per minute\n\t(ခန္ ့မွန္းေျခ %11$s %12$s%13$.2f)\n\n\n</string>
+
+<string name="rate_statement">ႏႈန္းထားမ်ားသည္ ျပည္တြင္း ေငြေၾကး စနစ္ ႏႈန္းထား (သို ့) မတူညီေသာ တယ္လီကြန္ျမဴနီေကးရွင္း ကုမၸဏီမ်ား ေၾကာင့္ အေျပာင္းအလဲမ်ား ရွိမည္ ျဖစ္သည္။ ႏႈန္းထား ဇယားမ်ား သည္ ၄င္း ႏုိင္ငံမ်ားတြင္ အနိမ္ ့ဆံုး ႏႈန္းမ်ားျဖစ္သည္။</string>
+
+<string name="thank_you_for_purchase">၀ယ္ယူျခင္း အတြက္ ေက်းဇူးတင္ပါတယ္။</string>
+<string name="trade_detail">အေရာင္းအ၀ယ္၊ လုပ္ငန္းမ်ား</string>
+
+<string name="query_rate">ႏႈန္းထားကို စစ္ေဆးပါ။</string>
+<string name="query_rate_desc">သင္သည္ ကမၻာအႏံွ႕ မွ မည္သည့္ ဖုန္းနံပါတ္ ကို မဆို  ထည့္သြင္း ႏုိင္ပါသည္။</string>
+<string name="any_phone_number">မည္သည့္ ဖုန္းနံပါတ္မဆို</string>
+<string name="precise_rate">တိက်ေသာ ႏႈန္းထား=တစ္မိနစ္အတြက္ %1$s $%2$.3f,\n ခန္ ့မွန္းေျခ %3$s %4$s%5$.2f per minute\n\n%6$s\n(%7$s)</string>
+
+<string name="class_selection">ေခၚဆိုျခင္း အဆင့္ ေရြးခ်ယ္ျခင္း</string>
+<string name="class_desc">ကၽြႏု္ပ္တို ့သည္ သင္ကို  AireCall အတြက္ ေရာက္တင္း (routing) အမ်ဳိးအစား (၃) မ်ဳိး ေပးထားပါတယ္။ ပို ျမင့္ေသာ အမ်ဳိးအစားသည္ ေငြေၾကး အနည္းငယ္ ပို၍ ကုန္က်မည္ ျဖစ္ျပီး သင္အား ပိုေကာင္းမြန္ေသာ ၀န္ေဆာင္မႈကို ေပးလိမ္ ့မည္။</string>
+<string name="standard_class">ပံုမွန္ အဆင့္</string>
+<string name="premium_class">ပရီမီယံ အဆင့္</string>
+<string name="business_class">စီးပြားေရး အဆင့္</string>
+
+<string name="standard_desc">ပံုမွန္ အဆင့္သည္ ေကာင္းမြန္ေသာ အရည္အေသြးျဖင့္ ေစ်းႏႈန္းသင့္တင့္ေသာ စီမံခ်က္အတြက္ အသင့္ေတာ္ဆံုး ျဖစ္သည္။</string>
+<string name="premium_desc">ပရီမီယံ အဆင့္သည္ ေခၚဆိုသူ၏ ID ကို ျပႏုိင္ေသာ အရည္အေသြးျမင့္ေသာ လိုင္းအတြက္ ျဖစ္သည္။</string>
+<string name="business_desc">ေခၚဆိုသူ၏ ID ကို ျပႏုိင္ေသာ အရည္အေသြးအျမင့္ဆံုး စီမံခ်က္ျဖစ္ျပီး ေခၚဆိုျခင္း အရည္အေသြးသည္ တိုက္ရုိက္ ဖုန္းေခၚဆိုမႈ ထက္သာလြန္ ေကာင္းမြန္ျခင္း (သို ့) ထပ္တူျဖစ္ျခင္း ရွိပါသည္။</string>
+
+<string name="please_visit">ေက်းဇူးျပဳ၍ ကၽြႏု္ပ္တို ့၏ ဆိုက္တ္(site)  သို ့၀ယ္ယူသံုးစြဲရန္ လာခဲ ့ပါ :</string>
+<string name="call_log">ေခၚဆိုထားေသာ မွတ္တမ္း</string>
+<string name="home_guard">အိမ္ လံုျခံဳေရး</string>
+<string name="send_suvei">သင္သည္ Surveillance command ကို %s ဆီသို ့ ေပးပို ့ခ်င္ပါသလား?</string>
+<string name="start">Start</string>
+<string name="stop">Stop</string>
+
+<string name="delete_this_call_log">Delete the call log</string>
+<string name="delete_all_call_log">Delete all call logs</string>
+
+<string name="create_topic">Create a topic</string>
+<string name="topic">Topic</string>
+<string name="create_wt_group_statement">You can only create a Studio Group once a week.</string>
+
+<string name="search_topic">Search a topic</string>
+<string name="topic_to_search">Topic to search</string>
+<string name="voice_mail">Voice mail</string>
+<string name="no_microphone">Sorry, cannot find an audio input source (microphone)</string>
+
+<string name="conference">Conference Call</string>
+<string name="conference_2">Conference</string>
+<string name="invitation_amazon"> ကၽြႏု္ပ္သည္ AireTalk ကို အသံုးျပဳေနပါသည္၊  ၄င္းကို ကြန္ပ်ဴတာတြင္ (install) လုပ္ျပီး ကၽြႏု္ပ္ကုိ အခမဲ ့ေခၚဆို ႏုိင္ပါသည္ ! http://www.amazon.com/PingShow-Inc-AireTalk/dp/B00HXAMZSA</string>
+
+<string name="profile_updated">%s updated the profile photo.</string>
+<string name="music">Music</string>
+<string name="comments">Comments: </string>
+<string name="likes">Likes: </string>
+<string name="likes_it">Likes it</string>
+<string name="stranger_warning">You haven\'t added this user as your friend. Please be careful when sending messages.</string>
+<string name="delete_post_confirm">Sure to remove this post?</string>
+
+<string name="free">Free</string>
+</resources>

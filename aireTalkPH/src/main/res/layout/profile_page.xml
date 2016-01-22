@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:background="@drawable/blankbackground"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+
+	<ScrollView 
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+		<LinearLayout 
+			android:orientation="vertical"
+			android:paddingRight="8dp"
+			android:paddingLeft="8dp"
+			android:gravity="center"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			
+			<TextView 
+				android:id="@+id/id_desc" 
+				android:textColor="#808080"
+				android:textSize="15sp"
+				android:text="@string/personal_info"
+				android:gravity="center"
+				android:padding="20dp"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"/>
+			
+			<RelativeLayout
+				android:gravity="center"
+				android:layout_marginBottom="5dp"
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content">
+			  	
+				<ImageView
+					android:id="@+id/photo"
+					android:clickable="true"
+					android:src="@drawable/empty"
+					android:padding="8dp"
+					android:layout_width="96dp"
+					android:layout_height="96dp"/>
+				<TextView
+				    android:id="@+id/my_photo_hint"
+				    android:text="@string/add_photo"
+				    android:gravity="center"
+				  	android:layout_width="96dp"
+				  	android:layout_height="96dp"/>
+			</RelativeLayout>
+			
+			<LinearLayout 
+			    android:paddingLeft="20dp"
+			    android:paddingRight="20dp"
+			    android:gravity="center_horizontal"
+			    android:orientation="vertical"
+			    android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+				
+			<EditText android:id="@+id/nickname"
+				android:hint="@string/nickname_hint"
+				android:layout_marginTop="20dp"
+				android:textColor="#007192"
+				android:background="#00ffffff"
+				android:gravity="bottom"
+				android:paddingBottom="5dp"
+				android:singleLine="true"
+				android:paddingLeft="10dp"
+				android:inputType="textCapWords|textPersonName"
+				android:maxLength="30"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"/>
+			
+			<View
+		    	android:background="#50909090"
+		   		android:layout_width="fill_parent"
+				android:layout_height="1dp"/>
+			
+			<RadioGroup
+			    android:layout_marginTop="10dp"
+			    android:layout_marginLeft="20dp"
+				android:layout_marginRight="20dp"
+				android:gravity="center_horizontal"
+			    android:orientation="horizontal"
+			    android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+				
+				<RadioButton
+				    android:id="@+id/male"
+				    android:textColor="#ff445e8e"
+				    android:layout_marginRight="20dp"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="@string/male"/>
+	
+				<RadioButton
+				    android:id="@+id/female"
+				    android:textColor="#ff445e8e"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="@string/female"/>
+			</RadioGroup>
+			
+			<Button android:id="@+id/done"
+				android:layout_margin="20dp"
+				android:text="@string/done"
+				android:background="@drawable/bluebtn"
+				android:textColor="#f0f0f0"
+				android:textSize="17sp"
+				android:minWidth="235dp"
+				android:layout_width="wrap_content" 
+				android:layout_height="46dp"/>
+			</LinearLayout>
+			<LinearLayout
+			    android:orientation="vertical"
+			    android:layout_marginLeft="20dp"
+				android:layout_marginRight="20dp"
+				android:layout_marginBottom="40dp"
+			    android:layout_width="wrap_content" 
+				android:layout_height="wrap_content">
+			
+				<CheckBox android:id="@+id/read_contact"
+					android:textColor="#007192"
+					android:text="@string/read_contacts_check"
+					android:textSize="13sp"
+					android:checked="true"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"/>
+				
+				<TextView
+					android:textColor="#808080"
+					android:text="@string/read_contacts"
+					android:textSize="13sp"
+					android:paddingLeft="20dp"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"/>
+			
+			</LinearLayout>
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>

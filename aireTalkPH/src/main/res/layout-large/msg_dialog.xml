@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:minWidth="400dp"
+	android:maxWidth="510dp"
+	android:maxHeight="320dp"
+	android:paddingLeft="8dp"
+	android:paddingRight="8dp"
+	android:layout_margin="10dp"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	
+	<TextView 
+		android:id="@+id/msgtitle"
+		android:gravity="center"
+		android:textColor="#000000"
+		android:textSize="26sp"
+		android:textStyle="bold"
+		android:maxLines="1"
+		android:layout_marginTop="6sp"
+		android:layout_marginLeft="10sp"
+		android:layout_marginRight="10sp"
+		android:layout_width="fill_parent"
+		android:layout_height="36sp"/>
+	
+	<TextView 
+		android:id="@+id/msgcontent"
+		android:gravity="center"
+		android:textColor="#000000"
+		android:textSize="24sp"
+		android:ellipsize="end"
+		android:layout_marginLeft="20sp"
+		android:layout_marginRight="20sp"
+		android:layout_marginBottom="12sp"
+		android:minHeight="48sp"
+		android:maxHeight="240dp"
+		android:maxLines="4"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"/>
+
+	<LinearLayout 
+		android:orientation="horizontal"
+		android:layout_gravity="bottom"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+		
+	<Button 
+		android:id="@+id/close" 
+		android:text="@string/close"
+		android:textSize="26sp"
+		android:textColor="#ffffff"
+		android:background="@drawable/dialogbtn"
+		android:gravity="center"
+		android:shadowColor="#ff000000"
+		android:shadowDx="2"
+		android:shadowDy="2"
+		android:shadowRadius="2"
+		android:layout_weight="1"
+		android:layout_marginBottom="16dp"
+		android:layout_marginRight="8dp"
+		android:layout_width="fill_parent"
+		android:layout_height="56sp"/>
+		
+	<Button 
+		android:id="@+id/reply"
+		android:text="@string/reply"
+		android:textSize="26sp"
+		android:textColor="#ffffff"
+		android:background="@drawable/dialogbtn"
+		android:gravity="center"
+		android:shadowColor="#ff000000"
+		android:shadowDx="2"
+		android:shadowDy="2"
+		android:shadowRadius="2"
+		android:layout_weight="1"
+		android:layout_marginLeft="8dp"
+		android:layout_marginBottom="16dp"
+		android:layout_width="fill_parent"
+		android:layout_height="56sp"/>
+		
+	</LinearLayout>
+</LinearLayout>

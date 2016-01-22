@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <FrameLayout
+        android:id="@+id/title"
+        android:background="@drawable/titlebar"
+        android:layout_width="fill_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+			    android:id="@+id/cancel"
+			    android:src="@drawable/back"
+			    android:background="@drawable/optionbtn"
+				android:padding="10dp"
+				android:layout_centerVertical="true"
+				android:layout_alignParentLeft="true"
+				android:layout_width="80dp"
+				android:layout_height="80dp"/>
+
+            <TextView
+                android:id="@+id/topic"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/pickup_contact"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:shadowColor="#80000000"
+		  	  	android:shadowDx="1"
+		  	  	android:shadowDy="2"
+		  	  	android:shadowRadius="2"
+                android:textStyle="bold"/>
+            
+            <ImageView
+			    android:id="@+id/done"
+			    android:src="@drawable/done"
+			    android:background="@drawable/greenbtn"
+				android:padding="10dp"
+				android:layout_centerVertical="true"
+				android:layout_alignParentRight="true"
+				android:layout_width="80dp"
+				android:layout_height="80dp"
+				android:visibility="gone"/>
+        </RelativeLayout>
+    </FrameLayout>
+    
+    <FrameLayout
+        android:id="@+id/results"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/title">
+        <GridView
+            android:background="#ecf0f1"
+            android:id="@+id/friendsGridView"
+            android:listSelector="@drawable/optionbtn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:numColumns="3"
+            android:verticalSpacing="0dp"/>
+    </FrameLayout>
+    
+</RelativeLayout>

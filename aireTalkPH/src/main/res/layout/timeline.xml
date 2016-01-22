@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#e3e3e3"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+    
+	<LinearLayout
+	    android:orientation="vertical"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+		
+	    <RelativeLayout
+		    android:id="@+id/title"
+			android:layout_gravity="top"
+			android:background="@drawable/titlebar"
+			android:layout_width="fill_parent" 
+			android:layout_height="50dp">
+				
+			<ImageView
+			    android:id="@+id/cancel" 
+			    android:src="@drawable/back"
+			    android:background="@drawable/optionbtn"
+				android:padding="10dp"
+				android:layout_centerVertical="true"
+				android:layout_alignParentLeft="true" 
+				android:layout_width="50dp"
+				android:layout_height="50dp"/>
+			
+			<TextView 
+			    android:id="@+id/sendee" 
+			    android:textColor="#FFFFFFFF"
+				android:ellipsize="end"
+				android:layout_toRightOf="@+id/cancel"
+				android:layout_toLeftOf="@+id/compose"
+				android:gravity="center"
+				android:singleLine="true" 
+				android:textSize="18sp"
+				android:textStyle="bold"
+				android:layout_centerInParent="true"
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content"/>
+			
+			<ImageView
+			    android:id="@+id/compose"
+			    android:src="@drawable/compose"
+			    android:background="@drawable/optionbtn"
+				android:layout_centerVertical="true"
+				android:layout_alignParentRight="true"
+				android:padding="7dp"
+				android:layout_width="50dp" 
+				android:layout_height="50dp"/>
+			
+		</RelativeLayout>
+		
+		<FrameLayout
+			android:layout_width="fill_parent" 
+			android:layout_height="0px"
+			android:layout_weight="1">
+
+			<ListView 
+			    android:id="@+id/timeline" 
+			    android:layout_marginBottom="0dp"
+			    android:background="#e3e3e3"
+			    android:listSelector="@drawable/null_select"
+			    android:cacheColorHint="#e3e3e3"
+				android:divider="#e3e3e3" 
+				android:dividerHeight="0px"
+				android:transcriptMode="normal"
+				android:layout_width="fill_parent" 
+				android:layout_height="fill_parent"
+				android:fastScrollEnabled="true" />
+
+		</FrameLayout>
+	
+	</LinearLayout>
+	
+	<ImageView 
+	    android:id="@+id/wait"
+	    android:paddingBottom="120dp"
+		android:src="@drawable/aniwait" 
+		android:layout_width="86dp"
+		android:layout_height="wrap_content" 
+		android:layout_centerInParent="true" />
+</RelativeLayout>
+	
+
+

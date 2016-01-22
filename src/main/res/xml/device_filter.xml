@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-<!--     dongle1 HC-12-USB -->
-    <usb-device vendor-id="1154" product-id="22336" />
-<!--     dongle2 USB -->
-    <usb-device vendor-id="6790" product-id="29987" />
-</resources>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"    
+	android:layout_height="wrap_content">
+
+	<FrameLayout
+		android:id="@+id/title"
+		android:layout_gravity="top"
+		android:background="@drawable/titlebar"
+		android:layout_width="fill_parent"
+		android:layout_height="80dp">
+		<RelativeLayout 
+			android:gravity="center_vertical"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+			
+		    <TextView
+				android:id="@+id/topic"
+				android:text="@string/purchase"
+				android:textColor="#FFFFFFFF"
+				android:shadowColor="#80000000"
+				android:shadowDx="1"
+				android:shadowDy="2"
+				android:shadowRadius="2"
+				android:gravity="center"
+				android:ellipsize="end"
+				android:singleLine="true"
+				android:textSize="32sp"
+				android:textStyle="bold"
+				android:layout_centerInParent="true"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"/>
+			
+			<ImageView
+			    android:id="@+id/cancel"
+			    android:src="@drawable/back"
+			    android:background="@drawable/optionbtn"
+				android:padding="15dp"
+				android:layout_centerVertical="true"
+				android:layout_alignParentLeft="true" 
+				android:layout_width="80dp"
+				android:layout_height="80dp"/>
+				
+		</RelativeLayout>
+				
+	</FrameLayout>
+	
+	<FrameLayout
+	    android:layout_below="@+id/title"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+			
+		<LinearLayout
+	        android:orientation="vertical"
+	        android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+			
+	        <ScrollView
+	            android:layout_weight="1"
+	            android:background="#4C80CC"
+	            android:layout_width="fill_parent"
+				android:layout_height="fill_parent">
+				
+	            <LinearLayout
+	                android:orientation="vertical"
+	                android:padding="5dp"
+	                android:gravity="center_horizontal"
+	                android:layout_width="fill_parent"
+					android:layout_height="wrap_content" >
+			
+			        <com.pingshow.amper.view.WebImageView
+			            android:id="@+id/banner"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"/>
+			    
+				    <TextView
+						android:text="@string/credit_desc"
+						android:textColor="#FFFFA0"
+						android:shadowColor="#80000000"
+						android:shadowDx="1"
+						android:shadowDy="2"
+						android:shadowRadius="2"
+						android:padding="10dp"
+						android:gravity="center"
+						android:textStyle="bold"
+						android:textSize="26sp"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"/>
+				    
+				    <LinearLayout
+				        android:id="@+id/packages"
+				        android:padding="10dp"
+				        android:layout_marginTop="15dp"
+						android:layout_marginBottom="15dp"
+						android:layout_marginLeft="100dp"
+						android:layout_marginRight="100dp"
+				        android:orientation="vertical"
+				        android:layout_width="fill_parent"
+						android:layout_height="wrap_content"/>
+				    
+				    <TextView
+						android:id="@+id/credit"
+						android:text="@string/credit"
+						android:textColor="#ffff60"
+						android:background="#40FFFFFF"
+						android:paddingTop="5dp"
+						android:paddingBottom="5dp"
+						android:paddingLeft="60dp"
+						android:paddingRight="60dp"
+						android:gravity="center"
+						android:layout_marginTop="10dp"
+						android:layout_marginBottom="10dp"
+						android:textStyle="bold"
+						android:lines="1"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"/>
+				    
+				    <TextView
+						android:text="@string/rate_detail_desc"
+						android:textColor="#FFFFFF"
+						android:padding="10dp"
+						android:textSize="22sp"
+						android:gravity="center"
+						android:layout_marginTop="10dp"
+						android:layout_marginLeft="10dp"
+						android:layout_marginRight="10dp"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"/>
+				    
+				    <TextView
+						android:text="@string/rate_statement"
+						android:textColor="#FFFFFF"
+						android:padding="10dp"
+						android:gravity="center"
+						android:textSize="22sp"
+						android:layout_marginLeft="10dp"
+						android:layout_marginRight="10dp"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"/>
+				    
+				    <ImageView
+			            android:src="@drawable/paypal_verified"
+						android:layout_width="199dp"
+						android:layout_height="51dp"/>
+				    
+				    <WebView
+			            android:id="@+id/refound"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"/>
+			    
+			    </LinearLayout>
+			
+		    </ScrollView>
+	    
+	        <ListView 
+	            android:id="@+id/rates"
+	            android:background="#efeeef"
+				android:cacheColorHint="#efeeef"
+				android:divider="#e1dbdb"
+				android:dividerHeight="1dp"
+				android:focusableInTouchMode="true"
+	            android:layout_weight="1"
+	        	android:layout_width="fill_parent"
+	        	android:layout_height="fill_parent"/>
+	    </LinearLayout>
+	</FrameLayout>
+</RelativeLayout>

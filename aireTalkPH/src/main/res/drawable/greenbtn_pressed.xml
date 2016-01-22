@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<!--    <item> -->
+<!--       <shape> -->
+<!-- 		 <gradient -->
+<!-- 	    	android:startColor="#4ce1d8" -->
+<!-- 	    	android:centerColor="#00b7bb" -->
+<!-- 			android:endColor="#009ca0" -->
+<!-- 			android:angle="270"/> -->
+<!--       </shape> -->
+<!--    </item> -->
+<!--    <item android:bottom="20dip"> -->
+<!--       <shape> -->
+<!-- 		 <gradient -->
+<!-- 	    	android:startColor="#4ce1d8" -->
+<!-- 			android:endColor="#00cdcf" -->
+<!-- 			android:angle="270"/> -->
+<!--       </shape> -->
+<!--    </item> -->
+<!--    <item> -->
+<!--       <shape> -->
+<!--          <stroke android:color="#c045e0d9" android:width="2dip"/> -->
+<!--          <solid android:color="#00000000"/> -->
+<!--       </shape> -->
+<!--    </item> -->
+   <item>
+      <shape>
+      	 <corners android:radius="7dip"/>
+         <gradient
+	    	android:startColor="#4ce1d8"
+			android:endColor="#009ca0"
+			android:angle="270"/>
+		<stroke android:width="1dip"
+	    	android:color="#c045e0d9"/>
+      </shape>
+   </item>
+   <item android:bottom="22sp" android:top="1dip" android:left="1dip" android:right="1dip">
+      <shape>
+         <corners android:radius="5dip"/>
+         <gradient
+	    	android:startColor="#4ce1d8"
+			android:endColor="#00cdcf"
+			android:angle="270"/>
+      </shape>
+   </item>
+</layer-list>

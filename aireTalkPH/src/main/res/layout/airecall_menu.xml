@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/menu"
+    android:background="@drawable/optionbar" 
+    android:orientation="vertical"
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content">
+<!--     //tml*** beta ui -->
+   <TextView 
+        android:id="@+id/title"
+        android:text="@string/menu_sidebar"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="@drawable/titlebar"
+        android:shadowColor="#80000000"
+		android:shadowDx="1"
+		android:shadowDy="2"
+		android:shadowRadius="2"
+		android:textStyle="bold"
+		android:textColor="#FFFFFF"
+        android:layout_alignParentTop="true"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp" />
+    <ListView android:id="@+id/list" 
+        android:layout_below="@+id/title"
+        android:divider="#80ffffff"
+        android:dividerHeight="1dp"
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content"
+        android:background="@drawable/optionbar" 
+        android:cacheColorHint="#8ca5d3" 
+        android:scrollbars="none">
+    </ListView>
+</RelativeLayout>

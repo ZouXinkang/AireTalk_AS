@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/blankbackground"
+	android:layout_width="fill_parent"    
+	android:layout_height="wrap_content">
+
+	<FrameLayout
+		android:id="@+id/title"
+		android:layout_gravity="top"
+		android:background="@drawable/titlebar"
+		android:layout_width="fill_parent"
+		android:layout_height="80dp">
+		
+		<RelativeLayout 
+			android:gravity="center_vertical"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+			
+		    <TextView
+				android:id="@+id/topic"
+				android:text="@string/class_selection"
+				android:textColor="#FFFFFF"
+				android:shadowColor="#80000000"
+				android:shadowDx="1"
+				android:shadowDy="2"
+				android:shadowRadius="2"
+				android:gravity="center"
+				android:ellipsize="end"
+				android:singleLine="true"
+				android:textSize="32sp"
+				android:textStyle="bold"
+				android:layout_centerInParent="true"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"/>
+			
+			<ImageView
+			    android:id="@+id/cancel"
+			    android:src="@drawable/back"
+			    android:background="@drawable/optionbtn"
+				android:padding="15dp"
+				android:layout_centerVertical="true"
+				android:layout_alignParentLeft="true" 
+				android:layout_width="80dp"
+				android:layout_height="80dp"/>
+				
+		</RelativeLayout>
+				
+	</FrameLayout>
+	
+	<FrameLayout
+		android:layout_alignParentLeft="true"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_below="@+id/title">
+		
+	    <ScrollView
+	        android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+			
+			<RelativeLayout
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+			    
+			    <LinearLayout 
+			        android:padding="15dp"
+			        android:gravity="center_horizontal"
+			        android:orientation="vertical"
+			        android:layout_alignParentTop="true"
+			        android:layout_width="fill_parent"
+					android:layout_height="fill_parent">
+			        
+			        <TextView
+						android:text="@string/class_desc"
+						android:textColor="#303030"
+						android:padding="15dp"
+						android:gravity="center"
+						android:textStyle="bold"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"/>
+			    
+			        <com.pingshow.amper.view.FlipToggleView
+				        android:id="@+id/standard"
+				        android:background="@drawable/class_bg"
+						android:layout_width="240dp" 
+						android:layout_height="55dp"/>
+			        
+				    <TextView
+						android:text="@string/standard_desc"
+						android:textColor="#303030"
+						android:paddingTop="5dp"
+						android:paddingBottom="15dp"
+						android:gravity="center"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"/>
+				    
+				    <com.pingshow.amper.view.FlipToggleView
+				        android:id="@+id/premium"
+				        android:background="@drawable/class_bg"
+						android:layout_width="240dp" 
+						android:layout_height="55dp"/>
+			        
+				    <TextView
+						android:text="@string/premium_desc"
+						android:textColor="#303030"
+						android:paddingTop="5dp"
+						android:paddingBottom="15dp"
+						android:gravity="center"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"/>
+				      
+				      
+				   <com.pingshow.amper.view.FlipToggleView
+				        android:id="@+id/business"
+				        android:background="@drawable/class_bg"
+						android:layout_width="240dp" 
+						android:layout_height="55dp"/>
+			        
+				    <TextView
+						android:text="@string/business_desc"
+						android:textColor="#303030"
+						android:padding="5dp"
+						android:gravity="center"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"/>
+			    </LinearLayout>
+			</RelativeLayout>
+		</ScrollView>
+	</FrameLayout>
+</RelativeLayout>

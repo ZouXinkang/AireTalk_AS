@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/blankbackground"
+	android:layout_width="fill_parent"    
+	android:layout_height="wrap_content">
+
+	<FrameLayout
+		android:id="@+id/title"
+		android:layout_gravity="top"
+		android:background="@drawable/titlebar"
+		android:layout_width="fill_parent"
+		android:layout_height="80dp">
+		<RelativeLayout 
+			android:gravity="center_vertical"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+			
+		    <TextView
+				android:id="@+id/topic"
+				android:text="@string/query_rate"
+				android:textColor="#FFFFFFFF"
+				android:shadowColor="#80000000"
+				android:shadowDx="1"
+				android:shadowDy="2"
+				android:shadowRadius="2"
+				android:gravity="center"
+				android:ellipsize="end"
+				android:singleLine="true"
+				android:textSize="32sp"
+				android:textStyle="bold"
+				android:layout_centerInParent="true"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"/>
+			
+			<ImageView
+			    android:id="@+id/cancel"
+			    android:src="@drawable/back"
+			    android:background="@drawable/optionbtn"
+				android:padding="15dp"
+				android:layout_centerVertical="true"
+				android:layout_alignParentLeft="true" 
+				android:layout_width="80dp"
+				android:layout_height="80dp"/>
+				
+		</RelativeLayout>
+				
+	</FrameLayout>
+	
+	<FrameLayout
+		android:layout_alignParentLeft="true"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_below="@+id/title">
+		<RelativeLayout 
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+
+		    <com.pingshow.amper.view.FlipToggleView
+		        android:layout_alignParentBottom="true"
+		        android:layout_centerHorizontal="true"
+		        android:layout_marginBottom="50dp"
+		        android:clickable="false"
+		        android:id="@+id/selected_class"
+		        android:background="@drawable/class_bg"
+				android:layout_width="240dp" 
+				android:layout_height="55dp"/>
+		    
+		    <LinearLayout 
+		        android:padding="5dp"
+		        android:gravity="center_horizontal"
+		        android:orientation="vertical"
+		        android:layout_alignParentTop="true"
+		        android:layout_width="fill_parent"
+				android:layout_height="fill_parent">
+		    
+			    <TextView
+					android:text="@string/query_rate_desc"
+					android:textColor="#303030"
+					android:textSize="26sp"
+					android:padding="15dp"
+					android:gravity="center"
+					android:textStyle="bold"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"/>
+			    
+			    <EditText
+					android:id="@+id/number"
+					android:layout_width="240dp"
+					android:layout_height="wrap_content"
+					android:hint="@string/any_phone_number"
+					android:background="@drawable/edit_bg"
+					android:maxLength="16"
+					android:layout_margin="8dp"
+					android:gravity="center"
+					android:padding="10dp"
+					android:singleLine="true"
+					android:textColor="#ff445e8e"
+					android:inputType="phone"
+					android:textColorHighlight="#ff6f8ef5"
+					android:textSize="24sp"/>
+			    
+			    <Button android:id="@+id/done"
+					android:layout_margin="5dp"
+					android:text="@string/done"
+					android:background="@drawable/plainbtn"
+					android:textColor="#f0f0f0"
+					android:textSize="16sp"
+					android:layout_width="100dp" 
+					android:layout_height="64dp"/>
+			    
+			    <TextView
+					android:id="@+id/result"
+					android:background="#90000000"
+					android:textColor="#FFFFFF"
+					android:layout_margin="10dp"
+					android:textSize="24sp"
+					android:padding="10dp"
+					android:gravity="center_vertical"
+					android:lines="10"
+					android:textStyle="bold"
+					android:visibility="invisible"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"/>
+		    </LinearLayout>
+			
+		</RelativeLayout>
+	</FrameLayout>
+</RelativeLayout>

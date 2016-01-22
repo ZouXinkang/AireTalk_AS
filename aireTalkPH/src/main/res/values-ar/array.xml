@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string-array name="share_time">
+<item>1 hora</item>
+<item>2 horas</item>
+<item>1 día</item>
+<item>2 días</item>
+<item>3 días</item>
+</string-array>
+
+<string-array name="MyTelephony_CountryName">
+<item> الصين </item>
+<item> تايوان </item>
+<item> الولايات المتحدة </item>
+<item> كندا </item>
+<item> هونغ كونغ </item>
+<item> ماكاو </item>
+<item> اليابان </item>
+<item> كوريا الجنوبية </item>
+<item> سنغافورة </item>
+<item> فرنسا </item>
+<item> إسبانيا </item>
+<item> السويد </item>
+<item> سويسرا </item>
+<item> المملكة المتحدة </item>
+<item> نيوزيلندا </item>
+<item> فنلندا </item>
+<item> ألمانيا </item>
+<item> إيطاليا </item>
+<item> هولندا </item>
+<item> الدنمارك </item>
+<item> الاتحاد الروسي </item>
+<item> الهند </item>
+<item> تايلاند </item>
+<item> ماليزيا </item>
+<item> النرويج </item>
+<item> المكسيك </item>
+<item> البرازيل </item>
+<item> جنوب أفريقيا </item>
+<item> أيرلندا </item>
+<item> الأرجنتين </item>
+<item> أستراليا </item>
+<item> النمسا </item>
+<item> موناكو </item>
+<item> بلجيكا </item>
+<item> كولومبيا </item>
+<item> إسرائيل </item>
+<item> إندونيسيا </item>
+<item> اليونان </item>
+<item> المجر </item>
+<item> الفلبين </item>
+<item> بولندا </item>
+<item> البرتغال </item>
+<item> رومانيا </item>
+<item> أرمينيا </item>
+<item> أوكرانيا </item>
+<item> بنغلاديش </item>
+<item> كوبا </item>
+<item> مصر </item>
+<item> بيلاروس </item>
+<item> بلغاريا </item>
+<item> جمهورية أفريقيا الوسطى </item>
+<item> استونيا </item>
+<item> جمهورية لاو الشعبية من </item>
+<item> ليختنشتاين </item>
+<item> مالطة </item>
+<item> جزر كوك </item>
+<item> منغوليا </item>
+<item> كازاخستان </item>
+<item> عمان </item>
+<item> باكستان </item>
+<item> بيرو </item>
+<item> إيران </item>
+<item> العراق </item>
+<item> أفغانستان </item>
+<item> ألبانيا </item>
+<item> أنغولا </item>
+<item> أوزبكستان </item>
+<item> فيتنام </item>
+<item> السودان </item>
+<item> كوستاريكا </item>
+<item> غواتيمالا </item>
+<item> السلفادور </item>
+<item> هندوراس </item>
+<item> نيكاراغوا </item>
+<item> بنما </item>
+<item> فنزويلا </item>
+<item> الإكوادور </item>
+<item> بوليفيا </item>
+<item> باراجواي </item>
+<item> أوروغواي </item>
+<item> شيلي </item>
+<item> غيانا </item>
+<item> جمهورية الدومينيكان </item>
+<item> جامايكا </item>
+<item> تركيا </item>
+<item> الجمهورية العربية السورية </item>
+<item> الأردن </item>
+<item> الكويت </item>
+<item> المملكة العربية السعودية </item>
+<item> اليمن </item>
+<item> الإمارات العربية المتحدة </item>
+<item> المغرب </item>
+<item> الجزائر </item>
+<item> سلوفينيا </item>
+<item> كرواتيا </item>
+<item> جزر سليمان </item>
+<item> مقدونيا </item>
+<item> صربيا والجبل الأسود </item>
+<item> جمهورية التشيك </item>
+<item> ليتوانيا </item>
+<item> استونيا </item>
+<item> مولدافيا </item>
+<item> أثيوبيا </item>
+<item> سوازيلاند </item>
+<item> ليسوتو </item>
+<item> نيجيريا </item>
+<item> غامبيا </item>
+<item> تونس </item>
+<item> ميانمار </item>
+<item> كمبوديا </item>
+<item> بالاو </item>
+<item> جزر المالديف </item>
+<item> نيبال </item>
+<item> لوكسمبورغ </item>
+<item> كوت ديفوار </item>
+<item> فيجي </item>
+<item> لبنان </item>
+<item> مدغشقر </item>
+<item> بويرتو ريكو </item>
+<item> البحرين </item>
+<item> سورينام </item>
+<item> أذربيجان </item>
+<item> قطر </item>
+<item> غانا </item>
+<item> موريشيوس </item>
+<item> لاتفيا </item>
+<item> جورجيا </item>
+<item> دومينيكا </item>
+<item> جزر العذراء </item>
+<item> جزر العذراء </item>
+<item> بابوا غينيا الجديدة </item>
+<item> سري لانكا </item>
+<item>البوسنة والهرسك</item>
+</string-array>
+
+<string-array name="currency_code">
+<item>USD</item>
+<item>TWD</item>
+<item>CNY</item>
+<item>KRW</item>
+<item>JPY</item>
+<item>EUR</item>
+<item>HKD</item>
+<item>GBP</item>
+</string-array>
+
+</resources>

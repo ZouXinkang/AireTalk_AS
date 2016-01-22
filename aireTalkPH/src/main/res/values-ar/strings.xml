@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="app_name">AireTalk</string>
+<string name="contacts">اتصالات</string>
+<string name="edit">تعديل</string>
+<string name="sendmsg">إرسال</string>
+<string name="textinput">نص الرسالة</string>
+<string name="nonetwork"> لا شبكة الإنترنت ، يرجى المحاولة مرة أخرى </string>
+<string name="network_prompt">شبكتك رديئة، يرجى التحقق من اتصال الشبكة </string>
+<string name="OK">حسنا</string>
+<string name="next">التالي</string>
+<string name="newmessage">رسالة جديدة</string>
+<string name="messages">رسائل</string>
+<string name="register">تسجيل</string>
+<string name="login">الدخول</string>
+<string name="cancel">إلغاء</string>
+<string name="clear">مسح</string>
+<string name="compose_new">رسالة جديدة</string>
+<string name="sendto">إرسال إلى</string>
+<string name="attachment">التعلق</string>
+<string name="done">فعلت</string>
+<string name="recording_vmemo">تسجي</string>
+<string name="recording_timeup">الوقت متروك</string>
+
+<string name="i_agree">لقد قرأت ووافقت على الشروط والأحكام</string>
+<string name="eula_disagree">أنت لم توافق على البنود والشروط</string>
+
+<string name="choose_attachment_type">اختر نوع المرفق</string>
+<string name="voicememo">رسالة صوتية</string>
+<string name="picmsg">رسالة مصورة</string>
+<string name="pickpicture">معرض الصور</string>
+<string name="takepicture">التقاط صورة</string>
+<string name="choose_photo_source">مصدر الصورة</string>
+
+<string name="setting">إعدادات</string>
+<string name="server_ip">الخادم IP</string>
+<string name="checkout">رأي</string>
+<string name="reply">رد</string>
+<string name="close">أغلق</string>
+<string name="ignore">تجاهل</string>
+<string name="delete_confirm">تأكيد الحذف</string>
+<string name="delete_thread_confirm">حذف هذا الموضوع المحادثة ؟</string>
+
+<string name="in_progress">تجهيز</string>
+<string name="in_call">أثناء المكالمة في</string>
+<string name="fafayou_in_call">هوAire في الدعوة </string>
+<string name="answercallhint">الانزلاق للردr</string>
+<string name="end_call">نهاية</string>
+<string name="hide_keypad">إخفاء</string>
+<string name="yes">نعم</string>
+<string name="no">لا</string>
+<string name="unknown_person">الاتصال غير معروف </string>
+<string name="missed_call">مكالمة لم يرد عليها</string>
+<string name="unanswered_call">لم يتم الرد عليها</string>
+<string name="call_duration">مدة</string>
+<string name="incoming_call">الوارد</string>
+<string name="outgoing_call">طلبه</string>
+<string name="phone_call">طالب</string>
+
+<string name="username">اسم المستخدم</string>
+<string name="phonenumber">رقم الهاتف</string>
+<string name="password">كلمة السر</string>
+<string name="password_confirm">تأكيد كلمة السر</string>
+<string name="email">البريد الإلكتروني</string>
+<string name="email_hint">البريد الالكتروني مطلوب</string>
+<string name="register_immediately">قم بالتسجيل</string>
+
+<string name="forget_password">نسيت كلمة المرور ؟</string>
+<string name="passwords_dont_match"> عذرا ، كلمة المرور لا يطابق</string>
+<string name="password_error"> عذرا ، كلمة المرور غير صحيحة </string>
+<string name="nonmember">عفوا ، أنت لست عضوا AireTalk . يرجى التسجيل أولا</string>
+<string name="username_invalid">عذرا ، هذا اسم المستخدم غير صالح. يجب أن يبدأ الأبجدية بأحرف صغيرة و تكون 6 أحرف على الأقل </string>
+<string name="phonenumber_hint">رقم الهاتف المطلوب</string>
+<string name="phonenumber_invalid"> عذرا ، رقم الهاتف الذي المدخلات غير صحيحة</string>
+<string name="email_invalid"> عذرا ، عنوان البريد الإلكتروني غير صالح</string>
+<string name="login_title">لدخول</string>
+<string name="account_exists"> حساب AireTalk موجود بالفعل ، من فضلك الدخول</string>
+<string name="retrieve_password">استرجاع كلمة المرور عن طريق البريد الإلكتروني الخاصة بك ؟</string>
+<string name="waiting_for_sms_to_register">وقد تم ارسال تسجيل عبر الرسائل القصيرة للتحقق. الرجاء الانتظار .</string>
+<string name="sms_confirm_timeout"> مهلة التحقق، الرجاء التأكد من أن رقم الهاتف هو الصحيح وحاول مرة أخرى يرجى تسجيل الدخول</string>
+<string name="welcome">مرحبا بكم في AireTalk</string>
+<string name="username_hint">اسم المستخدم ( 6 أحرف على الأقل )</string>
+
+<string name="dial_this">استدعاء</string>
+<string name="delete_thread">حذف المحادثة الموضوع</string>
+<string name="delete_msg">حذف رسالة</string>
+<string name="view_contact">أكثر</string>
+<string name="add_contact">إضافة جهة اتصال</string>
+<string name="pickup_contact">اختيار اتصالات</string>
+<string name="surname">اسم العائلة</string>
+<string name="name">اسم</string>
+<string name="input_hint">رقم هاتف للاتصال</string>
+
+<string name="location_not_found">الموقع لم يتم العثور على</string>
+<string name="nonmember_no_service">الاتصال ليس عضوا</string>
+
+<string name="msg_is_sent">تم إرسال الرسالة</string>
+
+<string name="making_call">نداء</string>
+<string name="call_connected">متصل</string>
+<string name="call_end">إنهاء المكالمة</string>
+<string name="call_declined">خط الهاتف مشغول</string>
+<string name="no_response">أي رد</string>
+<string name="callee_not_found">لم يتم العثور على</string>
+
+<string name="new_version_found"> نسخة جديدة من AireTalk متاح الآن ، يرجى رفع مستواه في متجر أبل </string>
+<string name="force_update">يجب الترقية إلى أحدث إصدار AireTalk .</string>
+<string name="dont_worry">لا تقلق ، لن تتأثر البيانات الخاصة بك . </string>
+<string name="update">تحديث</string>
+
+<string name="request_location_sharing">(طلب الإذن لتقاسم الموقع ؟ (مرة واحدة متفق عليها، وسيتم تقاسم المواقع الخاصة بك لمدة ساعة</string>
+<string name="sharing_location_request">يطلب أن كنت تشارك موقع كل منهما لمدة ساعة واحدة . تسمح ؟</string>
+<string name="sharing_done">موقع مشترك بنجاح</string>
+
+<string name="displayname">اسم العرض</string>
+<string name="photo_gallery">معرض الصور</string>
+
+<string name="friends">أصدقاء</string>
+<string name="copysms">نسخ</string>
+<string name="copied_to_clipboard">نسخ إلى الحافظة</string>
+<string name="mylocation_address">مكاني</string>
+<string name="friend_address">موقع</string>
+<string name="keypad">لوحة المفاتيح</string>
+<string name="track">تتبع الموقع</string>
+<string name="traffic">مرور</string>
+<string name="satellite">قمر</string>
+<string name="delete_the_contact">حذف جهة الاتصال</string>
+<string name="delete">حذف</string>
+<string name="back">إلى الوراء</string>
+<string name="mute">كتم</string>
+<string name="speaker">المتحدث</string>
+<string name="add_call">إضافة مكالمة</string>
+<string name="hold">عقد</string>
+
+<string name="missed_call_remind_1"> هل حصلت على %d مكالمة لم يرد عليها  من ، AireTalk يذكرك للرد على المكالمات المهمة </string>
+<string name="missed_call_remind_2"> هل حصلت على %d مكالمة لم يرد عليها  من ، AireTalk يذكرك للرد على المكالمات المهمة </string>
+<string name="pcode_desc"> كنت قد تلقيت SMS التحقق، يرجى إدخال الرقم المكون من 4 أرقام </string>
+<string name="help">مساعدة</string>
+<string name="img_error">صورة غير صالحة</string>
+<string name="email_register">واضاف "لقد أرسلت بريد التحقق إلى عنوان البريد الإلكتروني الخاص بك، الرجاء تفعيل حسابك AireTalk الخاص بك. "</string>
+<string name="login_error"> عذرا ، نحن مشغولون في هذه اللحظة . من فضلك انتظر لحظة </string>
+<string name="pwdemail_title"> إدخال رقم الهاتف أو اسم المستخدم ، وسنقوم على الفور إرسال كلمة المرور إلى عنوان البريد الإلكتروني الخاص بك </string>
+<string name="pwdemailfailed">إرسال كلمة السر البريد الإلكتروني فشلت</string>
+<string name="pwdemailsuccess">تم إرسال البريد الإلكتروني بنجاح</string>
+<string name="no_sdcard">عدم وجود بطاقة SD أو USB التخزين المتصلة</string>
+<string name="no_sdcard_receive_voice_message">عدم وجود بطاقة SD لتلقي رسالة صوتية</string>
+<string name="no_sdcard_receive_picture_message">عدم وجود بطاقة SD لاستقبال صور</string>
+<string name="sms_manager">إدارة SMS</string>
+<string name="try_again">حاول مرة أخرى في وقت لاحق</string>
+
+<string name="share">حصة AireTalk</string>
+<string name="smile">الوجوه الضاحكة</string> 
+<string name="smiletitle">الوجوه الضاحكة</string> 
+
+<string name="keypad_menu_open">لهجة مفتاح على</string>
+<string name="keypad_menu_close">نغمة المفاتيح معطلة</string>
+<string name="setnet">الذهاب إلى</string>  
+<string name="add">إضافة</string>
+<string name="auto_notify_joins">أنا باستخدام AireTalk الآن ! الرجاء الاتصال بي مع هذا التطبيق كبيرة من الآن فصاعدا! كل هذا مجانا ! B- }</string>
+<string name="international_sms_alert"> هذا قد يكون SMS الدولية ، هل أنت متأكد أن يستمر ؟ </string>
+
+<string name="call">استدعاء</string>
+
+<string name="notification_sound">إعلام الصوت</string>
+<string name="receive_vibrate">تذبذب</string>
+<string name="send_vibrate">إرسال تذبذب</string>
+<string name="smspopup">رسالة منبثقة</string>
+
+<string name="pcode_check">يرجى إدخال رقم المكون من 4 أرقام</string>
+
+<string name="net_error">لا يوجد اتصال شبكة</string>
+<string name="shownotification">إعلام أيقونة</string>
+
+<string name="agree_share_sms">وأنا أتفق معك على تقاسم موقعي لمدة 1 ساعة</string>
+<string name="ask_share">(طلب مشاركة الموقع  أرسلت B-} )</string>
+<string name="photo_large">إن الصورة هي كبيرة جدا ، لا يمكن إرسال</string>
+<string name="savedraft">حفظ كمسودة</string>
+<string name="hasaskshare">يسأل عن موقع تقاسم معكم 
+%1$s</string>
+
+<string name="helper_name1">دعم</string>
+
+<string name="interphone_smile">صوت</string>
+<string name="send_voice_interphone">عقد للحديث</string>
+
+<string name="fafauser_sms">SMS</string>
+<string name="fafauser_vmemo">صوت</string>
+<string name="fafauser_pic">الوسائط المتعددة</string>
+<string name="fafauser_map">حدد</string>
+
+<string name="hint_mood">رسالة الحالة</string>
+<string name="sms_parese_stringbuf">
+كنت حصلت 
+%2$s 
+من 
+%1$s</string>
+
+<string name="interphone">اسلكية تخاطب</string>
+<string name="textmessage">رسالة نصية</string>
+<string name="RecvManySms">عدة رسائل</string>
+
+<string name="sharing_location">موقع</string>
+<string name="driving">قيادة</string>
+<string name="walking">المشي</string>
+<string name="path">مسار</string>
+<string name="notfound_direction">مسار غير متاحة</string>
+
+
+<string name="smsfail"> فشل الإرسال ، يرجى مراجعة الشبكة </string>
+<string name="videomemo">رسالة الفيديو</string>
+<string name="video">فيديو</string>
+<string name="file">ملف</string>
+<string name="filememo">نقل الملفات</string>
+<string name="filememo_send">ملف نقل</string>
+<string name="filememo_recv">حصل على الملف</string>
+<string name="chose_file">اختيار الملف المراد ارساله</string>
+
+<string name="file_othernet">الرجاء استخدام شبكة واي فاي لنقل الملفات</string>
+<string name="file_dnnotnet">لا شبكة لتحميل الملف</string>
+<string name="file_dnwifinet">%1$s حجم الملف هو
+هل تريد تحميل هذا الملف؟ 
+%2$s</string>
+<string name="file_dnothernet">الرجاء استخدام شبكة الجيل الثالث الرجاء استخدام شبكة واي فاي لتحميل الملف</string>
+<string name="download">تحميل</string>
+<string name="downloading">تحميل</string>
+<string name="downloadsucess">تحميل استكمال</string>
+<string name="downloaderror">تحميل فشل</string>
+<string name="fileandvideosingle">يمكن تركيبها ملف واحد فقط</string>
+<string name="file_err">خطأ في ملف</string>
+<string name="sd_availablespare">بطاقة SD هو الكامل</string>
+<string name="sd_notfound">بطاقة SD غير موجود</string>
+<string name="recording_incall">مكالمة واردة</string>
+<string name="filename_longerr">اسم الملف طويل جدا</string>
+<string name="save_photo_SD">تصدير صورة</string>
+<string name="more_sms">المزيد من الرسائل</string>
+<string name="copyfile">نسخة إلى: </string>
+<string name="fileLarge">الحد الأقصى لحجم هو 100MB</string>
+<string name="notfound_photo">(لا توجد صورة)</string>
+
+<string name="filedownloading">ملف يتم تحميله، يرجى المحاولة لاحقا </string>
+<string name="fileuploading">ملف غير تحميل ، يرجى المحاولة لاحقا r</string>
+
+<string name="downloadedfile">تم تحويل \"%s\" ملف</string>
+<string name="downloadedvideo">فيديو (vdo) المنزله</string>
+<string name="video_err">لا وجود ملف فيديو</string>
+<string name="nodata">الملف هو 0 في حجم</string>
+<string name="send_again">إعادة إرسال الرسالة</string>
+
+<string name="fafamissed_call">مكالمة لم يرد عليها</string>
+<string name="sysmissed_call">مكالمة لم يرد عليها</string>
+
+<string name="progress_wait">من فضلك انتظر ل حظة</string>
+<string name="aire_welcome_desc">مرحبا بكم في AireTalk ! :-) اتصل بي إذا كان لديك أي سؤال حول هذا التطبيق!</string>
+<string name="txtspinner_desc">يمكنك إدخال رقم الهاتف أو رقم AireTalk</string>
+<string name="findpwd">رقم الهاتف أو اسم المستخدم</string>
+<string name="findpwd_input_err">يرجى إدخال رقم الهاتف الصحيح خلية أو AireTalk اسم المستخدم</string>
+
+<string name="bluetooth">بلوتوث</string>
+<string name="no_sim_hint">ليس هناك بطاقة SIM في الهاتف، و غير مسموح رقم الهاتف للدخول ، واستخدام اسم المستخدم الخاص بك للدخول </string>
+<string name="nonsupport_googlemap"> عذرا ، لا يتم دعم خريطة جوجل في نظام </string>
+<string name="makesure_phonenumber_1">نحن نذهب لإرسال SMS إلى التحقق :</string>
+<string name="makesure_phonenumber_2">يرجى التأكد من الرقم الصحيح .</string>
+<string name="take_picture_error">فشل في فتح كاميرا</string>
+<string name="talk_background">صورة الخلفية</string>
+
+<string name="add_photo">الصورة\nإضافة</string>
+<string name="registration_body">AireTalk رسالة التسجيل . نشكرك على استخدام AireTalk رمز</string>
+
+<string name="making_video_call">جعل مكالمة فيديو</string>
+<string name="incoming_video_call">مكالمة فيديو واردة</string>
+
+<string name="no_video_hint"> عذرا ، الشبكة بطيئة جدا لعرض الفيديو</string>
+<!-- new strings -->
+<string name="nickname">اسم</string>
+<string name="nickname_hint">الاسم الكامل</string>
+<string name="register_desc">هذه هي المرة الأولى لي باستخدام AireTalk</string>
+<string name="eula_title">اتفاقية ترخيص المستخدم النهائي</string>
+<string name="personal_info">يرجى ملء المعلومات الشخصية الخاصة بك .</string>
+
+<string name="register_desc_0">الرجاء إدخال عنوان البريد الإلكتروني الخاص بك ، ونحن لن نرسل لك أي رسائل غير مرغوب فيها</string>
+<string name="register_desc_1">وبالنسبة لل أمن والخصوصية ، الرجاء التأكد من أن رقم الهاتف هو الصحيح </string>
+<string name="register_desc_2">الرجاء ملء النموذج ، عملية التسجيل سريع وسهل</string>
+<string name="login_desc_0">الرجاء الدخول مباشرة ، ونحن سوف تحقق من معلومات بالنسبة لك</string>
+<string name="login_desc_1">يرجى إدخال رقم الهاتف الصحيح . ونحن سوف تحقق من معلومات بالنسبة لك .</string>
+<string name="login_desc_2">يرجى إدخال AireTalk ID وكلمة المرور لتسجيل الدخول</string>
+<string name="login_nonmember">عذرا ، غير قادر على تحديد موقع الأعضاء AireTalk. الرجاء تسجيل أولا</string>
+
+<string name="nickname_invalid">طول اسمك قصيرة جدا</string>
+
+<string name="male">ذكر</string>
+<string name="female">أنثى</string>
+<string name="search">ابحث عن الأصدقاء</string>
+<string name="copyright">حقوق الطبع والنشر 2011 ,2015 . Pingshow شركة</string>
+<string name="black_list">القائمة السوداء</string>
+<string name="block">منع</string>
+<string name="unblock">فتح</string>
+<string name="put_in_blacklist">وضعت في القائمة السوداء</string>
+<string name="chat">ثرثرة</string>
+<string name="videocall">مكالمة فيديو</string>
+<string name="buy">شراء</string>
+<string name="aire_free_call">AireCall</string>
+<string name="add_as_friend">أضف كصديق</string>
+<string name="login_by_facebook">الدخول مع الفيسبوك</string>
+<string name="facebook_login_desc">تستطيع الدخول مباشرة إلى AireTalk عن طريق حساب الفيسبوك الخاص بك</string>
+<string name="read_contacts">لAIRE يحتاج الى اذن ل قراءة الأسماء. مع معلومات الاتصال، يمكنك الاتصال والدردشة مع أصدقائك </string>
+<string name="unblock_this_user">من القائمة السوداء ؟ %s هل أنت متأكد من إلغاء حظر المستخدم</string>
+
+<string name="accept_this_stranger">هل تعرف ؟ هل تريد أن تقبل له / طلب ترخيص لها؟</string>
+<string name="search_desc">يرجى إدخال أي كلمة للبحث صديقا AireTalk .</string>
+<string name="search_result">المستخدم وجدت %d</string>
+<string name="credit">الائتمان
+%.3f</string>
+<string name="credit_not_enough"> عذرا ، الائتمان الخاصة بك ليست كافية ل إجراء مكالمة </string>
+<string name="help_aire_free_call">لAireCall مجانا لل محاكمة ! لتجربة AireCall ، إجراء مكالمة ليقول مرحبا إلى أي من صديقك الآن ! ل </string>
+<string name="help_photo_is_needed">لم تحمل صورة ملفك الشخصي . إلى السماح لأصدقائك في التعرف عليك ، يرجى إضافة صورة الملف الشخصي </string>
+<string name="help_complete_profile">مرحبا بكم في AireTalk ! الرجاء إكمال الإعداد الشخصي ، خصوصا اسمك . اختر صورة لطيفة ل نفسك ، و أصدقائك قد التعرف عليك </string>
+<string name="walkietalkie">اسلكية تخاطب</string>
+<string name="wt_sound_out">السيارات راديوهات توكي الصوت</string>
+<string name="send_location">؟ %s إرسال موقعك إلى</string>
+<string name="loading">تحميل …</string>
+<string name="call_back">؟ %s إجراء مكالمة العودة إلى</string>
+
+<string name="possible_friends">هل يمكن أن نعرف الأصدقاء</string>
+<string name="sortbyname">حسب الاسم</string>
+<string name="sortbytime">فرز حسب الوقت</string>
+<string name="sortbystatus">الترتيب حسب الحالة</string>
+<string name="joint">أصدقاء المشتركة %d</string>
+<string name="weibo_sign_in">تسجيل الدخول مع سينا ويبو</string>
+<string name="share_by_email">ارسل بالبريد الالكتروني</string>
+<string name="share_by_sms">سهم عن طريق الرسائل القصيرة</string>
+<string name="share_on_facebook">شارك في الفيسبوك</string>
+<string name="share_on_qq">على حصة QQ</string>
+<string name="share_on_weibo">حصة على سينا ويبو</string>
+<string name="invitation_title">أنا أحب AIRETALK ، دعونا جعل مكالمة مجانية مع ذلك</string>
+<string name="invitation">http://play.google.com/store/apps/details?id=com.pingshow.amper أنا باستخدام AireTalk ، فقط تثبيته ،وادعولي  مجانا !</string>
+<string name="weibo_login_desc">تستطيع الدخول مباشرة عن طريق حساب AireTalk سينا ويبوSina Weibo الخاص</string>
+<string name="help_multiple_send">انقر فوق الأزرق "إضافة زر ' لاختيار أي صديق (ق) إلى الرسالة.) سوف اختيار مضاعفات إرسال نفس الرسالة إلى عدة أشخاص )</string>
+<string name="multi_send_location">إرسال موقعك لهم ؟</string>
+<string name="shared_successfully">تم التبادل بنجاح</string>
+<string name="shared_failed">فشل لتبادل</string>
+<string name="webcall_not_valid"> عذرا ، الائتمان الخاصة بك ليست كافية ل إجراء مكالمة ، أو هذا رقم الهاتف غير صالح الآن </string>
+<string name="webcall_not_support">عذرا ، لا يدعم الإصدار الروبوتAndroid  الخاص بWebCall </string>
+<string name="read_contacts_check">قراءة دليل الهاتف الخاص بك للبحث</string>
+<string name="rotate_right">دوران لليمين</string>
+<string name="rotate_left">دوران لليسار</string>
+
+<string name="searching_friends">تبحث الأصدقاء، من فضلك انتظر لحظة </string>
+<string name="searching_friends_desc">أن AireTalk تجد أصدقاء لك مع حساب الفيسبوك الخاص بك. يستغرق سوى بضع ثوان</string>
+
+<string name="feedback">ردود الفعل</string>
+<string name="feedback_desc">AireTalk يمكن أن يكون أفضل . هل تحب AireTalk, من فظاك قل رايك</string>
+<string name="favor_level_1">نعم ، وأنا أحب ذلك! </string>
+<string name="favor_level_2">ليس سيئا :-)</string>
+<string name="favor_level_3">لدرجة</string>
+<string name="favor_level_4">يست جيدة جدا</string>
+<string name="favor_level_5">يست أنا لا أحب ذلك جدا</string>
+<string name="suggsay_text">اقتراح</string>
+<string name="sugg_checkbox1">سوء نوعية الصوت</string>
+<string name="sugg_checkbox2">ضعف جودة الفيديو</string>
+<string name="sugg_checkbox3">فقدت رسالة</string>
+<string name="sugg_checkbox4">لا يوجد أصدقاء جدت</string>
+<string name="sugg_checkbox5">تعطل التطبيق</string>
+<string name="sugg_dis_text">هل واجهت أي مشاكل مع AireTalk ؟</string>
+<string name="feedback_has_been_sent">وقد تم تسليم ملاحظاتك . يرجى المحاولة مرة أخرى في وقت لاحق 1 ساعة .</string>
+<string name="suggCustomer">شكرا ل نصيحتك ، وسوف نقوم بمعالجة ملاحظاتك في أقرب وقت ممكن دعونا نجعل AireTalk أفضل \nserial code:</string>
+<string name="animated">حيوية</string> 
+
+<string name="blocking_strangers">كتلة الغرباء</string>
+<string name="facebook_search">بحث الفيسبوك أصدقاء</string>
+<string name="phonebook_search">ابحث عن أصدقاء دليل الهاتف</string>
+
+<string name="help_public_radio">مرحبا بكم في AireTalk استوديو راديو ! وهناك العديد من القنوات العامة من لغات مختلفة بالنسبة لك . تستطيع دعوة أصدقائك إلى أي قناة للدردشة أو الدردشة مع الغرباء .</string>
+<string name="help_public_radio_2"> الجميع على نفس القناة يسمع ما كنت تتحدث ضوء أخضر وامض يعني تبديل القناة عندما يتوقف ، قد تبدأ في التحدث عن طريق الضغط على زر ، . الضوء الأصفر يعني شخص يتكلم ، وعندما كنت أتكلم </string>
+<string name="aire_studio">بث</string>
+
+<string name="the_group">مجموعة</string>
+<string name="create_group">إنشاء مجموعة</string>
+<string name="group_name">اسم المجموعة</string>
+<string name="group_desc"> الرجاء تعيين اسم لمجموعتك ، واختيار الأعضاء . وجميع أعضاء تتلقى رسائل في نفس الوقت </string>
+<string name="add_in_group">هل ترغب في قبول الطلب؟\n%2$s
+يريد أن تضيف لك في المجموعة s%1$s</string>
+<string name="group_number_exceeds">عذرا ، لديك بالفعل الحد الأقصى لعدد الجماعات</string>
+
+<string name="file_transfer_waiting">بانتظار رد</string>
+<string name="file_transfer_connected">نقل …</string>
+<string name="file_transfer_error">خطأ نقل</string>
+<string name="file_transfer_stop">توقف نقل</string>
+<string name="file_transfer_finished">منتهي</string>
+<string name="file_transfer_incoming">قبول نقل الملفات؟</string>
+
+<string name="add_new_member_in_group">تأكد من إضافة أعضاء جدد؟</string>
+<string name="group_invite_new_member">
+وقد دعيت إلى 
+%1$s 
+المجموعة 
+%2$s
+</string>
+
+<!-- from iphone -->
+<string name="aire_call">AireCall</string>
+<string name="purchase">شراء</string>
+<string name="airecall_credits">قروض AireCall</string>
+<string name="credit_desc">يمكنك حفظ الكثير مع AireCall لاستدعاء الهواتف الأرضية والمحمولة في جميع أنحاء العالم .</string>
+<string name="rate_detail_desc">توضح القائمة معدلات مفصلة من بلدان المقصد .</string>
+
+<string name="detail_rate">%1$s:الوجهة \n
+(%2$s)\n
+%3$s يتم تحديد
+\n
+\nل استدعاء ثابتة الهاتف الثابت
+\nما يقرب من
+$%5$.3f $%4$s
+\n(
+%8$.2f%7$s %6$s
+ما يقرب من)\n\n
+\nل دعوة المحمول
+ %9$s $%10$.3f
+\n(
+%13$.2f%12$s %11$s
+ما يقرب من)\n\n
+بسعر فقط للرجوع اليها.
+</string>
+
+<string name="rate_statement">.قد تختلف الأسعار بسبب شركات الاتصالات المختلفة أو سعر العملة. جداول معدل للمرجعية فقط</string>
+
+<string name="thank_you_for_purchase">\"%s\" شكرا لكم لشراء</string>
+<string name="trade_detail">المعاملات</string>
+
+<string name="query_rate">التحقق من معدل</string>
+<string name="query_rate_desc">أنت يمكن إدخال أي رقم هاتف في العالم</string>
+<string name="any_phone_number">أي رقم هاتف</string>
+<string name="precise_rate">
+في الدقيقة الواحدة 
+%1$s $%2$.3f\n
+، ما يقرب من
+%3$s %4$s%5$.3f
+ في الدقيقة الواحدة 
+\n\n%6$s\n(%7$s)
+</string>
+
+<string name="class_selection">استدعاء اختيار فئة</string>
+<string name="class_desc"> نحن نقدم لك 3 أنواع من التوجيه ل AireCall . الطبقة العليا قد تكلف أكثر قليلا ، ولكن من شأنه أن يوفر لك المزيد من الخدمات </string>
+<string name="standard_class"> صنف معيار</string>
+<string name="premium_class"> الدرجة الممتازة</string>
+<string name="business_class">درجة رجال الأعمال</string>
+
+<string name="standard_desc"> مثالي لخطة منح الأسعار مع نوعية جيدة</string>
+<string name="premium_desc"> الدرجة الممتازة هو الطريق التي تركز على الجودة مع عرض رقم المتصل </string>
+<string name="business_desc"> الخطة أعلى مستوى من الجودة مع عرض رقم المتصل ، جودة المكالمة تساوي أو أفضل من مكالمة هاتفية مباشرة </string>
+
+<string name="please_visit">يرجى زيارة موقعنا لشراء :</string>
+<string name="call_log">تا ريخ المكالمات</string>
+<string name="home_guard">أمن البيت</string>
+<string name="send_suvei">؟ %s
+هل تريد أن ترسل الأمر مراقبة ل</string>
+<string name="start">بداية</string>
+<string name="stop">توقف</string>
+
+<string name="delete_this_call_log">حذف سجل المكالمات</string>
+<string name="delete_all_call_log">حذف كل سجلات المكالمات؟</string>
+
+<string name="create_topic">إنشاء موضوع</string>
+<string name="topic">موضوع</string>
+<string name="create_wt_group_statement">يمكنك فقط إنشاء موضوع مرة واحدة في الأسبوع</string>
+
+<string name="search_topic">بحث في الموضوع</string>
+<string name="topic_to_search">موضوع للبحث</string>
+<string name="voice_mail">البريد الصوتي</string>
+<string name="no_microphone">آسف، لا يمكن العثور على الميكروفون</string>
+
+<string name="conference">المؤتمر دعوة</string>
+<string name="conference_2">المؤتمر دعوة</string>
+<string name="invitation_amazon">http://www.amazon.com/PingShow-Inc-AireTalk/dp/B00HXAMZSA أنا باستخدام AireTalk ، فقط تثبيته ،وادعولي  مجانا !</string>
+
+<string name="profile_updated">%s تحديث الصورة الشخصية.</string>
+<string name="music">موسيقى</string>
+<string name="comments">تعليقات</string>
+<string name="likes">أمثال</string>
+<string name="likes_it">يحب ذلك</string>
+<string name="stranger_warning">لم تقم بإضافة هذا المستخدم كما صديقك. يرجى توخي الحذر عند إرسال الرسائل.</string>
+<string name="delete_post_confirm">هل أنت متأكد لإزالة هذا المنصب؟</string>
+
+<string name="free">مجانا</string>
+</resources>

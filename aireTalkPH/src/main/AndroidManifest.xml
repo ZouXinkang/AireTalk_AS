@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	package="com.pingshow.amper"
+	android:installLocation="auto"
+	android:versionCode="2443"
+	android:versionName="2.4.43_test">
+<!-- 	//also update SplashScreen versionCode if shortcut icon changes -->
+	
+    <uses-sdk android:minSdkVersion="10"
+		tools:overrideLibrary="org.xwalk.core"/>
+<!--     target 14+ removes menu nav -->
+	
+	<uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="android.permission.READ_CONTACTS"/>
+	<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="android.permission.VIBRATE"/>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+	<uses-permission android:name="android.permission.WAKE_LOCK"/>
+	<uses-permission android:name="android.permission.RECORD_AUDIO"/>
+	<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+	<uses-permission android:name="android.permission.CAMERA"/>
+	<uses-permission android:name="android.permission.BROADCAST_STICKY"/>
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+	<uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+	<uses-permission android:name="android.permission.RAISED_THREAD_PRIORITY"/>
+	<uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE" />
+	<!--<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />-->
+	<uses-permission android:name="android.permission.ACCESS_GPS" />
+	<uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
+	<uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT"/>
+	<uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/>
+	<uses-permission android:name="android.permission.WRITE_SETTINGS" />
+	<uses-permission android:name="android.permission.BLUETOOTH"/>
+	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+	<uses-permission android:name="android.permission.GET_TASKS"/>
+
+	<uses-feature android:name="android.hardware.telephony" android:required="false"/>
+	<uses-feature android:name="android.hardware.bluetooth" android:required="false"/>
+	<uses-feature android:name="android.hardware.camera" android:required="false"/>
+	<uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+	<uses-feature android:name="android.hardware.camera.flash" android:required="false" />
+	<uses-feature android:name="android.hardware.location" android:required="false"/>
+	<uses-feature android:name="android.hardware.location.gps" android:required="false"/>
+	<uses-feature android:name="android.hardware.location.network" android:required="false"/>
+	<uses-feature android:name="android.hardware.microphone" android:required="false"/>
+	<uses-feature android:name="android.hardware.screen.portrait" android:required="false"/>
+	<uses-feature android:name="android.hardware.wifi" android:required="false"/>
+	
+	<application
+		android:icon="@drawable/aire_icon_3s"
+		android:label="@string/app_name"
+		android:hardwareAccelerated="true" >
+<!-- 		android:debuggable="false" -->
+	    
+	    <uses-library android:name="com.google.android.maps" android:required="false"/>
+
+		<activity
+			android:name=".SplashScreen"
+			android:screenOrientation="portrait"
+			android:theme="@android:style/Theme.NoTitleBar">
+			<intent-filter>
+			    <action android:name="android.intent.action.CREATE_SHORTCUT"/>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
+		
+		<activity
+			android:name=".WebCallSplash"
+			android:screenOrientation="portrait"
+			android:theme="@style/AmperDialogTheme">
+			<intent-filter>
+		        <action android:name="android.intent.action.VIEW" />
+		        <category android:name="android.intent.category.BROWSABLE" />
+		        <category android:name="android.intent.category.DEFAULT" />
+		        <data android:scheme="airetalk" />
+		    </intent-filter>
+		</activity>
+		
+		<activity
+			android:name=".UsersActivity"
+			android:screenOrientation="portrait"
+			android:launchMode="singleTask"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+			android:name=".SipCallActivity"
+			android:screenOrientation="portrait"
+			android:launchMode="singleTask"
+			android:windowSoftInputMode="stateAlwaysHidden"
+			android:theme="@android:style/Theme.NoTitleBar">
+			<intent-filter>
+			    <action android:name="android.intent.action.VIEW" />
+				<action android:name="android.intent.action.DIAL" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:scheme="tel" />
+			</intent-filter>
+		</activity>
+		
+		<activity android:name="com.pingshow.amper.GallerySender"
+		    android:screenOrientation="portrait"
+		    android:label="@string/app_name"
+		    android:description="@string/app_name"
+		    android:theme="@android:style/Theme.NoTitleBar"
+		    android:icon="@drawable/aire_icon_3s">
+			<intent-filter>
+			    <action android:name="android.intent.action.SEND"/>
+			    <category android:name="android.intent.category.DEFAULT" /> 
+			    <data android:mimeType="image/*"/>
+			    <data android:mimeType="video/*"/>
+			    <data android:mimeType="text/plain"/>
+			    <data android:mimeType="text/vcard"/>
+			    <data android:mimeType="text/x-vcard"/>
+			    <data android:mimeType="application/mail"/>
+			</intent-filter>
+		</activity>
+		
+		<activity
+			android:name=".MessageActivity"
+			android:screenOrientation="portrait"
+			android:launchMode="singleTask"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+			android:name=".SettingActivity"
+			android:screenOrientation="portrait"
+			android:launchMode="singleTask"
+			android:windowSoftInputMode="stateHidden|adjustPan"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+			android:name=".PublicWalkieTalkie"
+			android:launchMode="singleTask"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden|adjustPan"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+			android:name=".ChannelPCodeActivity"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@style/AmperDialogTheme"/>
+		<activity
+			android:name=".ProfileActivity"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+			android:name=".register"
+			android:screenOrientation="portrait"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+			android:name=".register.BeforeRegisterActivity"
+			android:screenOrientation="portrait"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+			android:name=".register.RegisterActivity"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+			android:name=".register.LoginActivity"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+			android:name=".register.FacebookLoginDialog"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+			android:name=".register.WeiboLoginDialog"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+			android:name=".register.RegisterConfirm"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+			android:name=".register.PcodeActivity"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@style/AmperDialogTheme"/>
+		
+		<activity android:name=".register.RetrievePwdActivity"
+		    android:screenOrientation="portrait"
+		    android:theme="@style/AmperDialogTheme"
+			android:windowSoftInputMode="stateHidden"/>
+		
+		<activity
+			android:name=".WebViewActivity"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+			android:name=".VideoPlayerActivity"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+			android:name=".MusicPlayerActivity"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+			android:name=".CreateGroupActivity"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+			android:name=".FeedbackActivity"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+			android:name=".FeedbackActivity2"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity 
+		    android:name=".FacebookSearch"
+		    android:screenOrientation="portrait"
+		    android:theme="@style/AmperDialogTheme"
+			android:configChanges="keyboardHidden|orientation"/>
+		
+		<activity 
+		    android:name=".CommonDialog"
+		    android:screenOrientation="portrait"
+		    android:theme="@style/AmperDialogTheme"
+			android:configChanges="keyboardHidden|orientation"/>
+		<activity 
+		    android:name=".register.EulaDialog"
+		    android:screenOrientation="portrait"
+		    android:windowSoftInputMode="stateHidden"
+		    android:theme="@android:style/Theme.NoTitleBar"
+			android:configChanges="keyboardHidden|orientation"/>
+		
+		<activity android:name=".message.PopupDialog"
+		    android:screenOrientation="portrait"
+		    android:theme="@style/AmperDialogTheme"
+			android:launchMode="singleTask"
+			android:configChanges="keyboardHidden|orientation">
+		</activity>
+		
+		<activity
+			android:name=".TimeLine"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+			android:name=".TimeLineCompose"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+			android:name=".TimeLineFollows"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+			android:name=".ConversationActivity"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+			android:name=".ComposeActivity"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+			android:name=".SmileyActivity"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@style/SlidingDialogTheme"/>
+		<activity
+			android:name=".SearchDialog"
+			android:screenOrientation="portrait"
+			android:launchMode="singleTask"
+			android:windowSoftInputMode="stateHidden|adjustPan"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+			android:name=".PickupActivity"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+			android:name=".PictureRotationActivity"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+			android:name=".WalkieTalkieDialog"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:launchMode="singleTask"
+			android:theme="@style/BlackDialogTheme"/>
+		<activity
+			android:name=".Tooltip"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@style/NullTheme"/>
+		
+		<activity
+			android:name=".QueryRateActivity"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:configChanges="keyboardHidden|orientation"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+			android:name=".ClassSelectActivity"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+			android:name=".PurchaseActivity"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+			android:name=".TransactionActivity"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+			android:name=".AireCallLogActivity"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+			android:name=".VoiceRecordingDialog"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@style/SlidingDialogTheme"/>
+		<activity
+			android:name=".MessageDetailActivity"
+			android:screenOrientation="portrait"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+			android:name=".ImageViewer"
+			android:screenOrientation="portrait"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+			android:name=".FunctionActivity"
+			android:screenOrientation="portrait"
+			android:theme="@style/BlackDialogTheme"
+			android:configChanges="keyboardHidden|orientation"/>
+		<activity
+			android:name=".AddAsFriendActivity"
+			android:screenOrientation="portrait"
+			android:theme="@style/BlackDialogTheme"
+			android:configChanges="keyboardHidden|orientation"/>
+		<activity
+			android:name=".JoinNewGroupActivity"
+			android:screenOrientation="portrait"
+			android:theme="@style/BlackDialogTheme"
+			android:configChanges="keyboardHidden|orientation"/>
+		<activity
+			android:name=".BlackListActivity"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+			android:name=".SecretActivity"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+			android:name=".AddCallDialog"
+			android:screenOrientation="portrait"
+			android:launchMode="singleInstance"
+        	android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+			android:configChanges="keyboardHidden|orientation"/>
+		
+		<activity
+		    android:name="com.pingshow.voip.DialerActivity"
+		    android:screenOrientation="portrait"
+			android:launchMode="singleInstance"
+        	android:theme="@android:style/Theme.NoTitleBar"
+        	android:hardwareAccelerated="true" />
+<!-- 		android:theme="@android:style/Theme.NoTitleBar.Fullscreen" -->
+<!--         	android:screenOrientation="portrait" -->
+		<activity
+		    android:name="com.pingshow.voip.FileTransferActivity"
+		    android:screenOrientation="portrait"
+			android:launchMode="singleInstance"
+        	android:theme="@style/FileTransferDialogTheme"
+			android:configChanges="keyboardHidden|orientation"/>
+		
+		<activity 
+		    android:name="com.pingshow.voip.VideoCallActivity"
+		    android:screenOrientation="portrait"
+          	android:launchMode="singleInstance"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+        	android:hardwareAccelerated="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        
+		<activity
+		    android:name=".map.MapViewLocation"
+		    android:screenOrientation="portrait"
+			android:launchMode="singleInstance"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity
+		    android:name=".map.SelfMapView"
+		    android:screenOrientation="portrait"
+			android:launchMode="singleInstance"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity 
+		    android:name=".FileBrowerActivity"
+		    android:screenOrientation="portrait"
+      		android:windowSoftInputMode="stateHidden"
+      		android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity android:name="com.tencent.tauth.TAuthView"
+		    android:screenOrientation="portrait"
+		    android:theme="@style/ThemeActivity" 
+		    android:launchMode="singleTask" 
+		    android:configChanges="keyboardHidden|navigation|orientation">
+			<intent-filter>  
+			    <action android:name="android.intent.action.VIEW" />  
+			    <category android:name="android.intent.category.DEFAULT" />  
+			    <category android:name="android.intent.category.BROWSABLE" />  
+			    <data android:scheme="tencent500000002"/>   
+			</intent-filter>  
+        </activity>
+        
+		<activity android:theme="@style/ContentOverlay"
+		    android:screenOrientation="portrait"
+        	android:launchMode="singleTask"
+			android:configChanges="keyboardHidden|orientation"                           
+			android:windowSoftInputMode="adjustPan|stateAlwaysVisible" android:name="com.weibo.net.ShareActivity">
+		</activity>
+		
+		<!-- PayPal SDK -->
+		<service android:name="com.paypal.android.sdk.payments.PayPalService" android:exported="false"/>
+
+		<activity android:name="com.paypal.android.sdk.payments.PaymentActivity"
+		    android:screenOrientation="portrait" />
+		<activity android:name="com.paypal.android.sdk.payments.LoginActivity"
+		    android:screenOrientation="portrait" />
+		<activity android:name="com.paypal.android.sdk.payments.PaymentMethodActivity"
+		    android:screenOrientation="portrait" />
+		<activity android:name="com.paypal.android.sdk.payments.PaymentConfirmActivity" 
+		    android:screenOrientation="portrait"/>
+		<activity android:name="com.paypal.android.sdk.payments.PaymentCompletedActivity" 
+		    android:screenOrientation="portrait"/>
+		
+		<activity
+		    android:name="io.card.payment.CardIOActivity"
+		    android:screenOrientation="portrait"
+		    android:configChanges="keyboardHidden|orientation" />
+		<activity android:name="io.card.payment.DataEntryActivity" 
+		    android:screenOrientation="portrait"/>
+		<!-- PayPal SDK -->
+		
+        <activity
+            android:name="com.pingshow.qrcode.CaptureActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+        
+		<activity
+		    android:name="com.pingshow.amper.map.bd.MyBDLocation"
+		    android:screenOrientation="portrait"
+			android:launchMode="singleInstance"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		
+		<activity
+		    android:name="com.pingshow.amper.map.bd.SendMyBDLocation"
+		    android:screenOrientation="portrait"
+			android:launchMode="singleInstance"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity android:name="com.pingshow.qrcode.MyqrcodeActivity"
+		    android:screenOrientation="portrait"
+		    android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"></activity>
+		<activity android:name="com.pingshow.qrcode.FindFriendsActivity"
+		    android:screenOrientation="portrait"
+		    android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"></activity>
+		<activity android:name="com.pingshow.qrcode.PopwindowDialog"
+		    android:screenOrientation="portrait"
+		    android:windowSoftInputMode="stateHidden"
+		    android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+		<activity
+			android:name=".SuvStatusActivity"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="stateHidden"
+			android:theme="@android:style/Theme.NoTitleBar"/>
+		<receiver android:name="com.pingshow.network.NetworkMonitor">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+        
+		<receiver android:name=".BootReceiver">
+			<intent-filter>
+				<action android:name="android.intent.action.BOOT_COMPLETED"/>
+			</intent-filter>
+		</receiver>
+		
+		<receiver android:name=".PowerOnReceiver">  
+        	<intent-filter android:priority="90000">
+            	<action android:name="android.intent.action.USER_PRESENT"/>  
+        	</intent-filter>
+        </receiver>
+		
+		<receiver android:name=".AmpAlarmReceiver"/>
+		<service android:name=".AireJupiter"/>
+		<service android:name=".ServiceZ"/>
+        <service android:name="com.pingshow.voip.AireVenus"/>
+        <service android:name=".ServiceNeverDie"/>
+        <service android:name=".PlayService"/>
+        
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" >
+        </service>
+        
+	    <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="OUvBonU6oSOkzZDEyADlpOyM" />
+<!-- 	    	beta key android:value="OUvBonU6oSOkzZDEyADlpOyM" -->
+<!-- 	    	xwf's key android:value="EsiujUaSTO1WiBR1qgIC98Z6" -->
+<!-- 			ldg's key android:value="7KhD6rjFqGjelVDQOUhfm8Mj" -->
+<!-- 			tml's key android:value="GIjP6Mv2CuE8gEunb3uG3NmU" -->
+        <meta-data android:name="UMENG_APPKEY" android:value="502cab085270151eda0000af"></meta-data>
+	</application>
+
+</manifest>

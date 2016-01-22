@@ -1,0 +1,4 @@
+include ':com_facebook_android'
+include ':com_weibo_android'
+include ':xwalk_core_libraryARM'
+include ':aireTalkPH'

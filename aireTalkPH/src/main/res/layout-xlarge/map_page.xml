@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"    
+	android:layout_height="wrap_content">
+
+	<FrameLayout
+		android:id="@+id/title"
+		android:layout_gravity="top"
+		android:background="@drawable/titlebar"
+		android:layout_width="fill_parent"
+		android:layout_height="80dp">
+		<RelativeLayout 
+			android:gravity="center_vertical"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+			
+			<ImageView
+			    android:id="@+id/cancel"
+			    android:src="@drawable/back"
+			    android:background="@drawable/optionbtn"
+				android:padding="15dp"
+				android:layout_centerVertical="true"
+				android:layout_alignParentLeft="true" 
+				android:layout_width="80dp"
+				android:layout_height="80dp"/>
+				
+			<TextView
+				android:id="@+id/topic"
+				android:text="@string/sharing_location"
+				android:textColor="#FFFFFFFF"
+				android:ellipsize="end"
+				android:singleLine="true"
+				android:textSize="32sp"
+				android:textStyle="bold"
+				android:layout_centerInParent="true"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+				
+			<RadioGroup
+				android:id="@+id/select_directions"
+				android:orientation="horizontal"
+				android:visibility="gone"
+				android:layout_centerInParent="true"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+				
+				<RadioButton android:id="@+id/walking"
+				    android:drawableLeft="@drawable/walk"
+				    android:button="@drawable/null_btn"
+				    android:background="@drawable/plainbtn"
+					android:text="@string/walking"
+					android:textColor="#ffffff"
+					android:textSize="20sp"
+					android:gravity="center"
+					android:padding="12dip"
+					android:drawablePadding="12dp"
+					android:layout_width="wrap_content" 
+					android:layout_height="wrap_content"/>
+					
+				<RadioButton android:id="@+id/driving"
+				    android:drawableLeft="@drawable/driving"
+				    android:button="@drawable/null_btn"
+				    android:background="@drawable/plainbtn"
+					android:text="@string/driving"
+					android:textColor="#ffffff"
+					android:textSize="20sp"
+					android:gravity="center"
+					android:padding="12dip"
+					android:drawablePadding="12dp"
+					android:layout_width="wrap_content" 
+					android:layout_height="wrap_content"/>
+			</RadioGroup>
+			
+		</RelativeLayout>
+				
+	</FrameLayout>
+	
+	<FrameLayout
+		android:layout_alignParentLeft="true"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_below="@+id/title"
+		android:layout_above="@+id/options">
+		<RelativeLayout 
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+			<com.google.android.maps.MapView
+				android:id="@+id/mapview"
+				android:layout_alignParentTop="true"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:clickable="true"
+				android:apiKey="0vAvVcCOX7pr32xEpDSdUtr20Tid-2vJqCVgsbw"/>
+				<!--  debug android:apiKey="0vAvVcCOX7prR8Wmt8WKvVsHSgP16pJtlYKhqSg" -->
+			
+			<RelativeLayout 
+			    android:id="@+id/address_view"
+			    android:background="@drawable/white"
+			    android:layout_margin="15dp"
+			    android:layout_alignParentTop="true"
+			    android:layout_centerHorizontal="true"
+			    android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+				
+			    <ImageView
+			        android:id="@+id/close"
+			        android:src="@drawable/close"
+			        android:layout_alignParentLeft="true"
+			        android:layout_alignParentTop="true"
+			        android:background="@drawable/optionbtn"
+			        android:padding="15dp"
+			        android:layout_width="70dp"
+			        android:layout_height="70dp"/>
+				<TextView
+					android:id="@+id/user_address"
+		  	  		android:textColor="#000000"
+			  	  	android:textSize="24sp"
+			  	  	android:padding="10dp"
+			  	  	android:layout_marginLeft="60dp"
+			  	  	android:layout_alignParentTop="true"
+			  	  	android:layout_alignParentLeft="true"
+					android:gravity="center_horizontal"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"/>
+			</RelativeLayout>
+		</RelativeLayout>
+	</FrameLayout>	
+	
+	<FrameLayout
+		android:id="@+id/options"
+		android:layout_alignParentBottom="true"
+		android:background="@drawable/optionbar"
+		android:layout_width="fill_parent"
+		android:layout_height="80dp">
+		
+		<LinearLayout 
+			android:orientation="horizontal"
+			android:gravity="center_vertical"
+			android:layout_width="fill_parent"
+			android:paddingTop="2dp"
+			android:paddingBottom="2dp"
+			android:layout_height="fill_parent">
+			
+			<ToggleButton android:id="@+id/myzoom"
+				android:background="@drawable/tabbtn"
+				android:drawableTop="@drawable/myloc"
+				android:textColor="@color/optionbtn_text"
+				android:textOn="@string/mylocation_address"
+				android:textOff="@string/mylocation_address"
+				android:textSize="16sp"
+				android:paddingTop="10dp"
+				android:drawablePadding="-20dp"
+				android:layout_weight="1"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"/> 
+		
+			<ToggleButton android:id="@+id/yourzoom"
+				android:background="@drawable/tabbtn"
+				android:drawableTop="@drawable/yourzoom"
+				android:textColor="@color/optionbtn_text"
+				android:textOn="@string/friend_address"
+				android:textOff="@string/friend_address"
+				android:textSize="16sp"
+				android:paddingTop="10dp"
+				android:drawablePadding="-20dp"
+				android:layout_weight="1"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"/>
+				
+			<ToggleButton android:id="@+id/autotrack"
+				android:background="@drawable/tabbtn"
+				android:drawableTop="@drawable/track"
+				android:textColor="@color/optionbtn_text"
+				android:textOn="@string/path"
+				android:textOff="@string/path"
+				android:textSize="16sp"
+				android:paddingTop="10dp"
+				android:drawablePadding="-20dp"
+				android:layout_weight="1"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"/>
+				
+			<ToggleButton android:id="@+id/showtraffic"
+				android:drawableTop="@drawable/traffic"
+				android:background="@drawable/tabbtn"
+				android:textColor="@color/optionbtn_text"
+				android:textOn="@string/traffic"
+				android:textOff="@string/traffic"
+				android:textSize="16sp"
+				android:paddingTop="10dp"
+				android:drawablePadding="-20dp"
+				android:layout_weight="1"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"/>
+				
+			<ToggleButton android:id="@+id/showsatellite"
+			    android:drawableTop="@drawable/satellite"
+				android:background="@drawable/tabbtn"
+				android:textColor="@color/optionbtn_text"
+				android:textOn="@string/satellite"
+				android:textOff="@string/satellite"
+				android:textSize="16sp"
+				android:paddingTop="10dp"
+				android:drawablePadding="-20dp"
+				android:layout_weight="1"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"/>
+			
+		</LinearLayout>
+		
+	</FrameLayout>
+
+</RelativeLayout>

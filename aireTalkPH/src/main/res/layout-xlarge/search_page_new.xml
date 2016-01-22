@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ecf0f1"
+    android:tag="xlarge" >
+
+    <RelativeLayout
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/titlebar" >
+
+        <ImageView
+            android:id="@+id/cancel"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/optionbtn"
+            android:padding="15dp"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:id="@+id/topic"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:shadowColor="#80000000"
+            android:shadowDx="1"
+            android:shadowDy="2"
+            android:shadowRadius="2"
+            android:text="@string/search"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:background="@drawable/searchbar_bg"
+        android:layoutAnimation="@anim/layout_slide_down_in"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="12dp" >
+
+        <LinearLayout
+            android:id="@+id/ll_scan"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/my_qr"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/icon_qr" />
+
+            <Button
+                android:id="@+id/qr_friends"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/whitebtn3"
+                android:text="@string/qr_friends"
+                android:textColor="#707070"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/nearby_search"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/whitebtn3"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:text="@string/nearby_friends"
+            android:textColor="#707070"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/phonebook_search"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/whitebtn3"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/phonebook_search"
+            android:textColor="#707070"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/possible_friends"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/whitebtn3"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:text="@string/possible_friends"
+            android:textColor="#707070"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/facebook_search"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/facebookbtn"
+            android:drawableLeft="@drawable/facebook"
+            android:ellipsize="end"
+            android:paddingLeft="15dp"
+            android:paddingRight="5dp"
+            android:shadowColor="#80000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="2"
+            android:singleLine="true"
+            android:text="@string/facebook_search"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_search"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/clear"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/optionbtn"
+                android:padding="10dp"
+                android:src="@drawable/clear" />
+
+            <EditText
+                android:id="@+id/keyword"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_toLeftOf="@+id/search"
+                android:layout_toRightOf="@+id/clear"
+                android:background="@drawable/edit_bg"
+                android:capitalize="none"
+                android:inputType="textNoSuggestions"
+                android:maxLength="20"
+                android:padding="12dp"
+                android:singleLine="true"
+                android:textColor="#ff445e8e"
+                android:textSize="24sp" />
+
+            <ImageView
+                android:id="@+id/search"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/optionbtn"
+                android:padding="10dp"
+                android:src="@drawable/search2" />
+        </RelativeLayout>
+        <ImageView android:id="@+id/iv_arrow"
+            android:layout_height="32dp"
+            android:layout_width="42dp"
+            android:src="@drawable/ic_expand_less_white"/>
+    </LinearLayout>
+
+    <GridView
+        android:id="@+id/friendsGridView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/content"
+        android:background="#ecf0f1"
+        android:gravity="center"
+        android:listSelector="@drawable/optionbtn"
+        android:numColumns="4"
+        android:verticalSpacing="0dp" />
+
+</RelativeLayout>

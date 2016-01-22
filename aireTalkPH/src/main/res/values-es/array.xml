@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string-array name="share_time">
+<item>1 hora</item>
+<item>2 horas</item>
+<item>1 día</item>
+<item>2 días</item>
+<item>3 días</item>
+</string-array>
+
+<string-array name="MyTelephony_CountryName">
+<item>China</item>
+<item>Taiwán</item>
+<item>República Dominicana</item>
+<item>Jamaica</item>
+<item>Dominica</item>
+<item>Islas Virgenes</item>
+<item>Islas Virgenes</item>
+<item>Canadá</item>
+<item>EE.UU.</item>
+<item>Hong Kong</item>
+<item>Macao</item>
+<item>Japón</item>
+<item>Corea del Sur</item>
+<item>Singapur</item>
+<item>Francia</item>
+<item>España</item>
+<item>Suecia</item>
+<item>Suiza</item>
+<item>Reino Unido</item>
+<item>Nueva Zelanda</item>
+<item>Finlandia</item>
+<item>Alemania</item>
+<item>Italia</item>
+<item>Países Bajos</item>
+<item>Dinamarca</item>
+<item>Rusia</item>
+<item>India</item>
+<item>Tailandia</item>
+<item>Malasia</item>
+<item>Noruega</item>
+<item>México</item>
+<item>Brasil</item>
+<item>Sudáfrica</item>
+<item>Irlanda</item>
+<item>Argentina</item>
+<item>Australia</item>
+<item>Austria</item>
+<item>Mónaco</item>
+<item>Bélgica</item>
+<item>Colombia</item>
+<item>Israel</item>
+<item>Indonesia</item>
+<item>Grecia</item>
+<item>Hungría</item>
+<item>Filipinas</item>
+<item>Polonia</item>
+<item>Portugal</item>
+<item>Rumanía</item>
+<item>Armenia</item>
+<item>Ucrania</item>
+<item>Bangladesh</item>
+<item>Cuba</item>
+<item>Egipto</item>
+<item>Bielorrusia</item>
+<item>Bulgaria</item>
+<item>República Centroafricana</item>
+<item>Estonia</item>
+<item>República Democrática Popular Lao</item>
+<item>Liechtenstein</item>
+<item>Malta</item>
+<item>Islas Cook</item>
+<item>Mongolia</item>
+<item>Kazajstán</item>
+<item>Omán</item>
+<item>Pakistán</item>
+<item>Perú</item>
+<item>Irán</item>
+<item>Irak</item>
+<item>Afganistán</item>
+<item>Albania</item>
+<item>Angola</item>
+<item>Uzbekistán</item>
+<item>Vietnam</item>
+<item>Sudán</item>
+<item>Costa Rica</item>
+<item>Guatemala</item>
+<item>El Salvador</item>
+<item>Honduras</item>
+<item>Nicaragua</item>
+<item>Panamá</item>
+<item>Venezuela</item>
+<item>Ecuador</item>
+<item>Bolivia</item>
+<item>Paraguay</item>
+<item>Uruguay</item>
+<item>Chile</item>
+<item>Guyana</item>
+<item>Turquia</item>
+<item>República Árabe Siria</item>
+<item>Jordan</item>
+<item>Kuwait</item>
+<item>Arabia Saudita</item>
+<item>Yemen</item>
+<item>Emiratos Árabes Unidos</item>
+<item>Marruecos</item>
+<item>Argelia</item>
+<item>Eslovenia</item>
+<item>Croacia</item>
+<item>Islas Salomón</item>
+<item>Macedonia</item>
+<item>Serbia Y Montenegro</item>
+<item>República Checa</item>
+<item>Lituania</item>
+<item>Estonia</item>
+<item>Moldavia</item>
+<item>Etiopía</item>
+<item>Swaziland</item>
+<item>Lesotho</item>
+<item>Nigeria</item>
+<item>Gambia</item>
+<item>Tunez</item>
+<item>Myanmar</item>
+<item>Camboya</item>
+<item>Palau</item>
+<item>Maldivas</item>
+<item>Nepal</item>
+<item>Luxemburgo</item>
+<item>Côte d\'Ivoire</item>
+<item>Fiji</item>
+<item>Líbano</item>
+<item>Madagascar</item>
+<item>Bahrein</item>
+<item>Suriname</item>
+<item>Azerbaiyán</item>
+<item>Qatar</item>
+<item>Ghana</item>
+<item>Mauricio</item>
+<item>Letonia</item>
+<item>Georgia</item>
+<item>Papua Nueva Guinea</item>
+<item>Sri Lanka</item>
+<item>Bosnia y Herzegovina</item>
+</string-array>
+
+<string-array name="currency_code">
+<item>USD</item>
+<item>TWD</item>
+<item>CNY</item>
+<item>KRW</item>
+<item>JPY</item>
+<item>EUR</item>
+<item>HKD</item>
+<item>GBP</item>
+</string-array>
+
+</resources>

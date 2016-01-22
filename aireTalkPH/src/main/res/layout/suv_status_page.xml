@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ecf0f1"
+    android:tag="normal" >
+
+    <RelativeLayout
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/titlebar" >
+
+        <ImageView
+            android:id="@+id/cancel"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/optionbtn"
+            android:padding="10dp"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:id="@+id/topic"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:shadowColor="#80000000"
+            android:shadowDx="1"
+            android:shadowDy="2"
+            android:shadowRadius="2"
+            android:text="@string/search"
+            android:textColor="#FFFFFF"
+            android:textSize="19sp"
+            android:textStyle="bold" />
+			
+		<ImageView
+		    android:id="@+id/refresh"
+		    android:src="@drawable/ic_refresh_w"
+		    android:background="@drawable/optionbtn"
+			android:layout_centerVertical="true"
+			android:layout_alignParentRight="true"
+			android:padding="5dp"
+			android:layout_width="50dp" 
+			android:layout_height="50dp"/>
+    </RelativeLayout>
+    
+    <LinearLayout
+		android:id="@+id/content"
+		android:layout_width="fill_parent"
+		android:layout_height="match_parent"
+     	android:orientation="vertical"
+     	android:layout_below="@+id/title">
+     	
+         <TextView 
+			android:id="@+id/suv_status_info"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="security status"
+			android:gravity="center"
+         	android:textSize="17sp"
+         	android:textColor="@color/darkgray"
+         	android:paddingTop="5dp"
+            android:textStyle="bold"/>
+     	
+         <TextView 
+			android:id="@+id/suv_status_date"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="status date"
+			android:gravity="center"
+         	android:textSize="14sp"
+         	android:textColor="@color/darkgray"
+         	android:paddingBottom="5dp"/>
+         
+		<ListView
+			android:id="@+id/suv_device_list"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:background="#ecf0f1"
+			android:cacheColorHint="#ecf0f1"
+			android:divider="#e1dbdb"
+			android:dividerHeight="1dp"
+			android:focusableInTouchMode="true" />
+         
+     </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="app_name">AireTalk</string>
+<string name="contacts">聯絡人</string>
+<string name="edit">編輯</string>
+<string name="sendmsg">發送</string>
+<string name="textinput">在此輸入內容</string>
+<string name="nonetwork">無法連接網路, 請再試一次…</string>
+<string name="network_prompt">你的網絡狀況太差,請檢查你的網絡連接</string>
+<string name="OK">好</string>
+<string name="next">下一步</string>
+<string name="newmessage">您有新的訊息</string>
+<string name="messages">訊息</string>
+<string name="register">註冊</string>
+<string name="login">登入</string>
+<string name="cancel">取消</string>
+<string name="clear">清除</string>
+<string name="compose_new">新增訊息</string>
+<string name="sendto">收件人</string>
+<string name="attachment">附件</string>
+<string name="done">完成</string>
+<string name="recording_vmemo">錄音中,請對著手機說話…</string>
+<string name="recording_timeup">錄音時間到,請按完成…</string>
+
+<string name="i_agree">我已閱讀並同意以上條款</string>
+<string name="eula_disagree">您並未同意註冊條款</string>
+
+<string name="choose_attachment_type">請選擇附件類型</string>
+<string name="voicememo">語音訊息</string>
+<string name="picmsg">圖片訊息</string>
+<string name="pickpicture">照片集</string>
+<string name="takepicture">立即照相</string>
+<string name="choose_photo_source">請選擇圖片來源</string>
+
+<string name="setting">配置</string>
+<string name="server_ip">Server IP</string>
+<string name="checkout">查看</string>
+<string name="reply">回覆</string>
+<string name="close">關閉</string>
+<string name="ignore">忽略</string>
+<string name="delete_confirm">確認刪除</string>
+<string name="delete_thread_confirm">確認要刪除此對話?</string>
+
+<string name="in_progress">正在處理中請稍候…</string>
+<string name="in_call">您正在通話中…</string>
+<string name="fafayou_in_call">通話進行中</string>
+<string name="answercallhint">移動滑桿來接聽</string>
+<string name="end_call">結束</string>
+<string name="hide_keypad">隱藏鍵盤</string>
+<string name="yes">是</string>
+<string name="no">否</string>
+<string name="unknown_person">未知的聯絡人</string>
+<string name="missed_call">未接來電</string>
+<string name="unanswered_call">未接通</string>
+<string name="call_duration">通話時間</string>
+<string name="incoming_call">來電</string>
+<string name="outgoing_call">去電</string>
+<string name="phone_call">打電話</string>
+
+<string name="username">用戶名</string>
+<string name="phonenumber">手機號碼</string>
+<string name="password">密碼</string>
+<string name="password_confirm">確認密碼</string>
+<string name="email">E-Mail</string>
+<string name="email_hint">請務必留下聯絡信箱</string>
+<string name="register_immediately">立即註冊</string>
+
+<string name="forget_password">忘記密碼了?</string>
+<string name="passwords_dont_match">密碼不符合</string>
+<string name="password_error">密碼輸入錯誤</string>
+<string name="nonmember">用戶不存在,請先註冊</string>
+<string name="username_invalid">用戶名有誤\n(請以小寫英文字母開頭,至少六個字)</string>
+<string name="phonenumber_hint">請輸入正確的手機號碼</string>
+<string name="phonenumber_invalid">請輸入正確的手機號碼</string>
+<string name="email_invalid">E-Mail地址有誤</string>
+<string name="login_title">請登入</string>
+<string name="account_exists">帳號已經存在,請直接登入</string>
+<string name="retrieve_password">即將發送密碼至您的聯繫郵箱</string>
+<string name="waiting_for_sms_to_register">AireTalk正在為您註冊\n約一分鐘內您會收到一則認證簡訊\n請稍作等待…</string>
+<string name="sms_confirm_timeout">系統尚未收到認證訊息,\n請確定正確的手機電話號碼並重試一次。</string>
+<string name="welcome">歡迎使用AireTalk</string>
+<string name="username_hint">用戶名 (英文字母開頭)</string>
+
+<string name="dial_this">打電話</string>
+<string name="delete_thread">刪除此對話</string>
+<string name="delete_msg">刪除此訊息</string>
+<string name="view_contact">查看此聯絡人</string>
+<string name="add_contact">加入聯絡人</string>
+<string name="pickup_contact">選取聯絡人</string>
+<string name="surname">姓氏</string>
+<string name="name">姓名</string>
+<string name="input_hint">您也可以輕觸此處來輸入對方的用戶名</string>
+
+<string name="location_not_found"> 對方的位置不明</string>
+<string name="nonmember_no_service">對方不是會員</string>
+
+<string name="msg_is_sent">訊息已送出</string>
+
+<string name="making_call">撥號中</string>
+<string name="call_connected">通話中</string>
+<string name="call_end">通話結束</string>
+<string name="call_declined">對方正在通話中</string>
+<string name="no_response">對方不在線上</string>
+<string name="callee_not_found">暫時 無法聯繫對方</string>
+
+<string name="new_version_found">AireTalk現在有新的版本%s 提供用戶更新,</string>
+<string name="force_update">您必須更新才能繼續使用AireTalk,</string>
+<string name="dont_worry">請放心原本的資料會被保留。</string>
+<string name="update">更新</string>
+
+<string name="request_location_sharing">您要向對方發送位置分享的請求嗎？對方同意以後,即可在AireTalk中互相分享座標訊息。</string>
+<string name="sharing_location_request">想要和您在AireTalk中互相分享位置訊息,您同意嗎？</string>
+<string name="sharing_done">已成功分享</string>
+
+<string name="displayname">顯示名稱</string>
+<string name="photo_gallery">圖片庫</string>
+
+<string name="friends">我的好友</string>
+<string name="copysms">複製</string>
+<string name="copied_to_clipboard">已複製內容到剪貼版</string>
+<string name="mylocation_address">我的位置</string>
+<string name="friend_address">好友位置</string>
+<string name="keypad">撥號鍵盤</string>
+<string name="track">追蹤</string>
+<string name="traffic">即時路況</string>
+<string name="satellite">衛星</string>
+<string name="delete_the_contact">刪除聯絡人</string>
+<string name="delete">刪除</string>
+<string name="back">返回</string>
+<string name="mute">靜音</string>
+<string name="speaker">擴音</string>
+<string name="add_call">新增通話</string>
+<string name="hold">保留</string>
+
+<string name="missed_call_remind_1">您有%d通未接來電來自</string>
+<string name="missed_call_remind_2">, %s AireTalk提醒您回覆重要電話。</string>
+<string name="pcode_desc">您也許收到過認證簡訊,請輸入認證訊息內容中最後的四個數字,即可註冊。</string>
+<string name="help">幫助</string>
+<string name="img_error">你選擇的不是圖片</string>
+<string name="email_register">我們會立刻發一封認證郵件到您的信箱,請在您的郵件中啓用您的帳號。</string>
+<string name="login_error">很抱歉，現在網路繁忙，無法登入，請稍待。</string>
+<string name="pwdemail_title">請輸入註冊手機號或用戶名</string>
+<string name="pwdemailfailed">郵件無法寄到您的信箱</string>
+<string name="pwdemailsuccess">郵件已成功寄到到您的信箱</string>
+<string name="no_sdcard">没有 SD Card 或已經連接電腦</string>
+<string name="no_sdcard_receive_voice_message">没有 SD Card 接收語音信息</string>
+<string name="no_sdcard_receive_picture_message">没有 SD Card 接收圖片信息</string>
+<string name="sms_manager">簡訊管理功能</string>
+<string name="try_again">暫時無法接通 請稍候再撥</string>
+
+<string name="share">分享Aire給朋友</string>
+<string name="smile">表情</string>
+<string name="smiletitle">表情符號</string>
+
+<string name="keypad_menu_open">開啟按鍵音</string>
+<string name="keypad_menu_close">關閉按鍵音</string>
+<string name="setnet">開啟網路</string>
+<string name="add">添加</string>
+<string name="auto_notify_joins">這個App打電話免費,以後盡量用這個聯繫我就OK了:-p</string>
+<string name="international_sms_alert">這即將發送的可能是一條昂貴的國際長途短信，確定繼續嗎？</string>
+
+<string name="call">呼叫</string>
+
+<string name="smspopup">短信彈出提示</string>
+<string name="notification_sound">通知音效</string>
+<string name="receive_vibrate">接收時振動</string>
+<string name="send_vibrate">發送時振動</string>
+
+<string name="pcode_check">請正確輸入一個您收到的四位數認證碼</string>
+
+<string name="net_error">目前沒有網絡存在</string>
+<string name="shownotification">通知欄圖示</string>
+
+<string name="agree_share_sms">我同意了您的分享，但是我們只能分享%1$s</string>
+<string name="ask_share">(請求分享對方位置，我想要看看他在哪裡)</string>
+<string name="photo_large">照片太大，不能發送</string>
+<string name="savedraft">已保存到草稿</string>
+<string name="hasaskshare">%1$s请求分享你的位置</string>
+
+<string name="helper_name1">客服人員</string>
+
+<string name="interphone_smile">語音表情</string>
+<string name="send_voice_interphone">按住對講</string>
+
+<string name="fafauser_sms">信息</string>
+<string name="fafauser_vmemo">語音</string>
+<string name="fafauser_pic">多媒體</string>
+<string name="fafauser_map">定位</string>
+
+<string name="hint_mood">心情短語</string>
+
+<string name="sms_parese_stringbuf">收到來自%1$s的%2$s</string>
+<string name="interphone">對講機</string>
+<string name="textmessage">文字信息</string>
+<string name="RecvManySms">收到多條信息</string>
+
+<string name="sharing_location">位置分享</string>
+<string name="driving">駕車</string>
+<string name="walking">步行</string>
+<string name="path">路徑</string>
+<string name="notfound_direction">暫時無法獲得路徑</string>
+
+
+<string name="smsfail">信息可能發送失敗，請檢查網絡再次發送</string>
+<string name="videomemo">影片檔案</string>
+<string name="video">視頻</string>
+<string name="file">檔案</string>
+<string name="filememo">檔案傳輸</string>
+<string name="filememo_send">檔案發送</string>
+<string name="filememo_recv">檔案接收</string>
+<string name="chose_file">選擇檔案傳送給對方</string>
+
+<string name="file_othernet">您當前使用的網絡不支持傳送檔案, 請使用3G或wifi進行傳送</string>
+<string name="file_dnnotnet">沒有網絡連接,不能進行檔案下載</string>
+<string name="file_dnwifinet">此檔案共計%1$s,確定下載? 下載目錄 %2$s</string>
+<string name="file_dnothernet">您當前使用的網絡不支持下載檔案,請使用3G或wifi進行下載</string>
+<string name="download">下載</string>
+<string name="downloading">檔案下載中…</string>
+<string name="downloadsucess">下載完成</string>
+<string name="downloaderror">下載失敗</string>
+<string name="fileandvideosingle">檔案或影片必須單獨傳輸</string>
+<string name="file_err">檔案不存在</string>
+<string name="sd_availablespare">SD卡已滿,請清理一下SD卡</string>
+<string name="sd_notfound">您的手機沒有SD卡或已損壞</string>
+<string name="recording_incall">有電話呼入,打斷您的視頻,請稍等</string>
+<string name="filename_longerr">檔案名太長,請減少到64個字符以內</string>
+<string name="save_photo_SD">圖片另存到SD卡</string>
+<string name="more_sms">查看更多消息</string>
+<string name="copyfile">複製到: </string>
+<string name="fileLarge">檔案太大,最大發送 100 MB</string>
+<string name="notfound_photo">(圖片不存在)</string>
+
+<string name="filedownloading">已有檔案正在下載,爲了不影響您的使用,請稍後再試</string>
+<string name="fileuploading">已有檔案正在上傳,爲了不影響您的使用,請稍後再試</string>
+
+<string name="downloadedfile">檔案 [%s] 下載完成</string>
+<string name="downloadedvideo">視頻 (vdo) 下載完成</string>
+<string name="video_err">視頻不存在</string>
+<string name="nodata">檔案中沒有內容,不能發送</string>
+<string name="send_again">重新發送</string>
+
+<string name="fafamissed_call">未接來電</string>
+<string name="sysmissed_call">系統未接來電</string>
+
+<string name="progress_wait">第一次登入, 請稍作等待…</string>
+<string name="aire_welcome_desc">歡迎加入AireTalk! :-) 如果有任何問題,請直接聯繫我!</string>
+<string name="txtspinner_desc">可以在此輸入您要添加的電話號碼或AireTalk用戶名</string>
+<string name="findpwd">手機號碼或用戶名</string>
+<string name="findpwd_input_err">請輸入正確的手機號碼或用戶名</string>
+
+<string name="bluetooth">藍芽</string>
+<string name="no_sim_hint">因為您的手機沒有SIM卡存在，所以只能用ㄧ般用戶名登入</string>
+<string name="nonsupport_googlemap">對不起，您當前的系統不支持Google地圖，</string>
+<string name="makesure_phonenumber_1">請確定這是您的手機號碼:</string>
+<string name="makesure_phonenumber_2">我們將發送ㄧ則簡訊作為確認，請確定您的手機收訊正常。</string>
+<string name="take_picture_error">無法啓動照相機</string>
+<string name="talk_background">聊天背景</string>
+
+<string name="add_photo">添加\n照片</string>
+<string name="registration_body">AireTalk 認證簡訊通知，歡迎使用 AireTalk。驗證碼:</string>
+
+<string name="making_video_call">視頻電話撥號中</string>
+<string name="incoming_video_call">視頻電話來電</string>
+
+<string name="no_video_hint">對不起, 無法正常顯示視頻。</string>
+<!-- new strings -->
+<string name="nickname">名字</string>
+<string name="nickname_hint">公開的名字</string>
+<string name="register_desc">第一次使用 AireTalk</string>
+<string name="eula_title">用戶協議</string>
+<string name="personal_info">請完成以下資料</string>
+
+<string name="register_desc_0">請填寫E-Mail信箱, 我們只用它來用來寄送您的密碼。</string>
+<string name="register_desc_1">為了安全性, 我們將會立即發送一條簡訊給您。請確定您的手機號碼是正確的。</string>
+<string name="register_desc_2">請填寫註冊資料, 我們的註冊過程快速又安全。</string>
+<string name="login_desc_0">請直接登入, 我們會為您做認證。</string>
+<string name="login_desc_1">請輸入您的手機號碼後直接登入, 我們會為您做認證。</string>
+<string name="login_desc_2">請輸入AireTalk帳號和密碼來登入, 我們會為您做認證。</string>
+<string name="login_nonmember">很抱歉, 這不是AireTalk用戶, 請先確認。</string>
+
+<string name="nickname_invalid">名字的字數太少</string>
+
+<string name="male">男</string>
+<string name="female">女</string>
+<string name="search">搜尋好友</string>
+<string name="copyright">© Copyright 2011-2015. Pingshow Inc.</string>
+<string name="black_list">黑名單</string>
+<string name="block">封鎖</string>
+<string name="unblock">解除封鎖</string>
+<string name="put_in_blacklist">放入\n黑名單</string>
+<string name="chat">聊天</string>
+<string name="videocall">視訊通話</string>
+<string name="buy">購買</string>
+<string name="aire_free_call">AireCall</string>
+<string name="add_as_friend">加入好友</string>
+<string name="login_by_facebook">Facebook 帳號登入</string>
+<string name="facebook_login_desc">您可以使用 Facebook 帳號直接登入AireTalk</string>
+<string name="read_contacts">AireTalk需要您的允許以讀取您的通訊錄。因為有通訊錄的資料可以直接幫您找到您熟識的好友,將來連絡他們就更方便且免費了。AireTalk致力於保護您的所有隱私。</string>
+<string name="unblock_this_user">您確定要將 %1$s 解除封鎖?</string>
+<string name="accept_this_stranger">%1$s 想要和你說話。\n您願意接受對方的邀請嗎?</string>
+<string name="search_desc">您可以輸入任何關鍵字來搜索好友:</string>
+<string name="search_result">找到%d位用戶</string>
+<string name="credit">點數: %.3f</string>
+<string name="credit_not_enough">抱歉,您的點數不足… </string>
+<string name="help_aire_free_call">AireCall免費試用中!請立即嘗試打一通免費電話給您的家人或朋友,不論是手機還是市話,體驗一下AireTalk的通話功能吧!\n\n</string>
+<string name="help_photo_is_needed">您尚未指定大頭貼,為了讓您的朋友可以更容易找到您,請為您自己添加一張照片吧。\n\n</string>
+<string name="help_complete_profile">歡迎加入AireTalk! 請為自己添加一個獨一無二的暱稱吧, 再選一張閃亮的照片,讓您的朋友驚艷!\n</string>
+<string name="walkietalkie">對講機</string>
+<string name="wt_sound_out">對講機直接出聲</string>
+<string name="send_location">您要發送自己的位置訊息給%s嗎?</string>
+<string name="loading">Loading…</string>
+<string name="call_back">回覆 %s 的未接來電?</string>
+<string name="possible_friends">您可能認識的朋友</string>
+<string name="sortbyname">依名稱排序</string>
+<string name="sortbytime">依時間排序</string>
+<string name="sortbystatus">依狀態排序</string>
+<string name="joint">有%d位共同的朋友</string>
+<string name="weibo_sign_in">新浪微博帳號登入</string>
+<string name="share_by_email">用E-Mail邀請朋友</string>
+<string name="share_by_sms">發一條簡訊邀請朋友</string>
+<string name="share_on_facebook">在Facebook分享AireTalk</string>
+<string name="share_on_qq">在QQ上分享AireTalk</string>
+<string name="share_on_weibo">在新浪微博上分享AireTalk</string>
+<string name="invitation_title">有個省錢的App可以打電話免費</string>
+<string name="invitation">我正在用AireTalk,除了能收發文字圖片,還能語音對講和撥打免費電話! Android手機下載地址: http://play.google.com/store/apps/details?id=com.pingshow.amper</string>
+<string name="weibo_login_desc">您可以用新浪微博的帳號直接登入AireTalk</string>
+<string name="help_multiple_send">您可以選擇多個朋友來傳送任何訊息，現在就點擊藍色按鈕選擇多個朋友吧！</string>
+<string name="multi_send_location">您要發送自己的位置訊息給這些朋友嗎?</string>
+<string name="shared_successfully">分享成功</string>
+<string name="shared_failed">分享失敗</string>
+<string name="webcall_not_valid">很抱歉,現在這個電話號碼已經失效。</string>
+<string name="webcall_not_support">很抱歉,您目前Android的版本暫時不支援網頁直撥。</string>
+<string name="read_contacts_check">讀取您的通訊錄</string>
+<string name="rotate_right">順時針旋轉</string>
+<string name="rotate_left">逆時針旋轉</string>
+
+<string name="searching_friends">搜索好友中，請稍候…</string>
+<string name="searching_friends_desc">AireTalk現在可以幫您找到您所認識的朋友，只要登入您的Facebook帳號即可。</string>
+
+<string name="feedback">意見反饋</string>
+<string name="feedback_desc">謝謝您對我們的支持，請給我們意見讓AireTalk更好。\n請問您喜歡AireTalk嗎？</string>
+<string name="favor_level_1">是的，我超愛!</string>
+<string name="favor_level_2">還不錯啦 :-)</string>
+<string name="favor_level_3">普通 普通</string>
+<string name="favor_level_4">不是很好用</string>
+<string name="favor_level_5">我不喜歡</string>
+<string name="suggsay_text">我有更多建議…</string>
+<string name="sugg_checkbox1">通話音質太差</string>
+<string name="sugg_checkbox2">視訊品質不好</string>
+<string name="sugg_checkbox3">訊息丟失</string>
+<string name="sugg_checkbox4">搜索不到朋友</string>
+<string name="sugg_checkbox5">應用程式當機</string>
+<string name="sugg_dis_text">您在使用AireTalk時,有遇過任何問題嗎?</string>
+<string name="feedback_has_been_sent">您的意見已經上傳，請過一陣子再試。</string>
+<string name="suggCustomer">感謝您的寶貴意見，我們會處理儘快處理，讓AireTalk變更好。 serial code: </string>
+<string name="animated">動畫貼紙</string> 
+
+<string name="blocking_strangers">陌生人勿擾</string>
+<string name="facebook_search">尋找 Facebook 上的朋友</string>
+<string name="phonebook_search">尋找通訊錄裡的朋友</string>
+
+<string name="help_public_radio">歡迎使用AireTalk廣播錄音室，我們提供了很多區分不同語言的公共頻道給您，您可以邀請您的朋友來某個頻道聊天，或是和陌生人閒聊。</string>
+<string name="help_public_radio_2">所有在同一個頻道的人都可以聽見您說的話。閃爍的綠燈表示正在切換頻道，當綠燈停止閃爍您可以按下按鈕開始說話；當有人正在說話時黃燈會亮起，而紅燈代表您正在說話。</string>
+<string name="aire_studio">廣播錄音室</string>
+
+<string name="the_group">群組</string>
+<string name="create_group">新增群組</string>
+<string name="group_name">群組命名</string>
+<string name="group_desc">請為您的群組命名，並挑選成員。所有的成員可以同時間收到您的訊息。</string>
+<string name="add_in_group">%1$s希望將您加入新的群組『%2$s』\n您同意加入嗎？</string>
+<string name="group_number_exceeds">很抱歉，您的群組數目已達最大值。</string>
+
+<string name="file_transfer_waiting">等待對方回應</string>
+<string name="file_transfer_connected">傳輸中</string>
+<string name="file_transfer_error">傳輸失敗</string>
+<string name="file_transfer_stop">停止傳輸</string>
+<string name="file_transfer_finished">傳輸完成</string>
+<string name="file_transfer_incoming">同意接收檔案嗎?</string>
+
+<string name="add_new_member_in_group">您確定要為這群組添加新成員嗎?</string>
+<string name="group_invite_new_member">%1$s已經被邀請到\"%2$s\"群組</string>
+
+<!-- from iphone -->
+<string name="aire_call">AireCall</string>
+<string name="purchase">儲值</string>
+<string name="airecall_credits">AireCall點數</string>
+<string name="credit_desc">使用AireCall撥打任何國家的手機和市話，可以讓您省更多!</string>
+<string name="rate_detail_desc">點擊國家可以查詢AireCall的詳細通話費率。</string>
+
+<string name="detail_rate">目的地國家: %1$s (%2$s)\n您選擇的是『%3$s』\n\n撥打市話:\n\t每分鐘約 %4$s $%5$.3f\n\t(每分鐘約 %6$s %7$s%8$.2f)\n\n撥打行動電話:\n\t每分鐘約 %9$s $%10$.3f\n\t(每分鐘約 %11$s %12$s%13$.2f)\n\n此費率僅供參考。</string>
+
+<string name="rate_statement">費率可能會因為不同電信公司或是匯率而有所不同。費率表僅供參考。</string>
+
+<string name="thank_you_for_purchase">感謝您購買『%s』，點數已注入。</string>
+<string name="trade_detail">交易明細</string>
+
+<string name="query_rate">精確費率查詢</string>
+<string name="query_rate_desc">您可以輸入世界上任何電話號碼，我們會立刻告訴您我們撥打這個號碼的實際費率</string>
+<string name="any_phone_number">任何電話號碼</string>
+<string name="precise_rate">每分鐘 %1$s $%2$.3f\n每分鐘約 %3$s %4$s%5$.3f\n\n%6$s\n(%7$s)</string>
+
+<string name="class_selection">線路等級</string>
+<string name="class_desc">我們提供三種不同的線路選擇，等級越高收費可能稍微高一些，但是會提供更多元的服務。</string>
+<string name="standard_class">標準型</string>
+<string name="premium_class">優質型</string>
+<string name="business_class">商務型</string>
+
+<string name="standard_desc">標準型是您最經濟實惠的選擇</string>
+<string name="premium_desc">優質型提供您高品質的路由線路</string>
+<string name="business_desc">為最高品質的網路線路。只要您的網路穩定，商務型就等同於一般電話通訊</string>
+
+<string name="please_visit">請光臨我們的網站購買:</string>
+<string name="call_log">通話紀錄</string>
+<string name="home_guard">家庭保全</string>
+<string name="send_suvei">您要對『%s』啓動家庭保全功能嗎?</string>
+<string name="start">啓動</string>
+<string name="stop">停止</string>
+
+<string name="delete_this_call_log">刪除這條通話紀錄</string>
+<string name="delete_all_call_log">刪除所有通話紀錄</string>
+
+<string name="create_topic">新建話題</string>
+<string name="topic">話題</string>
+<string name="create_wt_group_statement">您在一週內只能新建話題一次</string>
+
+<string name="search_topic">搜索話題</string>
+<string name="topic_to_search">話題關鍵字</string>
+<string name="voice_mail">進入語音信箱</string>
+<string name="no_microphone">很抱歉,偵測不到麥克風輸入裝置</string>
+
+<string name="conference">多方通話</string>
+<string name="conference_2">多方通話</string>
+<string name="invitation_amazon">我正在用AireTalk,除了能收發文字圖片,還能語音對講和撥打免費電話! Amazon下載地址: http://www.amazon.com/PingShow-Inc-AireTalk/dp/B00HXAMZSA</string>
+
+<string name="profile_updated">%s更新了大頭照。</string>
+<string name="music">音樂</string>
+<string name="comments">評論: </string>
+<string name="likes">讚: </string>
+<string name="likes_it">說這很讚</string>
+<string name="stranger_warning">您尚未將這位使用者加入好友,發送訊息時請小心謹慎。</string>
+<string name="delete_post_confirm">確認要刪除此貼文?</string>
+
+<string name="free">免費</string>
+<string name="security">監控</string>
+
+<string name="home_monitor">家庭監控</string>
+<string name="surveillance">移動偵測</string>
+</resources>
+
+

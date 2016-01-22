@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/menu"
+    android:background="#8ca5d3"
+    android:orientation="vertical"
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent">
+<!--     //tml*** beta ui -->
+    <TextView 
+        android:id="@+id/title"
+        android:text="menu"
+        android:textSize="22sp"
+        android:padding="6dp"
+        android:background="#738cba"
+        android:layout_alignParentTop="true"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+    
+    <ListView android:id="@+id/list" 
+        android:layout_below="@+id/title"
+        android:divider="#80ffffff"
+        android:dividerHeight="1dp"
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content"
+        android:background="#8ca5d3" 
+        android:cacheColorHint="#8ca5d3" 
+        android:scrollbars="none">
+    </ListView>
+</RelativeLayout>

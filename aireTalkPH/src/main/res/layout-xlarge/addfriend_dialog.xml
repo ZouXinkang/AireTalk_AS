@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content" >
+
+	<ImageView
+		android:id="@+id/close"
+		android:src="@drawable/close"
+		android:background="@drawable/optionbtn"
+		android:padding="18dp"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentLeft="true"
+		android:layout_marginTop="10dp"
+		android:layout_marginLeft="10dp"
+		android:layout_width="80dp"
+		android:layout_height="80dp"/>
+
+	<LinearLayout
+	    android:id="@+id/title"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="30dp"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentTop="true"
+		android:orientation="vertical" >
+
+		<TextView
+			android:id="@+id/unknown"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:gravity="center"
+			android:paddingTop="10dp"
+			android:paddingLeft="70dp"
+			android:paddingRight="70dp"
+			android:paddingBottom="10dp"
+			android:shadowColor="#c0000000"
+			android:shadowDx="0"
+			android:shadowDy="2"
+			android:shadowRadius="3"
+			android:text="@string/accept_this_stranger"
+			android:textColor="#ffffff"
+			android:textSize="26sp"
+			android:visibility="gone"/>
+
+		<ImageView
+			android:id="@+id/photo"
+			android:layout_width="160dp"
+			android:layout_height="160dp"
+			android:layout_gravity="center_horizontal"
+			android:background="@drawable/empty"
+			android:clickable="true"
+			android:padding="12dp"/>
+		
+		<TextView
+			android:id="@+id/displayname"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:shadowColor="#c0000000"
+	  	  	android:shadowDx="0"
+	  	  	android:shadowDy="2"
+	  	  	android:shadowRadius="3"
+			android:gravity="center"
+			android:textStyle="bold"
+			android:typeface="sans"
+			android:textColor="#ffffff"
+			android:textSize="24sp"/>
+		
+		<TextView
+			android:id="@+id/joint"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:ellipsize="end"
+			android:paddingLeft="10dp"
+			android:paddingRight="10dp"
+			android:gravity="center"
+			android:lines="1"
+			android:textColor="#c0f0f0f0"
+			android:textSize="24sp"/>
+	</LinearLayout>
+	
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:padding="10dp"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:layout_below="@+id/title"
+		android:gravity="center_horizontal"
+		android:orientation="horizontal" >
+		
+	    <Button
+			android:id="@+id/block"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="20dp"
+			android:background="@drawable/funcbtn"
+			android:drawableLeft="@drawable/block"
+			android:drawablePadding="10dp"
+			android:padding="5dp"
+			android:text="@string/block"
+			android:textColor="#ffffff"
+			android:visibility="gone"
+			android:textSize="26sp"
+			android:textStyle="bold"/>
+
+		<Button
+			android:id="@+id/ignore"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="20dp"
+			android:background="@drawable/funcbtn"
+			android:drawableLeft="@drawable/ignore"
+			android:drawablePadding="10dp"
+			android:padding="5dp"
+			android:text="@string/ignore"
+			android:textColor="#ffffff"
+			android:visibility="gone"
+			android:textSize="26sp"
+			android:textStyle="bold"/>
+
+<!-- 		//tml*** addfriend crash, was missing delete button -->
+		<Button
+			android:id="@+id/delete_stranger"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="20dp"
+			android:background="@drawable/funcbtn"
+			android:drawableLeft="@drawable/ignore"
+			android:drawablePadding="10dp"
+			android:padding="5dp"
+			android:text="@string/delete"
+			android:textColor="#ffffff"
+			android:visibility="visible"
+			android:textSize="26sp"
+			android:textStyle="bold"/>
+		
+		<Button
+			android:id="@+id/add"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:background="@drawable/funcbtn"
+			android:drawableLeft="@drawable/add"
+			android:drawablePadding="10dp"
+			android:padding="5dp"
+			android:layout_marginBottom="10dp"
+			android:text="@string/add_as_friend"
+			android:textColor="#ffffff"
+			android:textSize="26sp"
+			android:textStyle="bold" />
+</LinearLayout>
+
+</RelativeLayout>

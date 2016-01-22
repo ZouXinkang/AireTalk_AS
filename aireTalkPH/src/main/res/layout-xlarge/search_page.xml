@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/menu"
+    android:background="#8ca5d3"
+    android:orientation="vertical"
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content">
+<!--     //tml*** beta ui -->
+
+    <RelativeLayout
+        android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@drawable/titlebar">"
+<!-- android:background="#738cba" -->
+            <ImageView
+			    android:id="@+id/cancel_add_friends"
+			    android:src="@drawable/back"
+			    android:background="@drawable/optionbtn"
+				android:padding="10dp"
+				android:layout_centerVertical="true"
+				android:layout_alignParentLeft="true"
+				android:layout_width="50dp"
+				android:layout_height="50dp"/>
+
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/add_friends_set"
+                android:textColor="#FFFFFF"
+                android:textSize="32sp"
+                android:shadowColor="#80000000"
+		  	  	android:shadowDx="1"
+		  	  	android:shadowDy="2"
+		  	  	android:shadowRadius="2"
+                android:textStyle="bold"/>
+        </RelativeLayout>
+     <ListView android:id="@+id/list_add" 
+        android:layout_below="@+id/title"
+        android:divider="#80ffffff"
+        android:dividerHeight="1dp"
+        android:layout_width="match_parent" 
+        android:layout_height="match_parent"
+        android:background="@drawable/optionbar"
+        android:cacheColorHint="#8ca5d3" 
+        >
+    </ListView>
+</RelativeLayout>

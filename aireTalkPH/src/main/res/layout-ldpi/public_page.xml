@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" 
+    android:background="@drawable/metal_bg"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    
+    <RelativeLayout
+        android:id="@+id/space"
+        android:background="#30000000"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="fill_parent"
+		android:layout_height="270dp">
+    </RelativeLayout>
+    
+    <Button
+	 	android:id="@+id/speaking_btn"
+	 	android:layout_above="@+id/options"
+	 	android:layout_centerHorizontal="true"
+		android:background="@drawable/rwtbtn"
+		android:layout_marginBottom="5dp"
+		android:layout_width="160dp"
+	  	android:layout_height="90dp"/>
+
+    <FrameLayout
+		android:id="@+id/options"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:layout_alignParentBottom="true"
+		android:background="@drawable/optionbar" >
+
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:gravity="center_vertical"
+			android:orientation="horizontal"
+			android:paddingBottom="2dp"
+			android:paddingTop="2dp" >
+
+			<Button
+				android:id="@+id/bMessage"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_marginLeft="3dp"
+				android:layout_marginRight="3dp"
+				android:layout_weight="1"
+				android:background="@drawable/tabbtn"
+				android:drawablePadding="-10dp"
+				android:drawableTop="@drawable/tab_msg"
+				android:text="@string/messages"
+				android:textColor="@color/optionbtn_text"
+				android:textSize="9sp" />
+
+			<Button
+				android:id="@+id/bFafauser"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_marginLeft="3dp"
+				android:layout_marginRight="3dp"
+				android:layout_weight="1"
+				android:background="@drawable/tabbtn"
+				android:drawablePadding="-10dp"
+				android:drawableTop="@drawable/tab_user"
+				android:text="@string/friends"
+				android:textColor="@color/optionbtn_text"
+				android:textSize="9sp" />
+			
+			<Button
+				android:id="@+id/bAireCall"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_marginLeft="3dp"
+				android:layout_marginRight="3dp"
+				android:layout_weight="1"
+				android:background="@drawable/tabbtn"
+				android:drawablePadding="-10dp"
+				android:drawableTop="@drawable/tab_sipcall"
+				android:text="@string/aire_free_call"
+				android:textColor="@color/optionbtn_text"
+				android:textSize="9sp" />
+
+			<Button
+				android:id="@+id/bSearch"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_marginLeft="3dp"
+				android:layout_marginRight="3dp"
+				android:layout_weight="1"
+				android:background="@drawable/tabbtn_focused"
+				android:drawablePadding="-10dp"
+				android:drawableTop="@drawable/searchkey_pressed"
+				android:text="@string/aire_studio"
+				android:textColor="#ffffff"
+				android:textSize="9sp" />
+
+			<Button
+				android:id="@+id/bSetting"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_marginLeft="3dp"
+				android:layout_marginRight="3dp"
+				android:layout_weight="1"
+				android:background="@drawable/tabbtn"
+				android:drawablePadding="-10dp"
+				android:drawableTop="@drawable/tab_setting"
+				android:text="@string/setting"
+				android:textColor="@color/optionbtn_text"
+				android:textSize="9sp" />
+		</LinearLayout>
+	</FrameLayout>
+	
+    <View android:id="@+id/ldpi"
+        android:visibility="gone"
+		android:layout_width="0dp"
+		android:layout_height="0dp"/>
+    
+</RelativeLayout>

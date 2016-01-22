@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="app_name">AireTalk</string>
+<string name="contacts">連絡先</string>
+<string name="edit">編集</string>
+<string name="sendmsg">送信</string>
+<string name="textinput">メッセージ</string>
+<string name="nonetwork">ネットワークエラーです。もう一度お試しください。</string>
+<string name="network_prompt">ネットワークが悪く、ネットワーク接続を確認してください</string>
+<string name="OK">確認</string>
+<string name="next">次へ</string>
+<string name="newmessage">新規メッセージ</string>
+<string name="messages">メッセージ</string>
+<string name="register">レジスタ</string>
+<string name="login">ログイン</string>
+<string name="cancel">キャンセル</string>
+<string name="clear">取り消す</string>
+<string name="compose_new">新規メッセージ</string>
+<string name="sendto">へ：</string>
+<string name="attachment">添付</string>
+<string name="done">完了</string>
+<string name="recording_vmemo">レコーディング…</string>
+<string name="recording_timeup">レコーディング可能時間が超えました。</string>
+
+<string name="i_agree">契約条件に同意する。</string>
+<string name="eula_disagree">契約条件に同意しない。</string>
+
+<string name="choose_attachment_type">添付ファイルのタイプをお選びください。</string>
+<string name="voicememo">音声メッセージ</string>
+<string name="picmsg">写真メッセージ</string>
+<string name="pickpicture">アルバム</string>
+<string name="takepicture">カメラ</string>
+<string name="choose_photo_source">写真を選択</string> 
+
+<string name="setting">設定</string>
+<string name="server_ip">サーバーIP</string>
+<string name="checkout">観る</string>
+<string name="reply">返事</string>
+<string name="close">閉める</string>
+<string name="ignore">無視する</string>
+<string name="delete_confirm">削除確認</string>
+<string name="delete_thread_confirm">すべてを消去しますか。</string>
+
+<string name="in_progress">処理中…</string>
+<string name="in_call">着信コールです。</string>
+<string name="fafayou_in_call">AireTalkは通話中です</string>
+<string name="answercallhint">答えるようにスライド</string>
+<string name="end_call">終了</string>
+<string name="hide_keypad">戻る</string>
+<string name="yes">はい</string>
+<string name="no">いいえ</string>
+<string name="unknown_person">不明</string>
+<string name="missed_call">不在着信</string>
+<string name="unanswered_call">応答してない</string>
+<string name="call_duration">期間</string>
+<string name="incoming_call">受信</string>
+<string name="outgoing_call">発信中</string>
+<string name="phone_call">発信</string>
+
+<string name="username">ユーザーネーム</string>
+<string name="phonenumber">電話番号</string>
+<string name="password">パスワード</string>
+<string name="password_confirm">パスワード確認</string>
+<string name="email">メール</string>
+<string name="email_hint">メール要請</string>
+<string name="register_immediately">レジスタ</string>
+
+<string name="forget_password">パスワードを忘れましたか。</string>
+<string name="passwords_dont_match">パスワードが一致していません。</string>
+<string name="password_error">パスワードエラー</string>
+<string name="nonmember">AireTalkの会員登録後、ご利用お願いします。</string>
+<string name="username_invalid">ユーザーネームが有効ではありません。6文字以の半角英数混在のみ設定できます。</string>
+<string name="phonenumber_hint">電話番号が必要です。</string>
+<string name="phonenumber_invalid">電話番号が正しくありません。</string>
+<string name="email_invalid">メールアドレスが有効ではありません。</string>
+<string name="login_title">ログイン</string>
+<string name="account_exists">すでにAireTalkアカウントが存在します。</string>
+<string name="retrieve_password">登録時のメールにパスワードを送信しますか。</string>
+<string name="waiting_for_sms_to_register">送信したSMS認証で登録中です。しばらくお待ちください。</string>
+<string name="sms_confirm_timeout">認証時間が超えました。電話番号のご確認の上、改めてお試しください。</string>
+<string name="welcome">AireTalkへようこそ。</string>
+<string name="username_hint">ユーザーネーム</string>
+
+<string name="dial_this">通話</string>
+<string name="delete_thread">会話削除</string>
+<string name="delete_msg">メッセージ削除</string>
+<string name="view_contact">もっと見る</string>
+<string name="add_contact">友だち追加</string>
+<string name="pickup_contact">友だちを選ぶ</string>
+<string name="surname">名字</string>
+<string name="name">名前</string>
+<string name="input_hint">電話番号</string>
+
+<string name="location_not_found">現在の位置が確認出来ませんでした。</string>
+<string name="nonmember_no_service">メンバーでない</string>
+
+<string name="msg_is_sent">メッセージ送信</string>
+
+<string name="making_call">発信中…</string>
+<string name="call_connected">通話</string>
+<string name="call_end">通話終了</string>
+<string name="call_declined">通話中</string>
+<string name="no_response">応答なし</string>
+<string name="callee_not_found">見つかりませんでした。</string>
+
+<string name="new_version_found">新しいバージョン %s が使えます。アップストアにてアップデートしてください。</string>
+<string name="force_update">AireTalkの最終バージョンへのアップデートが必要です。</string>
+<string name="dont_worry">データへの影響は御座いませんので安心してください。</string>
+<string name="update">アップデート</string>
+
+<string name="request_location_sharing">ロケーション供給を要請しますか。（一度合意した、あなたの位置が1時間のために共有されます）</string>
+<string name="sharing_location_request"> は、お互いのロケーションを一時間共有しますか。</string>
+<string name="sharing_done">ロケーション共有に成功</string>
+
+<string name="displayname">名前</string>
+<string name="photo_gallery">アルバム</string>
+
+<string name="friends">友だち</string>
+<string name="copysms">コピー</string>
+<string name="copied_to_clipboard">クリップボードにコピー</string>
+<string name="mylocation_address">私の位置</string>
+<string name="friend_address">友だち</string>
+<string name="keypad">キーペード</string>
+<string name="track">トレック</string>
+<string name="traffic">交通</string>
+<string name="satellite">衛星</string>
+<string name="delete_the_contact">連絡先削除</string>
+<string name="delete">削除</string>
+<string name="back">戻る</string>
+<string name="mute">ミュート</string>
+<string name="speaker">スピーカー</string>
+<string name="add_call">電話追加</string>
+<string name="hold">一時停止</string>
+
+<string name="missed_call_remind_1">あなたは、%d 不在着信を持って</string>
+<string name="missed_call_remind_2"> %s から。 AireTalkは重要な電話に折り返す事を通知します。</string>
+<string name="pcode_desc">認証SMSを受信しましたら4桁の数字を入力してください。</string>
+<string name="help">ヘルプ</string>
+<string name="img_error">イメージエラー</string>
+<string name="email_register">We\'ve sent a verification mail to your Email address, please activate your AireTalk account.</string>
+<string name="login_error">サバーが通信中です。しばらくお待ちください。AireTalkが自動ログインされます。</string>
+<string name="pwdemail_title">電話番号と名前を入力してください。ただ今、登録されているメールにパスワードを転送します。</string>
+<string name="pwdemailfailed">メールにパスワード転送が失敗しました。</string>
+<string name="pwdemailsuccess">メールパスワードが転送されました。</string>
+<string name="no_sdcard">SDカードがないかUSB保存装置が繋がっていません。</string>
+<string name="no_sdcard_receive_voice_message">音声メッセージを受信するSDカードがありません。</string>
+<string name="no_sdcard_receive_picture_message">写真メッセージを受信するSDカードがありません。</string>
+<string name="sms_manager">SMSを管理してください。</string>
+<string name="try_again">後でやり直してください。</string>
+
+<string name="share">AireTalk共有…</string>
+<string name="smile">顔文字</string>
+<string name="smiletitle">顔文字</string> 
+
+<string name="keypad_menu_open">キーペット音On</string>
+<string name="keypad_menu_close">キーペット音Off</string>
+<string name="setnet">移動</string>
+<string name="add">追加</string>
+<string name="auto_notify_joins">私はAireTalkを使っています！これからこの素晴らしアプリを使って無料電話を使ってください。</string>
+<string name="international_sms_alert">国際SMSの可能性があります。このまま進めますか。</string>
+
+<string name="call">電話</string>
+
+<string name="notification_sound">着信音</string>
+<string name="receive_vibrate">振動</string>
+<string name="send_vibrate">送信振動</string>
+<string name="smspopup">メッセージポップアップ</string>
+
+<string name="pcode_check">４桁の数字を入力してください。</string>
+
+<string name="net_error">繋がっているネットワークがござません。</string>
+<string name="shownotification">お知らせアイコン</string>
+
+<string name="agree_share_sms">私の位置を%1$sと共有する事に同意します。</string>
+<string name="ask_share">（位置共有の要請をする）</string>
+<string name="photo_large">この写真は容量が大きすぎて送信出来ません。</string>
+<string name="savedraft">下書に保存しました。</string>
+<string name="hasaskshare">%1$sから位置を共有要請があります。</string>
+
+<string name="helper_name1">支援者</string>
+
+<string name="interphone_smile">ボイス</string>
+<string name="send_voice_interphone">押し話する</string>
+
+<string name="fafauser_sms">SMS</string>
+<string name="fafauser_vmemo">音声メール</string>
+<string name="fafauser_pic">メディア</string>
+<string name="fafauser_map">位置</string>
+
+<string name="hint_mood">状態メッセージ</string>
+
+<string name="sms_parese_stringbuf">%1$sから %2$s が届きました</string>
+<string name="interphone">ウォーキートーキー</string>
+<string name="textmessage">メッセージ</string>
+<string name="RecvManySms">多数メッセージ</string>
+
+<string name="sharing_location">位置</string>
+<string name="driving">運転</string>
+<string name="walking">徒歩</string>
+<string name="path">経路</string>
+<string name="notfound_direction">経路検索に失敗しました。</string>
+
+
+<string name="smsfail">転送失敗、ネットワークの状態を確認してください。</string>
+<string name="videomemo">ビデオメッセージ</string>
+<string name="video">ビデオ</string>
+<string name="file">ファイル</string>
+<string name="filememo">ファイル転送</string>
+<string name="filememo_send">ファイル転送</string>
+<string name="filememo_recv">ファイル復旧</string>
+<string name="chose_file">送信するファイルを選んでください。</string>
+
+<string name="file_othernet">ファイル転送のために３GまたはWiFiにつなげてください。</string>
+<string name="file_dnnotnet">ファイルを受信するネットワークがございません。</string>
+<string name="file_dnwifinet">ファイル size is %1$s, ダウンロードしますか。 Destination path is %2$s</string>
+<string name="file_dnothernet">ファイルダウンロードのために３GまたはWiFiにつなげてください。</string>
+<string name="download">ダウンロード</string>
+<string name="downloading">ダウンロード…</string>
+<string name="downloadsucess">ダウンロード完了</string>
+<string name="downloaderror">ダウンロード失敗</string>
+<string name="fileandvideosingle">一つのファイルのみ添付可能です。</string>
+<string name="file_err">ファイルエラー</string>
+<string name="sd_availablespare">SDカードに開き空間がございません。</string>
+<string name="sd_notfound">SDカードがございません。</string>
+<string name="recording_incall">着信コールです。ビデオ録画を中止してください。</string>
+<string name="filename_longerr">ファイル名が長すぎます。</string>
+<string name="save_photo_SD">画像をエクスポート</string>
+<string name="more_sms">メッセージをもっと見る</string>
+<string name="copyfile">～にコピー</string>
+<string name="fileLarge">最大のファイル容量は100MBです。</string>
+<string name="notfound_photo">（写真は存在しません）</string>
+
+<string name="filedownloading">ファイルダウンロード中、後でお試しください。</string>
+<string name="fileuploading">ファイルアップロード中、後でお試しください。</string>
+
+<string name="downloadedfile">ファイル %s ダウンロードに成功しました。</string>
+<string name="downloadedvideo">ビデオダウンロードに成功しました。</string>
+<string name="video_err">ビデオファイルが存在しません。</string>
+<string name="nodata">ファイル容量が０です。</string>
+<string name="send_again">メッセージを再送</string>
+
+<string name="fafamissed_call">不在着信</string>
+<string name="sysmissed_call">不在着信</string>
+
+<string name="progress_wait">しばらくお待ちください。</string>
+<string name="aire_welcome_desc">AireTalkへようこそ！:-) このアプリについてご質問がありましたら電話ください。</string>
+<string name="txtspinner_desc">電話番号またはAireTalk IDを入力してください。</string>
+<string name="findpwd">電話番号またはユーザーネーム</string>
+<string name="findpwd_input_err">正しい電話番号またはARIEユーザーネームを入力してください。 </string>
+
+<string name="bluetooth">ブルートゥース</string>
+<string name="no_sim_hint">携帯電話にSIMカードが入っていません。この番号ではログインは許可出来ません。</string>
+<string name="nonsupport_googlemap">申し訳ございません。グーグルマップはこのシステムでは対応できません。</string>
+<string name="makesure_phonenumber_1">すぐに認証SMSを送信します。</string>
+<string name="makesure_phonenumber_2">数字が合っているかご確認お願いします。</string>
+<string name="take_picture_error">カメラ実行に失敗しました。</string>
+<string name="talk_background">壁紙イメージ</string>
+
+<string name="add_photo">写真を\n追加</string>
+<string name="registration_body">AireTalk Registration Message. Thank you for using AireTalk. Code:</string>
+
+<string name="making_video_call">ビデオ通話発信中</string>
+<string name="incoming_video_call">ビデオ通話着信</string>
+
+<string name="no_video_hint">申し訳ございません。ネットワーク速度が遅く、ビデオプレーが出来ません。</string>
+<!-- new strings -->
+<string name="nickname">名前</string>
+<string name="nickname_hint">名前</string>
+<string name="register_desc">AireTalkは初めて使います。</string>
+<string name="eula_title">ユーザーライセンスに同意</string>
+<string name="personal_info">あなたの情報を記入してください。</string>
+
+<string name="register_desc_0">あなたのメールアドレスを入れてください。ジャンクメールは転送いたしません。</string>
+<string name="register_desc_1">セキュリティとプライバシー保護のため、検証SMSがこの携帯電話に送信されます。正しい電話番号を入力してください。</string>
+<string name="register_desc_2">この様式の作成お願いいたします。登録は簡単です。</string>
+<string name="login_desc_0">直接ログインしましたら情報を確認いたします。</string>
+<string name="login_desc_1">正しい電話番号を入力してください。情報を確認します。</string>
+<string name="login_desc_2">ログインのためにAireTalkユーザーネームとパスワードを入力してください。</string>
+<string name="login_nonmember">申し訳ございません。AireTalkの会員ではございません。登録を進めてください。</string>
+
+<string name="nickname_invalid">名前が短すぎです。</string>
+
+<string name="male">男性</string>
+<string name="female">女性</string>
+<string name="search">友だち検索</string>
+<string name="copyright">© Copyright 2011-2015. Pingshow Inc.</string>
+<string name="black_list">ブロックリスト</string>
+<string name="block">ブロック</string>
+<string name="unblock">ブロック解除</string>
+<string name="put_in_blacklist">ブロック</string>
+<string name="chat">チャット</string>
+<string name="videocall">ビデオ電話</string>
+<string name="buy">購買</string>
+<string name="aire_free_call">Aireコール</string>
+<string name="add_as_friend">友だちに追加</string>
+<string name="login_by_facebook">Facebookで ログイン</string>
+<string name="facebook_login_desc">Facebookのアカウントで直接ログインできます</string>
+<string name="read_contacts">Aireがあなたの連絡先に接近するためには許可が必要です。連絡先の情報がありましたら友だちと通話やチャットが可能です。</string>
+<string name="unblock_this_user">ユーザー\"%1$s\"をブロックリストから解除しますか。</string>
+<string name="accept_this_stranger">\"%1$s\"はあなたと話したがっています。相手の招待を受け取りますか。</string>
+<string name="search_desc">友だち検索のためにキーワードを入力してください。</string>
+<string name="search_result">%d ユーザーが見つかりました。</string>
+<string name="credit">残額: %.3f</string>
+<string name="credit_not_enough">電話するのに残額が不足しています。</string>
+<string name="help_aire_free_call">Aireコールの無料評価版をお試しください。すぐにAireコールを使って友だちに電話してみてください!! 一般電話と同じでさらに無料です。</string>
+<string name="help_photo_is_needed">まだプロフィル写真がアップロード出来ていません。友だちが分かるようプロフィル写真を追加してください。\n</string>
+<string name="help_complete_profile">AireTalkにようこそ！プロフィル設定を完了してください。特に名前と友だちがよく分かるような写真に設定してください。\n</string>
+<string name="walkietalkie">無線機</string>
+<string name="wt_sound_out">自動無線機音</string>
+<string name="send_location">%sにあなたの現在の位置転送しますか？</string>
+<string name="loading">読み込み中</string>
+<string name="call_back">%sに発信？</string>
+<string name="possible_friends">知り合いかも</string>
+<string name="sortbyname">名前順に整列</string>
+<string name="sortbytime">時間順に整列</string>
+<string name="sortbystatus">状態別に整列</string>
+<string name="joint">%d共通の友人</string>
+<string name="weibo_sign_in">Sina Weiboに登録</string>
+<string name="share_by_email">E-mailで共有</string>
+<string name="share_by_sms">SMSで共有</string>
+<string name="share_on_facebook">フェイスブックで共有</string>
+<string name="share_on_qq">QQで共有する</string>
+<string name="share_on_weibo">Sina Weiboで共有する</string>
+<string name="invitation_title">AireTalkが気に入ります。AireTalkで無料電話をかけて見ましょう。</string>
+<string name="invitation">私はAireTalkを使っています。すぐダウンロードして私に電話してください! http://play.google.com/store/apps/details?id=com.pingshow.amper</string>
+<string name="weibo_login_desc">Sina Weiboのアカウントで直接ログインできます</string>
+<string name="help_multiple_send">メッセージを送る友だちを追加するため、青い追加ボタンを押してください。（多数の人に選択された同じメッセージが転送されます。)\n</string>
+<string name="multi_send_location">彼らにあなたの位置を送りますか。</string>
+<string name="shared_successfully">共有成功。</string>
+<string name="shared_failed">共有失敗。</string>
+<string name="webcall_not_valid">申し訳ございません。この番号は有効ではございません。</string>
+<string name="webcall_not_support">申し訳ございません。アンドロイドバージョンがWebCallに対応していません。</string>
+<string name="read_contacts_check">あなたの電話帳を読む</string>
+<string name="rotate_right">右側に回転</string>
+<string name="rotate_left">左側に回転</string>
+
+<string name="searching_friends">友だち検索中、しばらくお待ちください。</string>
+<string name="searching_friends_desc">AireTalkはフェイスブックのアカウントで友だち探しが可能です。この作業はたった何秒です。</string>
+
+<string name="feedback">フィードバック</string>
+<string name="feedback_desc">ご提案お願いします。AireTalkがより良くなります。AireTalkが気に入りますか。</string>
+<string name="favor_level_1">はい、気に入ります!</string>
+<string name="favor_level_2">それは良いことができます </string>
+<string name="favor_level_3">一般</string>
+<string name="favor_level_4">そんなに良くはないです。</string>
+<string name="favor_level_5">気に入りません。</string>
+<string name="suggsay_text">私の提案</string>
+<string name="sugg_checkbox1">音声品質が悪い。</string>
+<string name="sugg_checkbox2">ビデオ品質が悪い。</string>
+<string name="sugg_checkbox3">メッセージ失われ。</string>
+<string name="sugg_checkbox4">友だちがいません。</string>
+<string name="sugg_checkbox5">アプリ衝突。</string>
+<string name="sugg_dis_text">AireTalkを使って問題点はありますか。</string>
+<string name="feedback_has_been_sent">あなたのフィードバックが転送されました。1時間後、再度試してください。</string>
+<string name="suggCustomer">あなたのアドバイスのおかげで、我々はできるだけ早くあなたのフィードバックに対処します。 serial code: </string>
+<string name="animated">动画</string>
+
+<string name="blocking_strangers">知らない人ブロック</string>
+<string name="facebook_search">フェイスブックの友だち検索</string>
+<string name="phonebook_search">連絡先の友だち検索</string>
+
+<string name="help_public_radio">AireTalkラジオスタジオにようこそ！あなたのための多様なチャンネルがあります。あなたはどんなチャンネルでも友だち招待が出来ます。あなたは知らない人とチャットが出来ます。</string>
+<string name="help_public_radio_2">同じチャンネルの皆があなたの話が聞けます。光っている緑色がチャンネル転換を表します。緑色の時に話する事が出来ます。お話している時は光は黄色です。貴方が話す時には光は赤に変わります。</string>
+<string name="aire_studio">スタジオ</string>
+
+<string name="the_group">グループ</string>
+<string name="create_group">グループを作る</string>
+<string name="group_name">グループ名</string>
+<string name="group_desc">グループの名前を指定して会員を選択してください。全ての会員は同時間にメッセジーを受信します。</string>
+<string name="add_in_group">%1$sはグループに追加します。%2$s\nあなたは申し込みを受け入れますか。</string>
+<string name="group_number_exceeds">申し訳ございません。最大のグループ数が超えました。</string>
+
+<string name="file_transfer_waiting">応答を待っています</string>
+<string name="file_transfer_connected">転送中</string>
+<string name="file_transfer_error">転送エラー</string>
+<string name="file_transfer_stop">停止します</string>
+<string name="file_transfer_finished">転送終了</string>
+<string name="file_transfer_incoming">ファイルを受け入れますか。</string>
+
+<string name="add_new_member_in_group">このグループに新しいメンバーを追加するようにしてください。</string>
+<string name="group_invite_new_member">%1$sは、\"%2$s\"のグループに追加されました</string>
+
+<!-- from iphone -->
+<string name="aire_call">Aireコール</string>
+<string name="purchase">購買</string>
+<string name="airecall_credits">Aireコールの残額</string>
+<string name="credit_desc">世界中の携帯電話や固定電話を呼び出すことAireコールで多くのお金を節約することができます</string>
+<string name="rate_detail_desc">国別電話料金詳細。</string>
+
+<string name="detail_rate">対象国: %1$s (%2$s)\n「%3$s」が選択されている\n\n固定電話に掛ける際には:\n\t毎分ごと約 %4$s $%5$.3f\n\t(毎分ごと約 %6$s %7$s%8$.2f)\n\n携帯にかける際には:\n\t毎分ごと約 %9$s $%10$.3f\n\t(毎分ごと約 %11$s %12$s%13$.2f)\n\n料金表は参考用です。</string>
+
+<string name="rate_statement">料金はサービス会社とレートによって異なります。料金表は参考用です。</string>
+    
+<string name="thank_you_for_purchase">「%s」を購入して頂きましてありがとうございます。</string>
+<string name="trade_detail">取引内訳</string>
+
+<string name="query_rate">正確な料金の検索</string>
+<string name="query_rate_desc">正確な料金の確認のためにおかけになる電話番号を入力してください。</string>
+<string name="any_phone_number">電話番号入力</string>
+<string name="precise_rate">毎分%1$s $%2$.3f\n毎分ごと約 %3$s %4$s%5$.2f\n\n%6$s\n(%7$s)</string>
+
+<string name="class_selection">回線の選択</string>
+<string name="class_desc">選択する3つのラインを提供し、より高いクラスの料金は少し高いかもしれませんが、それはより多くのサービスを提供します。</string>
+<string name="standard_class">標準クラス</string>
+<string name="premium_class">プレミアムクラス</string>
+<string name="business_class">ビジネスクラス</string>
+
+<string name="standard_desc">あなたの最も経済的な選択です</string>
+<string name="premium_desc">高品質なネットワーク回線を提供</string>
+<string name="business_desc">最高品質のネットワーク回線。限り、あなたのネットワークが安定しているように、それは一般的な電話通信に相当します。</string>
+
+<string name="please_visit">買うために私達のウェブサイトをご覧ください</string>
+<string name="call_log">通話記録</string>
+<string name="home_guard">ホームガード</string>
+<string name="send_suvei">あなたは、%sに監視コマンドを送信しますか？</string>
+<string name="start">スタート</string>
+<string name="stop">停止</string>
+
+<string name="delete_this_call_log">削除する</string>
+<string name="delete_all_call_log">すべて削除</string>
+
+<string name="create_topic">トピックを作成</string>
+<string name="topic">トピック</string>
+<string name="create_wt_group_statement">唯一の週一回のトピックを作成することができます。</string>
+
+<string name="search_topic">トピックを検索</string>
+<string name="topic_to_search">検索するトピック</string>
+<string name="voice_mail">ボイスメール</string>
+<string name="no_microphone">申し訳ありませんが、マイクを見つけることができません</string>
+
+<string name="conference">電話会議</string>
+<string name="conference_2">電話会議</string>
+<string name="invitation_amazon">私はAireTalkを使っています。すぐダウンロードして私に電話してください! http://www.amazon.com/PingShow-Inc-AireTalk/dp/B00HXAMZSA</string>
+
+<string name="profile_updated">%s プロフィールの写真を更新しました。</string>
+<string name="music">音楽</string>
+<string name="comments">コメント: </string>
+<string name="likes">好き: </string>
+<string name="likes_it">それが好き</string>
+<string name="stranger_warning">友人としてこのユーザーを追加していない。メッセージの送信時にはご注意下さい。</string>
+<string name="delete_post_confirm">あなたはこの記事を削除しますか？</string>
+
+<string name="free">無料で</string>
+</resources>
+

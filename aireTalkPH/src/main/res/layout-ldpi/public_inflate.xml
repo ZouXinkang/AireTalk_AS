@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mobile="http://www.airetalk.com"
+    android:background="@drawable/metal_bg"
+	android:layout_width="fill_parent" 
+	android:layout_height="fill_parent">
+	
+    <LinearLayout 
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+	    android:layout_width="wrap_content" 
+	    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/onair1"
+	    android:src="@drawable/radio_ind"
+	    android:layout_width="wrap_content" 
+	    android:layout_height="wrap_content"/>
+    <ImageView
+        android:id="@+id/onair2"
+	    android:src="@drawable/radio_ind"
+	    android:layout_width="wrap_content" 
+	    android:layout_height="wrap_content"/>
+    <ImageView
+        android:id="@+id/onair3"
+	    android:src="@drawable/radio_ind"
+	    android:layout_width="wrap_content" 
+	    android:layout_height="wrap_content"/>
+    </LinearLayout>
+    
+    <RelativeLayout
+        android:id="@+id/tunepad"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_width="310dp" 
+		android:layout_height="130dp">
+
+	    <com.pingshow.amper.view.HScroll
+	        android:id="@+id/channels"
+	        android:layout_alignParentTop="true"
+	        android:scrollbars="none"
+	        mobile:barId="0"
+	        mobile:interval="68"
+	        mobile:offset="122"
+	        android:padding="5dp"
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content">
+			<ImageView
+			    android:layout_width="fill_parent" 
+			    android:layout_height="wrap_content" 
+			    android:src="@drawable/channels"/>
+		</com.pingshow.amper.view.HScroll>
+		<com.pingshow.amper.view.HScroll
+	        android:id="@+id/languages"
+	        android:layout_alignParentBottom="true"
+	        android:scrollbars="none"
+	        android:padding="5dp"
+	        mobile:barId="1"
+	        mobile:interval="50"
+	        mobile:offset="130"
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content">
+			<ImageView
+			    android:id="@+id/lang"
+			    android:layout_width="fill_parent" 
+			    android:layout_height="wrap_content"
+			    android:src="@drawable/languages"/>
+	    </com.pingshow.amper.view.HScroll>
+	    
+		<ImageView
+		    android:layout_alignParentTop="true"
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content" 
+			android:src="@drawable/tune_top"/>
+		
+		<ImageView
+		    android:layout_alignParentBottom="true"
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content" 
+			android:src="@drawable/tune_bottom"/>
+		
+		<ImageView
+		    android:layout_alignParentRight="true"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:src="@drawable/tune_right"/>
+		
+		<ImageView
+		    android:layout_alignParentLeft="true"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:src="@drawable/tune_left"/>
+		
+		<ImageView
+		    android:layout_marginTop="5dp"
+		    android:layout_centerHorizontal="true"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:src="@drawable/tune_aim"/>
+	
+	</RelativeLayout>
+	
+    
+    <RelativeLayout 
+        android:id="@+id/tuner"
+        android:layout_below="@+id/tunepad"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+	    android:layout_alignParentRight="true"
+        android:layout_width="100dp" 
+		android:layout_height="100dp">
+	    <ImageView
+			android:layout_width="100dp" 
+			android:layout_height="100dp" 
+			android:src="@drawable/tuner"/>
+	    <com.pingshow.amper.view.Tuner
+	        android:layout_marginLeft="8dp"
+		    android:layout_marginTop="15dp"
+            android:id="@+id/volume"
+            android:layout_width="69dp" 
+			android:layout_height="69dp" >
+        </com.pingshow.amper.view.Tuner>
+    </RelativeLayout>
+    
+    <com.pingshow.amper.view.Strength
+        android:layout_below="@+id/tunepad"
+        android:layout_marginLeft="30dp"
+	    android:layout_marginTop="10dp"
+		android:id="@+id/strength"
+		android:background="@drawable/strength_bg"
+		android:layout_width="140dp" 
+		android:layout_height="32dp" >
+    </com.pingshow.amper.view.Strength>
+    
+    <com.pingshow.amper.view.LED
+        android:id="@+id/led"
+        android:layout_below="@+id/strength"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="30dp"
+        android:background="@drawable/strength_bg"
+		android:layout_width="62dp" 
+		android:layout_height="32dp" >
+    </com.pingshow.amper.view.LED>
+    
+    <ImageView
+        android:id="@+id/eject"
+        android:src="@drawable/eject"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:layout_marginBottom="5dp"
+        android:layout_width="100dp" 
+		android:layout_height="wrap_content">
+    </ImageView>
+	
+    <View android:background="#40000000"
+        android:layout_alignParentBottom="true"
+        android:layout_width="fill_parent" 
+		android:layout_height="1dp"/>
+    
+</RelativeLayout>

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="#ecf0f1" >
+	
+    <RelativeLayout
+		android:id="@+id/title"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:layout_alignParentTop="true"
+		android:background="@drawable/titlebar" >
+        
+        <ImageButton
+            android:id="@+id/left"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/optionbtn"
+            android:src="@drawable/sm57"/>
+            
+	    <TextView
+			android:id="@+id/topic"
+            android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:gravity="center"
+			android:layout_centerInParent="true"
+			android:shadowColor="#80000000"
+			android:shadowDx="1"
+			android:shadowDy="2"
+			android:shadowRadius="2"
+			android:text="@string/conference"
+			android:textColor="#FFFFFF"
+			android:textSize="19sp"
+			android:textStyle="bold" />
+		    
+        <ImageButton
+            android:id="@+id/right"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/optionbtn"
+            android:src="@drawable/sm57"/>
+           
+    </RelativeLayout>
+	
+    <LinearLayout
+		android:id="@+id/content"
+		android:layout_width="fill_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@+id/title"
+		android:layout_above="@+id/pagenav"
+		android:orientation="vertical" >
+        
+	    <com.pingshow.amper.view.PhotoGallery
+			android:id="@+id/favslist"
+			android:layout_width="fill_parent"
+			android:layout_height="100dp"
+			android:background="#dcf0f1" />
+	    
+	    <LinearLayout
+			android:id="@+id/callsel"
+			android:layout_width="fill_parent"
+			android:layout_height="50dp"
+			android:gravity="center"
+			android:orientation="horizontal"
+			android:paddingBottom="2dp"
+			android:paddingTop="2dp"
+			android:background="#dcf0f1"
+			android:weightSum="5" >
+			
+	        <ImageView
+				android:id="@+id/call_conf"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:src="@drawable/sm57"
+				android:background="@drawable/bluebtn"
+				android:layout_marginLeft="10dp"
+				android:layout_marginRight="5dp"
+				android:layout_weight="4"
+				android:paddingTop="5dp"
+				android:paddingBottom="5dp" />
+	        
+	        <ImageView
+				android:id="@+id/clear_conf"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:src="@drawable/sm57"
+				android:background="@drawable/redbtn"
+				android:layout_marginLeft="5dp"
+				android:layout_marginRight="10dp"
+				android:layout_weight="1"
+				android:paddingTop="5dp"
+				android:paddingBottom="5dp" />
+        
+		</LinearLayout>
+            
+<!-- 	    <LinearLayout -->
+<!-- 			android:id="@+id/tabsel" -->
+<!-- 			android:layout_width="fill_parent" -->
+<!-- 			android:layout_height="40dp" -->
+<!-- 			android:gravity="center" -->
+<!-- 			android:orientation="horizontal" -->
+<!-- 			android:paddingBottom="2dp" -->
+<!-- 			android:paddingTop="2dp" -->
+<!-- 			android:background="#ecf0f1" > -->
+			
+<!--             <ToggleButton -->
+<!--                 android:id="@+id/tab1" -->
+<!--                 android:layout_width="match_parent" -->
+<!--                 android:layout_height="match_parent" -->
+<!--                 android:layout_weight="1" -->
+<!--                 android:background="@drawable/plainbtn" -->
+<!--                 android:focusable="true" -->
+<!--                 android:gravity="center" -->
+<!--                 android:textOn="@string/contacts" -->
+<!--                 android:textOff="@string/contacts" -->
+<!--                 android:textColor="#ffffff" -->
+<!-- 				android:textSize="17sp" -->
+<!-- 				android:layout_marginLeft="4dp" /> -->
+            
+<!--             <ToggleButton -->
+<!--                 android:id="@+id/tab2" -->
+<!--                 android:layout_width="match_parent" -->
+<!--                 android:layout_height="match_parent" -->
+<!--                 android:layout_weight="1" -->
+<!--                 android:background="@drawable/plainbtn" -->
+<!--                 android:focusable="true" -->
+<!--                 android:gravity="center" -->
+<!--                 android:textOn="@string/contacts" -->
+<!--                 android:textOff="@string/the_group" -->
+<!--                 android:textColor="#ffffff" -->
+<!-- 				android:textSize="17sp" -->
+<!-- 				android:layout_marginRight="4dp" /> -->
+            
+<!-- 		</LinearLayout> -->
+		
+		<ListView
+			android:id="@+id/friendsList"
+			android:layout_width="fill_parent"
+			android:layout_height="match_parent"
+			android:background="#ecf0f1"
+			android:cacheColorHint="#ecf0f1"
+			android:divider="#e1dbdb"
+			android:dividerHeight="1dp"
+			android:fastScrollEnabled="true"
+			android:focusableInTouchMode="true" />
+		
+		<ListView
+			android:id="@+id/groupList"
+			android:visibility="gone"
+			android:layout_width="fill_parent"
+			android:layout_height="match_parent"
+			android:background="#ecf0f1"
+			android:cacheColorHint="#ecf0f1"
+			android:divider="#e1dbdb"
+			android:dividerHeight="1dp"
+			android:fastScrollEnabled="true"
+			android:focusableInTouchMode="true" />
+	
+    </LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/pagenav"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:gravity="center"
+		android:orientation="horizontal"
+		android:paddingBottom="2dp"
+		android:paddingTop="2dp"
+		android:background="@drawable/optionbar"
+		android:layout_alignParentBottom="true" >
+        
+		<Button
+			android:id="@+id/page1"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginLeft="2dp"
+			android:layout_marginRight="1dp"
+			android:layout_weight="1"
+			android:background="@drawable/tabbtn"
+			android:paddingTop="5dp"
+			android:drawablePadding="-5dp"
+			android:drawableTop="@drawable/sm57"
+			android:text="@string/friends"
+			android:textColor="#ffffff"
+			android:textSize="10dp" />
+		
+		<Button
+			android:id="@+id/page2"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="1dp"
+			android:layout_weight="1"
+			android:background="@drawable/tabbtn"
+			android:paddingTop="5dp"
+			android:drawablePadding="-5dp"
+			android:drawableTop="@drawable/sm57"
+			android:text="@string/friends"
+			android:textColor="#ffffff"
+			android:textSize="10dp" />
+		
+		<Button
+			android:id="@+id/page3"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="1dp"
+			android:layout_weight="1"
+			android:background="@drawable/tabbtn_focused"
+			android:paddingTop="5dp"
+			android:drawablePadding="-5dp"
+			android:drawableTop="@drawable/sm57"
+			android:text="@string/friends"
+			android:textColor="#ffffff"
+			android:textSize="10dp" />
+		
+		<Button
+			android:id="@+id/page4"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="2dp"
+			android:layout_weight="1"
+			android:background="@drawable/tabbtn"
+			android:paddingTop="5dp"
+			android:drawablePadding="-5dp"
+			android:drawableTop="@drawable/sm57"
+			android:text="@string/friends"
+			android:textColor="#ffffff"
+			android:textSize="10dp" />
+			
+	</LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF">
+
+    <FrameLayout
+        android:id="@+id/title"
+        android:background="@drawable/titlebar"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+			    android:id="@+id/cancel"
+			    android:src="@drawable/back"
+			    android:background="@drawable/optionbtn"
+				android:padding="10dp"
+				android:layout_centerVertical="true"
+				android:layout_alignParentLeft="true"
+				android:layout_width="50dp"
+				android:layout_height="50dp"/>
+
+            <TextView
+                android:id="@+id/topic"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/pickup_contact"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:shadowColor="#80000000"
+		  	  	android:shadowDx="1"
+		  	  	android:shadowDy="2"
+		  	  	android:shadowRadius="2"
+                android:textStyle="bold"/>
+            
+            <ImageView
+			    android:id="@+id/done"
+			    android:src="@drawable/done"
+			    android:background="@drawable/greenbtn"
+				android:padding="10dp"
+				android:layout_centerVertical="true"
+				android:layout_alignParentRight="true"
+				android:layout_width="50dp"
+				android:layout_height="50dp"/>
+        </RelativeLayout>
+    </FrameLayout>
+    
+    <FrameLayout
+        android:id="@+id/results"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/title"
+        android:layout_above="@+id/done_frame">
+        <GridView
+            android:background="#ecf0f1"
+            android:id="@+id/friends"
+            android:listSelector="@drawable/optionbtn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:numColumns="3"
+            android:verticalSpacing="0dp"/>
+    </FrameLayout>
+    
+    <FrameLayout
+        android:id="@+id/done_frame"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/options"
+		android:visibility="visible" >
+        <LinearLayout 
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:background="@drawable/titlebar"
+            android:layout_width="fill_parent"
+            android:layout_marginBottom="1dp"
+       		android:layout_height="wrap_content">
+            <!-- android:background="@drawable/searchbar_bg" -->
+            <ImageView
+			    android:id="@+id/done_conf"
+			    android:src="@drawable/done"
+			    android:background="@drawable/greenbtn"
+				android:padding="10dp"
+				android:layout_marginLeft="10dp"
+				android:layout_marginRight="10dp"
+				android:layout_centerVertical="true"
+				android:layout_width="fill_parent"
+				android:layout_height="50dp"/>
+            
+		</LinearLayout>
+	</FrameLayout>
+	
+	<FrameLayout
+		android:id="@+id/options"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:layout_alignParentBottom="true"
+		android:background="@drawable/optionbar"
+		android:visibility="visible" >
+
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:gravity="center_vertical"
+			android:orientation="horizontal"
+			android:paddingBottom="2dp"
+			android:paddingTop="2dp" >
+
+			<Button
+				android:id="@+id/bMessage"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_marginLeft="3dp"
+				android:layout_marginRight="3dp"
+				android:layout_weight="1"
+				android:background="@drawable/tabbtn"
+				android:drawablePadding="-10dp"
+				android:drawableTop="@drawable/tab_msg"
+				android:text="@string/messages"
+				android:textColor="@color/optionbtn_text"
+				android:textSize="9dp" />
+
+			<Button
+				android:id="@+id/bFafauser"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_marginLeft="3dp"
+				android:layout_marginRight="3dp"
+				android:layout_weight="1"
+				android:background="@drawable/tabbtn"
+				android:drawablePadding="-10dp"
+				android:drawableTop="@drawable/tab_user"
+				android:text="@string/friends"
+				android:textColor="#ffffff"
+				android:textSize="9dp" />
+			
+			<Button
+				android:id="@+id/bAireCall"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_marginLeft="3dp"
+				android:layout_marginRight="3dp"
+				android:layout_weight="1"
+				android:background="@drawable/tabbtn"
+				android:drawablePadding="-10dp"
+				android:drawableTop="@drawable/tab_sipcall"
+				android:text="@string/aire_free_call"
+				android:textColor="@color/optionbtn_text"
+				android:textSize="9dp" />
+			
+			<Button
+				android:id="@+id/bConference"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_marginLeft="3dp"
+				android:layout_marginRight="3dp"
+				android:layout_weight="1"
+				android:paddingTop="2dp"
+				android:background="@drawable/tabbtn_focused"
+				android:drawablePadding="-3dp"
+				android:drawableTop="@drawable/conf"
+				android:text="@string/conference_2"
+				android:textColor="@color/optionbtn_text"
+				android:textSize="9dp" />
+
+			<Button
+				android:id="@+id/bSearch"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_marginLeft="3dp"
+				android:layout_marginRight="3dp"
+				android:layout_weight="1"
+				android:background="@drawable/tabbtn"
+				android:drawablePadding="-10dp"
+				android:drawableTop="@drawable/tab_search"
+				android:text="@string/aire_studio"
+				android:textColor="@color/optionbtn_text"
+				android:textSize="9dp"/>
+
+<!-- 			//tml*** temp alpha ui -->
+			<Button
+		        android:visibility="gone"
+				android:id="@+id/bSetting"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_marginLeft="3dp"
+				android:layout_marginRight="3dp"
+				android:layout_weight="1"
+				android:background="@drawable/tabbtn"
+				android:drawablePadding="-10dp"
+				android:drawableTop="@drawable/tab_setting"
+				android:text="@string/setting"
+				android:textColor="@color/optionbtn_text"
+				android:textSize="9dp" />
+		</LinearLayout>
+	</FrameLayout>
+    
+</RelativeLayout>

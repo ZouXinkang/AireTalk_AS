@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/photo"
+        android:background="@drawable/empty"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+    	android:layout_marginBottom="5dp"
+        android:padding="5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_width="50dp"
+        android:layout_height="50dp"/>
+
+    <TextView
+        android:id="@+id/friendname"
+        android:textSize="17sp"
+        android:textColor="@color/darkgray"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="10dp"
+        android:layout_alignParentTop="true"
+        android:maxLines="1"
+        android:layout_toRightOf="@+id/photo"/>
+    
+    <TextView
+		android:id="@+id/mood"
+		android:textSize="12sp"
+		android:textColor="@color/color_light"
+		android:layout_width="wrap_content"
+		android:layout_height="fill_parent"
+        android:paddingLeft="10dp"
+        android:layout_below="@+id/friendname"
+        android:layout_toRightOf="@+id/photo"/>
+    
+    <ImageView
+        android:id="@+id/delete"
+        android:src="@drawable/delete"
+        android:background="@drawable/optionbtn"
+        android:layout_centerVertical="true"
+        android:clickable="true"
+        android:visibility="gone"
+        android:padding="10dp"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_width="50dp"
+        android:layout_height="50dp"/>
+<!--     //tml*** beta ui -->
+	<ImageView
+        android:id="@+id/security_iam"
+        android:src="@drawable/security_mark2"
+        android:layout_alignParentTop="true"
+        android:visibility="gone"
+        android:paddingBottom="10dp"
+        android:paddingRight="10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_width="40dp"
+        android:layout_height="40dp"/>
+	
+    <TextView
+        android:id="@+id/separator"
+        android:background="#738cba"
+        android:text="@string/possible_friends"
+        android:textColor="#ffffff"
+        android:visibility="gone"
+        android:paddingLeft="10dp"
+        android:gravity="center_vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_width="fill_parent"
+        android:layout_height="25dp"/>
+
+</RelativeLayout>

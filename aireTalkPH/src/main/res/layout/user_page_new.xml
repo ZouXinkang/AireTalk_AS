@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_normal"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="#ecf0f1" >
+	
+    <RelativeLayout
+		android:id="@+id/title"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:layout_alignParentTop="true"
+		android:background="@drawable/titlebar" >
+        
+        <ImageButton
+            android:id="@+id/left"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/optionbtn"
+            android:src="@drawable/sm57"/>
+            
+	    <TextView
+			android:id="@+id/topic"
+            android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:gravity="center"
+			android:layout_centerInParent="true"
+			android:shadowColor="#80000000"
+			android:shadowDx="1"
+			android:shadowDy="2"
+			android:shadowRadius="2"
+			android:text="@string/friends"
+			android:textColor="#FFFFFF"
+			android:textSize="19sp"
+			android:textStyle="bold" />
+		    
+        <ImageButton
+            android:id="@+id/right"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/optionbtn"
+            android:src="@drawable/sm57"/>
+           
+    </RelativeLayout>
+	
+    <RelativeLayout
+		android:id="@+id/content"
+		android:layout_width="fill_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@+id/title"
+		android:layout_above="@+id/pagenav"
+		android:orientation="vertical" >
+        
+        <RelativeLayout
+			android:id="@+id/favsframe"
+			android:layout_width="fill_parent"
+			android:layout_height="match_parent"
+			android:layout_marginBottom="0dp">
+            
+			<GridView
+				android:id="@+id/friendsGridView"
+				android:layout_width="match_parent"
+				android:layout_height="fill_parent"
+				android:listSelector="@drawable/optionbtn"
+				android:background="#ecf0ff"
+				android:gravity="center"
+				android:numColumns="4"
+				android:verticalSpacing="0dp" />
+			
+<!-- 			<ImageView -->
+<!-- 				android:id="@+id/func_moreabove" -->
+<!-- 				android:visibility="gone" -->
+<!-- 				android:layout_width="match_parent" -->
+<!-- 				android:layout_height="22dp" -->
+<!-- 				android:background="#7fffffff" -->
+<!-- 				android:src="@drawable/ic_expand_less_white" -->
+<!-- 				android:layout_alignParentBottom="true" /> -->
+			
+<!-- 			<ImageView -->
+<!-- 				android:id="@+id/func_morebelow" -->
+<!-- 				android:visibility="visible" -->
+<!-- 				android:layout_width="match_parent" -->
+<!-- 				android:layout_height="22dp" -->
+<!-- 				android:background="#7fffffff" -->
+<!-- 				android:src="@drawable/ic_expand_more_white" -->
+<!-- 				android:layout_alignParentBottom="true" /> -->
+	
+        </RelativeLayout>
+	    
+<!-- 		<ListView -->
+<!-- 			android:id="@+id/friendsList" -->
+<!-- 			android:layout_width="fill_parent" -->
+<!-- 			android:layout_height="match_parent" -->
+<!-- 			android:background="#ecf0f1" -->
+<!-- 			android:cacheColorHint="#ecf0f1" -->
+<!-- 			android:divider="#e1dbdb" -->
+<!-- 			android:dividerHeight="1dp" -->
+<!-- 			android:fastScrollEnabled="true" -->
+<!-- 			android:focusableInTouchMode="true" /> -->
+
+        <SlidingDrawer
+            android:id="@+id/friendsSlidingDrawer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:content="@+id/slidecontent"
+            android:handle="@+id/handle"
+            android:topOffset="100dp" >
+			
+            <ImageView
+				android:id="@+id/handle"
+				android:layout_width="match_parent"
+				android:layout_height="25dp"
+				android:background="#8f333333"
+				android:src="@drawable/users_normal"
+				android:layout_alignParentBottom="true" />
+
+            <LinearLayout
+                android:id="@+id/slidecontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+			
+				<ListView
+					android:id="@+id/friendsList"
+					android:layout_width="fill_parent"
+					android:layout_height="match_parent"
+					android:background="#ecf0f1"
+					android:cacheColorHint="#ccccff"
+					android:divider="#e1dbdb"
+					android:dividerHeight="1dp"
+					android:fastScrollEnabled="true"
+					android:focusableInTouchMode="true" />
+	            
+            </LinearLayout>
+            
+        </SlidingDrawer>
+        
+    </RelativeLayout>
+
+	<LinearLayout
+		android:id="@+id/pagenav"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:gravity="center"
+		android:orientation="horizontal"
+		android:paddingBottom="2dp"
+		android:paddingTop="2dp"
+		android:background="@drawable/optionbar"
+		android:layout_alignParentBottom="true" >
+        
+		<Button
+			android:id="@+id/page1"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginLeft="2dp"
+			android:layout_marginRight="1dp"
+			android:layout_weight="1"
+			android:background="@drawable/tabbtn"
+			android:paddingTop="5dp"
+			android:drawablePadding="-5dp"
+			android:drawableTop="@drawable/sm57"
+			android:text="@string/friends"
+			android:textColor="#ffffff"
+			android:textSize="10dp" />
+		
+		<Button
+			android:id="@+id/page2"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="1dp"
+			android:layout_weight="1"
+			android:background="@drawable/tabbtn_focused"
+			android:paddingTop="5dp"
+			android:drawablePadding="-5dp"
+			android:drawableTop="@drawable/sm57"
+			android:text="@string/friends"
+			android:textColor="#ffffff"
+			android:textSize="10dp" />
+		
+		<Button
+			android:id="@+id/page3"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="1dp"
+			android:layout_weight="1"
+			android:background="@drawable/tabbtn"
+			android:paddingTop="5dp"
+			android:drawablePadding="-5dp"
+			android:drawableTop="@drawable/sm57"
+			android:text="@string/friends"
+			android:textColor="#ffffff"
+			android:textSize="10dp" />
+		
+		<Button
+			android:id="@+id/page4"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginLeft="1dp"
+			android:layout_marginRight="2dp"
+			android:layout_weight="1"
+			android:background="@drawable/tabbtn"
+			android:paddingTop="5dp"
+			android:drawablePadding="-5dp"
+			android:drawableTop="@drawable/sm57"
+			android:text="@string/friends"
+			android:textColor="#ffffff"
+			android:textSize="10dp" />
+			
+	</LinearLayout>
+
+</RelativeLayout>

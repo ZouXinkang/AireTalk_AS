@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/menu"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#20bca6"
+    android:orientation="vertical" >
+   <RelativeLayout
+        android:id="@+id/rl_menu_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="90dp"
+        android:background="#263036" >
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:cacheColorHint="#8ca5d3"
+            android:divider="#80ffffff"
+            android:dividerHeight="1dp"
+            android:scrollbars="none" >
+        </ListView>
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/iv_user"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="60dp" 
+        android:src="@drawable/bighead"/>
+
+    <TextView
+        android:id="@+id/tv_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="70dp"
+        android:layout_toRightOf="@id/iv_user"
+        android:textSize="15sp"
+        android:text="user"
+        android:textColor="#ffffff" />
+    <TextView
+        android:id="@+id/tv_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="95dp"
+        android:layout_toRightOf="@id/iv_user"
+        android:textSize="25sp"
+        android:text="petter"
+        android:textColor="#ffffff" />
+    <TextView
+        android:id="@+id/tv_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="95dp"
+        android:layout_alignParentRight="true"
+        android:textSize="20sp"
+        android:text="V 5.6"
+        android:textColor="#A2B7C4" />
+
+ 
+
+</RelativeLayout>

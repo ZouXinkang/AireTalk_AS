@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+	<!-- //xwf -->
+	
+    <FrameLayout
+		android:id="@+id/title"
+		android:layout_gravity="top"
+		android:background="@drawable/titlebar"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp">
+		<RelativeLayout 
+			android:gravity="center_vertical"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+			
+			<ImageView
+			    android:id="@+id/cancel"
+			    android:src="@drawable/back"
+			    android:background="@drawable/optionbtn"
+				android:padding="10dp"
+				android:layout_centerVertical="true"
+				android:layout_alignParentLeft="true" 
+				android:layout_width="50dp"
+				android:layout_height="50dp"/>
+				
+			<TextView
+				android:id="@+id/topic"
+				android:text="@string/sharing_location"
+				android:textColor="#FFFFFFFF"
+				android:maxWidth="150dp"
+				android:ellipsize="end"
+				android:singleLine="true"
+				android:textSize="20sp"
+				android:textStyle="bold"
+				android:layout_centerInParent="true"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"/>
+				
+			<RadioGroup
+				android:id="@+id/select_directions"
+				android:visibility="gone"
+				android:orientation="horizontal"
+				android:layout_centerInParent="true"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+				
+				<RadioButton android:id="@+id/walking"
+				    android:drawableLeft="@drawable/walk"
+				    android:button="@drawable/null_btn"
+				    android:background="@drawable/plainbtn"
+					android:text="@string/walking"
+					android:textColor="#ffffff"
+					android:textSize="13sp"
+					android:gravity="center"
+					android:padding="5dip"
+					android:drawablePadding="5dp"
+					android:layout_width="wrap_content" 
+					android:layout_height="wrap_content"/>
+					
+				<RadioButton android:id="@+id/driving"
+				    android:drawableLeft="@drawable/driving"
+				    android:button="@drawable/null_btn"
+				    android:background="@drawable/plainbtn"
+					android:text="@string/driving"
+					android:textColor="#ffffff"
+					android:textSize="13sp"
+					android:gravity="center"
+					android:padding="5dip"
+					android:drawablePadding="5dp"
+					android:layout_width="wrap_content" 
+					android:layout_height="wrap_content"/>
+			</RadioGroup>
+			
+		</RelativeLayout>
+				
+	</FrameLayout>
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/my_location_bmapView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:clickable="true" />
+
+</LinearLayout>
