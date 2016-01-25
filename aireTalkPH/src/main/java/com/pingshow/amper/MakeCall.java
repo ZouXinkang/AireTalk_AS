@@ -22,7 +22,7 @@ public class MakeCall {
 			AireVenus.setCallType(AireVenus.CALLTYPE_FAFA);
 		Call(context, PhoneNumber, false, bSipCall);
 	}
-	
+
 	static public void SipCall(Context context, String PhoneNumber, String displayname, boolean withVideo)
 	{
 		callByFafa(context, PhoneNumber, withVideo, displayname);
@@ -100,6 +100,10 @@ public class MakeCall {
 				dialNumber="1008";
 			}
 		}else{
+			//Hsia：在这里判断新广播
+//			if(mPref.readBoolean("pay", false)){
+//
+//			}
 			dialNumber	= "1007";
 		}
 

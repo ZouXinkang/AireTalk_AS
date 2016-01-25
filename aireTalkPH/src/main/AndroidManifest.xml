@@ -103,11 +103,11 @@
 				<data android:scheme="tel" />
 			</intent-filter>
 		</activity>
-		
+
+		<!--android:description="@string/app_name"-->
 		<activity android:name="com.pingshow.amper.GallerySender"
 		    android:screenOrientation="portrait"
 		    android:label="@string/app_name"
-		    android:description="@string/app_name"
 		    android:theme="@android:style/Theme.NoTitleBar"
 		    android:icon="@drawable/aire_icon_3s">
 			<intent-filter>

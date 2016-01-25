@@ -733,6 +733,10 @@ public class AireVenus extends Service implements VoipCoreListener {
 			runAsSipAccount=false;
 			runAsFileTransfer=(CallType==CALLTYPE_FILETRANSFER);
 		}
+		//bree:如果是广播并且是新的广播
+		if (mPref.readInt("BCAST_CONF", -1) >= 0 && mPref.readBoolean("pay", false)) {
+				SipServer="61.136.101.118";
+			}
 		Log.e("voip.INIT/REGIS " + getCallTypeName(CallType) + CallType
 				+ " " + lUserName + ":" + password + "@" + SipServer + " " + iso
 				+ " /" + runAsSipAccount + "/" + runAsFileTransfer);

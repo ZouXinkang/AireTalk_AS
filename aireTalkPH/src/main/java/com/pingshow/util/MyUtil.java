@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
 
 import android.app.ActivityManager;
@@ -611,11 +612,24 @@ public class MyUtil {
 
 	}
 	public static String getBase64(String str){
-		String getBase64 = new String(Base64.decode(str.getBytes(),Base64.DEFAULT));
+		String getBase64 = new String(Base64.decode(str.getBytes(), Base64.DEFAULT));
 //		for (int i = 0; i < 3; i++) {
 //			getBase64 = new String(Base64.decode(getBase64.getBytes(),Base64.DEFAULT));
 //		}
 		return getBase64;
 
+	}
+
+	//bree：list去重
+	public static List<Map<String, Object>> sigleList(List<Map<String, Object>> list){
+		List<Map<String, Object>> sigleList=new ArrayList<Map<String,Object>>();
+		List<String> idxList=new ArrayList<String>();
+		for (int i = 0; i < list.size(); i++) {
+			if (!idxList.contains((String)list.get(i).get("idx"))) {
+				idxList.add((String)list.get(i).get("idx"));
+				sigleList.add(list.get(i));
+			}
+		}
+		return sigleList;
 	}
 }

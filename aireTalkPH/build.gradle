@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-
 android {
     compileSdkVersion 'Google Inc.:Google APIs:19'
     buildToolsVersion "23.0.2"
@@ -18,6 +17,7 @@ android {
     }
 }
 
+
 dependencies {
     compile project(':com_facebook_android')
     compile project(':com_weibo_android')
@@ -30,4 +30,12 @@ dependencies {
     compile files('libs/tencent_openapi.jar')
     compile files('libs/umeng_sdk.jar')
     compile files('libs/zxing.jar')
+}
+
+allprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        }
+    }
 }

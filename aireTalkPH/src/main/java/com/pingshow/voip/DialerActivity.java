@@ -16,6 +16,7 @@ import java.util.Random;
 
 import org.xwalk.core.XWalkActivity;
 import org.xwalk.core.XWalkPreferences;
+import org.xwalk.core.XWalkResourceClient;
 import org.xwalk.core.XWalkView;
 
 import android.annotation.SuppressLint;
@@ -31,6 +32,7 @@ import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
@@ -113,6 +115,7 @@ import com.pingshow.network.MyNet;
 import com.pingshow.network.MySocket;
 import com.pingshow.network.NetInfo;
 import com.pingshow.util.CPUTool;
+import com.pingshow.util.CallPhp;
 import com.pingshow.util.ImageUtil;
 import com.pingshow.util.MCrypt;
 import com.pingshow.util.MyTelephony;
@@ -125,6 +128,8 @@ import com.pingshow.voip.core.VoipCore;
 import com.pingshow.voip.core.VoipCoreException;
 import com.pingshow.voip.core.VoipCoreListener;
 import com.pingshow.voip.core.VoipProxyConfig;
+import android.webkit.ValueCallback;
+import android.net.http.SslError;
 
 public class DialerActivity extends Activity implements VoipCoreListener,
 		SensorEventListener {
@@ -323,6 +328,15 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 				XWalkPreferences.setValue(
 						XWalkPreferences.ANIMATABLE_XWALK_VIEW, false);
 				xWalkWebView = new XWalkView(theDialer, DialerActivity.this);
+				//bree:设置XWalkView背景为黑色，并去除ssh警告对话框
+				xWalkWebView.setBackgroundColor(Color.BLACK);
+				xWalkWebView.setResourceClient(new XWalkResourceClient(xWalkWebView){
+					@Override
+					public void onReceivedSslError(XWalkView view,
+												   ValueCallback<Boolean> callback, SslError error) {
+						callback.onReceiveValue(true);
+					}
+				});
 				xWalkWebView.clearCache(false);
 				Log.i("vidConfxwalk xWalkWebView ready "
 						+ xWalkWebView.getXWalkVersion() + ","
@@ -389,7 +403,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 		}
 		return false;
 	}
-
+	private String myUuid;
 	Runnable startDialerStuff = new Runnable() {
 		@SuppressWarnings("deprecation")
 		public void run() {
@@ -578,6 +592,12 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 			mHangup.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
 					Log.e("voip.HANGUP1 DA *** USER PRESSED ***");
+					//bree：用户挂断的时候  kick
+					if (mPref.readInt("BCAST_CONF", -1) >= 0 && mPref.readBoolean("pay", false)) {
+						CallPhp.callHangupPhp(myUuid, DialerActivity.this);
+						CallPhp.callHangupPhp2(myUuid, DialerActivity.this);
+					}
+
 					mPref.write("tempCheckSameIN", 0); // tml*** sametime
 
 					if (rejectHangingup
@@ -868,6 +888,9 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 
 			mHandler.post(connectStatusShow); // tml*** beta ui
 			if (incomingCall || incomingChatroom) {
+				if (mPref.readInt("BCAST_CONF", -1) >= 0 && mPref.readBoolean("pay", false)) {
+					mHangup.setVisibility(View.VISIBLE);
+				}else
 				mHangup.setVisibility(View.GONE);
 				mHangup2.setVisibility(View.VISIBLE); // tml*** beta ui
 				mHold.setVisibility(View.GONE);
@@ -1788,7 +1811,10 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 						mProfileImage.setImageBitmap(photo);
 				}
 			} else if (intent.getAction().equals(Global.Action_AnswerCall)) {
-
+				//bree	如果是新的广播自动打开摄像头
+				if (mPref.readInt("BCAST_CONF", -1) >= 0 && mPref.readBoolean("pay", false)){
+					((ToggleButton) findViewById(R.id.video)).setChecked(true);
+				}
 				mPref.write("tempCheckSameIN", 0); // tml*** sametime
 
 				stopSelfPreview();
@@ -1920,8 +1946,10 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 
 				setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);// alec
 				setStreamVolume(AudioManager.STREAM_VOICE_CALL, 1.0f, 0);// alec
-
-				newOutgoingCall(mAddress, videoCall, "inChat");
+				//bree:如果不是新广播
+				if (!(mPref.readInt("BCAST_CONF", -1) >= 0 && mPref.readBoolean("pay", false))) {
+					newOutgoingCall(mAddress, videoCall, "inChat");
+				}
 			}
 		}
 	};
@@ -2560,9 +2588,12 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 						public void run() {
 							((Button) findViewById(R.id.add))
 									.setVisibility(View.VISIBLE);
-							((ToggleButton) findViewById(R.id.video))
-									.setVisibility(View.VISIBLE); // tml***
-																	// vidconf
+							//bree:如果不是新广播就显示video
+							if (!(mPref.readInt("BCAST_CONF", -1) >= 0 && mPref.readBoolean("pay", false))) {
+								((ToggleButton) findViewById(R.id.video))
+										.setVisibility(View.VISIBLE); // tml***
+							}
+
 						}
 					}, 2000);
 					if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
@@ -2858,10 +2889,17 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 					phpip = AireJupiter.getInstance().getIsoPhp(0, true,
 							"74.3.165.66");
 				}
+				//bree:如果是新的广播就换ip
+				if (mPref.readInt("BCAST_CONF", -1) >= 0 && mPref.readBoolean("pay", false)) {
+					Return = net.doAnyPostHttp("http://" + phpip
+							+ "/onair/conference/customer/conf1.php", "room="
+							+ roomNumber + "&ip=61.136.101.118");
+				}else {
+					Return = net.doAnyPostHttp("http://" + phpip + "/onair/conference/customer/conf1.php",
+							"room="+roomNumber+"&ip="+domain);
 
-				Return = net.doAnyPostHttp("http://" + phpip
-						+ "/onair/conference/customer/conf1.php", "room="
-						+ roomNumber + "&ip=" + domain);
+				}
+
 			} catch (Exception e) {
 				Log.e("readChatroomMemberThread conf1.php !@#$ "
 						+ e.getMessage());
@@ -2885,7 +2923,11 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 											.substring(17, item.indexOf('@'));
 									idx = Integer.parseInt(item);
 									if (myIdx == idx)
+									{
+										myUuid=items[j+1];
 										continue;
+									}
+
 								} else {
 									item = item
 											.substring(15, item.indexOf('@'));
@@ -2927,7 +2969,8 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 									map.put("photo", drawable);
 									map.put("uuid", uuid);
 									memberList.add(map);
-
+									//bree:去除重复的好友
+									memberList=MyUtil.sigleList(memberList);
 								} else {
 
 									long contactId = cq
@@ -2946,6 +2989,8 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 									map.put("photo", drawable);
 									map.put("uuid", uuid);
 									memberList.add(map);
+									//bree:去除重复的好友
+									memberList=MyUtil.sigleList(memberList);
 								}
 							} catch (Exception e) {
 								Log.e("readChatroomMemberThread2 !@#$ "
@@ -4747,7 +4792,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 			if (mPref.readInt("BCAST_CONF", -1) >= 0) {
 				if(mPref.readBoolean("pay", false)){
 //					Toast.makeText(DialerActivity.this,"已支付，哈哈",0).show();
-
+					newBrost("res=2");
 				}else{
 					vcUrl = "https://www.xingfafa.com:8443/demos/demo_multiparty_video_only_b_broadcast.html?";
 					vcRoom = "room=" + Integer.toString(roomN);
@@ -4760,10 +4805,11 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 					xWalkWebView.load(vcUrl + vcRoom + vcRes, null);
 
 				}
+			}else{
+				Log.i("vidConfxwalk >> " + vcRoom + vcRes + " " + vcUrl);
+				xWalkWebView.load(vcUrl + vcRoom + vcRes, null);
 			}
 
-			Log.i("vidConfxwalk >> " + vcRoom + vcRes + " " + vcUrl);
-			xWalkWebView.load(vcUrl + vcRoom + vcRes, null);
 			((SurfaceView) findViewById(R.id.topVWin_surface))
 					.setVisibility(View.VISIBLE);
 			// ((SurfaceView)
@@ -4813,7 +4859,40 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 			Log.e("initVidConf !@#$ " + e.getMessage());
 		}
 	}
-
+	private void newBrost(String vcRes) {
+		String vcUrl;
+		vcUrl = "https://bc.xingfafa.com/release/call.htm?";
+		int myIdx = Integer.parseInt(mPref.read("myID", "0"), 16);
+		String getIdx = "&idx=" + myIdx;
+		String getPassword = mPref.read("password", "1111");
+		String setBase64 = MyUtil.setBase64(getPassword);
+		String base64 = MyUtil.getBase64(setBase64);
+		MyPreference mPref = new MyPreference(this);
+		String myNickname = "&nickname=" + myIdx;
+		String newRoomN = "";
+		if (getIdx.length() < 7) {
+		} else {
+			if (mPref.readInt("BCAST_CONF", -1) == 1) {// 主叫方
+				newRoomN = "1009" + mPref.readInt("ChatroomHostIdx");
+			} else if (mPref.readInt("BCAST_CONF", -1) == 0) {
+				newRoomN = "1008" + mPref.readInt("ChatroomHostIdx");
+			}
+		}
+		String BRoom = "&room=" + newRoomN;
+		if (mPref.readInt("BCAST_CONF", -1) == 1) {
+			xWalkWebView.load(vcUrl + vcRes + getIdx + "&pd=W1o2r3d4p5s6"
+					+ setBase64 + myNickname + BRoom + "&broadcast=1", null);
+			Log.d("new Brocasting URL:" + vcUrl + vcRes + getIdx
+					+ "&pd=W1o2r3d4p5s6" + setBase64 + myNickname + BRoom
+					+ "&broadcast=1");
+		} else if (mPref.readInt("BCAST_CONF", -1) == 0) {
+			vcRes = "res=0";
+			xWalkWebView.load(vcUrl + vcRes + getIdx + "&pd=W1o2r3d4p5s6"
+					+ setBase64 + myNickname + BRoom, null);
+			Log.d("new Brocasting URL:" + vcUrl + vcRes + getIdx
+					+ "&pd=W1o2r3d4p5s6" + setBase64 + myNickname + BRoom);
+		}
+	}
 	private void endVidConf() {
 		try {
 			if (xWalkWebView != null) {
@@ -4843,8 +4922,10 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 	// tml*** beta ui
 	Runnable connectStatusShow = new Runnable() {
 		public void run() {
-			((ProgressBar) findViewById(R.id.connect_status))
-					.setVisibility(View.VISIBLE);
+			//bree:如果不是新广播
+			if (!(mPref.readInt("BCAST_CONF", -1) >= 0 && mPref.readBoolean("pay", false))) {
+				((ProgressBar) findViewById(R.id.connect_status)).setVisibility(View.VISIBLE);
+			}
 		}
 	};
 
