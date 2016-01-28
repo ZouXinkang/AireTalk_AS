@@ -483,7 +483,7 @@ public class UsersActivity extends Activity {
         	((Button) findViewById(R.id.bSearch)).setVisibility(View.GONE);
         	((Button) findViewById(R.id.bSetting)).setVisibility(View.GONE);
         } else {
-        	((Button) findViewById(R.id.bSearch)).setVisibility(View.VISIBLE);
+        	((Button) findViewById(R.id.bSearch)).setVisibility(View.GONE);
         	((Button) findViewById(R.id.bSetting)).setVisibility(View.GONE);
         }
         if (largeScreen) {

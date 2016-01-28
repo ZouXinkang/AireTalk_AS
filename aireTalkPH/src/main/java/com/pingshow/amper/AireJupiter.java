@@ -1841,7 +1841,8 @@ public class AireJupiter extends Service {
 								int count = 0;
 								do {
 									MyNet net = new MyNet(AireJupiter.this);
-									Return = net.doPostAttach("uploadphoto_aire.php", myIdx, 0, photoPath, null); // httppost
+									//Hsia:更正头像
+									Return = net.doPostAttach("uploadphoto_aire.php", myIdx, 0, photoPath,myPhpServer_default2A ); // httppost
 									if (Return.startsWith("Done"))
 										break;
 									MyUtil.Sleep(2500);

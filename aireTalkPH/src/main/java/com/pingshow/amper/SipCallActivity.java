@@ -294,7 +294,7 @@ public class SipCallActivity extends Activity implements FilterQueryProvider{
             	((Button) main_page.findViewById(R.id.bSearch)).setVisibility(View.GONE);
             	((Button) main_page.findViewById(R.id.bSetting)).setVisibility(View.GONE);
             } else {
-            	((Button) main_page.findViewById(R.id.bSearch)).setVisibility(View.VISIBLE);
+            	((Button) main_page.findViewById(R.id.bSearch)).setVisibility(View.GONE);
             	((Button) main_page.findViewById(R.id.bSetting)).setVisibility(View.GONE);
             }
             boolean largeScreen = (main_page.findViewById(R.id.large) != null);

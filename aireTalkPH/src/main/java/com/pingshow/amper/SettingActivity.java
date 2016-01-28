@@ -346,6 +346,7 @@ public class SettingActivity extends Activity {
 				finish();
 			}
 		});
+
 		((Button) findViewById(R.id.bSearch))
 				.setOnClickListener(new OnClickListener() {
 					@Override
@@ -380,7 +381,7 @@ public class SettingActivity extends Activity {
         	((Button) findViewById(R.id.bSearch)).setVisibility(View.GONE);
         	((Button) findViewById(R.id.bSetting)).setVisibility(View.VISIBLE);
         } else {
-        	((Button) findViewById(R.id.bSearch)).setVisibility(View.VISIBLE);
+        	((Button) findViewById(R.id.bSearch)).setVisibility(View.GONE);
         	((Button) findViewById(R.id.bSetting)).setVisibility(View.GONE);
         }
 

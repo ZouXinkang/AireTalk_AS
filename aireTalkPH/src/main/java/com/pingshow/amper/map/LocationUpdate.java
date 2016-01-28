@@ -242,7 +242,7 @@ public class LocationUpdate {
 	}
 	
 	public void getMyLocFromIpAddress() {
-		final String getmyaddress="http://74.3.165.66/onair/getgeo.php";
+		final String getmyaddress="http://74.3.165.66/onair/getgeo_json.php";
 		final String getmyip = "http://icanhazip.com/";
 		 
 		(new Thread(new Runnable() {
@@ -251,23 +251,28 @@ public class LocationUpdate {
 				try {
 					Log.d("getAddressFromIp...");
 					String ipaddr=getMyIp(getmyip);
-					String response=getAddressFromIp(getmyaddress+ipaddr);
-					
+//					String response=getAddressFromIp(getmyaddress + ipaddr);
+					String response=getAddressFromIp(getmyaddress);
+
+					Log.d("getmyaddress: " + getmyaddress);
+					Log.d("responsejson: " + response);
+
 					JSONObject jsonObject;
 		            try {
 		                jsonObject = new JSONObject(response);
 
 		                String iso = jsonObject.getString("country_code").toLowerCase();
-		                String lat = jsonObject.getString("latitude");
-		                String lon = jsonObject.getString("longitude");
-		                Log.d("getMyLocFromIpAddr iso=" + iso + " lat=" + lat + " lon=" + lon);
+//		                String lat = jsonObject.getString("latitude");
+//		                String lon = jsonObject.getString("longitude");
+//		                Log.d("getMyLocFromIpAddr iso=" + iso + " lat=" + lat + " lon=" + lon);
+		                Log.d("getMyLocFromIpAddr iso=" + iso);
 
 		                if (iso == null || iso == "") return;
 						//{"ip":"123.195.204.129","country_code":"TW","country_name":"Taiwan","region_code":"03","region_name":"T'ai-pei","city":"Taipei","zipcode":"","latitude":25.0392,"longitude":121.525,"metro_code":"","areacode":""}
 		                try {
 							mPref.write("iso", iso);
 //							mPref.write("iso", "cn");
-							updatePreference((long) (Double.parseDouble(lat) * 1E6), (long) (Double.parseDouble(lon) * 1E6), "getMyLocFromIpAddress");
+//							updatePreference((long) (Double.parseDouble(lat) * 1E6), (long) (Double.parseDouble(lon) * 1E6), "getMyLocFromIpAddress");
 							uploadLocationToServer();
 						}catch (Exception e) {}
 		                

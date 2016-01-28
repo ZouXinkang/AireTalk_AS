@@ -772,7 +772,9 @@ public class ParseSmsLine {
 				msg.time = Long.parseLong(items[2], 16);
 				long timeOffset = mPref.readLong("confServerOffset", 0);
 				long my_time = (new Date().getTime() / 1000) + timeOffset;
-				long timeDiff = msg.time - my_time;
+//				long timeDiff = msg.time -
+				//Hais:修正离线的多方通话时间戳
+				long timeDiff = my_time - msg.time ;
 				Log.i("incConf1 time this=" + msg.time + " my=" + my_time + " diff=" + timeDiff);
 				if (timeDiff <= 20) {
 					try {
@@ -854,7 +856,7 @@ public class ParseSmsLine {
 					//alec: download big one as well
 					localfile = Global.SdcardPath_inbox + "photo_" + idx + "b.jpg";
 					MyNet net = new MyNet(context);
-					net.Download("profiles/photo_"+idx+".jpg", localfile, null);
+					net.Download("profiles/photo_"+idx+".jpg", localfile, AireJupiter.myPhpServer_default2A);
 					
 					String address = mADB.getAddressByIdx(idx);
 					Intent intent = new Intent();
