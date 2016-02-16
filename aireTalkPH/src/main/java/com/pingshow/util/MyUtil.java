@@ -632,4 +632,10 @@ public class MyUtil {
 		}
 		return sigleList;
 	}
+
+	public static HttpDownloader downShareFile(String url){
+		HttpDownloader httpDownloader = new HttpDownloader();
+		return httpDownloader;
+	}
+
 }

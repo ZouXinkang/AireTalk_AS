@@ -99,7 +99,7 @@ public class MySocket {
 	public void updateMySipServer(String sipServer) {
 		mPref.write("mySipServer", sipServer);
 		if (AireJupiter.getInstance() != null) {
-			sipServer = AireJupiter.getInstance().getIsoSip();  //tml*** china ip
+//			sipServer = AireJupiter.getInstance().getIsoSip();  //tml*** china ip
 			AireJupiter.getInstance().mySipServer = sipServer;
 		}
 	}

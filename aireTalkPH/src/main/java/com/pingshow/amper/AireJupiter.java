@@ -4773,7 +4773,9 @@ public class AireJupiter extends Service {
 		String savedsip = mPref.read("mySipServer", sip);
 		if (!MyUtil.isISO_China(AireJupiter.this, mPref, null)) {
 			sip = AireVenus.mySipServer_USA;
-			if (!savedsip.equals(AireVenus.mySipServer_USA)) sip = savedsip;
+			if (!savedsip.equals(AireVenus.mySipServer_USA)) {
+				sip = savedsip;
+			}
 		} else {
 			mPref.write("mySipServer", sip);
 		}

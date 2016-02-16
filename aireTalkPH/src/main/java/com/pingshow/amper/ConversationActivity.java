@@ -241,7 +241,6 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			getWindow().setAttributes(lp);
 		}
 		//***tml
-		
 		mADB = new AmpUserDB(ConversationActivity.this);
 		mADB.open();
 		mPref = new MyPreference(this);

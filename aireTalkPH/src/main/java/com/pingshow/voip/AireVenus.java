@@ -656,8 +656,8 @@ public class AireVenus extends Service implements VoipCoreListener {
 	public void initFromConf() throws VoipConfigException, VoipException {
 
 		String SipServer_default = mPref.read("mySipServer", mySipServer_China);
-		if (AireJupiter.getInstance() != null)
-			SipServer_default = AireJupiter.getInstance().getIsoSip();  //tml*** china ip
+//		if (AireJupiter.getInstance() != null)
+//			SipServer_default = AireJupiter.getInstance().getIsoSip();  //tml*** china ip
 		String lUserName;
 		String SipServer;
 		String password;

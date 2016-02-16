@@ -10,15 +10,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateUtils;
+import android.widget.Toast;
 
 import com.pingshow.amper.AireJupiter;
 import com.pingshow.amper.ConversationActivity;
 import com.pingshow.amper.Global;
 import com.pingshow.amper.Log;
+import com.pingshow.amper.MainActivity;
 import com.pingshow.amper.MyPreference;
 import com.pingshow.amper.R;
 import com.pingshow.amper.SMS;
+import com.pingshow.amper.SendAgent;
 import com.pingshow.amper.SettingActivity;
+import com.pingshow.amper.SplashScreen;
 import com.pingshow.amper.WalkieTalkieDialog;
 import com.pingshow.amper.contacts.ContactsOnline;
 import com.pingshow.amper.contacts.ContactsQuery;
@@ -27,9 +31,12 @@ import com.pingshow.amper.db.GroupDB;
 import com.pingshow.amper.db.RelatedUserDB;
 import com.pingshow.amper.db.SmsDB;
 import com.pingshow.network.MyNet;
+import com.pingshow.network.MySocket;
 import com.pingshow.network.NetInfo;
+import com.pingshow.util.HttpDownloader;
 import com.pingshow.util.MyTelephony;
 import com.pingshow.util.MyUtil;
+import com.pingshow.util.OpenShareVideo;
 import com.pingshow.voip.AireVenus;
 import com.pingshow.voip.DialerActivity;
 import com.pingshow.voip.core.VoipCore;
@@ -624,7 +631,7 @@ public class ParseSmsLine {
     	
     	return smslist;
 	}
-	
+
 	static public ArrayList<SMS> Parse2(Context context, String data, ContactsQuery cq, AmpUserDB mADB, MyPreference mPref)
 	{
 		ArrayList<SMS> smslist=new ArrayList<SMS>();
@@ -773,7 +780,7 @@ public class ParseSmsLine {
 				long timeOffset = mPref.readLong("confServerOffset", 0);
 				long my_time = (new Date().getTime() / 1000) + timeOffset;
 //				long timeDiff = msg.time -
-				//Hais:修正离线的多方通话时间戳
+				//Hsia:修正离线的多方通话时间戳
 				long timeDiff = my_time - msg.time ;
 				Log.i("incConf1 time this=" + msg.time + " my=" + my_time + " diff=" + timeDiff);
 				if (timeDiff <= 20) {
@@ -811,7 +818,61 @@ public class ParseSmsLine {
 //				DialerActivity.getDialer().setMute(false);
 //				return smslist;
 //			}
-    		else if (msg.content.startsWith(Global.Master_Parse))
+			//Hsia:下载文件
+			else if(msg.content.startsWith(Global.FILE_SHARE_DOWNLOAD)){
+				//Hsia：切割url
+				String downUrl = (msg.content).substring((Global.FILE_SHARE_DOWNLOAD).length());
+//				boolean inGroup=false;
+//				String groupID = "[<GROUP>]";
+//				String mAddress = msg.address;
+////				String mAddress = msg.address.substring(groupID.length());
+//				int myIdx = Integer.parseInt(mPref.read("myID", "0"), 16);
+//				int mIdx=mADB.getIdxByAddress(mAddress);
+//				int mGroupID = Integer.parseInt(mAddress.substring(9));
+//				ArrayList<String> addressList=new ArrayList<String>();
+//				ArrayList<String> sendeeList;//alec
+//				GroupDB mGDB=new GroupDB(context);
+//				sendeeList=mGDB.getGroupMembersByGroupIdx(mGroupID);
+//				for (int i=0;i<sendeeList.size();i++) {
+//					addressList.add(mADB.getAddressByIdx(Integer.parseInt(sendeeList.get(i))));
+//				}
+//
+//				inGroup = mAddress.startsWith("[<GROUP>]");
+//				SendAgent agent=new SendAgent(context, myIdx, mIdx, true);
+//				if (inGroup)
+//				{
+//					agent.setAsGroup(mGroupID);
+////					if (agent.onMultipleSend(addressList, "文件开始下载…", 0, null, null))
+//					agent.onMultipleSend(addressList, "文件开始下载…", 0, null, null);
+////						addMsgtoTalklist(false);
+//				}else{
+//					agent.onSend(mAddress, "文件开始下载…", 0, null, null, false);
+////						addMsgtoTalklist(false);
+//				}
+
+
+//				+8615810876689/39561 42
+//				[<GROUP>]39561
+				AireJupiter.getInstance().tcpSocket().send(msg.address, "等待下载完成…", 0, null, null, 0, null);
+				Log.d("addresshahh" + msg.address);
+				Log.d("分享文件下载地址:" + downUrl);
+				HttpDownloader httpDownloader = MyUtil.downShareFile(downUrl);
+				int result = httpDownloader.downfile(downUrl, "", "哈哈.mp4");
+				Intent intent = new Intent();
+				intent.setAction("com.pingshow.SHAREFILE");
+				intent.putExtra("downUrl",downUrl);
+				intent.putExtra("getResult",result);
+				context.sendOrderedBroadcast(intent,null);
+				if (result==0){
+					AireJupiter.getInstance().tcpSocket().send(msg.address, "文件下载成功。", 0, null, null, 0, null);
+				}else if(result == 1){
+					AireJupiter.getInstance().tcpSocket().send(msg.address, "文件已存在。", 0, null, null, 0, null);
+				}else if(result == -1){
+					AireJupiter.getInstance().tcpSocket().send(msg.address, "文件下载失败。", 0, null, null, 0, null);
+				}
+
+				return smslist;
+			}else if (msg.content.startsWith(Global.Master_Parse))
 			{
     			if (msg.content.endsWith("test")) {
     				int vers = mPref.readInt("versionCode", 0);

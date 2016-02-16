@@ -4,7 +4,7 @@
 	package="com.pingshow.amper"
 	android:installLocation="auto"
 	android:versionCode="2443"
-	android:versionName="2.4.43_test">
+	android:versionName="2.4.43">
 <!-- 	//also update SplashScreen versionCode if shortcut icon changes -->
 	
     <uses-sdk android:minSdkVersion="10"
@@ -519,6 +519,12 @@
 			android:screenOrientation="portrait"
 			android:windowSoftInputMode="stateHidden"
 			android:theme="@android:style/Theme.NoTitleBar"/>
+		<activity android:name="com.pingshow.util.OpenShareVideo"
+			android:screenOrientation="landscape"/>
+		<receiver android:name="com.pingshow.util.FileShareBroadcast"><intent-filter>
+		<action android:name="com.pingshow.SHAREFILE"></action>
+	</intent-filter>
+	</receiver>
 		<receiver android:name="com.pingshow.network.NetworkMonitor">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
