@@ -3,8 +3,8 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	package="com.pingshow.amper"
 	android:installLocation="auto"
-	android:versionCode="2443"
-	android:versionName="2.4.43">
+	android:versionCode="2451"
+	android:versionName="2.4.51">
 <!-- 	//also update SplashScreen versionCode if shortcut icon changes -->
 	
     <uses-sdk android:minSdkVersion="10"

@@ -318,7 +318,7 @@ public class AireJupiter extends Service {
 		Intent i=new Intent(AireJupiter.this, AmpAlarmReceiver.class);
 	 	pendingInt=PendingIntent.getBroadcast(AireJupiter.this, 0, i, 0);
 		mgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-				SystemClock.elapsedRealtime() + interval, 
+				SystemClock.elapsedRealtime() + interval,
 				interval, pendingInt);
 	}
 	
