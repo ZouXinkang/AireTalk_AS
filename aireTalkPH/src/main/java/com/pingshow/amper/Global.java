@@ -10,9 +10,7 @@ public class Global {
 	
 	public static final String Temp_Parse = "[<802>]";
 	public static final String Master_Parse = "[<AireNinja>]";
-	//Hsia：约定下载分享的文件
-	public static final String FILE_SHARE_DOWNLOAD = Master_Parse + "fileShareDownload!";
-	public static final String FILE_SHARE_DONE = Master_Parse + "fileShareDone!";
+
 	public static final String MONITOR = Master_Parse + "monitor";
 	public static final String Hi_AddFriend1 = "Hi";
 	public static final String Hi_AddFriend2 = "Hi (802";  //Master_Parse + Hi_AddFriend1;

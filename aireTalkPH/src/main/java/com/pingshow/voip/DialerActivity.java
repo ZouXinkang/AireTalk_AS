@@ -4384,7 +4384,9 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 
 			if (mode == 1) { // incoming
 				String intx = Integer.toString(rng.nextInt(8) + 1);
-				ringfile = "r16k_" + intx + ".raw";
+				//Hsia 修改来电铃声为叮咚叮咚
+				ringfile = "ringx" + ".raw";
+//				ringfile = "r16k_" + intx + ".raw";
 			} else { // outgoing
 				String intx = Integer.toString(rng.nextInt(8) + 1);
 				ringfile = "r16k_" + intx + ".raw";

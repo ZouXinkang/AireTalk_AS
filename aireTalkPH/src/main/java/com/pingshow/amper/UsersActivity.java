@@ -45,7 +45,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.pingshow.amper.contacts.ContactsOnline;
 import com.pingshow.amper.contacts.ContactsQuery;
 import com.pingshow.amper.db.AmpUserDB;
@@ -110,7 +109,6 @@ public class UsersActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_page);
 		this.overridePendingTransition(R.anim.freeze, R.anim.freeze);
-		
 		_this = this;
 		neverSayNeverDie(_this);  //tml|bj*** neverdie/
 		

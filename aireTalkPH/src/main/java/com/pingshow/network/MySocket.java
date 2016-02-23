@@ -633,6 +633,10 @@ public class MySocket {
 								doAppPushCall();
 								WaitForPush=true;
 								NotfoundACK=false;
+								//Hsia lock_700放开
+								synchronized (lock_700) {
+									lock_700.notifyAll();
+								}
 							}catch(Exception e){}
 						} else {
 							Log.d("NOTapple 790");

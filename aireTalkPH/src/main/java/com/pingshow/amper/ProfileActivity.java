@@ -1,6 +1,8 @@
 package com.pingshow.amper;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -27,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.pingshow.network.MyNet;
 import com.pingshow.util.ImageUtil;
 import com.pingshow.util.ResizeImage;
 import com.pingshow.voip.AireVenus;
@@ -45,8 +48,7 @@ public class ProfileActivity extends Activity {
         super.onCreate(savedInstanceState);
 		Log.e("*** !!! PROFILE *** START START !!! ***");
         mPref=new MyPreference(this);
-        
-        if (mPref.readBoolean("ProfileCompleted",false))
+		if (mPref.readBoolean("ProfileCompleted",false))
         {
         	Intent intent = new Intent();
         	int lastpage=mPref.readInt("LastPage");
@@ -68,19 +70,34 @@ public class ProfileActivity extends Activity {
         this.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
         photoView = (ImageView)findViewById(R.id.photo);
         photoView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        
+
         photoView.setOnClickListener(new OnClickListener() {
-	    	@Override
-	    	public void onClick(View v) {
-	    		onPickPictureOption();
-	    	}
-	    });
-        
+			@Override
+			public void onClick(View v) {
+				onPickPictureOption();
+			}
+		});
+		String username = "";
+		String password = "";
+		//Hsia 添加nickname
+		username = mPref.read("myPhoneNumber", username);
+		password = mPref.read("password", password);
+		try {
+			String Return= new MyNet(ProfileActivity.this).doPostHttps("login_aire.php","id="+ URLEncoder.encode(username, "UTF-8") +
+                            "&password="+URLEncoder.encode(password,"UTF-8"),null);
+			String[] split = Return.split(",");
+			String nickname = split[3];
+			//Hsia 设置nickname
+					((EditText) findViewById(R.id.nickname)).setText(nickname);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+
         if (mPref.readBoolean("LoginByFacebook")||mPref.readBoolean("LoginByWeibo"))
         {
 	        String nickname;
 	        if((nickname=mPref.read("myNickname"))!=null)
-	        	((EditText)findViewById(R.id.nickname)).setText(nickname);
+//	        	((EditText)findViewById(R.id.nickname)).setText(nickname);
 	        photoPath=Global.SdcardPath_sent + mPref.read("myPhoneNumber") + ".jpg";
 //	        Drawable photo=ImageUtil.getBitmapAsRoundCorner(photoPath, 1, 15);
 	        //xwf*** circle pic
@@ -155,7 +172,7 @@ public class ProfileActivity extends Activity {
     		}
     		
     		boolean male=((RadioButton)findViewById(R.id.male)).isChecked();
-    		
+
     		String nickname=((EditText)findViewById(R.id.nickname)).getText().toString();
     		if (nickname!=null)
     		{

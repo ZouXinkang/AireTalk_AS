@@ -420,8 +420,7 @@ public class AireJupiter extends Service {
 		//tml|alex*** rwt byebye X
 		return null;
 	}
-	
-	
+
 	private void OnlineConnection(boolean force) {
 		Log.d("(4) OnLineConnection");
 		
@@ -1678,6 +1677,7 @@ public class AireJupiter extends Service {
 											Log.e("voip.unanswered still!");
 										} else if (ret == 2) {  //tml|alex*** iphone push
 											ret = tcpSocket.sendCallRequestApple(calleeNumber);
+											android.util.Log.d("Hsia","ret");
 											if (ret == 1)
 												calleeGotCallRequest = true;
 											else if (ret < 1) {
