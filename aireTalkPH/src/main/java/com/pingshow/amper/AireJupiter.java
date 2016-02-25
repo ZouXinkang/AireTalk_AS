@@ -2908,7 +2908,9 @@ public class AireJupiter extends Service {
 			{
 				do {
 					MyNet net = new MyNet(AireJupiter.this);
-					success = net.Download(remotefile, localfile, myLocalPhpServer);
+					//bree
+					success = net.DownloadUserPhoto(remotefile, localfile);
+//					success = net.Download(remotefile, localfile, myLocalPhpServer);
 					if (success==1||success==0)
 						break;
 					MyUtil.Sleep(500);
@@ -2920,7 +2922,9 @@ public class AireJupiter extends Service {
 				count = 0;
 				do {
 					MyNet net = new MyNet(AireJupiter.this);
-					success = net.Download(remotefile, localfile, null);
+					//bree
+					success = net.DownloadUserPhoto(remotefile, localfile);
+//					success = net.Download(remotefile, localfile, null);
 					if (success==1||success==0)
 						break;
 					MyUtil.Sleep(500);
@@ -2949,7 +2953,9 @@ public class AireJupiter extends Service {
 			{
 				do {
 					MyNet net = new MyNet(AireJupiter.this);
-					success = net.Download(remotefile, localfile, myLocalPhpServer);
+					//bree
+//					success = net.Download(remotefile, localfile, myLocalPhpServer);
+					success = net.DownloadUserPhoto(remotefile, localfile);
 					if (success==1||success==0)
 						break;
 					MyUtil.Sleep(500);
@@ -2961,7 +2967,9 @@ public class AireJupiter extends Service {
 				count=0;
 				do {
 					MyNet net = new MyNet(AireJupiter.this);
-					success = net.Download(remotefile, localfile, null);
+					//bree
+//					success = net.Download(remotefile, localfile, null);
+					success = net.DownloadUserPhoto(remotefile, localfile);
 					if (success==1||success==0)
 						break;
 					MyUtil.Sleep(500);
@@ -3123,7 +3131,9 @@ public class AireJupiter extends Service {
 							do {
 								try{
 									MyNet net = new MyNet(AireJupiter.this);
-									success = net.Download(remotefile, localPhoto, myLocalPhpServer);
+									//bree
+//									success = net.Download(remotefile, localPhoto, myLocalPhpServer);
+									success = net.DownloadUserPhoto(remotefile, localPhoto);
 								}catch(Exception e){}
 								if (success==1||success==0)
 									break;
@@ -3136,7 +3146,9 @@ public class AireJupiter extends Service {
 								do {
 									try{
 										MyNet net = new MyNet(AireJupiter.this);
-										success = net.Download(remotefile, localPhoto, null);
+										//bree
+										success = net.DownloadUserPhoto(remotefile, localPhoto);
+//										success = net.Download(remotefile, localPhoto, null);
 									}catch(Exception e){}
 									if (success==1||success==0)
 										break;

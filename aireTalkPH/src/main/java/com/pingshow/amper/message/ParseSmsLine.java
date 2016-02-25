@@ -263,8 +263,10 @@ public class ParseSmsLine {
 							//alec: download big one as well
 							localfile = Global.SdcardPath_inbox + "photo_" + idx + "b.jpg";
 							MyNet net = new MyNet(context);
-							net.Download("profiles/photo_"+idx+".jpg", localfile, null);
-							
+							//bree
+							net.DownloadUserPhoto("profiles/photo_"+idx+".jpg", localfile);
+//							net.Download("profiles/photo_"+idx+".jpg", localfile, null);
+
 							Intent intent = new Intent();
 					        intent.setAction(Global.Action_Refresh_Gallery);
 					        context.sendBroadcast(intent);

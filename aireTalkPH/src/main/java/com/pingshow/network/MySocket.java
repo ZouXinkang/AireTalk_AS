@@ -314,7 +314,9 @@ public class MySocket {
 												int count=0;
 												do {
 													MyNet net = new MyNet(mContext);
-													success = net.Download(remotefile, localfile, AireJupiter.myLocalPhpServer);
+													//bree
+													success = net.DownloadUserPhoto(remotefile, localfile);
+//													success = net.Download(remotefile, localfile, AireJupiter.myLocalPhpServer);
 													if (success==1||success==0)
 														break;
 													MyUtil.Sleep(500);
@@ -325,7 +327,9 @@ public class MySocket {
 													count=0;
 													do {
 														MyNet net = new MyNet(mContext);
-														success = net.Download(remotefile, localfile, null);
+														//bree
+														success = net.DownloadUserPhoto(remotefile, localfile);
+//														success = net.Download(remotefile, localfile, null);
 														if (success==1||success==0)
 															break;
 														MyUtil.Sleep(500);
