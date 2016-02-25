@@ -784,12 +784,22 @@ public class ParseSmsLine {
 							Log.d("voip.invitedConf1 " + ip + " " + from);
 							//xwf*** broadcast
 							boolean isBroadcast = msg.content.contains(Global.Call_Broadcast);
+							boolean isSecurity = msg.content.contains(Global.ISSECURITY);
+							boolean isNewBrost = msg.content.contains(Global.ISNEWBROST);
+							if (isSecurity){
+								mPref.write("GuardYou", true);
+							}else{mPref.write("GuardYou", false);}
+							if (isNewBrost){
+								mPref.write("pay", true);
+							}else{mPref.write("pay", false);}
 							if (DialerActivity.getDialer() == null) {
-								if (isBroadcast) {
+								if (isBroadcast||isSecurity||isNewBrost) {
 									mPref.write("BCAST_CONF", 0);
 								} else {
 									mPref.write("BCAST_CONF", -1);
+
 								}
+
 							}
 							AireJupiter.getInstance().lanuchServiceYToJoinChatroom(ip, from,isBroadcast);
 						}

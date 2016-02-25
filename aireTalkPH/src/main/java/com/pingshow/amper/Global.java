@@ -98,4 +98,6 @@ public class Global {
 	public static final String SUV_ON_IOTALL = SUV_ON + "IOTALL";
 	public static final String SUV_OFF_IOTALL = SUV_OFF + "IOTALL";
 	public static final String Call_Broadcast = "broadcast!";
+	public static final String ISSECURITY = "issecurity!";
+	public static final String ISNEWBROST = "isNewBrost!";
 }
