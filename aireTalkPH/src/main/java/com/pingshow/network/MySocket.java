@@ -11,6 +11,7 @@ import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import android.content.Context;
@@ -678,6 +679,43 @@ public class MySocket {
 						synchronized (lock_190) {
 							lock_190.notifyAll();
 						}
+					}else if (fromServer.startsWith("810")){
+						boolean isExist = false;
+						String[] items = fromServer.split("/", 6);
+						String sender = items[1];
+						String msgId = items[3];
+						int ts = Integer.parseInt(items[4], 16);
+						String cmdStr = items[5];
+						//li*** response 820
+						try{
+							outToServerPeriod();
+
+							outToServer.write(MyUtil.encryptTCPCmd("820/"
+									+ items[1] + "/" + myId + "/" + msgId));
+							Log.d("820/" + items[1] + "/" + myId + "/" + msgId);
+						} catch (Exception e) {
+							Log.e("Failed to send 820 ack back...");
+							disconnect("fail 820", true);
+							return;
+						}
+						String ridItem = sender + ":" + msgId;
+						if (ridList.size() > 0) {
+							for (int i = 0; i < ridList.size(); i++) {
+								if (ridList.get(i).equals(ridItem)) {
+									isExist = true;
+									break;
+								}
+							}
+						}
+
+						if (!isExist) {
+							ridList.add(ridItem);
+							Intent it = new Intent(Global.Action_InternalCMD);
+							it.putExtra("Command", Global.CMD_TCP_COMMAND_ARRIVAL);
+							it.putExtra("cmdStr", fromServer);
+							mContext.sendBroadcast(it);
+						}
+
 					}
 				}
 
@@ -1075,14 +1113,15 @@ public class MySocket {
 	}
 
 	/* Send : 800/myid/lat/lon */
-	public void tcpUpdateGeo(String lat, String lon) {
+	public void sendCmd(String receiverId, String cmdStr) {
 		if (logged == 0)
 			return;
 		try {
-			outToServerPeriod();  //tml*** outToServer period/
-			Log.d("800/" + myId + "/" + lat + "/" + lon);
-			outToServer.write(MyUtil.encryptTCPCmd("800/" + myId + "/"
-					+ lat + "/" + lon));
+			outToServerPeriod(); //tml*** outToServer period/
+			UUID uuid = UUID.randomUUID();
+			String msgId=uuid.toString();
+			outToServer.write(MyUtil.encryptTCPCmd("800/" + myId + "/" + receiverId + "/" + msgId + "/" + cmdStr));
+			Log.d("800/" + myId + "/" + receiverId + "/" + msgId + "/" + cmdStr);
 		} catch (Exception e) {
 			Log.e("FailtoSendtoServer.800");
 			disconnect("fail 800", true);

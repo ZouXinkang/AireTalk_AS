@@ -51,8 +51,9 @@
 	<uses-feature android:name="android.hardware.microphone" android:required="false"/>
 	<uses-feature android:name="android.hardware.screen.portrait" android:required="false"/>
 	<uses-feature android:name="android.hardware.wifi" android:required="false"/>
-	
+
 	<application
+		android:name="com.pingshow.AireApp"
 		android:icon="@drawable/aire_icon_3s"
 		android:label="@string/app_name"
 		android:hardwareAccelerated="true" >
