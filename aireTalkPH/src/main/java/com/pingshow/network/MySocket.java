@@ -11,6 +11,7 @@ import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import android.content.Context;
@@ -45,10 +46,10 @@ public class MySocket {
 	static int CLIENT_CONNECTION_TIMEOUT = 0;
 	static int TRANSIT_TIMEOUT = 10000; // 10,15 sec
 	static long minOutPeriod = 100;  //tml*** outToServer period/
-	
+
 	static public String ServerIP = AireJupiter.myFafaServer_default;
 	public static String ServerDM_d = "", ServerIP_d = "";
-	
+
 	private Socket clientSocket = null;
 	private DataInputStream inFromServer;
 	private DataOutputStream outToServer;
@@ -58,7 +59,7 @@ public class MySocket {
 	private boolean tcpStatus2 = false;
 	public int logged = 0;
 	public int Logging = 0;
-	
+
 	public String myPhoneNumber;
 	public String myPasswd;
 	public String mySipServer;
@@ -79,10 +80,10 @@ public class MySocket {
 	private boolean needUpdateStatus=false;
 	private SmsDB mSmsDB;
 	private ArrayList<String> ridList;
-	
+
 	public MySocket(String phoneNumber, String passwd, Context context,
-			AmpUserDB ampDB, RelatedUserDB rdb,ContactsQuery cq,
-			String tcpServerIP, SmsDB smsDB) {
+					AmpUserDB ampDB, RelatedUserDB rdb,ContactsQuery cq,
+					String tcpServerIP, SmsDB smsDB) {
 		ServerIP = tcpServerIP;
 		myPhoneNumber = phoneNumber;
 		myPasswd = passwd;
@@ -92,7 +93,7 @@ public class MySocket {
 		mSmsDB = smsDB;
 		mPref = new MyPreference(context);
 		myId = mPref.read("myID");
-		buffer = new byte[2560];		
+		buffer = new byte[2560];
 		ridList = new ArrayList<String>();
 	}
 
@@ -175,7 +176,7 @@ public class MySocket {
 				}
 				//tml|alex*** tcp stuck bug
 				while (fromServerA.size() > 0) {
-					
+
 					try {  //tml|alex*** tcp stuck bug
 						fromServer = fromServerA.remove(0);
 						if (fromServer == null) throw new IOException();
@@ -263,7 +264,7 @@ public class MySocket {
 											}
 										}
 									}
-									
+
 									if (!isExist) {
 										ridList.add(ridItem);
 									}
@@ -272,7 +273,7 @@ public class MySocket {
 								try{
 									outToServerPeriod();  //tml*** outToServer period/
 									outToServer.write(MyUtil.encryptTCPCmd("220/"
-										+ items[1] + "/" + myId + "/" + rowid));
+											+ items[1] + "/" + myId + "/" + rowid));
 									Log.d("220/" + items[1] + "/" + myId + "/" + rowid);
 								} catch (Exception e) {
 									Log.e("Failed to send 220 ack back...");
@@ -300,13 +301,13 @@ public class MySocket {
 									try{
 										String [] info=items[3].split("<Z>", 4);
 										int uid=Integer.parseInt(info[1].substring(16),16);
-					        			if (mADB.insertUser(info[2],uid,info[3])>0)
-					        				mRDB.deleteContactByAddress(info[2]);
-					        			ContactsOnline.setContactOnlineStatus(info[2], 2);
-					        			
-					        			String localfile = Global.SdcardPath_inbox + "photo_" + uid + ".jpg";
+										if (mADB.insertUser(info[2],uid,info[3])>0)
+											mRDB.deleteContactByAddress(info[2]);
+										ContactsOnline.setContactOnlineStatus(info[2], 2);
+
+										String localfile = Global.SdcardPath_inbox + "photo_" + uid + ".jpg";
 										File f=new File(localfile);
-										if(!f.exists()) 
+										if(!f.exists())
 										{
 											String remotefile = "profiles/thumbs/photo_" + uid + ".jpg";
 											try{
@@ -314,18 +315,22 @@ public class MySocket {
 												int count=0;
 												do {
 													MyNet net = new MyNet(mContext);
-													success = net.Download(remotefile, localfile, AireJupiter.myLocalPhpServer);
+													//bree
+													success = net.DownloadUserPhoto(remotefile, localfile);
+//													success = net.Download(remotefile, localfile, AireJupiter.myLocalPhpServer);
 													if (success==1||success==0)
 														break;
 													MyUtil.Sleep(500);
 												} while (++count < 2);
-												
+
 												if (success!=1)
 												{
 													count=0;
 													do {
 														MyNet net = new MyNet(mContext);
-														success = net.Download(remotefile, localfile, null);
+														//bree
+														success = net.DownloadUserPhoto(remotefile, localfile);
+//														success = net.Download(remotefile, localfile, null);
 														if (success==1||success==0)
 															break;
 														MyUtil.Sleep(500);
@@ -333,16 +338,16 @@ public class MySocket {
 												}
 											}catch(Exception e){}
 										}
-										
+
 										Intent intent = new Intent(Global.Action_Refresh_Gallery);
 										mContext.sendBroadcast(intent);
-										
+
 									}catch(Exception e){}
 									continue;
 
 								} else if(items[3].startsWith("<Z>[<activeCall>]")) {//alex
 									RecvedCallACK = true;
-					    			Log.d("receive active call3");
+									Log.d("receive active call3");
 
 //					    			if (items[3].startsWith("<Z>[<activeCall>]:2")){//request if call is active or not
 //
@@ -404,7 +409,7 @@ public class MySocket {
 
 								Pattern and = Pattern.compile("\\&");
 								String[] numbers = and.split(friends, 100);
-			
+
 								if (numbers.length > 0) {
 									fromServer = fromServer.substring(4);
 									for (int k = 0; k < fromServer.length(); k++) {
@@ -424,10 +429,10 @@ public class MySocket {
 						synchronized (lock_450) {
 							lock_450.notifyAll();
 						}
-					
+
 					} else if (fromServer.startsWith("230")
 							|| fromServer.startsWith("240")) {// 230/3f/X/4e928cc6
-																// 240/X/4e928cf2
+						// 240/X/4e928cf2
 						try {
 							String[] splits = fromServer.split("/");
 							if (splits.length>=2)
@@ -455,7 +460,7 @@ public class MySocket {
 						synchronized (lock_200) {
 							lock_200.notifyAll();
 						}
-						
+
 						if (fromServer.startsWith("240"))//iPhone Push
 						{
 							SMS280oK = true;  //tml*** 280timeout, set false to test msg fail
@@ -475,14 +480,14 @@ public class MySocket {
 								Log.e("apple no 240push");
 							}
 						}
-					} 
+					}
 					else if (fromServer.startsWith("710"))// Sender wants to call me
 					{
 						int slash = fromServer.indexOf('/');
 						if (slash != -1)
 							SenderID = fromServer.substring(slash + 1);
 						Log.d("voip.(710) Incoming call from " + SenderID);
-						
+
 						//alec: for iphone active from push
 						int idx = 0;
 						try{
@@ -501,11 +506,11 @@ public class MySocket {
 								AireJupiter.getInstance().calleeGotCallRequest=true;
 							continue;
 						}*/
-						
+
 						BufferedIdxForCall=0;
-						
+
 						boolean blackListUser=(mADB.isUserBlocked(idx)==1 || mRDB.isUserBlocked(idx)==1);//User in black list
-						
+
 						if (DialerActivity.getDialer()!=null || !mADB.isFafauser(idx) || blackListUser)// in call (i am busy)
 						{
 							try {
@@ -519,12 +524,12 @@ public class MySocket {
 							}
 							continue;
 						}
-						
+
 						if (blackListUser) {
 							Log.e("710 reject! " + blackListUser);
 							continue;
 						}
-						
+
 						if (mADB.isFafauser(idx))
 						{
 							mPref.write("tempCheckSameIN", idx);  //tml*** sametime
@@ -564,7 +569,7 @@ public class MySocket {
 								}
 							}
 						} catch (Exception e) {
-							
+
 						}
 					} else if (fromServer.startsWith("730")) {
 						//tml*** ghost730
@@ -580,7 +585,7 @@ public class MySocket {
 								sendTerminateCommand(sender0);
 							}
 						}
-						
+
 						if (!ghost730) {
 							RecvedCallACK = true;
 							Log.d("voip.(730) Callee got call request. Done ***");
@@ -614,14 +619,14 @@ public class MySocket {
 								Log.d("voip.750 empty");
 								mPref.write("tempCheckSameIN", 0);  //tml*** sametime
 							}
-							
+
 							if (AireVenus.instance()!=null)
 								AireVenus.instance().callStopRing();
-							
+
 						}catch(Exception e){}
-						
+
 						BufferedIdxForCall=0;
-						
+
 					} else if (fromServer.startsWith("790")) {
 						NotfoundACK = true;
 						Log.e("voip.(790) Callee not found");
@@ -633,6 +638,10 @@ public class MySocket {
 								doAppPushCall();
 								WaitForPush=true;
 								NotfoundACK=false;
+								//Hsia lock_700放开
+								synchronized (lock_700) {
+									lock_700.notifyAll();
+								}
 							}catch(Exception e){}
 						} else {
 							Log.d("NOTapple 790");
@@ -647,7 +656,7 @@ public class MySocket {
 
 						if (DialerActivity.getDialer()!=null)
 							DialerActivity.getDialer().responseCallBusy();
-						
+
 					} else if (fromServer.startsWith("160")) {
 						try{
 							CalleeSipIP = fromServer.substring(4);
@@ -670,13 +679,50 @@ public class MySocket {
 						synchronized (lock_190) {
 							lock_190.notifyAll();
 						}
+					}else if (fromServer.startsWith("810")){
+						boolean isExist = false;
+						String[] items = fromServer.split("/", 6);
+						String sender = items[1];
+						String msgId = items[3];
+						int ts = Integer.parseInt(items[4], 16);
+						String cmdStr = items[5];
+						//li*** response 820
+						try{
+							outToServerPeriod();
+
+							outToServer.write(MyUtil.encryptTCPCmd("820/"
+									+ items[1] + "/" + myId + "/" + msgId));
+							Log.d("820/" + items[1] + "/" + myId + "/" + msgId);
+						} catch (Exception e) {
+							Log.e("Failed to send 820 ack back...");
+							disconnect("fail 820", true);
+							return;
+						}
+						String ridItem = sender + ":" + msgId;
+						if (ridList.size() > 0) {
+							for (int i = 0; i < ridList.size(); i++) {
+								if (ridList.get(i).equals(ridItem)) {
+									isExist = true;
+									break;
+								}
+							}
+						}
+
+						if (!isExist) {
+							ridList.add(ridItem);
+							Intent it = new Intent(Global.Action_InternalCMD);
+							it.putExtra("Command", Global.CMD_TCP_COMMAND_ARRIVAL);
+							it.putExtra("cmdStr", fromServer);
+							mContext.sendBroadcast(it);
+						}
+
 					}
 				}
 
 			} while (Running);
 		}
 	}
-	
+
 	//tml|alex*** iphone push
 	public Runnable iphoneTimeout10 = new Runnable() {
 		public void run() {
@@ -704,10 +750,10 @@ public class MySocket {
 	private volatile int count190 = 0;
 	public Runnable selfCheck = new Runnable() {
 		public void run() {
-			try {	
+			try {
 				outToServerPeriod();  //tml*** outToServer period/
 				outToServer.write(MyUtil.encryptTCPCmd("190/" + myId));
-				
+
 				//tml*** tcp test
 				tcpStatus0 = true;
 				tcpStatus1 = false;
@@ -745,7 +791,7 @@ public class MySocket {
 				if (wifiLevel[0] < 1) {
 					tcpStatus1 = false;
 				}
-				
+
 				if (!tcpStatus1) {
 					tcpStatus0 = false;
 					warningPoor(false, "190");
@@ -777,7 +823,7 @@ public class MySocket {
 		if (!checkingKeepAlive) {
 			mPref.writeLong("last_self_check_time", now);
 		}
-		
+
 		checkingKeepAlive = true;
 		sent190 = 0;
 		count190 = 0;
@@ -789,16 +835,16 @@ public class MySocket {
 		WifiInfo wifiInfo = wifi.getConnectionInfo();
 		int[] wifiLevel = new int[2];
 		int numLevels = 5;
-		
+
 		int rssi = wifiInfo.getRssi();
 		int level = WifiManager.calculateSignalLevel(rssi, numLevels);
 		int speed = wifiInfo.getLinkSpeed();
 		wifiLevel[0] = level;
 		wifiLevel[1] = speed;
-		
+
 		return wifiLevel;
 	}
-	
+
 	private void warningPoor(boolean force, String from) {
 		Intent it = new Intent(Global.Action_InternalCMD);
 		it.putExtra("Command", Global.CMD_CONNECTION_POOR);
@@ -813,10 +859,10 @@ public class MySocket {
 	public synchronized boolean Login() {
 		return Login(VersionCode);
 	}
-	
+
 	public synchronized boolean Login(int versionCode) {
 		VersionCode = versionCode;
-		
+
 		if (logged == 1) {
 			return true;
 		} else {
@@ -824,8 +870,8 @@ public class MySocket {
 		}
 		if (myPhoneNumber.equals("----")) return false;
 		LocationUpdate location = new LocationUpdate(mContext, mPref);
-	    location.getMyLocFromIpAddress();
-		
+		location.getMyLocFromIpAddress();
+
 		String fromServer = "";
 		tcpStatus0 = false;
 		logged = 0;
@@ -833,14 +879,14 @@ public class MySocket {
 		int alter = 0;
 		int count = 0;
 		boolean connected = false;
-		
+
 		while(count++ < 2 && !connected)
 		{
 			int port = ((alter % 2) == 0) ? 9135 : 80;
 			InetAddress address;
- 	        String domainName = "tcp.airetalk.org";
+			String domainName = "tcp.airetalk.org";
 			String iso = mPref.read("iso", "cn");
- 	        
+
 			try {
 				if (iso.equals("cn"))
 					domainName = "tcp.xingfafa.com.cn";
@@ -858,22 +904,22 @@ public class MySocket {
 			} else if (mPref.readBoolean("NEWTCPUSA", false)) {
 				ServerIP = "74.3.162.130";
 			}
-			
+
 			InetSocketAddress isa = new InetSocketAddress(ServerIP, port);
 			clientSocket = new Socket();
-			
+
 			try {
 				ServerDM_d = domainName;
 				ServerIP_d = ServerIP;
 				Log.e("...CONNECTING !! TCP " + domainName + " " + ServerIP + ":" + port + ":" + iso);
-				
+
 				clientSocket.setTcpNoDelay(true);
 				clientSocket.setReuseAddress(true);
 				clientSocket.connect(isa, TRANSIT_TIMEOUT * 2);
-	
+
 				outToServer = new DataOutputStream(clientSocket.getOutputStream());
 				inFromServer = new DataInputStream(clientSocket.getInputStream());
-				
+
 				connected = true;
 			} catch (Exception e) {
 				Log.e("TCP Socket Create !@#$ " + e.getMessage());
@@ -886,7 +932,7 @@ public class MySocket {
 
 		try {
 			clientSocket.setSoTimeout(TRANSIT_TIMEOUT * 3);
-			
+
 			if (mPref.readBoolean("accountUpdated", false))
 			{
 				outToServerPeriod();  //tml*** outToServer period/
@@ -897,7 +943,7 @@ public class MySocket {
 				inFromServer.read(buffer);
 				MyUtil.Sleep(1000);
 			}
-			
+
 			String xcmd;
 			myId = mPref.read("myID", "");
 			NetInfo nt=new NetInfo(mContext);
@@ -953,12 +999,12 @@ public class MySocket {
 				myId = tmp2[0];
 				mPref.write("myID", myId);
 				mySipServer = tmp2[2];
-				
+
 				if(tmp2.length>4){
 					AireJupiter.myLocalPhpServer = new NetInfo(mContext).longToIPForServer(Long.valueOf(tmp2[4],16));
 					Log.d("myLocalPhpServer=" + AireJupiter.myLocalPhpServer);
 				}
-				
+
 				if(tmp2.length>5){
 					String stun_server = new NetInfo(mContext).longToIPForServer(Long.valueOf(tmp2[5],16));
 					mPref.write("StunServer", stun_server);
@@ -975,16 +1021,16 @@ public class MySocket {
 					mPref.writeLong("confServerOffset", timeOffset);
 					Log.d("time offset=" + timeOffset);
 				}
-				
+
 				if (tmp2.length>3 && tmp2[3].equals("1"))//I got offline msg
 				{
 					if (AireJupiter.getInstance()!=null)
 						AireJupiter.getInstance().offlineMessage();
 				}
-				
+
 				if (mPref.readBoolean("accountUpdated",false))
 					mPref.delect("accountUpdated");
-				
+
 			} else { // there are error login
 				Log.e("there happens error login");
 				disconnect("error login", true);
@@ -1067,14 +1113,15 @@ public class MySocket {
 	}
 
 	/* Send : 800/myid/lat/lon */
-	public void tcpUpdateGeo(String lat, String lon) {
+	public void sendCmd(String receiverId, String cmdStr) {
 		if (logged == 0)
 			return;
 		try {
-			outToServerPeriod();  //tml*** outToServer period/
-			Log.d("800/" + myId + "/" + lat + "/" + lon);
-			outToServer.write(MyUtil.encryptTCPCmd("800/" + myId + "/"
-					+ lat + "/" + lon));
+			outToServerPeriod(); //tml*** outToServer period/
+			UUID uuid = UUID.randomUUID();
+			String msgId=uuid.toString();
+			outToServer.write(MyUtil.encryptTCPCmd("800/" + myId + "/" + receiverId + "/" + msgId + "/" + cmdStr));
+			Log.d("800/" + myId + "/" + receiverId + "/" + msgId + "/" + cmdStr);
 		} catch (Exception e) {
 			Log.e("FailtoSendtoServer.800");
 			disconnect("fail 800", true);
@@ -1095,23 +1142,23 @@ public class MySocket {
 	public boolean getTcpStatus() {
 		return (tcpStatus0);
 	}
-	
+
 	public boolean send(String Callee, String MsgTexg, int Attached,
-			String remoteAudioPath, String remoteImagePath, long rowId, String phpIP) {
+						String remoteAudioPath, String remoteImagePath, long rowId, String phpIP) {
 		return send(Callee, MsgTexg, Attached, remoteAudioPath, remoteImagePath, rowId, phpIP, 0);
 	}
 
 	private final Object lock_200 = new Object();
 	private boolean SMSoK = false, SMS280oK = true;
 	public boolean send(String Callee, String MsgTexg, int Attached,
-			String remoteAudioPath, String remoteImagePath, long rowId, String phpIP, int groupID) {
+						String remoteAudioPath, String remoteImagePath, long rowId, String phpIP, int groupID) {
 		SMSoK = false;
 		SMS280oK = true;
 		if (!mADB.isOpen() || Logging==1 || logged==0) {
 			Log.e("msgs.Fail1 > " + !mADB.isOpen() + " " + Logging + " " + logged);
 			return false;
 		}
-		
+
 		int idx = mADB.getIdxByAddress(Callee);
 		if (idx < 0) {
 			Log.e("msgs.Fail2 idx !@#$ > " + Callee + " " + idx);
@@ -1125,7 +1172,7 @@ public class MySocket {
 					.length());
 		} else if (Attached == 8
 				&& MsgTexg.startsWith(mContext
-						.getString(R.string.filememo_send))
+				.getString(R.string.filememo_send))
 				&& MsgTexg.contains("(fl)")) {
 			MsgTexg = MsgTexg.substring(mContext.getString(
 					R.string.filememo_send).length());
@@ -1133,10 +1180,10 @@ public class MySocket {
 		SendeeAddress = Callee;
 		String uid=Integer.toHexString(idx);
 		String buffer;
-		
+
 		BufferedIdxForMsg=idx;
 //		BufferedMsg=MsgTexg;
-		
+
 		if (groupID != 0) {
 			buffer = "200/" + myId + "/" + uid + "/`[" + groupID + "]\n" + MsgTexg;
 		} else if (MsgTexg.contains("[<CallFrom>]")) {  //280 direct  //alex*** callfrom
@@ -1153,9 +1200,9 @@ public class MySocket {
 				buffer = "280/" + myId + "/" + uid + "/" + MsgTexg;
 			}
 		}
-		
+
 		BufferedMsg=MsgTexg;  //tml*** 200timeout
-		
+
 		try {
 			if (Attached != 0){
 				buffer += "<Z>" + Attached + "<Z>" + remoteAudioPath + "<Z>"
@@ -1167,13 +1214,13 @@ public class MySocket {
 						+ remoteImagePath + "<Z>"+ phpIP + "<Z>";
 			}
 		}
-		
+
 		try {
 			buffer += "/`" + Integer.toHexString((int) rowId);
 			outToServerPeriod();  //tml*** outToServer period/
 			Log.i("!msgs :: " + buffer);
 			outToServer.write(MyUtil.encryptTCPCmd(buffer));
-			
+
 			//tml*** 200timeout
 			synchronized (lock_200) {
 				try {
@@ -1250,12 +1297,12 @@ public class MySocket {
 					lock_700.wait(TRANSIT_TIMEOUT * 2);
 				} catch (Exception e) {}
 			}
-			
-			Log.d("voip.lock700 waitdone Stop=" + StopCalling + " ACK=" + RecvedCallACK 
+
+			Log.d("voip.lock700 waitdone Stop=" + StopCalling + " ACK=" + RecvedCallACK
 					+ " NoACK=" + NotfoundACK + " Push=" + WaitForPush);
 			if (WaitForPush)
 				return 2;
-			if (StopCalling) 
+			if (StopCalling)
 				return 0;
 			if (RecvedCallACK)
 				return 1;
@@ -1269,7 +1316,7 @@ public class MySocket {
 		}
 		return 0;
 	}
-	
+
 	//tml|alex*** iphone push
 	public int sendCallRequestApple(String Callee) {
 		if (!mADB.isOpen()) return -1;
@@ -1284,10 +1331,10 @@ public class MySocket {
 					lock_700.wait(TRANSIT_TIMEOUT * 3);
 				} catch (Exception e) {}
 			}
-			
-			Log.d("voip.applelock_700x2 waitdone Stop=" + StopCalling + " ACK=" + RecvedCallACK 
+
+			Log.d("voip.applelock_700x2 waitdone Stop=" + StopCalling + " ACK=" + RecvedCallACK
 					+ " NoACK=" + NotfoundACK + " Push=" + WaitForPush);
-			if (StopCalling) 
+			if (StopCalling)
 				return 0;
 			if (RecvedCallACK)
 				return 1;
@@ -1299,7 +1346,7 @@ public class MySocket {
 		return 0;
 	}
 	//***tml
-	
+
 	//Jerry, 031214, Bug 0000204, will be accessed by DialerActivity OnClick hangup.
 	public static int BufferedIdxForCall=0;
 	//private int BufferedIdxForCall;
@@ -1318,13 +1365,13 @@ public class MySocket {
 				//***alex
 				MyNet net = new MyNet(mContext);
 				net.doPost("apns.php","sender="+myIdx+
-					"&idx="+BufferedIdxForCall+
-					"&cmd=700"+
-					"&msg=", null);
+						"&idx="+BufferedIdxForCall+
+						"&cmd=700"+
+						"&msg=", null);
 			}
 		}).start();
 	}
-	
+
 	public void doAppPushMsg() {
 		Log.d("msgs.do Apple Push Msg");
 		new Thread(new Runnable(){
@@ -1350,14 +1397,14 @@ public class MySocket {
 	}
 
 	public boolean disconnect(String from, boolean hidden) {
-		
+
 		if (Logging==1) return false;
 
 		status460="";
-		
+
 		if (thrClient != null)// alec
 			thrClient.terminate();
-		
+
 		try {
 			outToServerPeriod(); //tml*** outToServer period
 			mPref.writeLong("outToServerLast", 0);
@@ -1417,19 +1464,19 @@ public class MySocket {
 		}
 
 		mPref.writeLong("last_dlf_status", 0);
-		
+
 		return true;
 	}
-	
+
 	public boolean disconnectAndReconnect(String from, boolean hidden) {
-		
+
 		if (Logging==1) return false;
 
 		status460="";
-		
+
 		if (thrClient != null)// alec
 			thrClient.terminate();
-		
+
 		try {
 			outToServerPeriod(); //tml*** outToServer period
 			mPref.writeLong("outToServerLast", 0);
@@ -1489,7 +1536,7 @@ public class MySocket {
 		}
 
 		mPref.writeLong("last_dlf_status", 0);
-		
+
 		return true;
 	}
 
@@ -1499,7 +1546,7 @@ public class MySocket {
 		it.putExtra("originalSignal", originalSignal);
 		mContext.sendBroadcast(it);
 	}
-	
+
 	private void responseStranger(String address, int idx) {
 		Log.d("addF.stranger! " + idx + " " + address);
 		Intent it = new Intent(Global.Action_InternalCMD);
@@ -1516,23 +1563,23 @@ public class MySocket {
 		it.putExtra("Idx", idx);
 		mContext.sendBroadcast(it);
 	}
-	
+
 	private void notifyServiceXtoLanuchServiceY() {
 		ServiceZ.acquireStaticLock(mContext);
-		
+
 		(new Thread() {
 			public void run() {
-				
+
 				int c=0;
-				
+
 				while(AireVenus.destroying && c++<30)
 				{
 					Sleep(100);
 				}
-				
+
 				if (AireJupiter.getInstance()!=null)
 					AireJupiter.getInstance().startServiceY(AireVenus.CALLTYPE_FAFA);
-				
+
 				c = 0;
 				while (AireVenus.instance() == null || !AireVenus.instance().registered) {
 					if (c++ > 50)
@@ -1541,7 +1588,7 @@ public class MySocket {
 				}
 				outToServerPeriod(); //tml*** outToServer period/
 				Log.d("voip.(720) Response");
-				
+
 				try {
 					outToServer.write(MyUtil.encryptTCPCmd("720/" + SenderID + "/" + myId));
 				} catch (Exception e) {
@@ -1583,7 +1630,7 @@ public class MySocket {
 			disconnect("fail 740", true);
 		}
 	}
-	
+
 	//alec:
 	int mQueryIdx;
 	public void queryUserAddressByIdx(int idx)
@@ -1665,7 +1712,7 @@ public class MySocket {
 						disconnect("fail fonline1 timeout", true);
 						return false;
 					} else {
-						
+
 						if (needUpdateStatus && DialerActivity.getDialer()==null)
 						{
 							if (UsersActivity.sortMethod==2)
@@ -1714,7 +1761,7 @@ public class MySocket {
 				disconnect("fail fonline2 timeout", true);
 				return false;
 			} else {
-				
+
 				if (needUpdateStatus && DialerActivity.getDialer()==null)
 				{
 					if (UsersActivity.sortMethod==2)

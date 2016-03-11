@@ -50,14 +50,14 @@ import com.pingshow.voip.core.VoipProxyConfig;
 public class AireVenus extends Service implements VoipCoreListener {
 
 	static final int MAX_RECEIVED=100;
-	 
+
 	static final public String _Password = "1111";
 	static final public String _Domain = "1.34.148.152";
 	static final public String _StunServer = "74.3.165.159";
 	static public String mySipServer_default = "96.44.173.84";
 	static final public String mySipServer_USA = "74.3.163.8";  //96.44.173.84 (freesw)
 	static final public String mySipServer_China = "112.124.20.150";  //115.29.234.27 (freesw)
-	
+
 	private static AireVenus theVoip;
 	private VoipCore mVoipCore;
 	private VoipProxyConfig mDefaultProxyConfig, myProxy;
@@ -65,39 +65,39 @@ public class AireVenus extends Service implements VoipCoreListener {
 	public static boolean runAsSipAccount=false;
 	public static boolean runAsFileTransfer=false;
 	public static boolean destroying=false;
-	
+
 	private Timer mTimer = new Timer("voip scheduler");
 
-//	private MediaPlayer mRingerPlayer;
+	//	private MediaPlayer mRingerPlayer;
 	private VoipCall.State mPrevCallState;
 	private Vibrator mVibrator;
 	private AudioManager mAudioManager;
 
 	private Handler mHandler =  new Handler() ;
-	
+
 	public final static int CALLTYPE_FAFA=0;
 	public final static int CALLTYPE_AIRECALL=1;
 	public final static int CALLTYPE_CHATROOM=2;
 	public final static int CALLTYPE_WEBCALL=3;
 	public final static int CALLTYPE_FILETRANSFER=4;
-	
+
 	private boolean incomingChatroom=false;
-	
+
 	private static int CallType;//0: FafaCall, 1:AireCall  2.WebCall   3.FileTransfer
-	
+
 	static boolean isready() {
 		return (theVoip!=null);
 	}
 	static public AireVenus instance()  {
 		return theVoip;
 	}
-	
+
 	//alec
 	static public void setCallType(int type)  {
 		Log.i("voip.setCallType = " + getCallTypeName(type) + type);
 		CallType = type;
 	}
-	
+
 	static public int getCallType()  {
 		return CallType;
 	}
@@ -119,7 +119,7 @@ public class AireVenus extends Service implements VoipCoreListener {
 		}
 		return callTypeName;
 	}
-	
+
 	public void forceRegister() {
 		if (CallType != AireVenus.CALLTYPE_FAFA)
 			return;
@@ -130,24 +130,24 @@ public class AireVenus extends Service implements VoipCoreListener {
 			Log.e("forceRegister !@#$ " + e.getMessage());
 		}
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		Log.e("*** !!! AIREVENUS/SERVICE-Y *** START START !!! *** voip " + getCallTypeName(CallType) + CallType);
-		
+
 		mPref = new MyPreference(this);
 		ringrdy = false;
 		mAudioManager = ((AudioManager) getSystemService(Context.AUDIO_SERVICE));
 		mAudioManager.shouldVibrate(AudioManager.VIBRATE_TYPE_RINGER);
 		mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-		
+
 		int hardwareSupportedHD = 0;
 		if (CPUTool.getNumCores() >= 2 || CPUTool.getMaxCpuFreq() > 1250000) {
 			hardwareSupportedHD = 1;
 		}
-		
+
 		destroying = false;
 		/*
 		SoundPool = new SoundPool(4, AudioManager.STREAM_VOICE_CALL, 0);
@@ -156,10 +156,10 @@ public class AireVenus extends Service implements VoipCoreListener {
 		SoundPool.load(this, R.raw.ringback3, 1);
 		SoundPool.load(this, R.raw.ringback4, 1);
 		*/
-		
+
 		try {
 			String stun = mPref.read("StunServer", _StunServer);
-			
+
 			try{
 				FileOutputStream file = new FileOutputStream(new File("/data/data/com.pingshow.amper/files/upnpc.ini"));
 				String out = mPref.readInt("audio_local_port", 0)
@@ -171,7 +171,7 @@ public class AireVenus extends Service implements VoipCoreListener {
 			} catch(Exception e) {
 				Log.e("AVfile !@#$ " + e.getMessage());
 			}
-			
+
 			boolean sipcall = (CallType==CALLTYPE_CHATROOM || CallType==CALLTYPE_AIRECALL || CallType==CALLTYPE_WEBCALL);
 
 			int sipTransportType = 0;  //TLS 0, UDP 1
@@ -180,30 +180,30 @@ public class AireVenus extends Service implements VoipCoreListener {
 			} else if (mPref.readBoolean("enable_tls", true)) {
 				sipTransportType = 0;
 			}
-			
+
 			if (mPref.read("moodcontent", "--").startsWith("p2p off"))
 			{
 				Log.e("voip.createVoipCore p2p off");
-				mVoipCore = VoipCoreFactory.instance().createVoipCore(this, stun, 
+				mVoipCore = VoipCoreFactory.instance().createVoipCore(this, stun,
 						mPref.readInt("audio_local_port", 0), mPref.readInt("video_local_port", 0),
 						0, 0/*monitor*/,hardwareSupportedHD,sipTransportType);
 			}
 			else if (CallType == CALLTYPE_WEBCALL) {  //sw|vivid*** webcall
 				Log.e("voip.createVoipCore CALLTYPE_WEBCALL");
-				mVoipCore = VoipCoreFactory.instance().createVoipCore(this, stun, 
+				mVoipCore = VoipCoreFactory.instance().createVoipCore(this, stun,
 						mPref.readInt("audio_local_port", 0), mPref.readInt("video_local_port", 0),
 						sipcall?0:1, 0, 0, 1);
 			}
 			else{
 				Log.e("voip.createVoipCore DEFAULT");
 				boolean ftmode=(AireVenus.getCallType()==AireVenus.CALLTYPE_FILETRANSFER);
-				mVoipCore = VoipCoreFactory.instance().createVoipCore(this, stun, 
+				mVoipCore = VoipCoreFactory.instance().createVoipCore(this, stun,
 						mPref.readInt("audio_local_port", 0), mPref.readInt("video_local_port", 0),
 						sipcall?0:(ftmode?2:1), 0/*monitor*/,hardwareSupportedHD,sipTransportType);
 			}
 			Log.e("*** voip.createVoipCore *** sipcall=" + sipcall + " " + getCallTypeName(CallType) + " Stun=" + stun + " transType" + sipTransportType);
 			Log.i("*** voip.audio_local_port" + mPref.readInt("audio_local_port", 0) + " video" + mPref.readInt("video_local_port", 0));
-			
+
 			try {
 				initFromConf();
 			} catch (VoipException e) {
@@ -219,17 +219,17 @@ public class AireVenus extends Service implements VoipCoreListener {
 					}
 				}
 			};
-			
+
 			mTimer.scheduleAtFixedRate(lTask, 0, 100);
 			theVoip = this;
 		}
 		catch (Exception e) {
 			Log.e("!@#$ CANNOT START VOIP !@#$ " + e.getMessage());
 		}
-		
+
 		mHandler.postDelayed(quitServiceY, 170000);
 	}
-	
+
 	// SImon : to log in to sip server of the specified domain
 	public static boolean sip_login(String domain, String username) {
 		Log.d("voip.sip_login " + username + " @ " + domain);
@@ -248,7 +248,7 @@ public class AireVenus extends Service implements VoipCoreListener {
 	public void displayMessage(VoipCore p, String message) {
 		// TODO Auto-generated method stub
 	}
-	
+
 	public void displayStatus(final VoipCore p, final String message) {
 		if (message.startsWith("Contacting"))
 			DialerActivity.rejectHangingup=true;
@@ -264,7 +264,7 @@ public class AireVenus extends Service implements VoipCoreListener {
 	public void cancelQuitServiceY () {
 		mHandler.removeCallbacks(quitServiceY);
 	}
-	
+
 	public boolean inCall = false;
 	private Runnable quitServiceY = new Runnable() {
 		public void run() {
@@ -279,7 +279,7 @@ public class AireVenus extends Service implements VoipCoreListener {
 			}
 		}
 	};
-	
+
 	//alec
 	public void displayStatus(final VoipCore p, final int resourseID) {
 		if (DialerActivity.getDialer()!=null)  {
@@ -288,18 +288,18 @@ public class AireVenus extends Service implements VoipCoreListener {
 					if (DialerActivity.getDialer()!=null)
 					{
 						String msg=getString(resourseID);
-						DialerActivity.getDialer().displayStatus(p,msg);	
+						DialerActivity.getDialer().displayStatus(p,msg);
 					}
 				}
 			});
 		}
 	}
-	
-	
+
+
 	public void globalState(final VoipCore p, final VoipCore.GlobalState state, final String message) {
 		Log.i("voip.AV global ["+state+"]");
 	}
-	
+
 	/*
 	private VoipCore registration_lc;
 	private VoipProxyConfig registration_cfg;
@@ -307,24 +307,24 @@ public class AireVenus extends Service implements VoipCoreListener {
 	private String registration_smessage;
 	*/
 	public boolean registered = false;
-	
+
 	public void registrationState(final VoipCore p, final VoipProxyConfig cfg,final VoipCore.RegistrationState state,final String smessage) {
-		
-		if (state == VoipCore.RegistrationState.RegistrationOk 
+
+		if (state == VoipCore.RegistrationState.RegistrationOk
 				&& p.getDefaultProxyConfig().isRegistered()) {
 			registered = true;
 		}
 		if (state == VoipCore.RegistrationState.RegistrationCleared ) {
 			registered = false;
 		}
-		
+
 		if (state == VoipCore.RegistrationState.RegistrationFailed) {
 			//mHandler.postDelayed(quitServiceY, 10000);
 			registered = false;
 		}
 		Log.i("voip.AV regis: new ["+state+"]  reg:" + registered);
 	}
-	
+
 	private boolean hangUpDelay=false;
 
 	public static String callstate_AV = null;  //tml***/
@@ -335,13 +335,13 @@ public class AireVenus extends Service implements VoipCoreListener {
 //		boolean switchCall = false;
 //		if (AireJupiter.getInstance() != null)
 //			switchCall = AireJupiter.getInstance().getSetSwitchCall(); //tml*** switch conf
-		
+
 		if (destroying) {
 			mPref.write("curCall", "");
 			callstate_AV = null;
 			return;
 		}
-		if (state == VoipCall.State.IncomingReceived && !call.equals(mVoipCore.getCurrentCall())) 
+		if (state == VoipCall.State.IncomingReceived && !call.equals(mVoipCore.getCurrentCall()))
 		{
 			//no multicall support, just decline
 			mVoipCore.terminateCall(call);
@@ -351,15 +351,15 @@ public class AireVenus extends Service implements VoipCoreListener {
 			return;
 		}
 		if (state==VoipCall.State.CallReleased)//alec
-		{ 
+		{
 			mPrevCallState=state;
-			
+
 //			Log.e("--------- SWITCH CALL --------- CallReleased " + switchCall);
 //			if (!switchCall) {  //tml*** switch conf, 0e,1c
-				inCall = false;//alec
-				mPref.write("curCall", "");
-				callstate_AV = null;
-				return;
+			inCall = false;//alec
+			mPref.write("curCall", "");
+			callstate_AV = null;
+			return;
 //			}
 		}
 		if (state==VoipCall.State.OutgoingEarlyMedia)
@@ -381,55 +381,55 @@ public class AireVenus extends Service implements VoipCoreListener {
 //				AireJupiter.getInstance().setSwitchCall(false, "VoipCall.State.Connected");  //tml*** switch conf
 			// SIMON 030211:
 			// need to move connect message to the head of the queue
-		    android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_AUDIO); // Simon 030811 move it to highest priority
-			
-		    boolean incoming=false;
-		    if (DialerActivity.getDialer()!=null)
-		    	incoming=DialerActivity.incomingCall;
-		    
-		    if (incoming)
-		    {
-		    	if (DialerActivity.getDialer()!=null) DialerActivity.getDialer().callState(p,call,state,message);
+			android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_AUDIO); // Simon 030811 move it to highest priority
+
+			boolean incoming=false;
+			if (DialerActivity.getDialer()!=null)
+				incoming=DialerActivity.incomingCall;
+
+			if (incoming)
+			{
+				if (DialerActivity.getDialer()!=null) DialerActivity.getDialer().callState(p,call,state,message);
 
 //	 			stopRingBack();
-	 			stopRing();  //tml*** new ring
-	 			long[] patern = {0,80,1000};
-	 			mVibrator.vibrate(patern, -1);
-		    }
-		    else{
-		    	NetInfo ni = new NetInfo(AireVenus.this);
+				stopRing();  //tml*** new ring
+				long[] patern = {0,80,1000};
+				mVibrator.vibrate(patern, -1);
+			}
+			else{
+				NetInfo ni = new NetInfo(AireVenus.this);
 				int netType = ni.netType;
-			    mHandler.postDelayed(new Runnable(){
-			    	public void run()
-			    	{
+				mHandler.postDelayed(new Runnable(){
+					public void run()
+					{
 //			    		stopRingBack();
-			    		stopRing();  //tml*** new ring
-			 			long[] patern = {0,80,1000};
-			 			mVibrator.vibrate(patern, -1);
-			 			
-			 			if (DialerActivity.getDialer()!=null)  
-			 				DialerActivity.getDialer().callState(p,call,state,message);
-			    	}
-			    }, 3200-netType*1000);
-		    }
-		    
+						stopRing();  //tml*** new ring
+						long[] patern = {0,80,1000};
+						mVibrator.vibrate(patern, -1);
+
+						if (DialerActivity.getDialer()!=null)
+							DialerActivity.getDialer().callState(p,call,state,message);
+					}
+				}, 3200-netType*1000);
+			}
+
 			inCall = true;//alec
-			
+
 		}
 		else if (state == VoipCall.State.CallEnd) {
 //			stopRingBack();
 			stopRing();  //tml*** new ring
 			controlBkgndMusic(2);
 			mVibrator.cancel();
-			
+
 			VoipCall c=mVoipCore.getCurrentCall();
 			if (c!=null && call!=null && !call.equals(c)) return;
-			
-			if (DialerActivity.getDialer()!=null)  
- 				DialerActivity.getDialer().callState(p,call,state,message);
-			
+
+			if (DialerActivity.getDialer()!=null)
+				DialerActivity.getDialer().callState(p,call,state,message);
+
 			android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_DEFAULT);
-			
+
 			hangUpDelay=true;
 			mHandler.postDelayed(new Runnable(){
 				public void run()
@@ -445,15 +445,15 @@ public class AireVenus extends Service implements VoipCoreListener {
 
 //			Log.e("--------- SWITCH CALL --------- CallEnd " + switchCall);  //tml*** switch conf, 0e,1c
 //			if (!switchCall) {
-				inCall = false;//alec
-				mPref.write("curCall", "");
-				callstate_AV = null;
+			inCall = false;//alec
+			mPref.write("curCall", "");
+			callstate_AV = null;
 //			}
 		} else {
-			if (DialerActivity.getDialer()!=null)  
- 				DialerActivity.getDialer().callState(p,call,state,message);
+			if (DialerActivity.getDialer()!=null)
+				DialerActivity.getDialer().callState(p,call,state,message);
 		}
-		
+
 		if (state == VoipCall.State.Error)
 		{
 //			stopRingBack();
@@ -471,12 +471,12 @@ public class AireVenus extends Service implements VoipCoreListener {
 			callstate_AV = null;
 		}
 
-		if (state == VoipCall.State.IncomingReceived) 
-		{	
+		if (state == VoipCall.State.IncomingReceived)
+		{
 			TelephonyManager tMgr =(TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-			if (hangUpDelay==false 
-				&& tMgr.getCallState()==TelephonyManager.CALL_STATE_IDLE )
-				//TODO && VoiceMemo_NB.bRecording==false)
+			if (hangUpDelay==false
+					&& tMgr.getCallState()==TelephonyManager.CALL_STATE_IDLE )
+			//TODO && VoiceMemo_NB.bRecording==false)
 			{
 				String IncomingNumber=mVoipCore.getRemoteAddress().getUserName();
 				if (IncomingNumber==null || IncomingNumber.length()<6)
@@ -520,47 +520,47 @@ public class AireVenus extends Service implements VoipCoreListener {
 			}
 			inCall = true;//alec
 		}
-		
+
 		mPrevCallState = state;
 	}
 
 	public void show(VoipCore p) {
 	}
-	
+
 	public boolean mySetStunServer(VoipCore xVoipCore, String stun) {
 		//stun server
 		xVoipCore.setStunServer(stun);
 		xVoipCore.setFirewallPolicy((stun!=null && stun.length()>0) ? STUNC.UseStun : STUNC.DEFAULT);
 		return true;
 	}
-	
+
 	public void deregisterSip() {
 		if (mVoipCore != null) {
 			Log.e("voip.unregisterSip --- !!!");
 			mVoipCore.clearProxyConfigs();
 		}
 	}
-	
+
 	private String CurSipServer="";
-	public boolean sipProxyChange(String xUserName, String xSipServer) 
-	{	
+	public boolean sipProxyChange(String xUserName, String xSipServer)
+	{
 		Log.e("voip.sipProxyChange! " + xUserName + " " + xSipServer + "=?" + CurSipServer);
 		if (xSipServer.contentEquals(CurSipServer))
 		{
 			if (myProxy!=null && myProxy.getState()==RegistrationState.RegistrationOk)
 				return true;
 		}
-		
+
 		String lProxy = "sip:" + xSipServer;
 		String lIdentity = "sip:" + xUserName + "@" + xSipServer;
-		
+
 		try {
 			if (mVoipCore!=null)
 				myProxy = mVoipCore.getDefaultProxyConfig();
 		}catch(Exception e){
 			Log.e("sipProxyChange1 !@#$ " + e.getMessage());
 		}
-		
+
 		try {
 			if (myProxy == null) {
 				myProxy = VoipCoreFactory.instance().createProxyConfig(lIdentity, lProxy, null,true);
@@ -581,7 +581,7 @@ public class AireVenus extends Service implements VoipCoreListener {
 			int c = 0;
 			while (myProxy.getState()!=RegistrationState.RegistrationOk && c++<50)
 				Thread.sleep(100);
-			
+
 			CurSipServer=xSipServer;
 			return true;
 		} catch (Exception e) {
@@ -589,13 +589,13 @@ public class AireVenus extends Service implements VoipCoreListener {
 			return false;
 		}
 	}
-	
+
 	public boolean sipProxyAdd(String xUserName, String xSipServer) {
-		
+
 		String lProxy = "sip:" + xSipServer;
 		String lIdentity = "sip:" + xUserName + "@" + xSipServer;
 		Log.e("voip.sipProxyAdd! " + lIdentity);
-		
+
 		try {
 			mDefaultProxyConfig = VoipCoreFactory.instance().createProxyConfig(lIdentity, lProxy, null,true);
 			mVoipCore.addProxyConfig(mDefaultProxyConfig);
@@ -606,11 +606,11 @@ public class AireVenus extends Service implements VoipCoreListener {
 		}
 		return true;
 	}
-	
+
 	public boolean sipProxyDel() {
 		return false;
 	}
-	
+
 	public void enableDisableCodec(String codec, int rate, boolean enabled) {
 		try{
 			PayloadType pt = mVoipCore.findPayloadType(codec, rate);
@@ -623,7 +623,7 @@ public class AireVenus extends Service implements VoipCoreListener {
 			Log.e("enableDisableCodec !@#$ " + e.getMessage());
 		}
 	}
-	
+
 	public void renableCodec(boolean withVideo)
 	{
 		//alec: called before calling out
@@ -662,9 +662,9 @@ public class AireVenus extends Service implements VoipCoreListener {
 		String SipServer;
 		String password;
 		String iso = mPref.read("iso", "cn");
-		
+
 		incomingChatroom=false;
-		
+
 		if (CallType==CALLTYPE_AIRECALL)
 		{
 			int myIdx=0;
@@ -673,10 +673,10 @@ public class AireVenus extends Service implements VoipCoreListener {
 			}catch(Exception e){
 				Log.e("initFromConf1 !@#$ " + e.getMessage());
 			}
-			
+
 			lUserName = "**"+myIdx;
 			password = mPref.read("password", _Password);
-			
+
 //			String iso = mPref.read("iso", "ar");
 			String myPhoneNumber=mPref.read("myPhoneNumber", "++++++");
 			if (iso.equals("ar") || myPhoneNumber.startsWith("+9")
@@ -687,7 +687,7 @@ public class AireVenus extends Service implements VoipCoreListener {
 //				SipServer = mPref.read("pstnSipServer", "71.19.247.49");
 				SipServer = mPref.read("pstnSipServer", SipServer_default);
 			}
-			
+
 			mPref.write("aireSipServer", SipServer);
 			runAsSipAccount=true;
 		}
@@ -699,10 +699,10 @@ public class AireVenus extends Service implements VoipCoreListener {
 			}catch(Exception e){
 				Log.e("initFromConf2 !@#$ " + e.getMessage());
 			}
-			
+
 			lUserName = "**"+myIdx;
 			password = mPref.read("password", _Password);
-			
+
 			if (mPref.readBoolean("incomingChatroom"))
 			{
 				Log.d("tmlconf invitee");
@@ -735,20 +735,20 @@ public class AireVenus extends Service implements VoipCoreListener {
 		}
 		//bree:如果是广播并且是新的广播
 		if (mPref.readInt("BCAST_CONF", -1) >= 0 && mPref.readBoolean("pay", false)) {
-				SipServer="61.136.101.118";
-			}
+			SipServer="61.136.101.118";
+		}
 		Log.e("voip.INIT/REGIS " + getCallTypeName(CallType) + CallType
 				+ " " + lUserName + ":" + password + "@" + SipServer + " " + iso
 				+ " /" + runAsSipAccount + "/" + runAsFileTransfer);
 		mPref.write("lastRegisSip", getCallTypeName(CallType) + ", " + SipServer);
-		
+
 //		Log.d("*** runAsFileTransfer="+runAsFileTransfer);
-		
+
 //		Log.i("voip.Register: " + lUserName + "@" + SipServer);
-						
-		if (CallType==CALLTYPE_AIRECALL 
-			|| CallType==CALLTYPE_CHATROOM 
-			|| CallType==CALLTYPE_WEBCALL)
+
+		if (CallType==CALLTYPE_AIRECALL
+				|| CallType==CALLTYPE_CHATROOM
+				|| CallType==CALLTYPE_WEBCALL)
 		{
 			if (SipServer.equals("204.74.213.5"))
 			{
@@ -779,7 +779,7 @@ public class AireVenus extends Service implements VoipCoreListener {
 				enableDisableCodec("AMR",8000,false);
 				enableDisableCodec("opus",16000,false);
 			}
-			
+
 			if (AmazonKindle.IsKindle())
 			{
 				Log.i("voip.CODECS > KINDLE");
@@ -788,7 +788,7 @@ public class AireVenus extends Service implements VoipCoreListener {
 				enableDisableCodec("PCMA",8000,true);
 				enableDisableCodec("opus",16000,false);
 			}
-			
+
 			enableDisableCodec("opus",8000,false);
 		}
 		else
@@ -817,20 +817,20 @@ public class AireVenus extends Service implements VoipCoreListener {
 				enableDisableCodec("opus",8000,false);
 				enableDisableCodec("AMR",8000,true);
 			}
-			
+
 			enableDisableCodec("H264",90000,true);
 			enableDisableCodec("PCMU",8000,false);
 			enableDisableCodec("PCMA",8000,false);
 		}
-		
+
 		Version.dumpCapabilities();
-		
+
 		if (Version.isVideoCapable() && mVoipCore.checkVideoAvailable())
 		{
 			if (CallType==CALLTYPE_FAFA || CallType==CALLTYPE_CHATROOM)
 			{
 				AndroidVideoApi5JniWrapper.setAndroidSdkVersion(Version.sdk());
-			
+
 				if (AndroidCameraConfiguration.retrieveCameras().length>0)
 				{
 					mVoipCore.enableVideo(true, true);
@@ -840,7 +840,7 @@ public class AireVenus extends Service implements VoipCoreListener {
 //					} else {
 //						mVoipCore.setPreferredVideoSize(VideoSize.createStandard(Version.sdk()>10?VideoSize.VGA:VideoSize.CIF, false));
 //					}
-					
+
 					int id = 1;
 					id %= AndroidCameraConfiguration.retrieveCameras().length;
 					mVoipCore.setVideoDevice(id);
@@ -868,14 +868,14 @@ public class AireVenus extends Service implements VoipCoreListener {
 		}*/
 		else {
 			mVoipCore.enableVideo(false, false);
-			
+
 			mPref.write("video_support", false);
 		}
 
 		//stun server
 		//mVoipCore.setStunServer(null);
 		mVoipCore.setFirewallPolicy(STUNC.DEFAULT);
-		
+
 		//auth
 		mVoipCore.clearAuthInfos();
 		VoipAuthInfo lAuthInfo = VoipCoreFactory.instance().createAuthInfo(lUserName, password, null);
@@ -883,16 +883,16 @@ public class AireVenus extends Service implements VoipCoreListener {
 
 		//Proxy server
 		mVoipCore.clearProxyConfigs();
-		
+
 		String lProxy;
 		VoipProxyConfig lDefaultProxyConfig;
 		String lIdentity;
 
 		lProxy="sip:"+SipServer;
-		
+
 		//get Default Proxy if any
 		lDefaultProxyConfig = mVoipCore.getDefaultProxyConfig();
-		
+
 		lIdentity = "sip:" + lUserName + "@" + SipServer;
 		try {
 			if (lDefaultProxyConfig == null) {
@@ -927,7 +927,7 @@ public class AireVenus extends Service implements VoipCoreListener {
 			ConnectivityManager lConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 			NetworkInfo lInfo = lConnectivityManager.getActiveNetworkInfo();
 			mVoipCore.setNetworkReachable((lInfo!=null) ?
-					(lConnectivityManager.getActiveNetworkInfo().getState()==NetworkInfo.State.CONNECTED):false); 
+					(lConnectivityManager.getActiveNetworkInfo().getState()==NetworkInfo.State.CONNECTED):false);
 		} catch (VoipCoreException e) {
 			Log.e("initFromConf3 !@#$ " + e.getMessage());
 			throw new VoipConfigException("Wrong setting",e);
@@ -942,7 +942,7 @@ public class AireVenus extends Service implements VoipCoreListener {
 	public IBinder onBind(Intent intent) {
 		return null;
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		//xwf 清除注册状态
@@ -953,9 +953,9 @@ public class AireVenus extends Service implements VoipCoreListener {
 		mHandler.removeCallbacks(quitServiceY);
 		if (AireJupiter.getInstance()!=null)
 			AireJupiter.getInstance().StopEndingupServiceY();
-		
+
 		deregisterSip();//alec
-		
+
 		if (mTimer!=null)
 			mTimer.cancel();
 		mTimer=null;
@@ -987,7 +987,7 @@ public class AireVenus extends Service implements VoipCoreListener {
 		Log.e("*** AIREVENUS/SERVICE-Y *** DESTROY DESTROY *** voip " + SettingActivity.vlib);
 		super.onDestroy();
 	}
-	
+
 	public static VoipCore getLc() {
 		if (instance()==null) return null;
 		return instance().getVoipCore();
@@ -1004,12 +1004,12 @@ public class AireVenus extends Service implements VoipCoreListener {
 			Log.d("RING." + mode + getCallTypeName(calltype) + " AV *** PREP! (" + from + ")");
 			if (mode == 1) {  //incoming
 				if (mAudioTrack == null) {
-					int iMinBufSize = AudioTrack.getMinBufferSize(16000, 
-							AudioFormat.CHANNEL_CONFIGURATION_MONO, 
+					int iMinBufSize = AudioTrack.getMinBufferSize(16000,
+							AudioFormat.CHANNEL_CONFIGURATION_MONO,
 							AudioFormat.ENCODING_PCM_16BIT);
-					mAudioTrack = new AudioTrack(AudioManager.STREAM_RING, 16000, 
-							AudioFormat.CHANNEL_CONFIGURATION_MONO, 
-							AudioFormat.ENCODING_PCM_16BIT, 
+					mAudioTrack = new AudioTrack(AudioManager.STREAM_RING, 16000,
+							AudioFormat.CHANNEL_CONFIGURATION_MONO,
+							AudioFormat.ENCODING_PCM_16BIT,
 							iMinBufSize, AudioTrack.MODE_STREAM);
 					maxiVol(1, 1);
 					controlBkgndMusic(0);
@@ -1018,12 +1018,12 @@ public class AireVenus extends Service implements VoipCoreListener {
 				}
 			} else if (mode == 0) {  //outgoing
 				if (mAudioTrack == null) {
-					int iMinBufSize = AudioTrack.getMinBufferSize(16000, 
-							AudioFormat.CHANNEL_CONFIGURATION_MONO, 
+					int iMinBufSize = AudioTrack.getMinBufferSize(16000,
+							AudioFormat.CHANNEL_CONFIGURATION_MONO,
 							AudioFormat.ENCODING_PCM_16BIT);
-					mAudioTrack = new AudioTrack(AudioManager.STREAM_RING, 16000, 
-							AudioFormat.CHANNEL_CONFIGURATION_MONO, 
-							AudioFormat.ENCODING_PCM_16BIT, 
+					mAudioTrack = new AudioTrack(AudioManager.STREAM_RING, 16000,
+							AudioFormat.CHANNEL_CONFIGURATION_MONO,
+							AudioFormat.ENCODING_PCM_16BIT,
 							iMinBufSize, AudioTrack.MODE_STREAM);
 					maxiVol(1, 3);
 					controlBkgndMusic(0);
@@ -1033,18 +1033,18 @@ public class AireVenus extends Service implements VoipCoreListener {
 			}
 		}
 	}
-	
+
 	private class StartRing implements Runnable {
 		int _mode;
 		int _calltype;
 		boolean _first;
-		
+
 		StartRing(int mode, int calltype, boolean first) {
 			_mode = mode;
 			_calltype = calltype;
 			_first = first;
 		}
-		
+
 		@Override
 		public void run() {
 			if (AireJupiter.getInstance() != null) {
@@ -1054,22 +1054,24 @@ public class AireVenus extends Service implements VoipCoreListener {
 			playRing(_mode, _first);
 		}
 	}
-	
+
 	public void playRing(int mode, boolean first) {
 		boolean repeat = false;
 		try {
 			int buffSize = 5120;
-		    byte[] audiobuff = new byte[buffSize];
+			byte[] audiobuff = new byte[buffSize];
 			int i = 0;
 			Random rng = new Random();
 			String ringfile;
-			
+
 			if (mode == 1) {  //incoming
 				String intx = Integer.toString(rng.nextInt(8) + 1);
-				ringfile = "r16k_" + intx + ".raw";
+				//Hsia 修改来电铃声为叮咚叮咚
+				ringfile = "ringx" + ".raw";
+//				ringfile = "r16k_" + intx + ".raw";
 			} else {  //outgoing
 				String intx = Integer.toString(rng.nextInt(8) + 1);
-				ringfile = "r16k_" + intx + ".raw"; 
+				ringfile = "r16k_" + intx + ".raw";
 			}
 
 			Log.d("RING." + ringfile + " *** DO! " + ringrdy);
@@ -1082,7 +1084,7 @@ public class AireVenus extends Service implements VoipCoreListener {
 				while(((i = dinS.read(audiobuff, 0, buffSize)) > -1) ) {
 					mAudioTrack.write(audiobuff, 0, i);
 					if (!ringrdy || theVoip == null) break;
-			    }
+				}
 			} else {
 				Log.e("RING mAudioTrack null");
 			}
@@ -1118,7 +1120,7 @@ public class AireVenus extends Service implements VoipCoreListener {
 		public void run() {
 		}
 	};
-	
+
 	public void stopRing() {
 		mHandler.removeCallbacks(runRepeat);
 		try {
@@ -1142,7 +1144,7 @@ public class AireVenus extends Service implements VoipCoreListener {
 			maxiVol(0, 0);
 		}
 	}
-	
+
 	private int prevVol1, returnVol = 0;
 	private int maxVol1 = 1;
 	private void maxiVol(int mode, double divAM) {
@@ -1165,7 +1167,7 @@ public class AireVenus extends Service implements VoipCoreListener {
 			Log.d("maxiVol AV return." + mode + " " + divAM + "|" + prevVol1);
 		}
 	}
-	
+
 	boolean musicWasActive = false;
 	private void controlBkgndMusic (int mode) {
 //		AudioManager mAudioManager = ((AudioManager) getSystemService(Context.AUDIO_SERVICE));
@@ -1189,7 +1191,7 @@ public class AireVenus extends Service implements VoipCoreListener {
 		}
 	}
 	//***tml
-	
+
 //	private synchronized void startRinging_old()  {
 //		try {
 //			if (mVibrator !=null) {
@@ -1493,7 +1495,7 @@ public class AireVenus extends Service implements VoipCoreListener {
 //		return output.toByteArray();
 //	}
 	//***yang
-	
+
 	public void callStopRing()
 	{
 		Log.d("ServiceY :callStopRing");

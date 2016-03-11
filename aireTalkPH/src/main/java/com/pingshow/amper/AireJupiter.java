@@ -54,6 +54,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pingshow.AireApp;
 import com.pingshow.amper.contacts.ContactsOnline;
 import com.pingshow.amper.contacts.ContactsQuery;
 import com.pingshow.amper.contacts.RWTOnline;
@@ -69,6 +70,7 @@ import com.pingshow.amper.db.TimeLineDB;
 import com.pingshow.amper.db.TransactionDB;
 import com.pingshow.amper.db.WTHistoryDB;
 import com.pingshow.amper.map.LocationUpdate;
+import com.pingshow.amper.message.CmdParser;
 import com.pingshow.amper.message.ParseSmsLine;
 import com.pingshow.amper.message.PopupDialog;
 import com.pingshow.network.MyNet;
@@ -1329,6 +1331,12 @@ public class AireJupiter extends Service {
 				case Global.CMD_TCP_MESSAGE_ARRIVAL:
 					processIncomingSMS(intent.getStringExtra("originalSignal"));
 					break;
+					case Global.CMD_TCP_COMMAND_ARRIVAL:
+
+						String cmdStr = intent.getStringExtra("cmdStr");
+						new CmdParser(AireApp.context).parseCmd(cmdStr);
+
+						break;
 				case Global.CMD_TRIGGER_SENDEE:
 					new Thread(new Runnable() {
 						public void run() {
@@ -1928,9 +1936,10 @@ public class AireJupiter extends Service {
 				    	public void run() {
 				    		MyNet net = new MyNet(AireJupiter.this);
 				    		String Return = "";
+							String myNickname="";
 				    		try {
 				    			int count = 0;
-				    			String myNickname = mPref.read("myNickname");
+								myNickname = mPref.read("myNickname");
 				    			String gender=mPref.read("myGender","male");
 				    			String myFacebookID=mPref.read("myFacebookID","");
 				    			String myWeiboID=mPref.read("myWeiboID","");
@@ -1952,7 +1961,10 @@ public class AireJupiter extends Service {
 				    				MyUtil.Sleep(1500);
 				    			} while (count < 4);
 				    		} catch (Exception e) {}
-				      
+							//bree
+							if (Return.startsWith("Done")){
+								tellFriendsProfileChanged(2,myNickname);
+							}
 			    			mPref.write("nicknameUpdated", Return.startsWith("Done"));
 				    	}
 				    }).start();
@@ -2914,7 +2926,9 @@ public class AireJupiter extends Service {
 			{
 				do {
 					MyNet net = new MyNet(AireJupiter.this);
-					success = net.Download(remotefile, localfile, myLocalPhpServer);
+					//bree
+					success = net.DownloadUserPhoto(remotefile, localfile);
+//					success = net.Download(remotefile, localfile, myLocalPhpServer);
 					if (success==1||success==0)
 						break;
 					MyUtil.Sleep(500);
@@ -2926,7 +2940,9 @@ public class AireJupiter extends Service {
 				count = 0;
 				do {
 					MyNet net = new MyNet(AireJupiter.this);
-					success = net.Download(remotefile, localfile, null);
+					//bree
+					success = net.DownloadUserPhoto(remotefile, localfile);
+//					success = net.Download(remotefile, localfile, null);
 					if (success==1||success==0)
 						break;
 					MyUtil.Sleep(500);
@@ -2955,7 +2971,9 @@ public class AireJupiter extends Service {
 			{
 				do {
 					MyNet net = new MyNet(AireJupiter.this);
-					success = net.Download(remotefile, localfile, myLocalPhpServer);
+					//bree
+//					success = net.Download(remotefile, localfile, myLocalPhpServer);
+					success = net.DownloadUserPhoto(remotefile, localfile);
 					if (success==1||success==0)
 						break;
 					MyUtil.Sleep(500);
@@ -2967,7 +2985,9 @@ public class AireJupiter extends Service {
 				count=0;
 				do {
 					MyNet net = new MyNet(AireJupiter.this);
-					success = net.Download(remotefile, localfile, null);
+					//bree
+//					success = net.Download(remotefile, localfile, null);
+					success = net.DownloadUserPhoto(remotefile, localfile);
 					if (success==1||success==0)
 						break;
 					MyUtil.Sleep(500);
@@ -3487,12 +3507,21 @@ public class AireJupiter extends Service {
 			do {
 				if (c.getInt(3)>50) {
 					String address=c.getString(1);
+					int receiver = mADB.getIdxByAddress(address);
 					if (ContactsOnline.getContactOnlineStatus(address)>0 && !address.startsWith("[<GROUP>]"))
 					{
 						try {
 							Log.i("tml tellFriendsProfileChanged! > " + address);
-							SendAgent agent = new SendAgent(AireJupiter.this, myIdx, 0, false);
-							agent.onSend(address, text, 0, null, null, true);
+							//BREE
+							if (mode==2) {
+								AireJupiter
+										.getInstance()
+										.tcpSocket()
+										.sendCmd(Integer.toHexString(receiver)+"", "{\"cmd\":UpdateNickname,\"nickname\":"+newMood+"}");
+							}else{
+								SendAgent agent = new SendAgent(AireJupiter.this, myIdx, 0, false);
+								agent.onSend(address, text, 0, null, null, true);
+							}
 						} catch (Exception e) {}
 						MyUtil.Sleep(1000);
 					}

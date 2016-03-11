@@ -7,20 +7,18 @@ public class Global {
 	public static final String STB_Name1 = "m200";
 	public static final String STB_Name2 = "mq10";
 	public static final int STB_NameLength = 18;
-	
+
 	public static final String Temp_Parse = "[<802>]";
 	public static final String Master_Parse = "[<AireNinja>]";
-	//Hsia：约定下载分享的文件
-	public static final String FILE_SHARE_DOWNLOAD = Master_Parse + "fileShareDownload!";
-	public static final String FILE_SHARE_DONE = Master_Parse + "fileShareDone!";
+
 	public static final String MONITOR = Master_Parse + "monitor";
 	public static final String Hi_AddFriend1 = "Hi";
 	public static final String Hi_AddFriend2 = "Hi (802";  //Master_Parse + Hi_AddFriend1;
 	public static final String Call_Conference = ":-) Call u? :-)";
-//	public static final String Call_Conference_Mute = Master_Parse + Call_Conference + "Mute";
+	//	public static final String Call_Conference_Mute = Master_Parse + Call_Conference + "Mute";
 //	public static final String Call_Conference_Speak = Master_Parse + Call_Conference + "Speak";
 	public static final String Call_Conference_Switch = Master_Parse + Call_Conference + "switch!";
-	
+
 	public static final String Action_MsgSent="com.pingshow.amper.JustSentMessage";
 	public static final String Action_MsgGot="com.pingshow.amper.NewMessageArrival";
 	public static final String Action_Contact="com.pingshow.amper.ContactUpdate";
@@ -37,13 +35,13 @@ public class Global {
 	public static final String Action_Sip_Photo_Download_Complete = "com.pingshow.amper.sipPhotoCompleted";
 	public static final String Action_Raw_Audio_Playback = "com.pingshow.amper.rawaudioplayback";
 	public static final String Action_Chatroom_Members = "com.pingshow.amper.chatroom.members";
-	
+
 	public static final String SdcardPath=Environment.getExternalStorageDirectory()+"/.com.amper/";
 	public static final String SdcardPath_inbox=Environment.getExternalStorageDirectory()+"/.com.amper/inbox/";
 	public static final String SdcardPath_sent=Environment.getExternalStorageDirectory()+"/.com.amper/sent/";
 	public static final String SdcardPath_timeline=Environment.getExternalStorageDirectory()+"/.com.amper/time/";
 	public static final String SdcardPath_downloads=Environment.getExternalStorageDirectory()+"/download/";
-	
+
 	public final static String ACTION_PLAY_AUDIO = "com.pingshow.amper.playAudio";
 	final public static String ACTION_PLAY_OVER = "com.pingshow.amper.playAudioOver";
 	public final static String ACTION_TUNING = "com.pingshow.amper.TuningUp";
@@ -51,7 +49,7 @@ public class Global {
 
 	public final static String MSG_UNREAD_YES = "com.pingshow.amper.unreadmsgyes";
 	public final static String MSG_RETURN_NOM = "com.pingshow.amper.returnmsgnom";
-	
+
 	public static final int CMD_TRIGGER_SENDEE = 2;
 	public static final int CMD_RECONNECT_SOCKET = 4;
 	public static final int CMD_ON_SMS_COMING = 6;
@@ -93,11 +91,14 @@ public class Global {
 	public static final int CMD_CHECK_PAYPAL_AGAIN = 76;
 	public static final int CMD_CONNECTION_POOR = 78;
 	public static final int CMD_ADDF_280 = 282;
-	
+
+	public static final int CMD_TCP_COMMAND_ARRIVAL = 810;//li*** 收到命令消息。
 	public static final int MAX_SUVS = 10;  //tml*** multi suvei
 	public static final String SUV_ON = "GUARD";
 	public static final String SUV_OFF = "GUARD REST";
 	public static final String SUV_ON_IOTALL = SUV_ON + "IOTALL";
 	public static final String SUV_OFF_IOTALL = SUV_OFF + "IOTALL";
 	public static final String Call_Broadcast = "broadcast!";
+	public static final String ISSECURITY = "issecurity!";
+	public static final String ISNEWBROST = "isNewBrost!";
 }

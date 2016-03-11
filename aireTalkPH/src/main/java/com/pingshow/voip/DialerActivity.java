@@ -251,29 +251,29 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 		public void handleMessage(android.os.Message msg) {
 			try {
 				switch (msg.what) {
-				case 1:
-					TextView textview = (TextView) ((HashMap<String, Object>) msg.obj)
-							.get("textview");
-					String text = (String) ((HashMap<String, Object>) msg.obj)
-							.get("text");
-					textview.setText(text);
-					break;
-				case 2:
-					ImageView imageview = (ImageView) ((HashMap<String, Object>) msg.obj)
-							.get("imageview");
-					Bitmap bm = (Bitmap) ((HashMap<String, Object>) msg.obj)
-							.get("image");
-					imageview.setImageBitmap(bm);
-					break;
-				case 3:
-					Button btn = (Button) msg.obj;
-					btn.setVisibility(msg.arg1);
-					break;
-				case 4:
-					LinearLayout linear = (LinearLayout) msg.obj;
-					linear.setVisibility(msg.arg1);
-					linear.bringToFront();
-					break;
+					case 1:
+						TextView textview = (TextView) ((HashMap<String, Object>) msg.obj)
+								.get("textview");
+						String text = (String) ((HashMap<String, Object>) msg.obj)
+								.get("text");
+						textview.setText(text);
+						break;
+					case 2:
+						ImageView imageview = (ImageView) ((HashMap<String, Object>) msg.obj)
+								.get("imageview");
+						Bitmap bm = (Bitmap) ((HashMap<String, Object>) msg.obj)
+								.get("image");
+						imageview.setImageBitmap(bm);
+						break;
+					case 3:
+						Button btn = (Button) msg.obj;
+						btn.setVisibility(msg.arg1);
+						break;
+					case 4:
+						LinearLayout linear = (LinearLayout) msg.obj;
+						linear.setVisibility(msg.arg1);
+						linear.bringToFront();
+						break;
 				}
 			} catch (Exception e) {
 				Log.e("da handler !@#$ " + e.getMessage());
@@ -320,7 +320,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 		theDialer = this;
 
 		if (AireVenus.getCallType() == AireVenus.CALLTYPE_CHATROOM) { // tml|yang***
-																		// vidconf
+			// vidconf
 			if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 				getWindow().setFlags(
 						WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
@@ -536,7 +536,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 				out += "256\n"; // speaker gain, default is 256
 				out += "0\n"; // 1: xiaomi Mi2 phone, 0: default
 				out += "0\n"; // 1: surval mode, only one way video, 0: two ways
-								// video
+				// video
 
 				// sw*** cpu freq
 				int freqx = getMaxCPUFreqMHz();
@@ -606,7 +606,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 						// AireVenus.CALLTYPE_AIRECALL) { //tml*** switch conf
 						Log.e("voip.HANGUP1 DA *** USER PRESSED *** cancelled "
 								+ AireVenus.getCallTypeName(AireVenus
-										.getCallType()) + rejectHangingup);
+								.getCallType()) + rejectHangingup);
 						return;
 					}
 
@@ -664,7 +664,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 			mSpeaker.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView,
-						boolean isChecked) {
+											 boolean isChecked) {
 					if (isChecked)
 						routeAudioToSpeaker();
 					else
@@ -679,7 +679,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 						@Override
 						public void onCheckedChanged(CompoundButton buttonView,
-								boolean isChecked) {
+													 boolean isChecked) {
 							flipKeypad(isChecked);
 						}
 					});
@@ -711,7 +711,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 			mMute.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView,
-						boolean isChecked) {
+											 boolean isChecked) {
 					if (AireVenus.isready()) {
 						VoipCore p = AireVenus.instance().getVoipCore();
 						if (isChecked) {
@@ -730,7 +730,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 			mHold.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView,
-						boolean isChecked) {
+											 boolean isChecked) {
 					if (AireVenus.isready()) {
 						VoipCore p = AireVenus.instance().getVoipCore();
 						if (isChecked) {
@@ -891,7 +891,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 				if (mPref.readInt("BCAST_CONF", -1) >= 0 && mPref.readBoolean("pay", false)) {
 					mHangup.setVisibility(View.VISIBLE);
 				}else
-				mHangup.setVisibility(View.GONE);
+					mHangup.setVisibility(View.GONE);
 				mHangup2.setVisibility(View.VISIBLE); // tml*** beta ui
 				mHold.setVisibility(View.GONE);
 				mAnswerSlide.setVisibility(View.VISIBLE);
@@ -1209,7 +1209,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 
 		@Override
 		public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-				int arg2, long arg3) {
+									   int arg2, long arg3) {
 			String displayname = (String) memberList.get(arg2).get(
 					"displayname");
 			String uuid = (String) memberList.get(arg2).get("uuid");
@@ -1229,8 +1229,8 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 							AireJupiter.myConfSipServer_default);
 					if (AireJupiter.getInstance() != null) {
 						domain = AireJupiter.getInstance().getIsoConf(domain); // tml***
-																				// china
-																				// ip
+						// china
+						// ip
 					}
 				}
 
@@ -1516,8 +1516,8 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 
 								updateButtonVisible(mHangup, View.GONE);
 								updateButtonVisible(mHangup2, View.VISIBLE); // tml***
-																				// beta
-																				// ui
+								// beta
+								// ui
 								updateButtonVisible(mHold, View.GONE);
 								updateLinearLayoutVisible(mAnswerSlide,
 										View.VISIBLE);
@@ -1546,7 +1546,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 								+ phoneNumber + " inChat:" + incomingChatroom);
 						if (incomingChatroom) {
 							mPref.write("tempCheckSameIN", 0); // tml***
-																// sametime
+							// sametime
 							mPref.write("lastCallSip", "O:" + "CONF");
 							lVoipCore.setNetType(new NetInfo(
 									DialerActivity.this).netType, 3);
@@ -1563,8 +1563,8 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 
 							updateLinearLayoutVisible(mAnswerSlide, View.GONE);
 							updateButtonVisible(mHangup2, View.GONE); // tml***
-																		// beta
-																		// ui
+							// beta
+							// ui
 							updateButtonVisible(mHold, View.VISIBLE);
 							updateButtonVisible(mHangup, View.VISIBLE);
 
@@ -1581,7 +1581,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 							int idxOUT = mADB.getIdxByAddress(phoneNumber);
 							String debugN = "--";
 							if (addrTo != null && addrTo.length() > 7) // tml
-																		// test
+								// test
 								debugN = addrTo.substring(0, 5) + "..";
 							mPref.write("lastCallSip", "O:" + debugN);
 							Log.d("Check postDA SAMETIME in/out> " + idxIN
@@ -1642,8 +1642,8 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 														0,
 														AireVenus.getCallType(),
 														"!incomingCall !HangingUp !runAsSip"); // tml***
-																								// new
-																								// ring
+										// new
+										// ring
 									}
 
 									Log.d("wait for calleeGotCallRequest....");
@@ -1843,7 +1843,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 					onVoiceMemoRecording(SrcAudioPath);
 				}
 			} else if (intent.getAction().equals(Global.MSG_UNREAD_YES)) { // tml***
-																			// chatview
+				// chatview
 				if (((ToggleButton) findViewById(R.id.chatview)) != null) {
 					mHandler.post(new Runnable() {
 						@Override
@@ -1855,7 +1855,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 					});
 				}
 			} else if (intent.getAction().equals(Global.MSG_RETURN_NOM)) { // tml***
-																			// chatview
+				// chatview
 				if (((ToggleButton) findViewById(R.id.chatview)) != null) {
 					mHandler.post(new Runnable() {
 						@Override
@@ -2092,8 +2092,8 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 		theDialer = null;
 
 		if (xWalkWebView != null) { // tml|yangjun*** vidconf
-		// ((LinearLayout)
-		// findViewById(R.id.topVWin_holder)).removeView(xWalkWebView);
+			// ((LinearLayout)
+			// findViewById(R.id.topVWin_holder)).removeView(xWalkWebView);
 			xWalkWebView.onDestroy();
 			xWalkWebView = null;
 			Log.e("vidConfxwalk Destroyed");
@@ -2434,7 +2434,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 	}
 
 	public void globalState(VoipCore p, VoipCore.GlobalState state,
-			String message) {
+							String message) {
 		/*
 		 * if (state == VoipCore.GlobalState.GlobalOn) { try{
 		 * AireVenus.instance().initFromConf(); } catch (VoipConfigException ec)
@@ -2448,7 +2448,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 	}
 
 	public void registrationState(final VoipCore p, final VoipProxyConfig cfg,
-			final VoipCore.RegistrationState state, final String smessage) {
+								  final VoipCore.RegistrationState state, final String smessage) {
 		/* nop */
 	};
 
@@ -2485,7 +2485,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 	public static String callstate_DA = null; // tml***/
 
 	public void callState(final VoipCore p, final VoipCall call,
-			final State state, final String message) {
+						  final State state, final String message) {
 		callstate_DA = state.toString(); // tml***/
 		// boolean switchCall = false;
 		// if (AireJupiter.getInstance() != null)
@@ -2598,7 +2598,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 					}, 2000);
 					if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 						mHandler.postDelayed(hideControls, 5000); // tml***
-																	// vidconf
+						// vidconf
 					}
 				} else if (AireVenus.getCallType() == AireVenus.CALLTYPE_FAFA) {
 					// mHandler.postDelayed(new Runnable() {
@@ -2634,7 +2634,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 					}
 				}
 				mHandler.postDelayed(checkCurrentCall, 2000); // tml*** check
-																// empty call
+				// empty call
 			}
 		}
 	}
@@ -2691,8 +2691,8 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 						AireJupiter.myConfSipServer_default);
 				if (AireJupiter.getInstance() != null) {
 					ServerIP = AireJupiter.getInstance().getIsoConf(ServerIP); // tml***
-																				// china
-																				// ip
+					// china
+					// ip
 				}
 			}
 
@@ -2749,8 +2749,8 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 						AireJupiter.myConfSipServer_default);
 				if (AireJupiter.getInstance() != null) {
 					ServerIP = AireJupiter.getInstance().getIsoConf(ServerIP); // tml***
-																				// china
-																				// ip
+					// china
+					// ip
 				}
 			}
 
@@ -2834,7 +2834,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 					}
 
 					Return = net.doAnyPostHttp("http://" + phpip
-							+ "/onair/conference/customer/addcallandroid.php",
+									+ "/onair/conference/customer/addcallandroid.php",
 							"room=" + room + "&ip=" + ServerIP + "&callee="
 									+ address + "&pass=" + pass + "&user="
 									+ myUsername + "&userpw=" + myPasswd);
@@ -2878,8 +2878,8 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 							AireJupiter.myConfSipServer_default);
 					if (AireJupiter.getInstance() != null) {
 						domain = AireJupiter.getInstance().getIsoConf(domain); // tml***
-																				// china
-																				// ip
+						// china
+						// ip
 					}
 				}
 
@@ -3256,7 +3256,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 				routeAudioToSpeaker();
 			} else {
 				if (!mAudioManager.isWiredHeadsetOn()) { // tml*** earphone
-															// routing
+					// routing
 					routeAudioToReceiver();
 				}
 			}
@@ -3378,8 +3378,8 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 
 			if (!finishing)
 				mHandler.postDelayed(run_finish, 1500);// alec: to delay 1500ms
-														// for user to know what
-														// happened
+			// for user to know what
+			// happened
 
 			if (AireVenus.getCallType() == AireVenus.CALLTYPE_CHATROOM
 					&& !incomingChatroom) {
@@ -3474,7 +3474,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 
 		AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 		way = mPref.readBoolean("way"); // when hangup ,way equals false
-										// ;outcall and recv incall is true
+		// ;outcall and recv incall is true
 
 		if (bGalaxyNexus) {
 			am.setMode(AudioManager.MODE_IN_CALL);
@@ -3867,15 +3867,15 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 		@Override
 		public void onCallStateChanged(int state, String incomingNumber) {
 			switch (state) {
-			case TelephonyManager.CALL_STATE_OFFHOOK: // incall get through
-				sysIncomingNumber = incomingNumber;
-				Log.d("hold Aire call");
-				handlerHold.sendEmptyMessage(0);
-				break;
-			case TelephonyManager.CALL_STATE_RINGING:
-				break;
-			default:
-				break;
+				case TelephonyManager.CALL_STATE_OFFHOOK: // incall get through
+					sysIncomingNumber = incomingNumber;
+					Log.d("hold Aire call");
+					handlerHold.sendEmptyMessage(0);
+					break;
+				case TelephonyManager.CALL_STATE_RINGING:
+					break;
+				default:
+					break;
 			}
 			super.onCallStateChanged(state, incomingNumber);
 		}
@@ -3998,17 +3998,17 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 		try {
 			switch (((WindowManager) getSystemService(WINDOW_SERVICE))
 					.getDefaultDisplay().getRotation()) {
-			case Surface.ROTATION_90:
-				surfaceAngel = 0;
-				break;
-			case Surface.ROTATION_180:
-				surfaceAngel = 270;
-				break;
-			case Surface.ROTATION_270:
-				surfaceAngel = 180;
-				break;
-			default:
-				surfaceAngel = 90;
+				case Surface.ROTATION_90:
+					surfaceAngel = 0;
+					break;
+				case Surface.ROTATION_180:
+					surfaceAngel = 270;
+					break;
+				case Surface.ROTATION_270:
+					surfaceAngel = 180;
+					break;
+				default:
+					surfaceAngel = 90;
 			}
 		} catch (Exception e) {
 			Log.e("lockScreenOrientation !@#$ " + e.getMessage());
@@ -4384,7 +4384,9 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 
 			if (mode == 1) { // incoming
 				String intx = Integer.toString(rng.nextInt(8) + 1);
-				ringfile = "r16k_" + intx + ".raw";
+				//Hsia 修改来电铃声为叮咚叮咚
+				ringfile = "ringx" + ".raw";
+//				ringfile = "r16k_" + intx + ".raw";
 			} else { // outgoing
 				String intx = Integer.toString(rng.nextInt(8) + 1);
 				ringfile = "r16k_" + intx + ".raw";
@@ -4829,32 +4831,32 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 			if (hwAccelOk) {
 				((SurfaceView) findViewById(R.id.topVWin_surface))
 						.setLayerType(View.LAYER_TYPE_NONE, null); // cannot do
-																	// other
+				// other
 				((LinearLayout) findViewById(R.id.topVWin_holder))
 						.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 				xWalkWebView.setLayerType(View.LAYER_TYPE_HARDWARE, null); // no
-																			// effect?
+				// effect?
 			}
 
 			Log.d("vidConfxwalk showing, "
 					+ hwAccelOk
 					+ ":hw+:"
 					+ ((SurfaceView) findViewById(R.id.topVWin_surface))
-							.getLayerType()
+					.getLayerType()
 					+ ((SurfaceView) findViewById(R.id.topVWin_surface))
-							.isHardwareAccelerated()
+					.isHardwareAccelerated()
 					+ " "
 					+ ((LinearLayout) findViewById(R.id.topVWin_holder))
-							.getLayerType()
+					.getLayerType()
 					+ ((LinearLayout) findViewById(R.id.topVWin_holder))
-							.isHardwareAccelerated()
+					.isHardwareAccelerated()
 					+ " "
 					+ xWalkWebView.getLayerType()
 					+ xWalkWebView.isHardwareAccelerated()
 					+ " "
 					+ "sv:"
 					+ !XWalkPreferences
-							.getBooleanValue(XWalkPreferences.ANIMATABLE_XWALK_VIEW));
+					.getBooleanValue(XWalkPreferences.ANIMATABLE_XWALK_VIEW));
 		} catch (Exception e) {
 			Log.e("initVidConf !@#$ " + e.getMessage());
 		}

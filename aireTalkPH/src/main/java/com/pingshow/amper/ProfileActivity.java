@@ -77,7 +77,7 @@ public class ProfileActivity extends Activity {
 	    		onPickPictureOption();
 	    	}
 	    });
-        
+
         if (mPref.readBoolean("LoginByFacebook")||mPref.readBoolean("LoginByWeibo"))
         {
 	        String nickname;

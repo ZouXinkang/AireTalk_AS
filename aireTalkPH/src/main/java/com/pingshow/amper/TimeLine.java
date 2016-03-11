@@ -35,7 +35,7 @@ import com.pingshow.util.ImageUtil;
 import com.pingshow.util.MyUtil;
 
 public class TimeLine extends Activity {
-	
+
 	private MyPreference mPref;
 	private ListView mList;
 	private ImageView mWaitView;
@@ -43,12 +43,12 @@ public class TimeLine extends Activity {
 	private TimeLineDB mTL;
 	private TimeLineFollowDB mTLF;
 	private AnimationDrawable waitAnim;
-	
+
 	private QueryThreadHandler mThreadQueryHandler;
 	public TimeLineAdapter mCursorAdapter;
 	public Cursor mCursor;
 	private Handler mHandler=new Handler();
-	
+
 	private String mDisplayname;
 	private String mAddress;
 	private int mIdx;
@@ -58,136 +58,140 @@ public class TimeLine extends Activity {
 	private int curCount=0;
 	private int limit=50;
 	private boolean bFirstTime=true;
-	
+
 	static private TimeLine instance=null;
-	
+
 	static public TimeLine getInstance()
 	{
 		return instance;
 	}
-	
+
 	@Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.timeline);
-        mPref=new MyPreference(this);
-        
-        mTL = new TimeLineDB(this);
-        mTL.open();
-        
-        mTLF = new TimeLineFollowDB(this);
-        mTLF.open();
-        
-        mADB = new AmpUserDB(this);
-        mADB.open();
-        
-        mIdx=getIntent().getIntExtra("Idx", 0);
-        mDisplayname=getIntent().getStringExtra("displayname");
-        mAddress=getIntent().getStringExtra("address");
-        
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.timeline);
+		mPref=new MyPreference(this);
+
+		mTL = new TimeLineDB(this);
+		mTL.open();
+
+		mTLF = new TimeLineFollowDB(this);
+		mTLF.open();
+
+		mADB = new AmpUserDB(this);
+		mADB.open();
+
+		mIdx=getIntent().getIntExtra("Idx", 0);
+		mDisplayname=getIntent().getStringExtra("displayname");
+		mAddress=getIntent().getStringExtra("address");
+
 		try{
 			myIdx=Integer.parseInt(mPref.read("myID","0"),16);
 		}catch(Exception e){}
 
 		mWaitView=(ImageView) findViewById(R.id.wait);
 		waitAnim=(AnimationDrawable)mWaitView.getDrawable();
-		
-        bMySelf=(myIdx==mIdx);
-        
-        mList = (ListView)findViewById(R.id.timeline);
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View profile = inflater.inflate(R.layout.inflate_profile, mList, false);
-        mList.addHeaderView(profile);
-        
-        mList.setOnScrollListener(timelineScrollListener);
-        
-        ((TextView)findViewById(R.id.sendee)).setText(mDisplayname);
-        
-        Drawable photo=ImageUtil.getBigRoundedUserPhoto(this, mIdx);
-        ((ImageView)profile.findViewById(R.id.photo)).setImageDrawable(photo);
-        ((TextView)profile.findViewById(R.id.displayname)).setText(mDisplayname);
-        String mood;
-        if (bMySelf)
-        	mood=mPref.read("moodcontent","");
-        else
-        	mood=mADB.getMoodByAddress(mAddress);
-        ((TextView)profile.findViewById(R.id.mood)).setText(mood);
-        
-        if (bMySelf) 
-        	((ImageView)profile.findViewById(R.id.photo)).setOnClickListener(null);
-        else
-        ((ImageView)profile.findViewById(R.id.photo)).setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				if (bMySelf) return;
-				String userphotoPath = Global.SdcardPath_inbox + "photo_" + mIdx + "b.jpg";
-				File f = new File(userphotoPath);
-				if (!f.exists())
-				{
-					mHandler.post(showWaiting);
-					new Thread(new Runnable(){
-						public void run()
-						{
-							String userphotoPath = Global.SdcardPath_inbox + "photo_" + mIdx + "b.jpg";
-							String remotefile = "profiles/photo_" + mIdx + ".jpg";
-							int success = 0;
-							int count = 0;
-							do {
-								MyNet net = new MyNet(TimeLine.this);
-								success = net.Download(remotefile, userphotoPath, AireJupiter.myLocalPhpServer);
-								if (success==1||success==0)
-									break;
-								MyUtil.Sleep(500);
-							} while (++count < 2);
-							
-							if (success!=1)
+
+		bMySelf=(myIdx==mIdx);
+
+		mList = (ListView)findViewById(R.id.timeline);
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View profile = inflater.inflate(R.layout.inflate_profile, mList, false);
+		mList.addHeaderView(profile);
+
+		mList.setOnScrollListener(timelineScrollListener);
+
+		((TextView)findViewById(R.id.sendee)).setText(mDisplayname);
+
+		Drawable photo=ImageUtil.getBigRoundedUserPhoto(this, mIdx);
+		((ImageView)profile.findViewById(R.id.photo)).setImageDrawable(photo);
+		((TextView)profile.findViewById(R.id.displayname)).setText(mDisplayname);
+		String mood;
+		if (bMySelf)
+			mood=mPref.read("moodcontent","");
+		else
+			mood=mADB.getMoodByAddress(mAddress);
+		((TextView)profile.findViewById(R.id.mood)).setText(mood);
+
+		if (bMySelf)
+			((ImageView)profile.findViewById(R.id.photo)).setOnClickListener(null);
+		else
+			((ImageView)profile.findViewById(R.id.photo)).setOnClickListener(new OnClickListener(){
+				@Override
+				public void onClick(View v) {
+					if (bMySelf) return;
+					String userphotoPath = Global.SdcardPath_inbox + "photo_" + mIdx + "b.jpg";
+					File f = new File(userphotoPath);
+					if (!f.exists())
+					{
+						mHandler.post(showWaiting);
+						new Thread(new Runnable(){
+							public void run()
 							{
-								count=0;
+								String userphotoPath = Global.SdcardPath_inbox + "photo_" + mIdx + "b.jpg";
+								String remotefile = "profiles/photo_" + mIdx + ".jpg";
+								int success = 0;
+								int count = 0;
 								do {
 									MyNet net = new MyNet(TimeLine.this);
-									success = net.Download(remotefile, userphotoPath, null);
+									//bree
+//								success = net.Download(remotefile, userphotoPath, AireJupiter.myLocalPhpServer);
+									success = net.DownloadUserPhoto(remotefile, userphotoPath);
 									if (success==1||success==0)
 										break;
 									MyUtil.Sleep(500);
 								} while (++count < 2);
-							}
-							
-							mHandler.post(hideWaiting);
-							
-							if (success==1)
-							{
-								File f = new File(userphotoPath);
-								if (f.exists())
+
+								if (success!=1)
 								{
-									Intent i = new Intent(TimeLine.this,MessageDetailActivity.class);
-									i.putExtra("imagePath", userphotoPath);
-									i.putExtra("displayname", mDisplayname);
-									i.putExtra("address", mAddress);
-									startActivity(i);
+									count=0;
+									do {
+										MyNet net = new MyNet(TimeLine.this);
+										//bree
+										success = net.DownloadUserPhoto(remotefile, userphotoPath);
+//									success = net.Download(remotefile, userphotoPath, null);
+										if (success==1||success==0)
+											break;
+										MyUtil.Sleep(500);
+									} while (++count < 2);
+								}
+
+								mHandler.post(hideWaiting);
+
+								if (success==1)
+								{
+									File f = new File(userphotoPath);
+									if (f.exists())
+									{
+										Intent i = new Intent(TimeLine.this,MessageDetailActivity.class);
+										i.putExtra("imagePath", userphotoPath);
+										i.putExtra("displayname", mDisplayname);
+										i.putExtra("address", mAddress);
+										startActivity(i);
+									}
 								}
 							}
-						}
-					}).start();
+						}).start();
+					}
+					else
+					{
+						Intent i = new Intent(TimeLine.this,MessageDetailActivity.class);
+						i.putExtra("imagePath", userphotoPath);
+						i.putExtra("displayname", mDisplayname);
+						i.putExtra("address", mAddress);
+						startActivity(i);
+					}
 				}
-				else
-				{
-					Intent i = new Intent(TimeLine.this,MessageDetailActivity.class);
-					i.putExtra("imagePath", userphotoPath);
-					i.putExtra("displayname", mDisplayname);
-					i.putExtra("address", mAddress);
-					startActivity(i);
-				}
-			}
-		});
-        
-        ((ImageView)findViewById(R.id.cancel)).setOnClickListener(new OnClickListener() {
+			});
+
+		((ImageView)findViewById(R.id.cancel)).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				finish();
 			}
 		});
-        
-        ((ImageView)findViewById(R.id.compose)).setOnClickListener(new OnClickListener() {
+
+		((ImageView)findViewById(R.id.compose)).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent i = new Intent(TimeLine.this, TimeLineCompose.class);
@@ -197,37 +201,37 @@ public class TimeLine extends Activity {
 				startActivityForResult(i, 1000);
 			}
 		});
-        
-        mHandler.post(showWaiting);
-        
-        onTimelineQuery();
-        
-        long last=mPref.readLong("lastTimeLineUpdated:"+mIdx, 0);
-        if (new Date().getTime()-last>15000)//15 sec
-        {
-        	new Thread(doReadTimeline).start();
-        }
-        
-        instance=this;
-        
-        //tml*** dev control
-        if ((mAddress.equals("news_service") && mDisplayname.equals("Hot News")) || mIdx == 4) {
-            if (bMySelf) {
-            	((ImageView)findViewById(R.id.compose)).setVisibility(View.VISIBLE);
-        	} else {
-            	((ImageView)findViewById(R.id.compose)).setVisibility(View.GONE);
-        	}
-        } else if ((mAddress.equals("support") && mDisplayname.equals("Support")) || mIdx == 2) {
-            if (bMySelf) {
-            	((ImageView)findViewById(R.id.compose)).setVisibility(View.VISIBLE);
-        	} else {
-            	((ImageView)findViewById(R.id.compose)).setVisibility(View.GONE);
-        	}
-        }
-        //***tml
-        
+
+		mHandler.post(showWaiting);
+
+		onTimelineQuery();
+
+		long last=mPref.readLong("lastTimeLineUpdated:"+mIdx, 0);
+		if (new Date().getTime()-last>15000)//15 sec
+		{
+			new Thread(doReadTimeline).start();
+		}
+
+		instance=this;
+
+		//tml*** dev control
+		if ((mAddress.equals("news_service") && mDisplayname.equals("Hot News")) || mIdx == 4) {
+			if (bMySelf) {
+				((ImageView)findViewById(R.id.compose)).setVisibility(View.VISIBLE);
+			} else {
+				((ImageView)findViewById(R.id.compose)).setVisibility(View.GONE);
+			}
+		} else if ((mAddress.equals("support") && mDisplayname.equals("Support")) || mIdx == 2) {
+			if (bMySelf) {
+				((ImageView)findViewById(R.id.compose)).setVisibility(View.VISIBLE);
+			} else {
+				((ImageView)findViewById(R.id.compose)).setVisibility(View.GONE);
+			}
+		}
+		//***tml
+
 	}
-	
+
 	Runnable showWaiting=new Runnable()
 	{
 		public void run()
@@ -236,7 +240,7 @@ public class TimeLine extends Activity {
 			mWaitView.setVisibility(View.VISIBLE);
 		}
 	};
-	
+
 	Runnable hideWaiting=new Runnable()
 	{
 		public void run()
@@ -245,7 +249,7 @@ public class TimeLine extends Activity {
 			mWaitView.setVisibility(View.GONE);
 		}
 	};
-	
+
 	Runnable doReadTimeline=new Runnable()
 	{
 		public void run()
@@ -256,7 +260,7 @@ public class TimeLine extends Activity {
 				return;
 			}
 			lastCount=curCount;
-			
+
 			String Return="";
 			int c=0;
 			do{
@@ -274,9 +278,9 @@ public class TimeLine extends Activity {
 				if (Return.length()>0) break;
 				MyUtil.Sleep(500);
 			}while(c++<3);
-			
+
 			bFirstTime=false;
-			
+
 			if (Return.length()>10)
 			{
 				mPref.writeLong("lastTimeLineUpdated:"+mIdx, new Date().getTime());
@@ -285,7 +289,7 @@ public class TimeLine extends Activity {
 			mHandler.post(hideWaiting);
 		}
 	};
-	
+
 	public static int parseTimeLineDate(TimeLineDB tldb, TimeLineFollowDB tlfdb, String src, int localHost)
 	{
 		int processed=0;
@@ -307,7 +311,7 @@ public class TimeLine extends Activity {
 				int deleted=0;
 				String server="";
 				String name="";
-				
+
 				if (parts.length>0 && parts[0].length()>0)
 				{
 					try{
@@ -336,7 +340,7 @@ public class TimeLine extends Activity {
 						Log.e("parseTimeLineDate null1 !@#$ " + e.getMessage());
 					}
 				}
-				
+
 				int follows=0;
 				if (parts.length>1 && parts[1].length()>0)
 				{
@@ -368,17 +372,17 @@ public class TimeLine extends Activity {
 						Log.e("parseTimeLineDate null2 !@#$ " + e.getMessage());
 					}
 				}
-				
+
 				String likeList=null;
 				if (parts.length>2 && parts[2].length()>0)
 				{
 					likeList=parts[2];
 				}
-				
+
 				long rowid=tldb.insert(post_id, host, localHost, writer, name, permission, time, text, attach, likeList, server, follows, deleted);
-				
+
 				if (rowid>0) processed++;
-				
+
 				if (attach!=null && attach.length()>5)
 				{
 					mAttachesToDownload.add(attach);
@@ -389,10 +393,10 @@ public class TimeLine extends Activity {
 		} catch (Exception e) {
 			Log.e("parseTimeLineDate !@#$ " + e.getMessage());
 		}
-		
+
 		return processed;
 	}
-	
+
 	private static ArrayList<String> mAttachesToDownload = new ArrayList<String>();
 	private static ArrayList<String> mAttachesFrom = new ArrayList<String>();
 	static Runnable doDownloadAttached=new Runnable()
@@ -463,8 +467,8 @@ public class TimeLine extends Activity {
 			}
 		}
 	};
-	
-	
+
+
 	private void parseTimeLineData(String src)
 	{
 		TimeLine.parseTimeLineDate(mTL, mTLF, src, mIdx);
@@ -473,9 +477,9 @@ public class TimeLine extends Activity {
 			{
 				refresh();
 			}
-		});	
+		});
 	}
-	
+
 	private void refreshAttached()
 	{
 		mHandler.post(new Runnable(){
@@ -486,46 +490,46 @@ public class TimeLine extends Activity {
 			}
 		});
 	}
-	
+
 	public void refresh() {
 		//if (mCursor != null && !mCursor.isClosed())
 		//	mCursor.close();
-		
+
 		mCursor = mTL.fetch(mIdx);
 
 		if (mCursorAdapter != null)
 			mCursorAdapter.changeCursor(mCursor);
 	}
-	
+
 	public void onTimelineQuery() {
 		//if (mCursor != null && !mCursor.isClosed())
 		//	mCursor.close();
-		
+
 		mCursor = mTL.fetch(mIdx);
-		
+
 		if (mCursor == null) {
 			if (mCursorAdapter != null)
 				mCursorAdapter.changeCursor(null);
 			return;
 		}
-		
+
 		long last=mPref.readLong("lastTimeLineUpdated:"+mIdx, 0);
-        if (new Date().getTime()-last<600000)//10 min
-        {
-        	if (mCursor.getCount()>0)
-    			mHandler.post(hideWaiting);
-        }
+		if (new Date().getTime()-last<600000)//10 min
+		{
+			if (mCursor.getCount()>0)
+				mHandler.post(hideWaiting);
+		}
 
 		if (mThreadQueryHandler == null)
 			mThreadQueryHandler = new QueryThreadHandler(getContentResolver());
 		try {
-			mThreadQueryHandler.startQuery(0, null, CommonDataKinds.Phone.CONTENT_URI, 
-					new String [] {CommonDataKinds.Phone.CONTACT_ID}, 
+			mThreadQueryHandler.startQuery(0, null, CommonDataKinds.Phone.CONTENT_URI,
+					new String [] {CommonDataKinds.Phone.CONTACT_ID},
 					CommonDataKinds.Phone.CONTACT_ID + "=0", null,
 					null);//alec: let it query useless curser to avoid NullException
 		} catch (Exception e) {}
 	}
-	
+
 	private class QueryThreadHandler extends AsyncQueryHandler {
 		public QueryThreadHandler(ContentResolver cr) {
 			super(cr);
@@ -560,7 +564,7 @@ public class TimeLine extends Activity {
 			//onTimelineQuery();
 		}
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		if (mCursor != null && !mCursor.isClosed())
@@ -576,20 +580,20 @@ public class TimeLine extends Activity {
 		System.gc();
 		super.onDestroy();
 	}
-	
-	public void onActivityResult(int requestCode, int resultCode, Intent data) { 
-	    if (resultCode == RESULT_OK) {
-	    	if (requestCode == 1000)
-	    	{
-	    		onTimelineQuery();
-	    	}
-	    	else if (requestCode == 3)
-	    	{
-	    		mCursorAdapter.executeRemove();
-	    	}
-	    }
+
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
+			if (requestCode == 1000)
+			{
+				onTimelineQuery();
+			}
+			else if (requestCode == 3)
+			{
+				mCursorAdapter.executeRemove();
+			}
+		}
 	}
-	
+
 	private OnScrollListener timelineScrollListener = new OnScrollListener() {
 		private int visibleItem;
 		public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
