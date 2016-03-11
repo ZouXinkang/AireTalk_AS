@@ -1066,12 +1066,10 @@ public class AireVenus extends Service implements VoipCoreListener {
 			
 			if (mode == 1) {  //incoming
 				String intx = Integer.toString(rng.nextInt(8) + 1);
-				//Hsia 修改来电铃声为叮咚叮咚
-				ringfile = "ringx" + ".raw";
-//				ringfile = "r16k_" + intx + ".raw";
+				ringfile = "r16k_" + intx + ".raw";
 			} else {  //outgoing
 				String intx = Integer.toString(rng.nextInt(8) + 1);
-				ringfile = "r16k_" + intx + ".raw";
+				ringfile = "r16k_" + intx + ".raw"; 
 			}
 
 			Log.d("RING." + ringfile + " *** DO! " + ringrdy);

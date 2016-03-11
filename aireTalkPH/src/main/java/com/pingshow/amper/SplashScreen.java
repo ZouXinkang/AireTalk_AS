@@ -65,23 +65,22 @@ public class SplashScreen extends Activity {
     	
     	//webcall
 		Intent intent = getIntent();
-		if (intent != null)
-		{
+		if (intent != null) {
 			Uri data = intent.getData();
-		    if (data != null) {
-		    	int ret = 0;
-		    	String param = data.getHost();
+			if (data != null) {
+				int ret = 0;
+				String param = data.getHost();
 				try {
-					byte[] base64 = Base64.decode(param, Base64.NO_WRAP|Base64.URL_SAFE);
+					byte[] base64 = Base64.decode(param, Base64.NO_WRAP | Base64.URL_SAFE);
 					String url = MyUtil.decryptTCPCmd(base64);
 					String[] items = url.split("/");
-			    	checkServiceX();
-			    	if (items.length > 5)
-			    		ret = startWebCall(items[1], items[0], items[2], items[4], items[5]);
+					checkServiceX();
+					if (items.length > 5)
+						ret = startWebCall(items[1], items[0], items[2], items[4], items[5]);
 				} catch (Exception e) {
 					Log.e("load webcall !@#$ e.getMessage()");
 				}
-				
+
 				if (ret == 1) {
 					finish();
 					return;
@@ -89,16 +88,16 @@ public class SplashScreen extends Activity {
 					checkServiceX();
 					return;
 				}
-		    }
-    	}
+			}
+		}
 		
 		new Thread() { 
 			@Override 
 			public void run() { 
 				copyAssetsToPhone("rootca.pem");
-			}; 
+			};
 		}.start();
-		
+
 		//tml*** update socketloc
 		LocationUpdate location = new LocationUpdate(SplashScreen.this, mPref);
 	    location.getMyLocFromIpAddress();
@@ -128,17 +127,17 @@ public class SplashScreen extends Activity {
 	    			checkServiceX();
 
 	    			//tml*** shortcut update, versionCode
-    				if (rwVersionCode(1) < 2302) {
+					if (rwVersionCode(1) < 2302) {
 //    					boolean shortcut = mPref.readBoolean("shortcut2Created");
-    					boolean shortcut = MyProfile.load().isShortcut2Created();
-    					if (shortcut) {
-    						setShortCut(false);
-    					}
-    					int getvCode = rwVersionCode(2);
-    					Log.i("version " + getvCode);
-    					setShortCut(true);
-    				}
-    				//***tml
+						boolean shortcut = MyProfile.load().isShortcut2Created();
+						if (shortcut) {
+							setShortCut(false);
+						}
+						int getvCode = rwVersionCode(2);
+						Log.i("version " + getvCode);
+						setShortCut(true);
+					}
+					//***tml
 	    			
 	    			try {
 	    				synchronized(this) {
@@ -281,11 +280,13 @@ public class SplashScreen extends Activity {
 		if (!regis) {
 			intent.setClass(SplashScreen.this, BeforeRegisterActivity.class);
 		} else if (!prof) {
+			android.util.Log.d("SplashScreen", "!prof");
 			intent.setClass(SplashScreen.this, ProfileActivity.class);
 		} else if (enter1) {
-			intent.setClass(SplashScreen.this, UsersActivity.class);
-		} else {
+			android.util.Log.d("SplashScreen", "enter1");
 			intent.setClass(SplashScreen.this, ProfileActivity.class);
+		} else {
+			intent.setClass(SplashScreen.this, UsersActivity.class);
 		}
 		
 		startActivity(intent);

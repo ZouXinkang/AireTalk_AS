@@ -11,6 +11,7 @@ import java.util.Date;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -64,12 +65,14 @@ import com.facebook.android.FacebookError;
 import com.facebook.android.Util;
 import com.google.zxing.WriterException;
 import com.pingshow.amper.register.BaseRequestListener;
+import com.pingshow.amper.register.BeforeRegisterActivity;
 import com.pingshow.codec.VoiceMemoPlayer_NB;
 import com.pingshow.codec.VoicePlayer2_MP;
 import com.pingshow.codec.VoiceRecord2_MR;
 import com.pingshow.network.MyNet;
 import com.pingshow.network.MySocket;
 import com.pingshow.qrcode.EncodingHandler;
+import com.pingshow.util.DataCleanManager;
 import com.pingshow.util.ImageUtil;
 import com.pingshow.util.MCrypt;
 import com.pingshow.util.MyProfile;
@@ -142,7 +145,21 @@ public class SettingActivity extends Activity {
 			et.setText(A + B + C);
 		} else
 			et.setText(phone);
-		
+
+//		jack 2.4.51 logout
+		TextView logout = (TextView) findViewById(R.id.tv_logout);
+		logout.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent logout = new Intent(SettingActivity.this, BeforeRegisterActivity.class);
+				ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+				UsersActivity.myUsersActivity.finish();
+				am.clearApplicationUserData();
+				startActivity(logout);
+				finish();
+			}
+		});
+
 		nicknameView = (EditText) findViewById(R.id.nickname);
 		nicknameView.setText(mPref.read("myNickname", ""));
 		nicknameView.addTextChangedListener(new TextWatcher() {

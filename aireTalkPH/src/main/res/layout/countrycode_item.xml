@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/conference_item_selector"
+    android:orientation="vertical">
+    <!--jack 增加自2.4.51-->
+    <TextView
+        android:id="@+id/tv_countrycode_detail"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:text="helloworld"
+        android:textColor="@color/contents_text"
+        android:textSize="20sp" />
+</LinearLayout>

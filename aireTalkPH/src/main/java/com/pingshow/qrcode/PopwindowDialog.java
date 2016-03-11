@@ -80,10 +80,10 @@ public class PopwindowDialog extends Activity implements OnClickListener{
 			startActivity(new Intent(PopwindowDialog.this, ComposeActivity.class));
 			break;
 		case R.id.llayout02:
-			startActivityForResult(new Intent(PopwindowDialog.this,CreateGroupActivity.class),2001);
+			startActivityForResult(new Intent(PopwindowDialog.this, CreateGroupActivity.class), 2001);
 			break;
 		case R.id.llayout03:
-			startActivityForResult(new Intent(PopwindowDialog.this,SearchDialog.class),2001);
+			startActivityForResult(new Intent(PopwindowDialog.this, SearchDialog.class), 2001);
 			break;
 		case R.id.llayout04:
 			if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.FROYO) {
@@ -95,6 +95,7 @@ public class PopwindowDialog extends Activity implements OnClickListener{
 			break;
 		case R.id.llayout05:
 			startActivity(new Intent(PopwindowDialog.this, SettingActivity.class));
+			finish();
 			break;
 
 		default:
@@ -149,6 +150,7 @@ public class PopwindowDialog extends Activity implements OnClickListener{
 									startActivity(it);
 								} else {
 									Intent it = new Intent(PopwindowDialog.this, AddAsFriendActivity.class);
+									android.util.Log.d("PopwindowDialog", "Pop");
 									it.putExtra("Address", address);
 									it.putExtra("Nickname", nickname);
 									it.putExtra("Idx", idx);

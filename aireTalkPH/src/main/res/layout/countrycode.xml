@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/conferenceNormal"
+    android:orientation="vertical">
+    <!--jack 增加自2.4.51-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/titlebar"
+        android:textColor="#FFFFFFFF"
+        android:text="@string/select_country_title"
+        android:id="@+id/sendee"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:shadowColor="#80000000"
+        android:shadowDx="1"
+        android:shadowDy="2"
+        android:shadowRadius="2" />
+    <ListView
+        android:id="@+id/lv_countrycode"
+        android:layout_width="match_parent"
+        android:dividerHeight="1dp"
+        android:cacheColorHint="#ecf0f1"
+        android:divider="@color/dropdown_divider_color"
+        android:layout_height="wrap_content">
+    </ListView>
+
+</LinearLayout>

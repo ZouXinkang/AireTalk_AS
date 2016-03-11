@@ -22,6 +22,7 @@ import com.pingshow.amper.Log;
 import com.pingshow.amper.MyPreference;
 import com.pingshow.amper.ProfileActivity;
 import com.pingshow.amper.R;
+import com.pingshow.amper.UsersActivity;
 import com.pingshow.util.MyUtil;
 
 public class BeforeRegisterActivity extends Activity {
@@ -33,20 +34,20 @@ public class BeforeRegisterActivity extends Activity {
 		setContentView(R.layout.before_register_page);
         this.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
         ((Button) findViewById(R.id.register)).setOnClickListener(new OnClickListener() {
-        	@Override
-        	public void onClick(View v) {
-    			//tml*** airplane mode
-    			boolean airplaneMode = MyUtil.isAirplaneModeOn(BeforeRegisterActivity.this);
-    			if (airplaneMode) {
-    				String errMsg = getString(R.string.airplane_mode);
-    				Intent it = new Intent(BeforeRegisterActivity.this, CommonDialog.class);
-    				it.putExtra("msgContent", errMsg);
-    				it.putExtra("numItems", 1);
-    				it.putExtra("ItemCaption0", getString(R.string.done));
-    				it.putExtra("ItemResult0", RESULT_OK);
-    				startActivity(it);
-    				return;
-    			}
+			@Override
+			public void onClick(View v) {
+				//tml*** airplane mode
+				boolean airplaneMode = MyUtil.isAirplaneModeOn(BeforeRegisterActivity.this);
+				if (airplaneMode) {
+					String errMsg = getString(R.string.airplane_mode);
+					Intent it = new Intent(BeforeRegisterActivity.this, CommonDialog.class);
+					it.putExtra("msgContent", errMsg);
+					it.putExtra("numItems", 1);
+					it.putExtra("ItemCaption0", getString(R.string.done));
+					it.putExtra("ItemResult0", RESULT_OK);
+					startActivity(it);
+					return;
+				}
 				startActivityForResult(new Intent(BeforeRegisterActivity.this, RegisterActivity.class), 10);
 			}
 		});
@@ -73,6 +74,7 @@ public class BeforeRegisterActivity extends Activity {
         });
         
         mPref=new MyPreference(this);
+
         
         if (!MyUtil.isAppInstalled(this,"com.facebook.katana"))
         {
@@ -131,8 +133,13 @@ public class BeforeRegisterActivity extends Activity {
 		super.onActivityResult(requestCode, resultCode, data);  
 		if (requestCode==10||requestCode==20||requestCode==30||requestCode==40)
 		{
+			Intent intent;
 			if (resultCode==RESULT_OK) {
-				Intent intent = new Intent(this, ProfileActivity.class);
+				if(!mPref.readBoolean("ProfileCompleted")) {
+					intent = new Intent(this, ProfileActivity.class);
+				}else {
+					intent = new Intent(this, UsersActivity.class);
+				}
 				startActivity(intent);
 				startServiceX();
 				finish();

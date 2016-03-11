@@ -86,7 +86,7 @@ public class MyTelephony {
 			if (AireJupiter.getInstance()!=null && AireJupiter.myPhoneNumber!=null)
 				myPhoneNumber=AireJupiter.myPhoneNumber;
 		}
-		
+
 		return addPrefix(isoNet, iso, userNumber, false);
 	}
 	
@@ -583,7 +583,7 @@ public class MyTelephony {
         {
         	phoneNumber=phoneNumber.substring(1);        
         }
-        
+
     	if(phoneNumber.startsWith("00") && phoneNumber.length()>11) // phone number has prefix 00
     	{
     		for(int i = 0;i<COUNTRIES.length;i++)
@@ -636,7 +636,7 @@ public class MyTelephony {
 			if (checkValidePhone(COUNTRIES[i][0], temp))
 				return temp;
 		}
-		
+
 		if(simCountryIso.equals(networkCountryIso)) // Judge simCountryIso and networkCountryIso is the same
     	{
 			String temp;
@@ -675,7 +675,7 @@ public class MyTelephony {
     			}
     		}
 		}
-		
+
 		for(int i = 0;i<COUNTRIES.length;i++)
 		{
 			String temp=COUNTRIES[i][3]+phoneNumber;

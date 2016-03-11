@@ -483,8 +483,16 @@ public class SipCallActivity extends Activity implements FilterQueryProvider{
 
             //tml|yang*** siplist country
             spinnerISO = (Spinner) findViewById(R.id.selectiso);
-            String[] listISOs = getResources().getStringArray(R.array.phone_code_list);
-            ArrayAdapter<String> spinISOAdapter = new ArrayAdapter<String>(SipCallActivity.this,
+            String[] ISOs = getResources().getStringArray(R.array.phone_code_list);
+			String[] listISOs = new String[ISOs.length + 1];
+			for (int i = 0; i < listISOs.length; i++) {
+				if (i==0){
+					listISOs[0]=getResources().getString(R.string.select_country_title);
+					continue;
+				}
+				listISOs[i]=ISOs[i-1];
+			}
+			ArrayAdapter<String> spinISOAdapter = new ArrayAdapter<String>(SipCallActivity.this,
                     android.R.layout.simple_spinner_item, listISOs);
             String isosp = mPref.read("iso", "");
             spinISOccode = mPref.read("spinISOccode", ""); // +86

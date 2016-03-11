@@ -80,7 +80,7 @@ public class RegisterActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.register_page);
 		this.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-		
+
 		mPref=new MyPreference(this);
 		MyProfile.init(RegisterActivity.this);
 		

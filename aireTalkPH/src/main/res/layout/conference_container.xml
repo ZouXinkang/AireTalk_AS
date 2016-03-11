@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/conferenceNormal"
+    android:gravity="center"
+    android:orientation="vertical">
+    <!--jack 增加自2.4.51-->
+    <RelativeLayout
+        android:id="@+id/rl_conference_call"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/pb_wait"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+        <ListView
+            android:id="@+id/lv_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="#ecf0f1"
+            android:divider="@color/dropdown_divider_color"
+            android:dividerHeight="1dp"
+            android:visibility="visible"></ListView>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_conference_add"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/add_num_to_conference"
+            android:textColor="@color/conferenceSelect"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_select_country"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/conference_bg"
+            android:clickable="true"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="@string/select_country"
+            android:textColor="@color/conference_btn"
+            android:textSize="20sp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_iso"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:singleLine="true"
+                android:phoneNumber="true"
+                android:text="+86"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/et_number"
+                android:layout_width="0dp"
+                android:phoneNumber="true"
+                android:layout_height="wrap_content"
+                android:layout_weight="5" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/bt_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/conference_bg"
+            android:focusable="true"
+            android:padding="10dp"
+            android:text="@string/add_in_conference"
+            android:textColor="@color/conference_btn"
+            android:textSize="20sp" />
+    </LinearLayout>
+</LinearLayout>

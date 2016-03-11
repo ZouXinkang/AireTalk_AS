@@ -92,9 +92,7 @@ public class AddAsFriendActivity extends Activity {
 							try{
 								do {
 									MyNet net = new MyNet(AddAsFriendActivity.this);
-									//bree
-//									success = net.Download(remotefile, userphotoPath, AireJupiter.myLocalPhpServer);
-									success = net.DownloadUserPhoto(remotefile, userphotoPath);
+									success = net.Download(remotefile, userphotoPath, AireJupiter.myLocalPhpServer);
 									if (success==1||success==0)
 										break;
 									MyUtil.Sleep(500);
@@ -105,10 +103,7 @@ public class AddAsFriendActivity extends Activity {
 									count=0;
 									do {
 										MyNet net = new MyNet(AddAsFriendActivity.this);
-										//bree
-
-										success = net.DownloadUserPhoto(remotefile, userphotoPath);
-//										success = net.Download(remotefile, userphotoPath, null);
+										success = net.Download(remotefile, userphotoPath, null);
 										if (success==1||success==0)
 											break;
 										MyUtil.Sleep(500);

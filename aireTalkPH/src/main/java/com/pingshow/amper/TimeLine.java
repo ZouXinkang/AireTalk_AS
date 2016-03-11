@@ -134,9 +134,7 @@ public class TimeLine extends Activity {
 							int count = 0;
 							do {
 								MyNet net = new MyNet(TimeLine.this);
-								//bree
-//								success = net.Download(remotefile, userphotoPath, AireJupiter.myLocalPhpServer);
-								success = net.DownloadUserPhoto(remotefile, userphotoPath);
+								success = net.Download(remotefile, userphotoPath, AireJupiter.myLocalPhpServer);
 								if (success==1||success==0)
 									break;
 								MyUtil.Sleep(500);
@@ -147,9 +145,7 @@ public class TimeLine extends Activity {
 								count=0;
 								do {
 									MyNet net = new MyNet(TimeLine.this);
-									//bree
-									success = net.DownloadUserPhoto(remotefile, userphotoPath);
-//									success = net.Download(remotefile, userphotoPath, null);
+									success = net.Download(remotefile, userphotoPath, null);
 									if (success==1||success==0)
 										break;
 									MyUtil.Sleep(500);

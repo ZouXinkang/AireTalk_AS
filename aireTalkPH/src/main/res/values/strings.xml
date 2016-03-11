@@ -501,5 +501,16 @@
 <string name="suv_status_off">not active</string>
 <string name="suv_status_reset">Device state reset</string>
 <string name="begin_bcast">Broadcast</string>
+
+    <!--jack-->
+    <string name="add_num_to_conference">add number to conference</string>
+    <string name="select_country">select country:China</string>
+    <string name="select_country_title">Select Country</string>
+    <string name="add_in_conference">add to conference</string>
+    <string name="conference_person_selected">People Selected:</string>
+    <string name="conference_cancel">Cancel</string>
+    <string name="edit_input_empty">Input can\'t be empty</string>
+    <string name="logout">Logout</string>
+
 </resources>
 

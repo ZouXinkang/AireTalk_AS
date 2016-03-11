@@ -102,6 +102,9 @@ public class UsersActivity extends Activity {
 	private float mDensity = 1.f;
 	
 	static public boolean uiUAinFore = false;
+
+	//jack 2.4.51 hardcode
+	public static Activity myUsersActivity;
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -111,7 +114,9 @@ public class UsersActivity extends Activity {
 		this.overridePendingTransition(R.anim.freeze, R.anim.freeze);
 		_this = this;
 		neverSayNeverDie(_this);  //tml|bj*** neverdie/
-		
+
+		myUsersActivity=this;
+
 		mPref=new MyPreference(this);
 		int ort = getResources().getConfiguration().orientation;
 		needRefresh=((ort!=orientation)||needRefresh);

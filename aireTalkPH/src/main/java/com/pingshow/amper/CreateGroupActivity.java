@@ -197,9 +197,10 @@ public class CreateGroupActivity extends Activity {
 				try {
 					int count = 0;
 					do {
+						//jack 2.4.51
 						MyNet net = new MyNet(CreateGroupActivity.this);
 						Return = net.doPostAttach("uploadgroupphoto.php",
-								groupidx, 0, localPath, null); // httppost
+								groupidx, 0, localPath, AireJupiter.myPhpServer_default2A); // httppost
 						if (Return.startsWith("Done"))
 							break;
 						MyUtil.Sleep(2500);

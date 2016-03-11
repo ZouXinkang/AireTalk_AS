@@ -10,7 +10,9 @@ public class Global {
 	
 	public static final String Temp_Parse = "[<802>]";
 	public static final String Master_Parse = "[<AireNinja>]";
-
+	//Hsia：约定下载分享的文件
+	public static final String FILE_SHARE_DOWNLOAD = Master_Parse + "fileShareDownload!";
+	public static final String FILE_SHARE_DONE = Master_Parse + "fileShareDone!";
 	public static final String MONITOR = Master_Parse + "monitor";
 	public static final String Hi_AddFriend1 = "Hi";
 	public static final String Hi_AddFriend2 = "Hi (802";  //Master_Parse + Hi_AddFriend1;
@@ -91,14 +93,11 @@ public class Global {
 	public static final int CMD_CHECK_PAYPAL_AGAIN = 76;
 	public static final int CMD_CONNECTION_POOR = 78;
 	public static final int CMD_ADDF_280 = 282;
-
-	public static final int CMD_TCP_COMMAND_ARRIVAL = 810;//li*** 收到命令消息。
+	
 	public static final int MAX_SUVS = 10;  //tml*** multi suvei
 	public static final String SUV_ON = "GUARD";
 	public static final String SUV_OFF = "GUARD REST";
 	public static final String SUV_ON_IOTALL = SUV_ON + "IOTALL";
 	public static final String SUV_OFF_IOTALL = SUV_OFF + "IOTALL";
 	public static final String Call_Broadcast = "broadcast!";
-	public static final String ISSECURITY = "issecurity!";
-	public static final String ISNEWBROST = "isNewBrost!";
 }

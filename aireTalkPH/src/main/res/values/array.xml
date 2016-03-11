@@ -143,8 +143,8 @@
 <item>Bosnia and Herzegovina</item>
 </string-array>
 
-<string-array name="phone_code_list" translatable="false">
-    <item>Select Country</item>
+<string-array name="phone_code_list">
+    <!--<item>Select Country</item>-->
     <item>United States +1</item>
     <item>Taiwan +886</item>
     <item>China +86</item>

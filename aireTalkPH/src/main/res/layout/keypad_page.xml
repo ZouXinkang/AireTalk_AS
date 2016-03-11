@@ -232,7 +232,8 @@
 			android:background="@drawable/keypad_bg"
 			android:gravity="center"
 			android:orientation="vertical" >
-			<RelativeLayout 
+			<RelativeLayout
+				android:layout_marginTop="10dp"
 			    android:layout_width="fill_parent"
 				android:layout_height="wrap_content" >
 						
@@ -244,12 +245,13 @@
 					android:layout_width="30dp"
 					android:layout_height="30dp"
 					android:focusable="true"
-					android:visibility="gone"
+
 					android:src="@drawable/clear"/>
-		        
+
+				<!--jack 2.4.51-->
+				<!--android:visibility="gone"-->
 				<Spinner
-				    android:id="@+id/selectiso"
-				    android:visibility="gone"
+					android:id="@+id/selectiso"
 				    android:layout_toLeftOf="@+id/cleariso"
 				    android:layout_width="match_parent"
 				    android:layout_height="40dp"

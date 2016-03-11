@@ -86,7 +86,7 @@ public class FindFriendsActivity extends Activity {
 			Toast.makeText(FindFriendsActivity.this, msg.obj.toString(), Toast.LENGTH_SHORT).show();
 		}
 	};
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub

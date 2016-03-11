@@ -843,69 +843,7 @@ public class MyNet {
 		Log.i("net.Download2! " + sURL);
 	    return ret;
 	}
-	//bree
-	public int DownloadUserPhoto(String surl, String filename)
-	{
-		if (!getNetStatus()) return 0;
-		int ret=0;
-		String sURL = "";
-		try {
-			sURL = "http://"+AireJupiter.myPhpServer_default2A+"/onair/"+surl;
-			Log.i("net." + sURL + " << " + filename);
-
-			HttpURLConnection URLConn = null;
-			String proxyHost = android.net.Proxy.getDefaultHost();
-			if (proxyHost != null) {
-				java.net.Proxy p = new java.net.Proxy(java.net.Proxy.Type.HTTP, new InetSocketAddress(
-						android.net.Proxy.getDefaultHost(), android.net.Proxy.getDefaultPort()));
-				URLConn = (HttpURLConnection) new URL(sURL).openConnection(p);
-			} else {
-				URLConn = (HttpURLConnection) new URL(sURL).openConnection();
-			}
-
-			URLConn.setReadTimeout(HTTP_READ_TIME_OUT);
-			URLConn.setConnectTimeout(HTTP_CONNECTION_TIME_OUT);
-			URLConn.setRequestMethod("GET");
-			URLConn.setDoInput(true);
-			URLConn.connect();
-
-			InputStream stream=null;
-			try{
-				stream = URLConn.getInputStream();
-			}catch(Exception e1)
-			{
-				URLConn.disconnect();
-				return 0;
-			}
-			File file1 = new File(filename.substring(0, filename.lastIndexOf("/")));
-			if(!file1.exists()){
-				file1.mkdirs();
-			}
-
-			String temp=filename+".tmp";
-			FileOutputStream file= new FileOutputStream(temp);
-
-			byte [] data=new byte[1024];
-			int len;
-			while((len=stream.read(data)) > 0)
-			{
-				file.write(data, 0, len);
-			}
-			file.flush();
-			file.close();
-			stream.close();
-
-			MyUtil.renameFile(temp, filename);
-			ret=1;
-			URLConn.disconnect();
-		} catch (Exception e) {
-			Log.e("Download Failed2 ERR: "+e.getMessage());
-			ret=-1;
-		}
-		Log.i("DownloadUserPhoto! " + sURL);
-		return ret;
-	}
-
+	
 	public boolean anyDownload(String full_url, String filename) 
 	{
 		if(!MyUtil.checkSDCard(mContext))

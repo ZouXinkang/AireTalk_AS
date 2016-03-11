@@ -1,60 +1,64 @@
 package com.pingshow.amper;
 
-import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.SpannableString;
-import android.text.style.ImageSpan;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.pingshow.amper.contacts.ContactsOnline;
-import com.pingshow.amper.contacts.ContactsQuery;
+import com.pingshow.amper.bean.Person;
 import com.pingshow.amper.db.AmpUserDB;
-import com.pingshow.util.AsyncImageLoader;
-import com.pingshow.util.AsyncImageLoader.ImageCallback;
+import com.pingshow.amper.view.TabPageIndicator;
+import com.pingshow.network.MyNet;
+import com.pingshow.util.MCrypt;
+import com.pingshow.util.MyTelephony;
 import com.pingshow.util.MyUtil;
 import com.pingshow.voip.AireVenus;
+import com.pingshow.voip.DialerActivity;
 
-public class PickupActivity extends Activity {
-	
-	private UserItemAdapter gridAdapter;
+public class PickupActivity extends FragmentActivity {
+
 	private List<Map<String, String>> amperList;
-	private AsyncImageLoader asyncImageLoader;
-	private int numColumns=3;
-	private GridView resultGridView;
 	private AmpUserDB mADB;
-	private ContactsQuery cq;
-	private int mCount=0;
-	private ArrayList<String> excludeList;
-	private float mDensity=1.0f;
-
 	private MyPreference mPref;
 	private boolean isConference = false;
 	private ArrayList<String> chatroomMemberslist = new ArrayList<String>();
-	
+
+	private ViewPager mViewPager;
+	private TabPageIndicator mIndicator;
+	private ArrayList<String> titleList = new ArrayList<String>();
+	private ArrayList<ConferenceBasePager> pageList = new ArrayList<ConferenceBasePager>();
+	private PagerAdapter myAdapter;
+	private TextView mCounts;
+	private TextView mCancel;
+	private ConferenceContactsPager contactsPager;
+	private ConferenceCallPager callPager;
+	private ConferenceFriendsPager friendsPager;
+	private int aireCallCount;
+	private int phoneCount;
+	private int callCount;
+	private List<Person> contactsList;
+	private List<String> callList;
+
 	Handler mHandler = new Handler(){
 		@Override
 		public void handleMessage(Message msg) {
@@ -62,7 +66,55 @@ public class PickupActivity extends Activity {
 			Toast.makeText(PickupActivity.this, msg.obj.toString(), Toast.LENGTH_SHORT).show();
 		}
 	};
-	
+	//jack call init
+
+	private String phpip;
+	private String room;
+	private int myIdx;
+	private String serverIP;
+	private MCrypt mc;
+	private MyNet net;
+	private String pass;
+	private String myUsername;
+	private String myPasswd;
+
+	private void initCall() {
+		neverSayNeverDie(PickupActivity.this);  //tml|bj*** neverdie/
+		mADB = new AmpUserDB(this);
+		mADB.open();
+
+		mPref = new MyPreference(this);
+
+		//加密使用
+		mc = new MCrypt();
+
+		net = new MyNet(PickupActivity.this);
+
+		String myIdxHex = mPref.read("myID", "0");
+		myIdx = Integer.parseInt(myIdxHex, 16);
+
+		phpip = AireJupiter.getInstance().getIsoPhp(0, true, "74.3.165.66");
+		room = String.format("%07d", myIdx);
+		serverIP = mPref.read("conferenceSipServer",
+				AireJupiter.myConfSipServer_default);
+		if (AireJupiter.getInstance() != null) {
+			serverIP = AireJupiter.getInstance().getIsoConf(serverIP); // tml***
+			// china
+			// ip
+		}
+
+		//		address = MCrypt.bytesToHex(mc.encrypt(globalnumber));
+		pass = "aireping*$857";
+		try {
+			pass = MCrypt.bytesToHex(mc.encrypt(pass));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		myUsername = String.format("**%d", myIdx);
+		myPasswd = mPref.read("password", "1111");
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle bundle) {
@@ -71,37 +123,52 @@ public class PickupActivity extends Activity {
 	    setContentView(R.layout.pickup);
 	    this.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 
-		mPref = new MyPreference(this);
-		
-	    neverSayNeverDie(PickupActivity.this);  //tml|bj*** neverdie/
-	    
-	    mDensity = getResources().getDisplayMetrics().density;
-	    
-	    mADB = new AmpUserDB(this);
-		mADB.open();
-		
-		if (getResources().getConfiguration().orientation!=1)
-			numColumns=4;
-		
-		cq = new ContactsQuery(this);
-		
+		//init call
+		initCall();
+
+		//jack base
+		titleList.add(getResources().getString(R.string.friends));
+		friendsPager = new ConferenceFriendsPager(PickupActivity.this);
+		friendsPager.destory();
+
+		pageList.add(friendsPager);
+
 	    amperList = new ArrayList<Map<String, String>>();
-	    
-	    gridAdapter = new UserItemAdapter(this);
-	    
-	    resultGridView = (GridView) findViewById(R.id.friends);
-	    resultGridView.setNumColumns(numColumns);
-	    
-	    excludeList=(ArrayList<String>)getIntent().getSerializableExtra("Exclude");
-	    
-	    resultGridView.setAdapter(gridAdapter);
-	    resultGridView.setOnItemClickListener(onChooseUser);
-	    
+		contactsList = new ArrayList<Person>();
+		callList = new ArrayList<String>();
+
 	    isConference = getIntent().getBooleanExtra("conference", false);
-	    
-	    if (isConference)
+
+		//jack 2.4.51 version
+		mViewPager = (ViewPager) findViewById(R.id.vp_viewpager);
+		mIndicator = (TabPageIndicator) findViewById(R.id.tpi_Indicator);
+
+		mCounts = (TextView) findViewById(R.id.tv_count);
+		mCancel = (TextView) findViewById(R.id.tv_cancel);
+
+		mCancel.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (amperList.size()!=0||contactsList.size()!=0||callList.size()!=0) {
+					friendsPager.destory();
+					friendsPager.initData();
+					amperList.clear();
+					aireCallCount = 0;
+
+					contactsPager.destory();
+					phoneCount = 0;
+
+					callList.clear();
+					callCount = 0;
+					mCounts.setText(0 + "");
+
+				}
+			}
+		});
+
+		if (isConference)
 	    	((TextView)findViewById(R.id.topic)).setText(getString(R.string.conference));
-	    
+
         ((ImageView)findViewById(R.id.cancel)).setOnClickListener(new OnClickListener() {
     		public void onClick(View v)
     		{
@@ -131,310 +198,201 @@ public class PickupActivity extends Activity {
 				finish();
     		}}
         );
-        //tml*** beta ui, conference
-        if (isConference) {
-    		((Button) findViewById(R.id.bFafauser)).setOnClickListener(new OnClickListener() {
-    			@Override
-    			public void onClick(View v) {
-    				startActivity(new Intent(PickupActivity.this, UsersActivity.class));
-    				finish();
-    			}
-    		});
+
+		//检查是否是多方会议
+		checkedConference();
+
+		if (myAdapter == null) {
+			myAdapter = new MyViewAdapter();
+			mViewPager.setAdapter(myAdapter);
+		}else{
+			myAdapter.notifyDataSetChanged();
+		}
+
+		//jack bind indicator and viewpager
+		mIndicator.setViewPager(mViewPager);
+		mIndicator.setCurrentItem(0);
+
+		//jack initdata
+		ConferenceBasePager basePager = pageList.get(0);
+		basePager.initData();
+
+		mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+			@Override
+			public void onPageSelected(int position) {
+				mIndicator.setCurrentItem(position);
+				ConferenceBasePager basePager = pageList.get(position);
+				basePager.initData();
+			}
+		});
+	}
+
+	private void checkedConference() {
+		//tml*** beta ui, conference
+		if (isConference) {
+            ((Button) findViewById(R.id.bFafauser)).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(PickupActivity.this, UsersActivity.class));
+                    finish();
+                }
+            });
             ((Button) findViewById(R.id.bMessage)).setOnClickListener(new OnClickListener() {
-    			@Override
-    			public void onClick(View v) {
-    				startActivity(new Intent(PickupActivity.this, MessageActivity.class));
-    				finish();
-    			}
-    		});
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(PickupActivity.this, MessageActivity.class));
+                    finish();
+                }
+            });
             ((Button) findViewById(R.id.bSearch)).setOnClickListener(new OnClickListener() {
-    			@Override
-    			public void onClick(View v) {
-    				startActivity(new Intent(PickupActivity.this, PublicWalkieTalkie.class));
-    				finish();
-    			}
-    		});
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(PickupActivity.this, PublicWalkieTalkie.class));
+                    finish();
+                }
+            });
             ((Button) findViewById(R.id.bAireCall)).setOnClickListener(new OnClickListener() {
-    			@Override
-    			public void onClick(View v) {
-    				startActivity(new Intent(PickupActivity.this, SipCallActivity.class));
-    				finish();
-    			}
-    		});
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(PickupActivity.this, SipCallActivity.class));
+                    finish();
+                }
+            });
             ((Button) findViewById(R.id.bSetting)).setOnClickListener(new OnClickListener() {
-    			@Override
-    			public void onClick(View v) {
-    				startActivity(new Intent(PickupActivity.this, SettingActivity.class));
-    				finish();
-    			}
-    		});
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(PickupActivity.this, SettingActivity.class));
+                    finish();
+                }
+            });
             //tml*** beta ui2
             if (mPref.read("iso", "cn").equals("cn")) {
-            	((Button) findViewById(R.id.bSearch)).setVisibility(View.GONE);
-            	((Button) findViewById(R.id.bSetting)).setVisibility(View.GONE);
+                ((Button) findViewById(R.id.bSearch)).setVisibility(View.GONE);
+                ((Button) findViewById(R.id.bSetting)).setVisibility(View.GONE);
             } else {
-            	((Button) findViewById(R.id.bSearch)).setVisibility(View.GONE);
-            	((Button) findViewById(R.id.bSetting)).setVisibility(View.GONE);
+                ((Button) findViewById(R.id.bSearch)).setVisibility(View.GONE);
+                ((Button) findViewById(R.id.bSetting)).setVisibility(View.GONE);
             }
             boolean largeScreen = (findViewById(R.id.large) != null);
             if (largeScreen) {
-            	((Button) findViewById(R.id.bSetting)).setVisibility(View.GONE);
+                ((Button) findViewById(R.id.bSetting)).setVisibility(View.GONE);
             }
-            
 
             ((ImageView) findViewById(R.id.done_conf)).setOnClickListener(new OnClickListener() {
-        		public void onClick(View v)
-        		{
-        			StringBuffer idxBuffer = new StringBuffer("");
-        			int count=0;
-        			for (int i=0;i<amperList.size();i++)
-        			{
-        				Map<String, String> map = amperList.get(i);
-        				if (map.get("checked").equals("1"))
-        				{
-        					idxBuffer.append(map.get("idx")+" ");
-        					count++;
-        				}
-        			}
-        			if (count>0)
-        			{
-    					try{
-    						chatroomMemberslist.clear();
-    						String idxArray=idxBuffer.toString();
-    						String [] items=idxArray.split(" ");
-    						for(int i=0;i<items.length;i++)
-    						{
-    							int idx=Integer.parseInt(items[i]);
-    							if (idx<50) continue;
-    							chatroomMemberslist.add(items[i]);
-    						}
-    						
-    						if (chatroomMemberslist.size()>0 && chatroomMemberslist.size()<=9)
-    						{
-    							AireVenus.setCallType(AireVenus.CALLTYPE_CHATROOM);
-    							mPref.write("incomingChatroom",false);
-    							
-    							
-    							new Thread(sendNotifyForJoinChatroom).start();
-    							
-    							int myIdx=0;
-    							try {
-    								myIdx=Integer.parseInt(mPref.read("myID","0"),16);
-    								mPref.write("ChatroomHostIdx", myIdx);
-    							} catch (Exception e) {}
-    							
-    							String idx = "" + myIdx;
-    							MakeCall.ConferenceCall(getApplicationContext(), idx);
-    						}
-    						
-    					}catch(Exception e){}
-        			}
-        		}}
-            );
-        	((ImageView) findViewById(R.id.cancel)).setVisibility(View.GONE);
-        	((ImageView) findViewById(R.id.done)).setVisibility(View.GONE);
-        	((FrameLayout) findViewById(R.id.options)).setVisibility(View.VISIBLE);
-        	((FrameLayout) findViewById(R.id.done_frame)).setVisibility(View.VISIBLE);
-        	mPref.write("LastPage", 0);
-        } else {
-        	((ImageView) findViewById(R.id.cancel)).setVisibility(View.VISIBLE);
-        	((ImageView) findViewById(R.id.done)).setVisibility(View.VISIBLE);
-        	((FrameLayout) findViewById(R.id.options)).setVisibility(View.GONE);
-        	((FrameLayout) findViewById(R.id.done_frame)).setVisibility(View.GONE);
-        }
+                                                                              public void onClick(View v) {
+																				  //airecall
+																				  StringBuffer idxBuffer = new StringBuffer("");
+																				  int count = 0;
+																				  for (int i = 0; i < amperList.size(); i++) {
+																					  Map<String, String> map = amperList.get(i);
+																					  if (map.get("checked").equals("1")) {
+																						  idxBuffer.append(map.get("idx") + " ");
+																						  count++;
+																					  }
+																				  }
+																				  if (count > 0) {
+																					  try {
+																						  chatroomMemberslist.clear();
+																						  String idxArray = idxBuffer.toString();
+																						  String[] items = idxArray.split(" ");
+																						  for (int i = 0; i < items.length; i++) {
+																							  int idx = Integer.parseInt(items[i]);
+																							  if (idx < 50)
+																								  continue;
+																							  chatroomMemberslist.add(items[i]);
+																						  }
 
-        mHandler.post(mFetchFriends);
+																						  if (chatroomMemberslist.size() > 0 && chatroomMemberslist.size() <= 9) {
+																							  mPref.write("incomingChatroom", false);
+																							  mPref.write("ChatroomHostIdx", myIdx);
+																							  new Thread(sendNotifyForJoinChatroom).start();
+																						  }
+
+																					  } catch (Exception e) {
+																					  }
+																				  }
+
+																				  //jack phone call
+																				  for (Person p : contactsList) {
+																					  if (p.getChecked() == 1) {
+																						  String address = null;
+																						  try {
+																							  MyTelephony.init(PickupActivity.this);
+																							  String globalnumber = p.getAddress();
+																							  if (!p.getAddress().startsWith("+")) {
+																								  globalnumber = MyTelephony.addPrefixWithCurrentISO(p.getAddress());
+																							  }
+																							  address = MCrypt.bytesToHex(mc.encrypt(globalnumber));
+																							  net.doAnyPostHttp("http://" + phpip
+																											  + "/onair/conference/customer/addcallandroid.php",
+																									  "room=" + room + "&ip=" + serverIP + "&callee="
+																											  + address + "&pass=" + pass + "&user="
+																											  + myUsername + "&userpw=" + myPasswd);
+																						  } catch (Exception e) {
+																							  e.printStackTrace();
+																						  }
+																					  }
+																				  }
+
+																				  //jack input call
+																				  for (String globalnumber : callList) {
+																					  try {
+																						  String address = MCrypt.bytesToHex(mc.encrypt(globalnumber));
+																						  net.doAnyPostHttp("http://" + phpip
+																										  + "/onair/conference/customer/addcallandroid.php",
+																								  "room=" + room + "&ip=" + serverIP + "&callee="
+																										  + address + "&pass=" + pass + "&user="
+																										  + myUsername + "&userpw=" + myPasswd);
+																					  } catch (Exception e) {
+																						  e.printStackTrace();
+																					  }
+																				  }
+																				  if (callList.size() > 0 || amperList.size() > 0 || contactsList.size() > 0) {
+																					  AireVenus.setCallType(AireVenus.CALLTYPE_CHATROOM);
+																					  MakeCall.ConferenceCall(getApplicationContext(), myIdx + "");
+																				  }
+																			  }
+																		  }
+            );
+
+            //jack
+            titleList.add(getResources().getString(R.string.contacts));
+            titleList.add(getResources().getString(R.string.call));
+            contactsPager = new ConferenceContactsPager(PickupActivity.this);
+            pageList.add(contactsPager);
+            callPager = new ConferenceCallPager(PickupActivity.this);
+            pageList.add(callPager);
+
+            ((ImageView) findViewById(R.id.cancel)).setVisibility(View.GONE);
+            ((ImageView) findViewById(R.id.done)).setVisibility(View.GONE);
+            ((FrameLayout) findViewById(R.id.options)).setVisibility(View.VISIBLE);
+            ((FrameLayout) findViewById(R.id.done_frame)).setVisibility(View.VISIBLE);
+            mPref.write("LastPage", 0);
+		} else {
+            mIndicator.setVisibility(View.GONE);
+			((ImageView) findViewById(R.id.cancel)).setVisibility(View.VISIBLE);
+			((ImageView) findViewById(R.id.done)).setVisibility(View.VISIBLE);
+            ((FrameLayout) findViewById(R.id.options)).setVisibility(View.GONE);
+            ((TextView) findViewById(R.id.tv_cancel)).setVisibility(View.GONE);
+            ((TextView) findViewById(R.id.tv_selected)).setVisibility(View.GONE);
+            ((TextView) findViewById(R.id.tv_count)).setVisibility(View.GONE);
+            ((FrameLayout) findViewById(R.id.done_frame)).setVisibility(View.GONE);
+        }
 	}
-	
-	OnItemClickListener onChooseUser=new OnItemClickListener() {
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view,
-				int position, long id) {
-			Map<String, String> map = amperList.get(position);
-			if (map.get("checked").equals("0"))
-			{
-				if (mCount>=15) return;
-				map.put("checked", "1");
-				mCount++;
-			}else{
-				map.put("checked", "0");
-				mCount--;
-			}
-			
-			gridAdapter.notifyDataSetInvalidated();
-		}
-	};
-	
-	
-	Runnable mFetchFriends=new Runnable(){
-		public void run()
-		{
-			amperList.clear();
-			Cursor c = mADB.fetchAllByTime();
-			if (c!=null && c.moveToFirst())
-			{
-				do {
-					String address = c.getString(1);
-					if (address.startsWith("[<GROUP>]")) continue;
-					int idx=c.getInt(3);
-					if (idx<50) continue;
-					if (excludeList!=null)//alec Exclude some users
-					{
-						boolean found=false;
-						try{
-							for (String a:excludeList)
-							{
-								if (Integer.parseInt(a)==idx){
-									found=true;
-									break;
-								}
-							}
-						}catch(Exception e){}
-						if (found) continue;
-					}
-					long contactId = cq.getContactIdByNumber(address);
-					String disName="";
-					String userphotoPath = Global.SdcardPath_inbox + "photo_" + idx + ".jpg";
-					File f = new File(userphotoPath);
-					if (!f.exists()) userphotoPath=null;
-					
-					if (contactId>0)
-						disName=cq.getNameByContactId(contactId);
-					else
-						disName = c.getString(4);
-					
-					if (disName==null || disName.length()==0)
-						disName=getString(R.string.unknown_person);
-					
-					HashMap<String, String> map = new HashMap<String, String>();
-					
-					map.put("displayName", disName);
-					map.put("address", address);
-					map.put("idx", idx+"");
-					map.put("checked", "0");
-					map.put("imagePath", userphotoPath);
-					
-					amperList.add(map);
-				}while(c.moveToNext());
-				
-				c.close();
-			}
-			
-			mHandler.post(new Runnable(){
-				public void run(){
-					gridAdapter.notifyDataSetChanged();
-				}
-			});
-		}
-	};
-	
+
 	@Override
 	protected void onDestroy() {
 		if (mADB != null && mADB.isOpen())
 			mADB.close();
 		amperList.clear();
+		for (ConferenceBasePager pager:pageList){
+			pager.destory();
+		}
 		System.gc();
 		System.gc();
 		super.onDestroy();
 	}
-	
-	class foundViewHolder {
-		TextView friendName;
-		ImageView photoimage;
-		ImageView checked;
-	}
-	
-	public class UserItemAdapter extends BaseAdapter {
-		Context icontext;
 
-		public UserItemAdapter(Context context) {
-			icontext = context;
-			asyncImageLoader = new AsyncImageLoader(context);
-		}
-
-		@Override
-		public int getCount() {
-			int count=amperList.size();
-			return count;
-		}
-
-		@Override
-		public Object getItem(int position) {
-			return position;
-		}
-
-		@Override
-		public long getItemId(int position) {
-			return position;
-		}
-		
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			
-			Map<String, String> map=null;
-			
-			try{
-				map = amperList.get(position);
-			}catch(Exception e){
-				return convertView;
-			}
-			
-			String imagePath = map.get("imagePath");
-			
-			foundViewHolder holder;
-
-			if (convertView == null) {
-				holder = new foundViewHolder();
-				convertView = View.inflate(icontext, R.layout.user_tiny_cell, null);
-				
-				holder.photoimage = (ImageView) convertView.findViewById(R.id.photo);
-				holder.friendName = (TextView) convertView.findViewById(R.id.friendname);
-				holder.checked = (ImageView) convertView.findViewById(R.id.checked);
-				convertView.setTag(holder);
-			} else {
-				holder = (foundViewHolder) convertView.getTag();
-			}
-			
-			holder.photoimage.setTag(imagePath);
-			Drawable cachedImage = asyncImageLoader.loadDrawable(imagePath, new ImageCallback() {				
-				public void imageLoaded(Drawable imageDrawable, String path) {
-					ImageView imageViewByTag=null;
-					imageViewByTag = (ImageView) resultGridView.findViewWithTag(path);
-					if (imageViewByTag != null && imageDrawable!=null) {
-						imageViewByTag.setImageDrawable(imageDrawable);
-					}
-				}
-			});
-			
-			if (cachedImage != null && imagePath!=null)
-				holder.photoimage.setImageDrawable(cachedImage);
-			else
-				holder.photoimage.setImageResource(R.drawable.bighead);
-			
-			String disname = map.get("displayName");
-			holder.friendName.setText(disname);
-			
-			String address=map.get("address");
-			int status=ContactsOnline.getContactOnlineStatus(address);
-			if (status>0)
-			{
-				Drawable d=getResources().getDrawable(R.drawable.online_light);
-				d.setBounds(0, 0, (int)(13.f*mDensity), (int)(13.f*mDensity));
-				SpannableString spannable = new SpannableString("*"+disname);
-				ImageSpan icon = new ImageSpan(d, ImageSpan.ALIGN_BOTTOM);
-				spannable.setSpan(icon, 0, 1, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
-				holder.friendName.setText(spannable);
-			}
-			
-			String checked = map.get("checked");
-			if (checked.equals("1"))
-				holder.checked.setVisibility(View.VISIBLE);
-			else
-				holder.checked.setVisibility(View.INVISIBLE);
-			
-			return convertView;
-		}
-	}
 	//tml*** beta ui, conference
 	Runnable sendNotifyForJoinChatroom = new Runnable() {
 		public void run() {
@@ -446,16 +404,16 @@ public class PickupActivity extends Activity {
 			}
 			long ip = MyUtil.ipToLong(ServerIP);
 			String HexIP = Long.toHexString(ip);
-			
+
 			String content = Global.Call_Conference + "\n\n" + HexIP + "\n\n" + myIdxHex;
-			
+
 			for (int i = 0; i < chatroomMemberslist.size(); i++)
 			{
 				int idx = Integer.parseInt(chatroomMemberslist.get(i));
 				if (idx < 50) continue;
-				
+
 				String address = mADB.getAddressByIdx(idx);
-				
+
 				if (AireJupiter.getInstance() != null && AireJupiter.getInstance().tcpSocket != null)
 				{
 					if (AireJupiter.getInstance().tcpSocket.isLogged(false))
@@ -476,10 +434,76 @@ public class PickupActivity extends Activity {
 			context.stopService(vip1);
 			Intent vip2 = new Intent(context, AireJupiter.class);
 			context.stopService(vip2);
-			
+
 			Intent vip00 = new Intent(context, AireJupiter.class);
 			context.startService(vip00);
 		}
 	}
-	
+
+	//jack adapter
+	private class MyViewAdapter extends PagerAdapter{
+		@Override
+		public int getCount() {
+			return titleList.size();
+		}
+
+		@Override
+		public CharSequence getPageTitle(int position) {
+			return titleList.get(position);
+		}
+
+		@Override
+		public boolean isViewFromObject(View view, Object object) {
+			return view==object;
+		}
+
+		//inflate
+		@Override
+		public Object instantiateItem(ViewGroup container, int position) {
+			((ViewPager)container).addView(pageList.get(position).getRootView());
+			return  pageList.get(position).getRootView();
+		}
+
+		@Override
+		public void destroyItem(ViewGroup container, int position, Object object) {
+			(pageList.get(position)).releaseSrc();
+			((ViewPager)container).removeView((View) object);
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (resultCode==1){
+			String iso = data.getStringExtra("iso");
+			String country = data.getStringExtra("country");
+			((ConferenceCallPager)pageList.get(2)).setISO(iso);
+			((ConferenceCallPager)pageList.get(2)).setCountry(country);
+
+		}
+	}
+
+
+	//jack aire统计
+	public void setAireCall(List<Map<String, String>> amperList, int mCount){
+		this.amperList = amperList;
+		this.aireCallCount = mCount;
+		mCounts.setText((phoneCount + mCount+callCount) + "");
+	}
+
+	public void setPhoneCall(List<Person> contacts, int mPhoneCount) {
+		this.contactsList = contacts;
+		this.phoneCount = mPhoneCount;
+		mCounts.setText((mPhoneCount+aireCallCount+callCount)+"");
+	}
+
+
+	public void addPhoneCall(String globalnumber){
+		if (!callList.contains(globalnumber)){
+			callList.add(globalnumber);
+			callCount++;
+			mCounts.setText((phoneCount+aireCallCount+callCount)+"");
+		}
+	}
 }

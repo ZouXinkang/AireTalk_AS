@@ -707,6 +707,17 @@
 							android:textSize="16sp" />
 					</RelativeLayout>
 				</LinearLayout>
+				<!--jack 修改自2.4.51-->
+				<TextView
+					android:id="@+id/tv_logout"
+					android:background="@drawable/logout_bg_red"
+					android:gravity="center"
+					android:textSize="20sp"
+					android:padding="10dp"
+					android:textColor="@color/logout"
+					android:text="@string/logout"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content" />
 			</LinearLayout>
 		</FrameLayout>
 	</ScrollView>

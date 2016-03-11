@@ -182,14 +182,14 @@ public class ConversationActivity extends Activity implements OnClickListener{
 	private boolean broadcastConf = false;
 	long msg_smsid;
 	long msg_org_smsid;
-
+	
 	static private ConversationActivity msgpage;
-
+	
 	static public ConversationActivity getInstance()
 	{
 		return msgpage;
 	}
-
+	
 	private Map<String, ProgressBar> mProgress = new HashMap<String, ProgressBar>();
 	public ProgressBar getProgressBar(String fn)
 	{
@@ -203,7 +203,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 //		setContentView(R.layout.conversation);
 		setContentView(R.layout.conversation_new);
 		this.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-
+		
 		largeScreen=(findViewById(R.id.large)!=null);
 		if (largeScreen)
 		{
@@ -213,21 +213,21 @@ public class ConversationActivity extends Activity implements OnClickListener{
 		DisplayMetrics displaymetrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 		widthScreenZ = displaymetrics.widthPixels;
-
+		
 		Intent intent = getIntent();
 		mAddress = intent.getStringExtra("SendeeNumber");
 		mNickname = intent.getStringExtra("SendeeDisplayname");
 		mContactId = intent.getLongExtra("SendeeContactId", -1);
 		mFromGroup = getIntent().getBooleanExtra("fromGroup", false);  //xwf*** beta ui3
 		mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-
+		
 		//tml*** detect stb
 		if (mAddress.startsWith(Global.STB_HeaderName + Global.STB_Name1)
 				|| mAddress.startsWith(Global.STB_HeaderName + Global.STB_Name2)) {
 			if (mAddress.length() == Global.STB_NameLength)
 				isSTB = true;
 		}
-
+		
 		inGroup=mAddress.startsWith("[<GROUP>]");
 		//tml*** chatview
 		mFromCallMode = intent.getIntExtra("FromCallMode", 0);
@@ -246,26 +246,26 @@ public class ConversationActivity extends Activity implements OnClickListener{
 		mPref = new MyPreference(this);
 		mPref.write("GuardYou", false);
 		MyProfile.init(ConversationActivity.this);
-
+		
 		mDB = new SmsDB(this);
 		mDB.open();
 
 		ArrangeTalkList();
-
+		
 		mIdx=mADB.getIdxByAddress(mAddress);
-
+		
 		myIdx=Integer.parseInt(mPref.read("myID","0"), 16);
 
 		msgListAdapter = new MsgListAdapter(this);
 
 		listview = (ListView) findViewById(R.id.talklist);
-
+		
 		boolean success=false;
 		String conversationBg = mPref.read("BackgroundImage", null); // set talk list background
 		if(conversationBg!=null && new File(conversationBg).exists()){
 			Bitmap bgImage = null;
 			boolean HDSize=false;
-
+			
 			try{
 				BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 				bitmapOptions.inPurgeable=true;
@@ -278,7 +278,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 	    		System.gc();
 				System.gc();
 	    	}
-
+	    	
 			try {
 				bgImage=ImageUtil.loadBitmapSafe(HDSize?2:1, conversationBg);
 				if (bgImage!=null)
@@ -312,9 +312,9 @@ public class ConversationActivity extends Activity implements OnClickListener{
 				res=R.drawable.bkimg_night;
 			((ImageView)findViewById(R.id.bkimg)).setImageResource(res);
 		}*/
-
+		
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+		
 		View v;
 		if (!mADB.isFafauser(mIdx)) {
 			v = inflater.inflate(R.layout.inflate_stranger, null, false);
@@ -338,7 +338,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 		}
 
 		mSendee = (TextView) findViewById(R.id.sendee);
-
+		
 		if (inGroup)
 		{
 			String szGroup=getResources().getString(R.string.the_group);
@@ -372,11 +372,11 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			mSendee.setText(calleeTitle);
 			//***tml
 		}
-
+		
 		getphoto();
-
+		
 		listview.setOnItemLongClickListener(mLongPressTalkListItem);
-
+		
 		((ImageView)findViewById(R.id.voicesms)).setOnClickListener(this);
 //		((ImageView)findViewById(R.id.picturesms)).setOnClickListener(this);
 //		((ImageView)findViewById(R.id.videosms)).setOnClickListener(this);
@@ -400,15 +400,18 @@ public class ConversationActivity extends Activity implements OnClickListener{
 		((EditText) findViewById(R.id.msginput)).setFocusable(true);
 		((EditText) findViewById(R.id.msginput)).setFocusableInTouchMode(true);
 		((EditText) findViewById(R.id.msginput)).requestFocus();
-				((EditText) findViewById(R.id.msginput)).setOnTouchListener(new OnTouchListener() {
-					@Override
-					public boolean onTouch(View v, MotionEvent event) {
-						if (((LinearLayout) findViewById(R.id.functions)).getVisibility() == View.VISIBLE) {
-							showFunctions(true);
+		((EditText) findViewById(R.id.msginput)).setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if (((LinearLayout) findViewById(R.id.functions)).getVisibility() == View.VISIBLE) {
+					showFunctions(true);
 				}
 				return false;
 			}
 		});
+
+
+
 
 //		if (isSTB || inGroup) {  //tml*** detect STB
 		if (true) {  //tml|alex*** rwt byebye X
@@ -425,11 +428,11 @@ public class ConversationActivity extends Activity implements OnClickListener{
 		if (!AmazonKindle.canHandleCameraIntent(ConversationActivity.this)) {
 			mPref.write("video_support", false);
 		}
-
+		
 		if (AmazonKindle.IsKindle()) {
 			((ImageView) findViewById(R.id.location)).setBackgroundColor(Color.GRAY);
 			((ImageView)findViewById(R.id.location)).setEnabled(false);
-
+			
 			if (!AmazonKindle.hasMicrophone(ConversationActivity.this)) {
 				((ImageView) findViewById(R.id.call)).setBackgroundColor(Color.GRAY);
 				((ImageView) findViewById(R.id.call)).setEnabled(false);
@@ -442,15 +445,15 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			}
 		}
 		//***tml
-
+		
 //		if (!AmazonKindle.canHandleCameraIntent(this)){
 //			((ImageView)findViewById(R.id.photosms)).setEnabled(false);
 //		}
-
+		
 //		messageitem = (RelativeLayout)findViewById(R.id.messageitem);
 		speaker = (ImageView) findViewById(R.id.speaker);
 		spAnimation = (AnimationDrawable) speaker.getDrawable();
-
+		
 		fadein = AnimationUtils.loadAnimation(this, R.anim.push_up_in_fast);
 	 	fadeout = AnimationUtils.loadAnimation(this, R.anim.fadeout);
 
@@ -509,7 +512,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 						mInput.setSelection(cursorPos);
 					}
 				}else if (isVideo) {
-
+					
 				}
 			}
 
@@ -552,7 +555,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 					}
 				}
 			}, 300);
-
+		
 		IntentFilter intentToReceiveFilter = new IntentFilter();
 		intentToReceiveFilter.addAction(Global.Action_SMS_Fail);
 		intentToReceiveFilter.addAction(Global.Action_MsgGot);
@@ -560,9 +563,9 @@ public class ConversationActivity extends Activity implements OnClickListener{
 		intentToReceiveFilter.addAction(Global.Action_InternalCMD);
 		intentToReceiveFilter.addAction(Global.ACTION_PLAY_OVER);
 		this.registerReceiver(HandleListChanged, intentToReceiveFilter);
-
+		
 		msgpage=this;
-
+		
 		//tml*** chatview
 		if (mCallMode) {
 			if (callbtn != null) callbtn.setVisibility(View.INVISIBLE);
@@ -599,18 +602,18 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			});
 		}
 		checkSecurityAccess();
-
+		
 	}
-
+	
 	private void arrangePickedUsers()
 	{
 		if (!inGroup || sendeeList==null || sendeeList.size()==0) return;
-
+		
 		RelativeLayout s=(RelativeLayout)findViewById(R.id.members);
 		s.removeAllViews();
-
+		
 		try{
-
+			
 			int count=sendeeList.size();
 			int width=(int)((float)s.getWidth()/mDensity)-(largeScreen?60:45);
 			if (width<0) {
@@ -621,7 +624,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			int w=60;
 			int p=5;
 			if (largeScreen) {w=90;p=8;}
-
+			
 			for(int i=0;i<count;i++)
 			{
 				ImageView a=new ImageView(this);
@@ -631,22 +634,22 @@ public class ConversationActivity extends Activity implements OnClickListener{
 				a.setClickable(true);
 				int idx=Integer.parseInt(sendeeList.get(i));
 				String userphotoPath = Global.SdcardPath_inbox + "photo_" + idx + ".jpg";
-
+				
 				Drawable photo=ImageUtil.getBitmapAsRoundCorner(userphotoPath,1,4);
 				if (photo!=null)
 					a.setImageDrawable(photo);
 				else
 					a.setImageResource(R.drawable.bighead);
-
+				
 				friendsPhotoMap.put(Integer.valueOf(idx), photo);
-
+				
 				RelativeLayout.LayoutParams lp=null;
 				lp = new RelativeLayout.LayoutParams((int)(mDensity*w), (int)(mDensity*w));
 				lp.leftMargin=(int)(mDensity*space)*(count-i-1);
 				lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 				a.setId(i*2+1);
 				s.addView(a, lp);
-
+				
 				lp = new RelativeLayout.LayoutParams((int)(mDensity*(space-w)), (int)(mDensity*w));
 				lp.addRule(RelativeLayout.RIGHT_OF, a.getId());
 				lp.addRule(RelativeLayout.CENTER_VERTICAL);
@@ -655,7 +658,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 				t.setTextSize(9);
 				t.setTextColor(0xD0FFFFFF);
 				s.addView(t, lp);
-
+				
 				if (i<count-1)
 				{
 					AnimationSet as = new AnimationSet(false);
@@ -671,29 +674,29 @@ public class ConversationActivity extends Activity implements OnClickListener{
 		}catch(Exception e){}
 	}
 
-	void getphoto()
+	void getphoto() 
 	{
 		try{
 			String path = Global.SdcardPath_inbox+"photo_" + mIdx + ".jpg";
 			friendPhoto=ImageUtil.getBitmapAsRoundCorner(path, 2, 4);
-
+			
 			if (friendPhoto == null)
 				friendPhoto = getResources().getDrawable(R.drawable.bighead);
-
+	
 			path=mPref.read("myPhotoPath", null);
 			if (path != null && path.length() > 0)
 				myphoto=ImageUtil.getBitmapAsRoundCorner(path, 2, 10);
-
+			
 			if (myphoto==null)
 				myphoto=getResources().getDrawable(R.drawable.bighead);
 		}catch(Exception e){}
 	}
-
+	
 	@Override
 	protected void onDestroy() {
 		mHandler.removeCallbacks(flash_sendee);
 		mHandler.removeCallbacks(unflash_sendee);
-
+        
 		try {
 			if (vmp != null) {
 				vmp.stop();
@@ -714,19 +717,19 @@ public class ConversationActivity extends Activity implements OnClickListener{
 		}
 		if (mDB != null && mDB.isOpen())
 			mDB.close();
-		if (mADB!=null && mADB.isOpen())
+		if (mADB!=null && mADB.isOpen()) 
 			mADB.close();
 		unregisterReceiver(HandleListChanged);
-
+		
 		spAnimation=null;
-
+		
 		String draft = mInput.getText().toString().trim();
 		if (draft.length() != 0 && !draft.equals(R.string.textinput)) {
 			mPref.write("draft" + mContactId, draft);
 		} else if (draft.length() == 0) {
 			mPref.delect("draft" + mContactId);
 		}
-
+		
 		if (null!=SrcAudioPath && mAttached==1) {
 			File file = new File(SrcAudioPath);
 			if (file.exists())
@@ -738,7 +741,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 		System.gc();
 		System.gc();
 	}
-
+	
 	private PowerManager.WakeLock mWakeLock;
 	void startWakeLock()
 	{
@@ -747,10 +750,10 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK |
 					PowerManager.ACQUIRE_CAUSES_WAKEUP, "PlayingVoiceMemo");
 		}
-
+		
 		mWakeLock.acquire();
 	}
-
+	
 	void stopWakeLock()
 	{
 		try{
@@ -770,15 +773,15 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			mInput.setSelection(draft1.length());
 		}
 		sender = mAddress;
-
+	
 		if (needScrollToEnd)
 			mHandler.post(RefreshStatus);
-
+		
 		int unread = mDB.getUnreadCountByAddress(mAddress);
 		if (unread > 0) {
-
+			
 			MessageActivity.needToBeRefresh=true;
-
+			
 			mHandler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
@@ -786,7 +789,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 				}
 			}, 200);
 		}
-
+		
 //		MobclickAgent.onResume(this);
 	}
 
@@ -837,9 +840,9 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			SMS msg = new SMS(c);
 			TalkList.add(msg);
 		} while (c.moveToNext());
-
+		
 		if(c!=null && !c.isClosed()) c.close();
-
+		
 		if (TalkList.size() < listnumber) {
 			mHandler.post(new Runnable() {
 				@Override
@@ -882,7 +885,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			return handleLongPress(position);
 		}
 	};
-
+	
 	final int action_nothing=0;
 	final int action_resend=1;
 	final int action_save_as=2;
@@ -901,9 +904,9 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			msg_smsid = msg.smsid;
 			msg_org_smsid = msg.org_smsid;
 			CharSequence[] lpressOptions = null;
-
+			
 			item2_action = action_nothing;
-
+	
 			Log.e("test handleLongPress " + msg.attached + " " + msg.status);
 			if (msg.att_path_img == null && msg.attached != 0)
 			{
@@ -935,7 +938,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 				}
 			}
 			lpressOptions[0] = getResources().getString(R.string.delete_msg);
-
+		  
 			new AlertDialog.Builder(ConversationActivity.this)
 				.setTitle(mNickname)
 				.setItems(lpressOptions, new DialogInterface.OnClickListener() {
@@ -958,7 +961,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 															}
 														}
 													}
-
+													
 													mDB.deleteSingleMsg(msg_smsid, msg_org_smsid);
 													spannableCache.remove(msg.smsid);
 													ArrangeTalkList();
@@ -1000,14 +1003,14 @@ public class ConversationActivity extends Activity implements OnClickListener{
 								Toast.makeText(getApplicationContext(), Global.SdcardPath_downloads,
 										Toast.LENGTH_SHORT).show();
 							}
-							else if (item2_action == action_resend)
+							else if (item2_action == action_resend) 
 							{
 								if (ConversationActivity.fileUploading) {
 									Toast.makeText(getApplicationContext(), getString(R.string.fileuploading),
 											Toast.LENGTH_SHORT).show();
 									return;
 								}
-
+								
 								SendAgent failagent = new SendAgent(ConversationActivity.this,
 										myIdx, mIdx,false);
 								failagent.setRowId(msg.smsid);
@@ -1088,10 +1091,10 @@ public class ConversationActivity extends Activity implements OnClickListener{
 					Log.e("getPath2 cursor3: contentUri=" + contentUri.toString() + " column=" + column[0]);
 					cursor = getContentResolver().query(contentUri, column, null, null, null);
 				}
-
+				
 				if (cursor == null) {
 			        result = uri.getPath();
-			    } else {
+			    } else { 
 			        cursor.moveToFirst();
 			        int idx = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
 			        if (idx >= 0) {
@@ -1114,7 +1117,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 		}
 		return null;
 	}
-
+	
 	public String getPath(Uri uri) {
 		if (uri.toString().startsWith("content:")) {
 			String[] projection = { MediaStore.Images.Media.DATA };
@@ -1146,7 +1149,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 					Toast.LENGTH_SHORT).show();
 		}
 	}
-
+	
 	private void onPickVideo() {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 		intent.setType("video/*");
@@ -1155,7 +1158,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 	}
 
 	private Uri outputFileUri;
-
+	
 	public void onVoiceSMS () {
 		if (mAttached == 8) {
 			Toast.makeText(ConversationActivity.this,
@@ -1204,7 +1207,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 		String title = getResources().getString(R.string.choose_photo_source);
 		startActivityForResult(Intent.createChooser(intent, title), 1);
 	}
-
+	
 	public void onPickPictureOption() {
 		final CharSequence[] items = {  //tml|xwf*** beta ui2
 				getResources().getString(R.string.photo_gallery),
@@ -1214,7 +1217,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 		final CharSequence[] items_noCamera = {  //tml|xwf*** beta ui2
 				getResources().getString(R.string.photo_gallery),
 				getResources().getString(R.string.filememo)};
-
+		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		if (!AmazonKindle.canHandleCameraIntent(this))
 		{
@@ -1246,7 +1249,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 				}
 			});
 		}
-
+		
 		builder.setTitle(ConversationActivity.this.getResources().getString(R.string.chose_file));
 		builder.setNegativeButton(R.string.cancel,
 				new DialogInterface.OnClickListener() {
@@ -1265,7 +1268,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == 3) // take photo not popupDialog
 			mPref.write("vociemessaging", false);
-
+		
 		if (requestCode == 230) {
 			if (resultCode == RESULT_OK)
 				MakeCall.Call(ConversationActivity.this, mAddress, false);
@@ -1296,7 +1299,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 				long lat = mPref.readLong("latitude", 39976279);
 				mMsgText = "here I am ("+((float)lat/1000000.f)+","+((float)lon/1000000.f)+")";
 				agent=new SendAgent(ConversationActivity.this, myIdx, mIdx, true);
-
+				
 				if (inGroup)
 				{
 					agent.setAsGroup(mGroupID);
@@ -1320,7 +1323,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 				Log.d("onActivityResult:SrcImagePath==="+SrcImagePath);
 				mAttached |= 2;// image
 				String filename = Global.SdcardPath_sent + getRandomName() + ".jpg";
-
+				
 				if (SrcImagePath==null)
 				{
 					int result = ResizeImage.saveFromStream(this, data, filename, 1280, 1280, 95);
@@ -1348,7 +1351,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 				if(index>=75){ //gif
 					agent=new SendAgent(ConversationActivity.this, myIdx, mIdx, true);
 					mMsgText = (String)SmileyActivity.smiles[index][0];
-
+					
 					if (inGroup)
 					{
 						agent.setAsGroup(mGroupID);
@@ -1368,14 +1371,14 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			} else if (requestCode == 15) {
 				mAttached |= 1;
 				SrcAudioPath = data.getStringExtra("path");
-
+				
 				voicetime = 60-data.getIntExtra("voicetime", 60);
-
+				
 				agent=new SendAgent(ConversationActivity.this, myIdx, mIdx, true);
-
+								
 				SrcImagePath=null;
 				mMsgText="(Vm)"+voicetime;
-
+				
 				if (inGroup)
 				{
 					agent.setAsGroup(mGroupID);
@@ -1392,11 +1395,11 @@ public class ConversationActivity extends Activity implements OnClickListener{
 					}
 				}
 				SrcAudioPath = null;
-
+				
 			} else if (requestCode == 40) {
-
+				
 				fileAgent = new SendFileAgent(this, myIdx, true);
-
+				
 				if (inGroup)
 				{
 					fileAgent.setAsGroup(mGroupID);
@@ -1420,9 +1423,9 @@ public class ConversationActivity extends Activity implements OnClickListener{
 //				mSend.setVisibility(View.INVISIBLE);
 				toggleSendVoiceBtn(1);
 				if (mCallMode) {  //chatview
-
+					
 				} else {
-
+					
 				}
 			}
 			if (requestCode == 101){
@@ -1530,7 +1533,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 	private void showVideoBitmap(ImageView imageView) {
 		if (SrcVideoPath == null)
 			return;
-
+		
 		if(Integer.parseInt(Build.VERSION.SDK) >= 8){
 			videobitmap = ThumbnailUtils.createVideoThumbnail(new File(
 					SrcVideoPath).getAbsolutePath(), Video.Thumbnails.MICRO_KIND);
@@ -1548,16 +1551,16 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			layers.setLayerInset(0, 0, 0, 0, 0);
 			layers.setLayerInset(1, 0, 0, 0, 0);
 			layers.setBounds(0, 0, (int)(66.f*mDensity), (int)(66.f*mDensity));
-
+		
 			imageView.setImageDrawable(layers);
 			bubbleblue = null;
 		}
 		else
 			imageView.setImageResource(R.drawable.start_play);
 		videobitmap=null;
-
+		
 	}
-
+	
 	private void ShowAttchment(int fileType) {
 		float piclen = 0;
 		float voicelen = 0;
@@ -1612,7 +1615,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 					ivd.setVisibility(View.GONE);
 					ivf.setVisibility(View.VISIBLE);
 				}
-
+				
 				showVideoBitmap(ivd);
 			} else {
 				ivd.setVisibility(View.GONE);
@@ -1637,7 +1640,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 				listview.setSelection(TalkList.size() - 1);
 			}
 		});
-
+		
 //		mSend.setVisibility(View.VISIBLE);
 //		mVoice.setVisibility(View.INVISIBLE);
 		toggleSendVoiceBtn(0);
@@ -1679,13 +1682,13 @@ public class ConversationActivity extends Activity implements OnClickListener{
 
 		msg.longitudeE6 = mPref.readLong("longitude", 116349386);
 		msg.latitudeE6 = mPref.readLong("latitude", 39976279);
-
+		
 		rowid = mDB.insertMessage(mAddress, msg.contactid,
 				(new Date()).getTime(), 1, msg.status, msg.type, "",
 				msg.content, msg.attached, msg.att_path_aud, msg.att_path_img,
 				0, msg.longitudeE6, msg.latitudeE6, 0, mNickname, null, 0);
 		msg.smsid = rowid;//huan
-
+		
 		if (isFile) {
 			fileAgent.setRowId(rowid);
 		} else {
@@ -1763,9 +1766,9 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			return true;
 		return super.onKeyDown(keyCode, event);
 	}
-
+	
 	private AudioMsgPlayer playingMsg;
-
+	
 	@SuppressLint("NewApi")
 	public class MsgListAdapter extends BaseAdapter {
 		private Context mContext;
@@ -1785,7 +1788,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 		public long getItemId(int position) {
 			return position;
 		}
-
+		
 		public void clear()
 		{
 			GifView g=null;
@@ -1800,7 +1803,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			ViewHolder holder;
 			SMS msg = TalkList.get(TalkList.size() - position - 1);
 			//tml*** hotnews
-
+			
 			if (convertView==null) {
 				holder = new ViewHolder();
 				convertView = View.inflate(mContext, R.layout.conversation_cell, null);
@@ -1835,7 +1838,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 					holder.balloon.setTextSize(16);
 				}
 				((RelativeLayout)convertView).addView(holder.balloon, new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-
+				
 				if (!msg.content.startsWith("(g.f"))
 					holder.gifview.stop();
 			}
@@ -1849,7 +1852,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 
 			//final String orgContent = msg.content;
 			if (msg.attached == 8) {
-				if (msg.content.startsWith(getString(R.string.video)) && msg.content.contains("(vdo)")
+				if (msg.content.startsWith(getString(R.string.video)) && msg.content.contains("(vdo)") 
 						&& msg.content.lastIndexOf("KB")+3 == msg.content.length()) {
 					msg.content = msg.content.substring(0,msg.content.length() - 1);
 				}
@@ -1870,7 +1873,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			RelativeLayout.LayoutParams lpTitle = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);  //tml*** group ui1
 			lpTitle.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 			holder.title.setLayoutParams(lpTitle);
-
+			
 			String time = ShowBetterTime(TalkList.size() - position - 1);
 			holder.tTime.setText(time);
 			RelativeLayout.LayoutParams lpTime = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -1888,7 +1891,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 				lpPhoto = new RelativeLayout.LayoutParams((int)(40.*mDensity), (int)(40.*mDensity));
 				holder.photoimage.setPadding((int)(4.*mDensity), (int)(4.*mDensity), (int)(4.*mDensity), (int)(4.*mDensity));
 			}
-
+			
 			if (msg.type == 1) {
 				lpPhoto.setMargins(largeScreen?9:6, 0, 0, 0);
 				lpPhoto.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
@@ -1936,18 +1939,18 @@ public class ConversationActivity extends Activity implements OnClickListener{
 						mContext.getResources().getStringArray(
 								R.array.share_time)[relation - 1]);
 			}
-
-			if ((msg.type==2 || (msg.type==1 && !msg.content.contains("(fl)")))
-					&& (msg.attached == 8 || msg.attached == 10) && msg.att_path_aud.contains(".mp4"))
+			
+			if ((msg.type==2 || (msg.type==1 && !msg.content.contains("(fl)"))) 
+					&& (msg.attached == 8 || msg.attached == 10) && msg.att_path_aud.contains(".mp4")) 
 			{
 				msg.attached=9;
 				msg.content="(vdo)";
 			}
 
 			String s = msg.content;
-			if (msg.attached == 8) {
+			if (msg.attached == 8) {				
 				if (!(msg.content.startsWith(getString(R.string.video)) && msg.content.contains("(vdo)"))) {
-
+					
 					int zhao=msg.att_path_aud.lastIndexOf("_");
 					int zhao2=msg.att_path_aud.lastIndexOf(".");
 					if (zhao!=-1 && zhao2!=-1 && zhao2<zhao)
@@ -1971,21 +1974,21 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			if (msg.attached == 10 && s.startsWith(getApplicationContext().getResources().getString(R.string.file))){
 				s = s.replaceFirst(getApplicationContext().getResources().getString(R.string.file), "(fl)");
 			}
-
+			
 			//alec
 			if (s.startsWith("here I am ("))
 				s="(mAp)";
-			else if (s.equals("Missed call"))
+			else if (s.equals("Missed call")) 
 				s="(mCl) "+getString(R.string.missed_call);
 			else if (s.startsWith("(Vm)") && s.length()>4)
 				s+='"';
-
+			
 			RelativeLayout.LayoutParams lpProgress = new RelativeLayout.LayoutParams((int)(200.*mDensity), (int)(36.*mDensity));
 			lpProgress.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 			lpProgress.addRule(RelativeLayout.BELOW, holder.balloon.getId());
 			lpProgress.addRule(RelativeLayout.LEFT_OF, holder.photoimage.getId());
 			holder.progress.setLayoutParams(lpProgress);
-
+			
 			Smiley sm = new Smiley();
 			boolean hasGif = false;
 			if (sm.hasSmileys(s) > 0) {
@@ -2005,13 +2008,13 @@ public class ConversationActivity extends Activity implements OnClickListener{
 								}catch(OutOfMemoryError e){
 									picturebitmap=null;
 								}
-
+								
 								if (picturebitmap == null) {
 									spannable = new SpannableString(getString(R.string.notfound_photo));
 								} else {
 									int start = sm.getStart(i, j);
 									int end = sm.getEnd(i, j);
-
+									
 									ImageSpan icon = new ImageSpan(
 											ConversationActivity.this, picturebitmap,
 											ImageSpan.ALIGN_BASELINE);
@@ -2029,7 +2032,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 								Bitmap bitmap = null;
 								if (i >= 66) {
 									Drawable d=null;
-										if (i == 69) { // video
+									if (i == 69) { // video
 										if (Integer.parseInt(Build.VERSION.SDK) >= 8) {
 											try {
 												bitmap = ThumbnailUtils
@@ -2099,7 +2102,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 								bitmap = null;
 							} else if(i>=75){
 								hasGif = true;
-
+								
 								Drawable dra=getResources().getDrawable(R.drawable.em001+i-75);
 								//int h, w;
 								//h=(int)(dra.getIntrinsicHeight()/mDensity);
@@ -2124,7 +2127,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			else{
 				holder.balloon.setText(s);
 			}
-
+			
 			if (msg.type==1)
 				holder.balloon.setBackgroundResource(R.drawable.balloon_left);
 			else{
@@ -2143,7 +2146,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 					holder.progress.setVisibility(View.GONE);
 				}
 			}
-
+			
 			RelativeLayout.LayoutParams lpBubble = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			if (msg.type == 1) {
 				lpBubble.setMargins(largeScreen?(int)(60.*mDensity):(int)(50.*mDensity), 0, 0, 0);
@@ -2169,7 +2172,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 							if (contact_id>0)
 								it.putExtra("AireNickname", mADB.getNicknameByAddress(address));
 							it.putExtra("Idx", idx);
-							startActivity(it);
+							startActivity(it);	
 						}
 					});
 				} else {
@@ -2206,7 +2209,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 					int position = Integer.parseInt(v.getTag().toString());
 					SMS msg = TalkList.get(position);
 					Log.d("msgs.onClick " + " 1=" + msg.displayname + " 2=" + msg.address +  " 3=" + msg.content
-							+ " 4=" + msg.contactid + " 5=" + msg.read + " 6=" + msg.type + " 7=" + msg.status
+							+ " 4=" + msg.contactid + " 5=" + msg.read + " 6=" + msg.type + " 7=" + msg.status 
 							+ " 8=" + msg.time + " 9=" + msg.attached + " 10=" + msg.longitudeE6 + " 11=" + msg.latitudeE6
 							+ " 12=" + msg.smsid);
 					if(msg.content.startsWith("here I am (")){
@@ -2234,7 +2237,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 								long lat=(long)(Double.parseDouble(l[0])*1E6);
 								long lon=(long)(Double.parseDouble(l[1])*1E6);
 								Log.i("LOC " + msg.content + " parsed:" + lat + "," + lon);
-								FunctionActivity.onLaunchStaticMapView(ConversationActivity.this, lon, lat,
+								FunctionActivity.onLaunchStaticMapView(ConversationActivity.this, lon, lat, 
 										msg.longitudeE6, msg.latitudeE6,
 										msg.time, msg.displayname, msg.address, msg.contactid, msg.type==2);
 							} catch (Exception e) {}
@@ -2334,9 +2337,9 @@ public class ConversationActivity extends Activity implements OnClickListener{
 						}
 						return;
 					}
-
+					
 					enterTime = new Date().getTime();
-
+					
 					if (msg.obligate1!=null && msg.obligate1.startsWith("http"))
 					{
 						try{
@@ -2376,9 +2379,9 @@ public class ConversationActivity extends Activity implements OnClickListener{
 				holder.balloon.setVisibility(View.VISIBLE);
 				holder.gifview.setVisibility(View.GONE);
 			}
-
+			
 			holder.gifview.setOnLongClickListener(mLongPressBalloonView);
-
+			
 			if (msg.content.startsWith("(Vm)"))
 			{
 				RelativeLayout.LayoutParams lpAudioMsgPlayer = new RelativeLayout.LayoutParams((int)(200.*mDensity), (int)(64.*mDensity));
@@ -2393,7 +2396,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 				}
 				holder.audmsg.setLayoutParams(lpAudioMsgPlayer);
 				holder.audmsg.setTag("audio");
-
+				
 				try{
 					int sec=Integer.parseInt(msg.content.substring(4));
 					holder.audmsg.setDuration(sec);
@@ -2406,7 +2409,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			}
 			else
 				holder.audmsg.setVisibility(View.GONE);
-
+			
 			int index = TalkList.indexOf(msg);
 			if (index < TalkList.size() - 1) {
 				if (msg.time - TalkList.get(index + 1).time < 60000)
@@ -2415,7 +2418,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 					holder.tTime.setVisibility(View.VISIBLE);
 			} else
 				holder.tTime.setVisibility(View.VISIBLE);
-
+			
 			return convertView;
 		}
 
@@ -2470,17 +2473,17 @@ public class ConversationActivity extends Activity implements OnClickListener{
 		TextView username;  //tml*** group ui1
 		RelativeLayout title;
 	}
-
+	
 	BroadcastReceiver HandleListChanged = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-
+			
 			if (intent==null) return;
-
+			
 			if (intent.getAction().equals(Global.Action_MsgGot)) {
-
+				
 				ArrangeTalkList();
-
+				
 				if (intent.getStringExtra("autoPath") != null
 						&& intent.getStringExtra("autoPath").length() != 0
 						&& intent.getIntExtra("msgAttach", 0) != 8) {
@@ -2653,7 +2656,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 		} else {
 			stopPlayingVoice();
 		}
-
+		
 		if (mCallMode) {  //tml*** chatview
 			if (mFromCallMode == 1) {
 				ContactsQuery cq = new ContactsQuery(ConversationActivity.this);
@@ -2714,7 +2717,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			Log.e("Converse stopplayvoice1 !@#$ " + e.getMessage());
 		}
 	}
-
+	
 	public void sendLocation() {
 		Intent it = new Intent();
 		it = new Intent(ConversationActivity.this,
@@ -2960,27 +2963,27 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			if (inGroup) {
 				broadcastConf = false;  //tml*** broadcast
 				try {
-
+					
 					if (sendeeList.size()>0 && sendeeList.size()<=9)
 					{
 						AireVenus.setCallType(AireVenus.CALLTYPE_CHATROOM);
 						mPref.write("incomingChatroom",false);
 
 						new Thread(sendNotifyForJoinChatroom).start();
-
+						
 						int myIdx=0;
 						try {
 							myIdx=Integer.parseInt(mPref.read("myID","0"),16);
 							mPref.write("ChatroomHostIdx", myIdx);
 						} catch (Exception e) {}
-
+						
 						String idx = "" + myIdx;
 						MakeCall.ConferenceCall(getApplicationContext(), idx);
 					} else {
 						if (sendeeList.size() > 9)
 							Toast.makeText(getApplicationContext(), "Conference does not support more than 9 people", Toast.LENGTH_LONG).show();
 					}
-
+					
 				} catch(Exception e) {
 					Log.e("Conv Call !@#$ " + e.getMessage());
 				}
@@ -2997,27 +3000,27 @@ public class ConversationActivity extends Activity implements OnClickListener{
 					broadcastConf = false;
 				}
 				try {
-
+					
 					if (sendeeList.size()>0 && sendeeList.size()<=9)
 					{
 						AireVenus.setCallType(AireVenus.CALLTYPE_CHATROOM);
 						mPref.write("incomingChatroom",false);
 
 						new Thread(sendNotifyForJoinChatroom).start();
-
+						
 						int myIdx=0;
 						try {
 							myIdx=Integer.parseInt(mPref.read("myID","0"),16);
 							mPref.write("ChatroomHostIdx", myIdx);
 						} catch (Exception e) {}
-
+						
 						String idx = "" + myIdx;
 						MakeCall.ConferenceCall(getApplicationContext(), idx);
 					} else {
 						if (sendeeList.size() > 9)
 							Toast.makeText(getApplicationContext(), "Conference does not support more than 9 people", Toast.LENGTH_LONG).show();
 					}
-
+					
 				} catch(Exception e) {
 					Log.e("Conv VideoCall !@#$ " + e.getMessage());
 				}
@@ -3058,7 +3061,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			onPickSUVOption();  //tml*** iot control
 			break;
 		}
-
+			
 	}
 	//tml*** iot control
 	public void onPickSUVOption() {
@@ -3067,7 +3070,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 				getResources().getString(R.string.home_iot_sensors),
 				getResources().getString(R.string.suv_status),
 				getResources().getString(R.string.home_monitor)};
-
+		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setItems(items, new DialogInterface.OnClickListener() {
 			@Override
@@ -3091,9 +3094,9 @@ public class ConversationActivity extends Activity implements OnClickListener{
 						mPref.write("GuardYou", true);
 					}
 				}
-
-
-
+					
+					
+				
 				if (activityResult != 0 && msgContent != null) {
 					Intent itg = new Intent(ConversationActivity.this, CommonDialog.class);
 					itg.putExtra("msgContent", msgContent);
@@ -3114,7 +3117,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 				dialog.dismiss();
 			}
 		});
-
+		
 		builder.setTitle(ConversationActivity.this.getResources().getString(R.string.security));
 		builder.setNegativeButton(R.string.cancel,
 				new DialogInterface.OnClickListener() {
@@ -3138,7 +3141,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			((LinearLayout) findViewById(R.id.functions)).setVisibility(View.GONE);
 		}
 	}
-
+	
 	private void checkSecurityAccess() {
 		boolean found1 = false;
 //		for (int i = 0; i < Global.MAX_SUVS; i++) {
@@ -3173,12 +3176,12 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			((ImageView) findViewById(R.id.guard)).setEnabled(true);
 		}
 	}
-
+	
 	private void hideKeyboard() {
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(((EditText) findViewById(R.id.msginput)).getWindowToken(), 0);
 	}
-
+	
 	Runnable sendNotifyForJoinChatroom = new Runnable() {
 		public void run() {
 			String myIdxHex=mPref.read("myID","0");
@@ -3189,7 +3192,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			}
 			long ip=MyUtil.ipToLong(ServerIP);
 			String HexIP=Long.toHexString(ip);
-
+			
 			String content=Global.Call_Conference + "\n\n"+HexIP+"\n\n"+myIdxHex;
 			//tml*** broadcast
 			if (broadcastConf) {
@@ -3198,14 +3201,14 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			} else {
 				mPref.write("BCAST_CONF", -1);
 			}
-
+			
 			for(int i=0; i<sendeeList.size(); i++)
 			{
 				int idx=Integer.parseInt(sendeeList.get(i));
 				if (idx<50) continue;
-
+				
 				String address=mADB.getAddressByIdx(idx);
-
+				
 				if (AireJupiter.getInstance()!=null && AireJupiter.getInstance().tcpSocket!=null)
 				{
 					if (AireJupiter.getInstance().tcpSocket.isLogged(false))
@@ -3218,14 +3221,14 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			}
 		}
 	};
-
+	
 	private void onChooseLocation() {
 		final CharSequence[] items = {  //tml|xwf*** beta ui2
 				getResources().getString(R.string.mylocation_address),
 				getResources().getString(R.string.sharing_location)};
 		final CharSequence[] items_G = {  //tml|xwf*** beta ui2
 				getResources().getString(R.string.mylocation_address)};
-
+		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 		if (isSTB || inGroup) {  //tml*** detect STB, +group
@@ -3249,7 +3252,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 				}
 			});
 		}
-
+		
 		builder.setTitle(ConversationActivity.this.getResources().getString(R.string.fafauser_map));
 		builder.setNegativeButton(R.string.cancel,
 				new DialogInterface.OnClickListener() {
@@ -3259,7 +3262,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 		AlertDialog alert = builder.create();
 		alert.show();
 	}
-
+	
 	private void shareLocation() {
 //		try {
 //			Class.forName("com.google.android.maps.MapActivity");
@@ -3276,7 +3279,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 		if (!hasGoogleMaps & !isCN) {
 			return;
 		}
-
+		
 		mHandler.post(popupProgressDialog);
 		(new Thread(new Runnable() {
 			public void run() {
@@ -3284,9 +3287,9 @@ public class ConversationActivity extends Activity implements OnClickListener{
 					finish();
 			}
 		})).start();
-
+		
 	}
-
+	
 	private int onQueryLocation() {
 		if(mIdx<50){
 			mHandler.post(dismissProgressDialog);
@@ -3294,14 +3297,14 @@ public class ConversationActivity extends Activity implements OnClickListener{
 					new Date().getTime(), mNickname, mAddress, mContactId);
 			return 1;
 		}
-
+		
 		String Return="";
 		long pos_time=0;
 		int errorCode = 0;
 		int lat = 0, lon = 0;
 		long endtime = mPref.readLong(mAddress, 0);
 		Message msg = new Message();
-
+		
 		if (new Date().getTime() / 1000 - endtime > 0) // Whether send the request for sharing
 		{
 			try {
@@ -3313,9 +3316,9 @@ public class ConversationActivity extends Activity implements OnClickListener{
 							"queryid=" + URLEncoder.encode(mAddress,"UTF-8") +
 							"&id=" + URLEncoder.encode(myPhoneNumber,"UTF-8"), null);
 				}while((Return.length()==0||Return.startsWith("Error")) && ++count<3);
-
+				
 				mHandler.post(dismissProgressDialog);
-
+				
 				if (Return.length() == 0) {
 					msg.arg1 = R.string.nonetwork;
 					mHandler.sendMessage(msg);
@@ -3347,7 +3350,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 				return 1;
 			}
 		}
-
+		
 		mHandler.post(dismissProgressDialog);
 
 		try {
@@ -3392,7 +3395,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 		}
 		return 1;
 	}
-
+	
 	private ProgressDialog progress = null;
 	Runnable popupProgressDialog = new Runnable() {
 		@Override
@@ -3402,7 +3405,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			} catch (Exception e) {}
 		}
 	};
-
+	
 	Runnable dismissProgressDialog = new Runnable() {
 		@Override
 		public void run() {
@@ -3468,7 +3471,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			return;
 		}
 		mAddress = MyTelephony.attachPrefix(ConversationActivity.this, mAddress);
-
+		
 		mADB.updateLastContactTimeByAddress(mAddress, new Date().getTime());
     	if (UsersActivity.sortMethod==1)
     		UsersActivity.needRefresh=true;
@@ -3476,9 +3479,9 @@ public class ConversationActivity extends Activity implements OnClickListener{
 		if (mAttached == 8) {
 			if(videobitmap!=null)
 				videobitmap.recycle();
-
+			
 			fileAgent = new SendFileAgent(this, myIdx, true);
-
+			
 			if (inGroup)
 			{
 				fileAgent.setAsGroup(mGroupID);
@@ -3511,7 +3514,7 @@ public class ConversationActivity extends Activity implements OnClickListener{
 			SrcAudioPath = null;
 		} else {
 			agent=new SendAgent(ConversationActivity.this, myIdx, mIdx, true);
-
+			
 			if (inGroup)
 			{
 				agent.setAsGroup(mGroupID);
