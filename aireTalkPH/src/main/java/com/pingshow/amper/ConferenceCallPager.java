@@ -85,10 +85,10 @@ public class ConferenceCallPager extends ConferenceBasePager {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    if (et_num != null) {
+                    if (et_iso != null) {
                         InputMethodManager imanager = (InputMethodManager) context
                                 .getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imanager.hideSoftInputFromWindow(et_num.getWindowToken(), 0);
+                        imanager.hideSoftInputFromWindow(et_iso.getWindowToken(), 0);
 
                     }
                 }

@@ -376,6 +376,36 @@ public class ConversationActivity extends Activity implements OnClickListener{
 		getphoto();
 		
 		listview.setOnItemLongClickListener(mLongPressTalkListItem);
+
+		//jack 2.4.51
+		listview.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				//hide functions
+				LinearLayout functions = (LinearLayout) findViewById(R.id.functions);
+				if (functions.isShown()) {
+					functions.setVisibility(View.GONE);
+				}
+				//clean focus
+				((EditText) findViewById(R.id.msginput)).clearFocus();
+
+				return false;
+			}
+		});
+
+		//jack 2.4.51
+		((EditText) findViewById(R.id.msginput)).setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (!hasFocus) {
+					InputMethodManager imanager = (InputMethodManager) ConversationActivity.this
+							.getSystemService(Context.INPUT_METHOD_SERVICE);
+					imanager.hideSoftInputFromWindow(((EditText) findViewById(R.id.msginput)).getWindowToken(), 0);
+				}
+
+			}
+		});
+
 		
 		((ImageView)findViewById(R.id.voicesms)).setOnClickListener(this);
 //		((ImageView)findViewById(R.id.picturesms)).setOnClickListener(this);

@@ -293,7 +293,7 @@
 <string name="buy">购买</string>
     <!--jack 2.4.51版本修改-->
 <!--<string name="aire_free_call">世界通</string>-->
-<string name="aire_free_call">全球通</string>
+<string name="aire_free_call">全球通话</string>
 <string name="add_as_friend">加入好友</string>
 <string name="login_by_facebook">Facebook 帐号登彔</string>
 <string name="facebook_login_desc">您可以使用 Facebook 账号直接登彔AireTalk</string>
@@ -385,7 +385,7 @@
 <!-- from iphone -->
     <!--jack 2.4.51-->
 <!--<string name="aire_call">世界通</string>-->
-<string name="aire_call">全球通</string>
+<string name="aire_call">全球通话</string>
 <string name="purchase">充值</string>
 <string name="airecall_credits">AireCall点数</string>
 <string name="credit_desc">使用AireCall拨打任何国家的手机和座机，可以让您省更多！</string>
@@ -476,7 +476,7 @@
     <!--jack-->
     <string name="add_num_to_conference">将号码加入视频会议</string>
     <string name="select_country">选择国家:中国</string>
-    <string name="select_country_title">选择国家</string>
+    <string name="select_country_title">国家/地区</string>
     <string name="add_in_conference">加入视频会议</string>
     <string name="conference_person_selected">已选择人数:</string>
     <string name="conference_cancel">取消</string>
