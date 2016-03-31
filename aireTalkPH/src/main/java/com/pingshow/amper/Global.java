@@ -92,6 +92,9 @@ public class Global {
 	public static final int CMD_CONNECTION_POOR = 78;
 	public static final int CMD_ADDF_280 = 282;
 
+	public static final int CMD_GROUP_SENDEE = 80; //jack send group sendee
+
+
 	public static final int CMD_TCP_COMMAND_ARRIVAL = 810;//li*** 收到命令消息。
 	public static final int MAX_SUVS = 10;  //tml*** multi suvei
 	public static final String SUV_ON = "GUARD";

@@ -715,7 +715,8 @@
 				</LinearLayout>
 				<TextView
 					android:id="@+id/tv_logout"
-					android:background="@drawable/logout_bg_red"
+					android:layout_marginTop="5dp"
+					android:background="@drawable/btn_style_alert_dialog_special"
 					android:gravity="center"
 					android:textSize="20sp"
 					android:padding="10dp"

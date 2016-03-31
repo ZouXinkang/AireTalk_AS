@@ -30,7 +30,12 @@
   <color name="grgray">#686868</color>
   <color name="conferenceNormal">#ffffffff</color>
   <color name="conferenceSelect">#1FD0A6</color>
-  <color name="logout_bg">#88FF0000</color>
+  <!--<color name="logout_bg">#d33f3f</color>-->
   <color name="logout">#ffffffff</color>
+
+  <color name="btn_pressed_green_solid">#B6DA53</color>
+  <color name="common_top_bar_blue">#22292c</color>
+  <color name="btn_logout_pressed">#DA5A4D</color>
+  <color name="btn_logout_normal">#d33f3f</color>
 
 </resources>

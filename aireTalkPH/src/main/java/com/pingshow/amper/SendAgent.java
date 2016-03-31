@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.Intent;
 
+import com.google.gson.Gson;
+import com.pingshow.amper.bean.GroupMsg;
 import com.pingshow.network.MyNet;
 import com.pingshow.util.MyUtil;
 
@@ -78,6 +80,7 @@ public class SendAgent {
 	{
 		String remoteAudioPath="";
 		String remoteImagePath="";
+		String attachmentURL="";
 		String Return="";
 		int upload_done=0;
 		
@@ -216,34 +219,56 @@ public class SendAgent {
 			mContext.sendBroadcast(it);
 		}
 		else{
-			for (int i=0;i<sendeeAddressList.size();i++)
-			{
-				try{
-					String sendeeAddress=sendeeAddressList.get(i);
-					long rowid=row_id;
-					if (mGroupID==0)
-					{
-						try{
-							rowid=Long.parseLong(rowidList.get(i));
-						}catch(Exception e){}
+			//jack 2.4.51 不再群发200
+			for (int i=0;i<sendeeAddressList.size();i++) {
+				try {
+					String sendeeAddress = sendeeAddressList.get(i);
+					long rowid = row_id;
+					if (mGroupID == 0) {
+						try {
+							rowid = Long.parseLong(rowidList.get(i));
+						} catch (Exception e) {
+						}
 					}
-					
+
 					Intent it = new Intent(Global.Action_InternalCMD);
 					it.putExtra("Command", Global.CMD_TRIGGER_SENDEE);
 					it.putExtra("Sendee", sendeeAddress);
 					it.putExtra("GroupID", mGroupID);
 					it.putExtra("row_id", rowid);
 					it.putExtra("MsgText", mMsgText);
-					it.putExtra("Attached", mAttached==9?8:mAttached);// sendpendingmsg ,mAttached will is 9
+					it.putExtra("Attached", mAttached == 9 ? 8 : mAttached);// sendpendingmsg ,mAttached will is 9
 					it.putExtra("remoteAudioPath", remoteAudioPath);
 					it.putExtra("remoteImagePath", remoteImagePath);
-					it.putExtra("phpIP",phpIP);
+					it.putExtra("phpIP", phpIP);
+					Log.i("msgs.onMultipleSend: " + sendeeAddress+mMsgText);
 					mContext.sendBroadcast(it);
-					
-					Log.i("msgs.onMultipleSend: "+sendeeAddress);
 					MyUtil.Sleep(200);
-				}catch(Exception e){}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
+			// TODO: 2016/3/29 加好友和发送消息都是这个逻辑,暂时弃用
+//					long rowid=row_id;
+//					Intent it = new Intent(Global.Action_InternalCMD);
+//					it.putExtra("Command", Global.CMD_GROUP_SENDEE);
+//					it.putExtra("GroupID", mGroupID);
+//					it.putExtra("row_id", rowid);
+//					it.putExtra("MsgText", mMsgText);
+//					it.putExtra("Attached", mAttached == 9 ? 8 : mAttached);// sendpendingmsg ,mAttached will is 9
+//				//jack 因为图片和语音一次只会发送一个,所以做判断
+//				if (!remoteAudioPath.isEmpty()) {
+//					attachmentURL = remoteAudioPath;
+//					it.putExtra("attachmentURL", attachmentURL);
+//				}
+//				if (!remoteImagePath.isEmpty()) {
+//					attachmentURL = remoteAudioPath;
+//					it.putExtra("attachmentURL", attachmentURL);
+//				}
+//					it.putExtra("phpIP",phpIP);
+//			android.util.Log.d("SendAgent", "row_id" + rowid + " Attached" + (mAttached == 9 ? 8 : mAttached) + " remoteAudioPath" + remoteAudioPath + " remoteImagePath" + remoteImagePath + " phpIP" + phpIP);
+//					mContext.sendBroadcast(it);
+//					MyUtil.Sleep(200);
 		}
 	}
 	
@@ -343,5 +368,134 @@ public class SendAgent {
 		if (msgsent!=null)
 			msgsent.time=sentTime;
 		return msgsent;
+	}
+
+	//jack 2.4.51
+	public boolean onGroupSend(final GroupMsg groupMsg) {
+		if (groupMsg.getContent().length()==0 && groupMsg.getAttached().equals("0")) return false;
+		// TODO: 2016/3/30  jack 发送 图片 文字 消息
+		Thread thr = new Thread(new Runnable(){
+			public void run()
+			{
+				UploadMessageToServer(groupMsg);
+			}
+		}, "mMultipleSendingThread...");
+		thr.start();
+
+		return true;
+	}
+
+	//jack 用于群组消息
+	private void UploadMessageToServer(GroupMsg groupMsg) {
+		String remoteFilePath="";
+		String Return="";
+		int upload_done=0;
+
+		//1.jack 上传图片和文字
+		String attached = groupMsg.getAttached();
+		String attachmentURL = groupMsg.getAttachmentURL();
+		String content = groupMsg.getContent();
+		
+		String phpIP = null;
+		if (AireJupiter.getInstance() != null) {  //tml*** china ip
+			phpIP = AireJupiter.getInstance().getIsoPhp(1, true, null);
+		} else {
+			phpIP = AireJupiter.myLocalPhpServer;
+		}
+		Log.d("msgs.UploadMessageToServer phpIP=" + phpIP + " mAttached=" + attached );
+
+		int uploadSucess = 0; // 0 no attachment,-1 attachment upload fail, 1 attachment upload sucess
+		//jack 发的语音
+		if (attached.equals("1"))
+		{
+			try
+			{
+				int count=0;
+				do{
+					MyNet net = new MyNet(mContext);
+					if (attachmentURL.endsWith("amr")) {
+						Return = net.doPostAttach("uploadvmemo_aire.php", myidx, toidx,
+								attachmentURL, phpIP);
+					} else if (attachmentURL.endsWith("mp3")) {  //tml*** new vmsg
+						Return = net.doPostAttach("uploadvmemomp3_aire.php", myidx, toidx,
+								attachmentURL, phpIP);
+					} else {
+						Return = net.doPostAttach("uploadvmemo_aire.php", myidx, toidx,
+								attachmentURL, phpIP);
+					}
+					if(Return.startsWith("Done"))
+						break;
+					count++;
+					MyUtil.Sleep(1500);
+				}while(count<4);
+
+			}catch(Exception e){}
+
+			if (Return.startsWith("Done"))
+			{
+				uploadSucess = 1;
+				// delete voice file if voice is interphone
+				if((Integer.parseInt(attached)&1)==1){
+					File file = new File(attachmentURL);
+					if(file.exists())
+						file.delete();
+				}
+				remoteFilePath=Return.substring(5);
+				upload_done|=1;
+			}else{
+				uploadSucess = -1;
+				attached=String.valueOf(Integer.parseInt(attached)& 0xFE);
+				content = content.replace("(Vm)", ""); // clear voice because voide send failed
+			}
+//    		Log.d("uploadvmemo.php Return="+Return);
+		}
+
+		//图片 jack
+		if (attached.equals("2"))
+		{
+			try
+			{
+				int count=0;
+				do{
+					MyNet net=new MyNet(mContext);
+					Return=net.doPostAttach("uploadimage_aire.php", myidx, toidx,
+							attachmentURL, phpIP); // httppost
+					if(Return.startsWith("Done"))
+						break;
+					count++;
+					MyUtil.Sleep(1500);
+				}while(count<4);
+			}catch(Exception e){}
+
+			if (Return.startsWith("Done"))
+			{
+				uploadSucess = 1;
+				remoteFilePath=Return.substring(5);
+				upload_done|=2;
+			}else{
+				uploadSucess = -1;
+				attached=String.valueOf(Integer.parseInt(attached)& 0xFD);
+				content = content.replace("(iMG)", ""); // clear iamge because image send failed
+			}
+		}
+
+		synchronized(lock_200){
+			try{
+				lock_200.wait(1000);
+			}catch (Exception e){}
+		}
+
+		if(uploadSucess == -1){
+			// notify user sms send fail
+			Intent it = new Intent(Global.Action_SMS_Fail);
+			mContext.sendBroadcast(it);
+			return;
+		}
+		//2.发送消息
+		groupMsg.setAttachmentURL(remoteFilePath);
+		Gson gson = new Gson();
+		String msgJson = gson.toJson(groupMsg);
+		android.util.Log.d("SendFileAgent", msgJson);
+		AireJupiter.getInstance().tcpSocket.send850(Integer.toHexString(mGroupID),msgJson);
 	}
 }

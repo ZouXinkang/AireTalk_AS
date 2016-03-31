@@ -720,6 +720,8 @@ public class UsersActivity extends Activity {
 						it.putExtra("SendeeContactId", contact_id);
 						it.putExtra("SendeeNumber", address);
 						it.putExtra("SendeeDisplayname", Nickname);
+						//jack 2.4.51 hardcode
+						it.putExtra("photopath",map.get("imagePath"));
 						startActivity(it);
 					}
 					else{

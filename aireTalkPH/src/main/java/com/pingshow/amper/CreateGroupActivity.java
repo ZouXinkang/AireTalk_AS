@@ -3,6 +3,7 @@ package com.pingshow.amper;
 import java.io.File;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -30,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.pingshow.amper.bean.GroupMsg;
 import com.pingshow.amper.db.AmpUserDB;
 import com.pingshow.amper.db.GroupDB;
 import com.pingshow.network.MyNet;
@@ -42,7 +44,7 @@ public class CreateGroupActivity extends Activity {
 	private MyPreference mPref;
 	float mDensity = 1.f;
 	private boolean largeScreen = false;
-	private ArrayList<String> sendeeList = new ArrayList<String>();
+	private LinkedList<String> sendeeList = new LinkedList<String>();
 	private ImageView photoView;
 	private Uri uriOrig = null;
 	private String photoPath = null;
@@ -134,6 +136,8 @@ public class CreateGroupActivity extends Activity {
 	Runnable registerGroup = new Runnable() {
 		public void run() {
 			sendeeList.remove("0");
+			//jack 2.4.51 原来的请求Php没有将创建的creator放在members里面,850是查询整个members群发,所以为了避免,缺少群发群主
+			sendeeList.addFirst(mPref.read("myIdx"));
 			String Return = "";
 			String members = "";
 			for (int i = 0; i < sendeeList.size(); i++) {
@@ -142,6 +146,8 @@ public class CreateGroupActivity extends Activity {
 					members += ",";
 				members += id;
 			}
+
+			android.util.Log.d("SingleSettingActiivty", "create 1 sendeeList:" + sendeeList);
 
 			int myIdx = Integer.parseInt(mPref.read("myID", "0"), 16);
 
@@ -175,6 +181,8 @@ public class CreateGroupActivity extends Activity {
 
 			GroupDB gdb = new GroupDB(CreateGroupActivity.this);
 			gdb.open();
+			//jack 2.4.51 添加本身
+//			sendeeList.add(mPref.read("myIdx"));
 
 			for (int i = 0; i < sendeeList.size(); i++) {
 				int idx = Integer.parseInt(sendeeList.get(i));
@@ -214,11 +222,16 @@ public class CreateGroupActivity extends Activity {
 
 			agent.setAsGroup(groupidx);
 			ArrayList<String> addressList = new ArrayList<String>();
+
+			android.util.Log.d("SingleSettingActiivty", "create 2 sendeeList:" + sendeeList);
+
 			try {
 				for (int i = 0; i < sendeeList.size(); i++)
 					addressList.add(mADB.getAddressByIdx(Integer
 							.parseInt(sendeeList.get(i))));
-				agent.onMultipleSend(addressList, ":)(Y)", 0, null, null);
+				//jack 2.4.51 发送加群消息
+				GroupMsg groupAdd = new GroupMsg("groupadd", "", "", "");
+				agent.onGroupSend(groupAdd);
 			} catch (Exception e) {
 			}
 

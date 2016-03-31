@@ -20,6 +20,7 @@ import android.database.Cursor;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
+import com.google.gson.Gson;
 import com.pingshow.amper.AireJupiter;
 import com.pingshow.amper.Global;
 import com.pingshow.amper.Log;
@@ -29,9 +30,11 @@ import com.pingshow.amper.SMS;
 import com.pingshow.amper.ServiceZ;
 import com.pingshow.amper.SplashScreen;
 import com.pingshow.amper.UsersActivity;
+import com.pingshow.amper.bean.GroupMsg;
 import com.pingshow.amper.contacts.ContactsOnline;
 import com.pingshow.amper.contacts.ContactsQuery;
 import com.pingshow.amper.db.AmpUserDB;
+import com.pingshow.amper.db.GroupDB;
 import com.pingshow.amper.db.RelatedUserDB;
 import com.pingshow.amper.db.SmsDB;
 import com.pingshow.amper.map.LocationUpdate;
@@ -42,6 +45,8 @@ import com.pingshow.voip.DialerActivity;
 import com.pingshow.voip.core.VoipCall;
 
 public class MySocket {
+	//jack 2.4.51
+	private Gson gson = new Gson();
 
 	static int CLIENT_CONNECTION_TIMEOUT = 0;
 	static int TRANSIT_TIMEOUT = 10000; // 10,15 sec
@@ -716,6 +721,39 @@ public class MySocket {
 							mContext.sendBroadcast(it);
 						}
 
+					}else if(fromServer.startsWith("860")) {
+						android.util.Log.d("860SocketCommThread", fromServer);
+						String msg860[] = fromServer.split("/");
+						// 860/sender/receiver/groupId/msgId/TS/body(json)
+						if (msg860.length == 0)
+							return;
+
+						int groupID = Integer.parseInt(msg860[3], 16);
+						GroupMsg groupMsg = gson.fromJson(msg860[6],GroupMsg.class);
+
+						Intent it = new Intent(Global.Action_InternalCMD);
+						// TODO: 2016/3/30 判断是否有cmd,有cmd意味着对群组操作,没有则意味着信息
+						if (!groupMsg.getCMD().isEmpty()) {
+							switch (groupMsg.getCMD()) {
+								case "groupadd":
+									it.putExtra("Command", Global.CMD_JOIN_A_NEW_GROUP);
+									it.putExtra("GroupID", groupID);
+									mContext.sendBroadcast(it);
+									break;
+								case "groupremove":
+									//发送广播call Php
+//									it.putExtra("Command",Global.CMD_LEAVE_GROUP);
+//									it.putExtra("GroupID", Integer.parseInt(groupId));
+//									mContext.sendBroadcast(it);
+									break;
+							}
+						}else{
+							//不存在
+//						Intent it = new Intent(Global.Action_InternalCMD);
+//						it.putExtra("Command", Global.CMD_JOIN_A_NEW_GROUP);
+//						it.putExtra("GroupID", Integer.parseInt(groupId, 16));
+//						mContext.sendBroadcast(it);
+						}
 					}
 				}
 
@@ -1127,6 +1165,25 @@ public class MySocket {
 			disconnect("fail 800", true);
 		}
 	}
+
+	/* Send : 850/myid/lat/lon */
+	public boolean send850(String groupId, String cmdStr) {
+		if (logged == 0)
+			return false;
+		try {
+			outToServerPeriod(); //tml*** outToServer period/
+			UUID uuid = UUID.randomUUID();
+			String msgId=uuid.toString();
+			outToServer.write(MyUtil.encryptTCPCmd("850/" + myId + "/" + groupId + "/" + msgId + "/" + cmdStr));
+			Log.d("850/" + myId + "/" + groupId + "/" + msgId + "/" + cmdStr);
+			return  true;
+		} catch (Exception e) {
+			Log.e("FailtoSendtoServer.850");
+			disconnect("fail 850", true);
+			return  false;
+		}
+	}
+
 
 	public boolean isLogged(boolean force) {
 //		return (logged == 1);

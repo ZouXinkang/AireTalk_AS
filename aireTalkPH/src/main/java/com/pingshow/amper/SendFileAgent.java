@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.Intent;
 
+import com.google.gson.Gson;
+import com.pingshow.amper.bean.GroupMsg;
 import com.pingshow.network.MyNet;
 import com.pingshow.util.MyUtil;
 
@@ -28,7 +30,9 @@ public class SendFileAgent {
 	private ArrayList <String> sendeeAddressList;
 	private ArrayList <String> rowidList;
 	private int mGroupID=0;
-	
+
+
+
 	public SendFileAgent(Context context,int my_idx,boolean hasHandler)
 	{
 		mContext=context;
@@ -105,7 +109,7 @@ public class SendFileAgent {
     			Log.e("doPostAttach8 uploading !@#$  "+e.getMessage());
     		}
     		ConversationActivity.fileUploading = false;
-    		Log.d("Return="+Return);
+    		Log.d("Return=原来的"+Return);
     		if (Return.startsWith("Done"))
 	        {
     			uploadSucess = 1;
@@ -244,5 +248,83 @@ public class SendFileAgent {
 		if (msgsent!=null)
 			msgsent.time=sentTime;
 		return msgsent;
+	}
+
+	//jack 2.4.51 group发送文件
+	public boolean onGroupSend(final GroupMsg groupMsg) {
+		if (groupMsg.getContent().length()==0 && groupMsg.getAttached().equals("0")) return false;
+		// TODO: 2016/3/30  jack 发送 文件 消息
+		Thread thr = new Thread(new Runnable(){
+			public void run()
+			{
+				UploadMessageToServer(groupMsg);
+			}
+		}, "mMultipleSendingThread...");
+		thr.start();
+		return true;
+
+	}
+
+	//将指定的文件发送到服务器
+	private void UploadMessageToServer(GroupMsg groupMsg) {
+		//1.上传文件
+		String remoteFilePath="";
+		String Return="";
+		int upload_done=0;
+
+		String phpIP = null;
+		if (AireJupiter.getInstance() != null) {  //tml*** china ip
+			phpIP = AireJupiter.getInstance().getIsoPhp(1, true, null);
+		} else {
+			phpIP = AireJupiter.myLocalPhpServer;
+		}
+
+		int uploadSucess = 0; // 0 no attachment,-1 attachment upload fail, 1 attachment upload sucess
+			try
+			{
+				String filename = groupMsg.getAttachmentURL().substring(groupMsg.getAttachmentURL().lastIndexOf("/")+1).replace(" ", "");
+				int count=0;
+				ConversationActivity.fileUploading = true;
+				do{
+					MyNet net=new MyNet(mContext);
+					Return=net.doPostAttach8("uploadfiles_aire.php", myidx,
+							URLEncoder.encode(filename, "UTF-8"),  groupMsg.getAttachmentURL(), phpIP);
+					if(Return.startsWith("Done"))
+						break;
+					count++;
+				}while(count<1);
+			}catch(Exception e){
+				Log.e("doPostAttach8 uploading !@#$  "+e.getMessage());
+			}
+			ConversationActivity.fileUploading = false;
+			Log.d("Return="+Return);
+			if (Return.startsWith("Done"))
+			{
+				uploadSucess = 1;
+				remoteFilePath=Return.substring(5);
+				upload_done|=8;
+			}else
+				uploadSucess = -1;
+
+
+		synchronized(lock_200){
+			try{
+				lock_200.wait(1000);
+			}catch (Exception e){
+			}
+		}
+		if(uploadSucess == -1){
+			// notify user sms send fail
+			Intent it = new Intent(Global.Action_SMS_Fail);
+			mContext.sendBroadcast(it);
+			ConversationActivity.fileUploading = false;
+			return;
+		}
+		//2.发送消息
+		groupMsg.setAttachmentURL(remoteFilePath);
+		Gson gson = new Gson();
+		String msgJson = gson.toJson(groupMsg);
+		android.util.Log.d("SendFileAgent", msgJson);
+		AireJupiter.getInstance().tcpSocket.send850(Integer.toHexString(mGroupID), msgJson);
 	}
 }

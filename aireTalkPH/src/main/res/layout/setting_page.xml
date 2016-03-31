@@ -709,8 +709,9 @@
 				</LinearLayout>
 				<!--jack 修改自2.4.51-->
 				<TextView
+					android:layout_marginTop="5dp"
 					android:id="@+id/tv_logout"
-					android:background="@drawable/logout_bg_red"
+					android:background="@drawable/btn_style_alert_dialog_special"
 					android:gravity="center"
 					android:textSize="20sp"
 					android:padding="10dp"

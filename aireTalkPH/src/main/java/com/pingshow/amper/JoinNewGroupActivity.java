@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.*;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -51,7 +53,7 @@ public class JoinNewGroupActivity extends Activity {
 		getWindow().setAttributes(lp);
 		
 		mNickname=getIntent().getStringExtra("Nickname");
-		mIdx=getIntent().getIntExtra("Idx",0);
+		mIdx=getIntent().getIntExtra("Idx", 0);
 		String creator=getIntent().getStringExtra("Creator");
 		mGroupID=getIntent().getIntExtra("GroupId",0);
 		mEdit=getIntent().getBooleanExtra("Edit",false);
@@ -59,7 +61,9 @@ public class JoinNewGroupActivity extends Activity {
 		GroupDB mGDB=new GroupDB(this);
 		mGDB.open(true);
 		sendeeList=mGDB.getGroupMembersByGroupIdx(mGroupID);
-		sendeeList.add("0");
+		//jack 取消默认的自己,完全根据数据库
+//		sendeeList.add("0");
+
 		mGDB.close();
 		
 		Drawable photo=ImageUtil.getBigRoundedUserPhoto(this, mIdx);
@@ -136,7 +140,7 @@ public class JoinNewGroupActivity extends Activity {
 		
 		RelativeLayout s=(RelativeLayout)findViewById(R.id.members);
 		s.removeAllViews();
-		
+		MyPreference mPref=new MyPreference(this);
 		try{
 			int count=sendeeList.size();
 			int width=(int)((float)s.getMeasuredWidth()/mDensity);
@@ -151,14 +155,19 @@ public class JoinNewGroupActivity extends Activity {
 				a.setBackgroundResource(R.drawable.empty);
 				a.setPadding((int)(mDensity*5), (int)(mDensity*5), (int)(mDensity*5), (int)(mDensity*5));
 				int idx=Integer.parseInt(sendeeList.get(i));
-				
+
+				//jack 2.4.51 useless
+//				if (idx==0) {
+//					MyPreference mPref=new MyPreference(this);
+//					userphotoPath = mPref.read("myPhotoPath", "");
+//				}
+//				else
 				String userphotoPath;
-				if (idx==0) {
-					MyPreference mPref=new MyPreference(this);
-					userphotoPath = mPref.read("myPhotoPath", "");
-				}
-				else
-					userphotoPath = Global.SdcardPath_inbox + "photo_" + idx + ".jpg";
+				if (idx==Integer.parseInt(mPref.read("myIdx"))){
+					int uid = Integer.valueOf(mPref.read("myID", "0"), 16);
+					userphotoPath = Global.SdcardPath_sent + "myself_photo_" + uid + ".jpg";
+				}else
+				userphotoPath = Global.SdcardPath_inbox + "photo_" + idx + ".jpg";
 				
 				Drawable photo=ImageUtil.getBitmapAsRoundCorner(userphotoPath,1,4);
 				if (photo!=null)
