@@ -61,4 +61,31 @@ public class SMS implements Serializable{
 		obligate1=c.getString(c.getColumnIndex(SmsDB.KEY_OBLIGATE1));
 		progress=c.getInt(c.getColumnIndex(SmsDB.KEY_OBLIGATE4));
 	}
+
+	@Override
+	public String toString() {
+		return "SMS{" +
+				"smsid=" + smsid +
+				", address='" + address + '\'' +
+				", displayname='" + displayname + '\'' +
+				", contactid=" + contactid +
+				", content='" + content + '\'' +
+				", time=" + time +
+				", expiration=" + expiration +
+				", type=" + type +
+				", read=" + read +
+				", attached=" + attached +
+				", att_path_aud='" + att_path_aud + '\'' +
+				", att_path_img='" + att_path_img + '\'' +
+				", status=" + status +
+				", org_smsid=" + org_smsid +
+				", group_member=" + group_member +
+				", longitudeE6=" + longitudeE6 +
+				", latitudeE6=" + latitudeE6 +
+				", obligate1='" + obligate1 + '\'' +
+				", _unread=" + _unread +
+				", _smsinthd=" + _smsinthd +
+				", progress=" + progress +
+				'}';
+	}
 }

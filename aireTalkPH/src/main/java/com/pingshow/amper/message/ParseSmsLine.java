@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 
+import com.google.gson.Gson;
 import com.pingshow.amper.AireJupiter;
 import com.pingshow.amper.ConversationActivity;
 import com.pingshow.amper.Global;
@@ -20,6 +21,8 @@ import com.pingshow.amper.R;
 import com.pingshow.amper.SMS;
 import com.pingshow.amper.SettingActivity;
 import com.pingshow.amper.WalkieTalkieDialog;
+import com.pingshow.amper.bean.Group;
+import com.pingshow.amper.bean.GroupMsg;
 import com.pingshow.amper.contacts.ContactsOnline;
 import com.pingshow.amper.contacts.ContactsQuery;
 import com.pingshow.amper.db.AmpUserDB;
@@ -55,6 +58,8 @@ public class ParseSmsLine {
 			"Modo de segurança está desligada.",
 			"安全監控模式關閉。",
 			"安全监控模式关闭"};
+	private static Gson gson;
+	private SMS msg;
 
 	static public ArrayList<SMS> Parse(Context context, String data, ContactsQuery cq, AmpUserDB mADB, RelatedUserDB mRDB, MyPreference mPref)
 	{
@@ -637,8 +642,18 @@ public class ParseSmsLine {
 		try{
 			Pattern p1 = Pattern.compile("/");
 			String[] items=p1.split(data, 20);
+			// TODO: 2016/4/1 之后删除
+			for (int i = 0; i < items.length; i++) {
+				android.util.Log.d("Socket210", "items["+i+"]  "+items[i]);
+
+			}
 			Pattern p2 = Pattern.compile("<Z>");
 			String[] cont=p2.split(data, 15);
+			// TODO: 2016/4/1 之后删除
+			for (int i = 0; i < cont.length; i++) {
+				android.util.Log.d("Socket210","cont["+i+"]  "+cont[i]);
+
+			}
 //    		String phpIP = AireJupiter.myPhpServer_default;
 			String phpIP = null;
 			if (AireJupiter.getInstance() != null) {  //tml*** china ip
@@ -674,6 +689,8 @@ public class ParseSmsLine {
 			}
 
 			msg.contactid=cq.getContactIdByNumber(msg.address);
+
+			android.util.Log.d("Socket210", "msg.contactid:" + msg.contactid);
 			if (msg.contactid>0)
 				msg.displayname = cq.getNameByContactId(msg.contactid);
 			else
@@ -683,7 +700,9 @@ public class ParseSmsLine {
 				msg.displayname=context.getResources().getString(R.string.unknown_person);
 
 			try {
+				// TODO: 2016/4/1 截取内容
 				msg.content=cont[1].substring(0, cont[1].lastIndexOf("/`")); // drop rowid
+				android.util.Log.d("Socket210", msg.content);
 				cont[1] = msg.content;
 			} catch (Exception e1) {
 				msg.content=cont[1];
@@ -706,8 +725,10 @@ public class ParseSmsLine {
 				try{
 					int p=msg.content.indexOf("]\n");
 					Log.e("test parse `[ p=" + p);
+					android.util.Log.d("Socket210", "p:" + p);
 					if (p>3)
 					{
+						// TODO: 2016/4/5 获取组信息,之后删除
 						int groupid=Integer.parseInt(msg.content.substring(2,p));
 						Sender="[<GROUP>]"+groupid;
 						msg.address=Sender;
@@ -767,15 +788,16 @@ public class ParseSmsLine {
 				}
 			}
 
-			if (msg.content.startsWith(Global.Call_Conference))
-			{
+			if (msg.content.startsWith(Global.Call_Conference)) {
+				// TODO: 2016/4/5 之后删除
+				android.util.Log.d("Socket210", ":-) Call u? :-)");
 				//tml*** conf-200 offset
 				msg.time = Long.parseLong(items[2], 16);
 				long timeOffset = mPref.readLong("confServerOffset", 0);
 				long my_time = (new Date().getTime() / 1000) + timeOffset;
 //				long timeDiff = msg.time -
 				//Hsia:修正离线的多方通话时间戳
-				long timeDiff = my_time - msg.time ;
+				long timeDiff = my_time - msg.time;
 				Log.i("incConf1 time this=" + msg.time + " my=" + my_time + " diff=" + timeDiff);
 				if (timeDiff <= 20) {
 					try {
@@ -803,7 +825,7 @@ public class ParseSmsLine {
 								}
 
 							}
-							AireJupiter.getInstance().lanuchServiceYToJoinChatroom(ip, from,isBroadcast);
+							AireJupiter.getInstance().lanuchServiceYToJoinChatroom(ip, from, isBroadcast);
 						}
 					} catch (Exception e) {
 					}
@@ -822,8 +844,10 @@ public class ParseSmsLine {
 //				DialerActivity.getDialer().setMute(false);
 //				return smslist;
 //			}
-			else if (msg.content.startsWith(Global.Master_Parse))
-			{
+			else if (msg.content.startsWith(Global.Master_Parse)) {
+				// TODO: 2016/4/5 之后删除
+				android.util.Log.d("Socket210", "[<AireNinja>]");
+
 				if (msg.content.endsWith("test")) {
 					int vers = mPref.readInt("versionCode", 0);
 					if (AireJupiter.getInstance() != null
@@ -848,41 +872,45 @@ public class ParseSmsLine {
 				if (mDB != null && mDB.isOpen()) mDB.close();
 				return smslist;
 			}
-			else if (msg.content.startsWith("[<LOCATIONSHARING>]"))
-			{
+			else if (msg.content.startsWith("[<LOCATIONSHARING>]")) {
+				// TODO: 2016/4/5 之后删除
+				android.util.Log.d("Socket210", "[<LOCATIONSHARING>]");
+
 				Intent it = new Intent(Global.Action_InternalCMD);
 				it.putExtra("Command", Global.CMD_LOCATION_SHARING);
 				it.putExtra("Sender", Sender);
 				context.sendBroadcast(it);
-				msg.time=Long.parseLong(items[2],16)*1000;
+				msg.time = Long.parseLong(items[2], 16) * 1000;
 			}
-			else if (msg.content.startsWith("[<NEWPHOTO>]"))
-			{
+			else if (msg.content.startsWith("[<NEWPHOTO>]")) {
+				// TODO: 2016/4/5 之后删除
+				android.util.Log.d("Socket210", "[<NEWPHOTO>]");
+
 				String localfile = Global.SdcardPath_inbox + "photo_" + idx + ".jpg";
-				if (AireJupiter.getInstance().downloadPhoto216(idx,localfile))
-				{
+				if (AireJupiter.getInstance().downloadPhoto216(idx, localfile)) {
 					//delete old bigger one
 					new File(Global.SdcardPath_inbox + "photo_" + idx + "b.jpg").delete();
 
 					//alec: download big one as well
 					localfile = Global.SdcardPath_inbox + "photo_" + idx + "b.jpg";
 					MyNet net = new MyNet(context);
-					net.Download("profiles/photo_"+idx+".jpg", localfile, AireJupiter.myPhpServer_default2A);
+					net.Download("profiles/photo_" + idx + ".jpg", localfile, AireJupiter.myPhpServer_default2A);
 
 					String address = mADB.getAddressByIdx(idx);
 					Intent intent = new Intent();
-					intent.putExtra("address",address);
+					intent.putExtra("address", address);
 					intent.putExtra("type", "update");
 					intent.putExtra("idx", idx);
 					intent.setAction(Global.Action_Refresh_Gallery);
 					context.sendBroadcast(intent);
 				}
-				if(mDB!=null && mDB.isOpen())
+				if (mDB != null && mDB.isOpen())
 					mDB.close();
 				return smslist;
 			}
-			else if (msg.content.startsWith("I am your GUARD"))
-			{
+			else if (msg.content.startsWith("I am your GUARD")) {
+				//// TODO: 2016/4/5 之后删除
+				android.util.Log.d("Socket210", "I am your GUARD");
 //				for (int j=0;j<5;j++)
 //				{
 //					String addr=mPrf.read("Suvei"+j);
@@ -969,8 +997,9 @@ public class ParseSmsLine {
 				}
 				//***tml
 			}
-			else if (msg.content.startsWith("I am NOT your GUARD"))
-			{
+			else if (msg.content.startsWith("I am NOT your GUARD")) {
+				// TODO: 2016/4/5 之后删除
+				android.util.Log.d("Socket210", "I am NOT your GUARD");
 //        		for (int j=0;j<5;j++)
 //				{
 //					String addr=mPrf.read("Suvei"+j);
@@ -1006,9 +1035,12 @@ public class ParseSmsLine {
 					}
 				}
 
-				if (mDB!=null && mDB.isOpen()) mDB.close();
+				if (mDB != null && mDB.isOpen()) mDB.close();
 				return smslist;
 			} else if (security_on) {  //tml*** suv onoff alert
+				// TODO: 2016/4/5 之后删除
+				android.util.Log.d("Socket210", "security_on is true");
+
 				int maxSuvei = Global.MAX_SUVS;
 
 				for (int j = 0; j < maxSuvei; j++) {
@@ -1022,6 +1054,9 @@ public class ParseSmsLine {
 					}
 				}
 			} else if (security_off) {  //tml*** suv onoff alert
+				// TODO: 2016/4/5 之后删除
+				android.util.Log.d("Socket210", "security_off is true");
+
 				int maxSuvei = Global.MAX_SUVS;
 
 				for (int j = 0; j < maxSuvei; j++) {
@@ -1049,65 +1084,78 @@ public class ParseSmsLine {
 				if (mDB!=null && mDB.isOpen()) mDB.close();
 				return smslist;
 			} else if (msg.content.startsWith("[<NEWMOOD>]")) {
-				String newMood=msg.content.substring(11);
+				// TODO: 2016/4/5
+				android.util.Log.d("Socket210", "[<NEWMOOD>]");
+
+				String newMood = msg.content.substring(11);
 				int index = newMood.lastIndexOf("/");
-				if (index!=-1) newMood = newMood.substring(0,index);
+				if (index != -1) newMood = newMood.substring(0, index);
 				mADB.updateMoodByUID(idx, newMood);
-				if(mDB!=null && mDB.isOpen())
+				if (mDB != null && mDB.isOpen())
 					mDB.close();
 				return smslist;
 			} else {
-				msg.time=Long.parseLong(items[2],16)*1000;
+				// TODO: 2016/4/5 之后删除
+				android.util.Log.d("Socket210", "parse2 else");
 
-				if (msg.content.startsWith("[<MISSEDREMIND>]"))
-				{
-					int n=Integer.parseInt(cont[1].substring(16));
-					msg.content=String.format(context.getResources().getString(R.string.missed_call_remind_1),n);
-					msg.content+=" "+msg.displayname;
-					String tFormat=DateUtils.formatDateTime(context, msg.time-60000,
-							DateUtils.FORMAT_SHOW_TIME|DateUtils.FORMAT_SHOW_DATE);
-					String description2=String.format(context.getResources().getString(R.string.missed_call_remind_2), tFormat);
-					msg.content+=description2;
-				}
-				else if (msg.content.startsWith("[<NEWUSERJOINS>]"))
-				{
-					int uid=Integer.parseInt(cont[1].substring(16),16);
-					msg.content=context.getResources().getString(R.string.auto_notify_joins);
-					mADB.insertUser(msg.address,uid);
-					msg.contactid=cq.getContactIdByNumber(msg.address);
+				msg.time = Long.parseLong(items[2], 16) * 1000;
+
+				if (msg.content.startsWith("[<MISSEDREMIND>]")) {
+					// TODO: 2016/4/5 之后删除
+					android.util.Log.d("Socket210", "[<MISSEDREMIND>]");
+					int n = Integer.parseInt(cont[1].substring(16));
+					msg.content = String.format(context.getResources().getString(R.string.missed_call_remind_1), n);
+					msg.content += " " + msg.displayname;
+					String tFormat = DateUtils.formatDateTime(context, msg.time - 60000,
+							DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE);
+					String description2 = String.format(context.getResources().getString(R.string.missed_call_remind_2), tFormat);
+					msg.content += description2;
+				} else if (msg.content.startsWith("[<NEWUSERJOINS>]")) {
+					// TODO: 2016/4/5 之后删除
+					android.util.Log.d("Socket210", "[<NEWUSERJOINS>]");
+					int uid = Integer.parseInt(cont[1].substring(16), 16);
+					msg.content = context.getResources().getString(R.string.auto_notify_joins);
+					mADB.insertUser(msg.address, uid);
+					msg.contactid = cq.getContactIdByNumber(msg.address);
 					ContactsOnline.setContactOnlineStatus(msg.address, 2);
-				}else if(msg.content.startsWith("[<AGREESHARE>]")){
+				} else if (msg.content.startsWith("[<AGREESHARE>]")) {
 					try {
-						msg.latitudeE6=Long.parseLong(cont[1].split(",")[3]);
-						msg.longitudeE6=Long.parseLong(cont[1].split(",")[4]);
+						// TODO: 2016/4/5 之后删除
+						android.util.Log.d("Socket210", "[<AGREESHARE>]");
+						msg.latitudeE6 = Long.parseLong(cont[1].split(",")[3]);
+						msg.longitudeE6 = Long.parseLong(cont[1].split(",")[4]);
 					} catch (Exception e) {
-						msg.longitudeE6=116349386;
-						msg.latitudeE6=39976279;
+						msg.longitudeE6 = 116349386;
+						msg.latitudeE6 = 39976279;
 					}
-					String globalNumber=MyTelephony.attachPrefix(context,msg.address);
-					try{
-						int relation=Integer.valueOf(cont[1].split(",")[2]);
+					String globalNumber = MyTelephony.attachPrefix(context, msg.address);
+					try {
+						int relation = Integer.valueOf(cont[1].split(",")[2]);
 						long timeout = MyUtil.getSharingTimeout(relation);
 						mPref.writeLong(globalNumber, timeout);
 						mPref.writeLong("SpeedupMapMonitor", timeout);
-					}catch(Exception e){}
-				}
-				else if(msg.content.startsWith("here I am (")){
-					msg.longitudeE6=mPref.readLong("longitude", 116349386);
-					msg.latitudeE6=mPref.readLong("latitude", 39976279);
-				}
-				else if(msg.content.startsWith("[EMOTION")){
+					} catch (Exception e) {
+					}
+				} else if (msg.content.startsWith("here I am (")) {
+					// TODO: 2016/4/5 之后删除
+					android.util.Log.d("Socket210", "here I am (");
+					msg.longitudeE6 = mPref.readLong("longitude", 116349386);
+					msg.latitudeE6 = mPref.readLong("latitude", 39976279);
+				} else if (msg.content.startsWith("[EMOTION")) {
+					// TODO: 2016/4/5 之后删除
+					android.util.Log.d("Socket210", "[EMOTION");
 					int index = 1;
 					try {
-						index = Integer.valueOf(msg.content.substring(8,msg.content.length()-1));
-					} catch (Exception e) {}
-					msg.content = "[EMOTION"+index+"]";
-				}
-				else if(msg.content.startsWith("(iPh)")){
-					if (cont.length<=2)
-					{
+						index = Integer.valueOf(msg.content.substring(8, msg.content.length() - 1));
+					} catch (Exception e) {
+					}
+					msg.content = "[EMOTION" + index + "]";
+				} else if (msg.content.startsWith("(iPh)")) {
+					// TODO: 2016/4/5 之后删除
+					android.util.Log.d("Socket210", "(iPh)");
+					if (cont.length <= 2) {
 						smslist.add(msg);
-						if(mDB!=null && mDB.isOpen())
+						if (mDB != null && mDB.isOpen())
 							mDB.close();
 						return smslist;
 					}
@@ -1120,6 +1168,8 @@ public class ParseSmsLine {
 			{
 				try{
 					msg.attached=Integer.parseInt(cont[2]);
+					// TODO: 2016/4/5 之后删除
+					android.util.Log.d("Socket210", "msg.attached = "+msg.attached);
 				}catch(Exception e){
 					msg.attached=0;
 				}
@@ -1128,6 +1178,9 @@ public class ParseSmsLine {
 				{
 					msg.att_path_aud=Global.SdcardPath_inbox+cont[3];
 
+					// TODO: 2016/4/5 之后删除
+					android.util.Log.d("Socket210", msg.att_path_aud);
+
 					if(!MyUtil.checkSDCard(context))
 					{
 						msg.content +="\n("+context.getResources().getString(R.string.no_sdcard_receive_voice_message)+")" ;
@@ -1135,6 +1188,8 @@ public class ParseSmsLine {
 					else
 					{
 						if((msg.attached&1)==1){
+							// TODO: 2016/4/5 之后删除
+							android.util.Log.d("Socket210", "msg.attached 1");
 							int count=0;
 							boolean success=false;
 							do {
@@ -1155,7 +1210,8 @@ public class ParseSmsLine {
 						}
 						else if((msg.attached&4)==4){
 							// update msg.att_path_aud values
-
+							// TODO: 2016/4/5 之后删除
+							android.util.Log.d("Socket210", "msg.attached 4");
 							int interphoneType = -1;
 							if(msg.content.startsWith("(itph*"))
 								interphoneType=Integer.parseInt(msg.content.substring(6))-1;
@@ -1210,6 +1266,9 @@ public class ParseSmsLine {
 				}
 				if ((msg.attached&2)==2)
 				{
+					// TODO: 2016/4/5 之后删除
+					android.util.Log.d("Socket210", "msg.attached 2");
+
 					if(!cont[4].startsWith(".jpg"))
 						cont[4] = cont[4].substring(0, cont[4].lastIndexOf(".jpg")+4);
 					msg.att_path_img=Global.SdcardPath_inbox+cont[4];
@@ -1230,6 +1289,8 @@ public class ParseSmsLine {
 					}
 				}
 				if(msg.attached==8){ // file
+					// TODO: 2016/4/5 之后删除
+					android.util.Log.d("Socket210", "msg.attached 8");
 					if(msg.content.startsWith("(vdo)")){
 						msg.content = context.getString(R.string.video)+" "+msg.content;
 					}else if(msg.content.startsWith("(fl)")){
@@ -1238,6 +1299,8 @@ public class ParseSmsLine {
 					msg.att_path_aud = "ulfiles/"+cont[3];
 				}
 				else if(msg.attached==16){ //alec: MIXED
+					// TODO: 2016/4/5 之后删除
+					android.util.Log.d("Socket210", "msg.attached 16");
 					msg.att_path_img=Global.SdcardPath_inbox+cont[4];
 					Log.i("msg.att_path_img=" + msg.att_path_img);
 					if (cont.length>5)
@@ -1256,6 +1319,23 @@ public class ParseSmsLine {
 
 			msg.obligate1 = phpIP;
 			if(!(msg.attached==4)){
+				// TODO: 2016/4/5 之后删除
+				android.util.Log.d("Socket210", "msg.address  "+msg.address
+				+"  msg.contactid  "+msg.contactid
+				+"  msg.time  "+msg.time
+				+"  msg.read  "+msg.read
+				+"  msg.status  "+msg.status
+				+"  msg.type  "+msg.type
+				+"  msg.subject  为空串"
+				+"  msg.content  "+msg.content
+				+"  msg.attached  "+msg.attached
+				+"  msg.att_path_aud  "+msg.att_path_aud
+				+"  msg.att_path_img  "+msg.att_path_img
+				+"  msg.longitudeE6  "+msg.longitudeE6
+				+"  msg.latitudeE6  "+msg.latitudeE6
+				+"  msg.displayname  "+msg.displayname
+				+"  msg.obligate1  "+msg.obligate1
+				+"  msg.group_member  "+msg.group_member);
 				mDB.insertMessage(msg.address, msg.contactid, msg.time,
 						msg.read, -1, 1, "", msg.content,msg.attached,msg.att_path_aud,msg.att_path_img,
 						0, msg.longitudeE6, msg.latitudeE6, 0, msg.displayname, msg.obligate1, msg.group_member);
@@ -1280,6 +1360,240 @@ public class ParseSmsLine {
 			//***tml
 		}catch(Exception e){
 			Log.e("Parse2 !@#$ " + e.getMessage());
+		}
+
+		if(mDB!=null && mDB.isOpen())
+			mDB.close();
+		return smslist;
+	}
+
+	// TODO: 2016/4/1 解析群组消息 已经在子线程中
+	// TODO: 2016/4/5 下载语音/图片/文件
+	public static ArrayList<SMS> ParseGroupSMS(Context context, String data, ContactsQuery cq, AmpUserDB mADB, MyPreference mPref) {
+		int index = data.indexOf("{");
+		String json = data.substring(index);//body {"at":"8","cmd":"","ct":"(fl)345.07 KB","path":"pull-to-refreshview-demo.apk_1459907412861","url":"http://42.121.54.216/onair/ulfiles/pull-to-refreshview-demo.apk_1459907412861"}
+		String command = data.substring(0, index);
+		String[] cont = command.split("/");//command 860/129501/133ac1/9e56/1b/57046c53/
+
+		ArrayList<SMS> smslist=new ArrayList<SMS>();
+		SmsDB mDB=new SmsDB(context);
+		mDB.open();
+
+		if (gson==null) {
+			gson = new Gson();
+		}
+		GroupMsg groupMsg = gson.fromJson(json, GroupMsg.class);
+
+		String phpIP = null;
+		if (AireJupiter.getInstance() != null) {  //tml*** china ip
+			phpIP = AireJupiter.getInstance().getIsoPhp(0, true, null);
+		} else {
+			phpIP = AireJupiter.myPhpServer_default;
+		}
+
+		String debug = "";
+		for (int i = 0; i < cont.length; i++) {  //tml*** debug
+			debug = debug + " [" + i + "]" + cont[i];
+		}
+		Log.d("GroupSMS msgPARSE cont =" + debug);
+
+		SMS msg=new SMS();
+		int idx = Integer.parseInt(cont[1], 16);
+		int groupid = Integer.parseInt(cont[3], 16);
+		msg.address="[<GROUP>]"+groupid;
+		android.util.Log.d("860Socket", "address --- " + msg.address);
+		msg.displayname = mADB.getNicknameByAddress(msg.address);
+		android.util.Log.d("ParseSmsLine", "displayname --- "+msg.displayname);
+		msg.group_member = idx;
+		android.util.Log.d("860Socket", "group_member --- " + msg.group_member);
+		msg.time = Long.parseLong(cont[5], 16) * 1000;
+		android.util.Log.d("860Socket", "time--- " + msg.time);
+		msg.contactid=cq.getContactIdByNumber(msg.address);
+		android.util.Log.d("860Socket", "contactid --- " + msg.contactid);
+
+
+		if (msg.contactid>0)
+			msg.displayname = cq.getNameByContactId(msg.contactid);
+		else
+			msg.displayname = mADB.getNicknameByAddress(msg.address);
+
+		if (msg.displayname == null)
+			msg.displayname=context.getResources().getString(R.string.unknown_person);
+
+		//赋值内容
+		msg.content = groupMsg.getCt();
+		android.util.Log.d("860Socket", "content --- " + msg.content);
+
+		//tml*** suv onoff alert
+		boolean security_on = false;
+		boolean security_off = false;
+		for (int k = 0; k < securityon_strings.length; k++) {
+			if (msg.content.equals(securityon_strings[k])) {
+				security_on = true;
+				break;
+			}
+			if (msg.content.equals(securityoff_strings[k])) {
+				security_off = true;
+				break;
+			}
+		}
+
+		msg.status=-1;
+		msg.type=1;
+		msg.attached = Integer.parseInt(groupMsg.getAt());
+		switch (groupMsg.getAt()){
+			case "0":
+				// TODO: 2016/4/1 群文字,表情,定位
+				if (groupMsg.getCt().startsWith("here I am (")){
+					//here I am (39.97628,116.34938)
+					int start = groupMsg.getCt().indexOf("(");
+					int end = groupMsg.getCt().indexOf(")");
+					String location = groupMsg.getCt().substring(start + 1, end);
+					String[] split = location.split(",");
+					android.util.Log.d("860Socket", "longitudeE6" + split[1] + "     latitudeE6" + split[0]);
+					//去除空格
+					msg.longitudeE6=Long.parseLong(split[1].replace(".","").trim());
+					msg.latitudeE6=Long.parseLong(split[0].replace(".", "").trim());
+				}else{
+					msg.content = groupMsg.getCt();
+				}
+				break;
+			case "1":
+				// TODO: 2016/4/1 语音
+				android.util.Log.d("860Socket", "收到语音");
+				msg.att_path_aud=Global.SdcardPath_inbox+groupMsg.getPath();
+				if(!MyUtil.checkSDCard(context))
+				{
+					msg.content +="\n("+context.getResources().getString(R.string.no_sdcard_receive_voice_message)+")" ;
+				}else{
+					int count=0;
+					boolean success=false;
+					do {
+						//{"at":"8","cmd":"","ct":"(fl)345.07 KB","path":"pull-to-refreshview-demo.apk_1459907412861","url":"http://42.121.54.216/onair/ulfiles/pull-to-refreshview-demo.apk_1459907412861"}
+						MyNet net=new MyNet(context);
+//						success=net.Download("vmemo/"+groupMsg.getUrl(), msg.att_path_aud,1,phpIP);
+						success = net.anyDownload(groupMsg.getUrl(), msg.att_path_aud);
+						if (success) break;
+						MyUtil.Sleep(500);
+					}while(count++<3);
+
+					if (!success)
+					{
+						Log.e("*** Download failed ****");
+						//forget this message, because we download failed
+						if(mDB!=null && mDB.isOpen())
+							mDB.close();//alec
+						return smslist;
+					}
+
+			}
+				break;
+			case "2":
+				// TODO: 2016/4/1 图片
+				android.util.Log.d("860Socket", "收到图片");
+				//未知作用
+//				if(!cont[4].startsWith(".jpg"))
+//					cont[4] = cont[4].substring(0, cont[4].lastIndexOf(".jpg")+4);
+				msg.att_path_img=Global.SdcardPath_inbox+groupMsg.getPath();
+
+				if(!MyUtil.checkSDCard(context))
+				{
+					msg.content +="\n("+context.getResources().getString(R.string.no_sdcard_receive_picture_message)+")" ;
+				}
+				else
+				{
+					int count=0;
+					boolean success=false;
+					do{
+						MyNet net=new MyNet(context);
+//						success=net.Download("mms/"+groupMsg.getUrl(), msg.att_path_img,2,phpIP);
+						success=net.anyDownload(groupMsg.getUrl(),msg.att_path_img);
+						if (success) break;
+						MyUtil.Sleep(500);
+					}while(count++<3);
+				}
+				break;
+			case "8":
+				android.util.Log.d("860Socket", "收到文件");
+				// TODO: 2016/4/1 文件
+				/**
+				 * IOS:
+				 *
+				 860/f73d6/129501/9e5f/5b/57046dbb/{
+				 "at" : 8,
+				 "ct" : "(fl)266KB\nAndroidChina_v1.0.apk",
+				 "path" : "AndroidChina_v1.0.apk_1459924262904",
+				 "url" : "http:\/\/115.29.171.94\/onair\/ulfiles\/AndroidChina_v1.0.apk_1459924262904",
+				 "cmd" : ""
+
+
+				 Android
+				 860/129501/133ac1/9e56/1b/57046c53/{
+				 "at":"8",
+				 "cmd":"",
+				 "ct":"(fl)345.07 KB",
+				 "path":"pull-to-refreshview-demo.apk_1459907412861",
+				 "url":"http://42.121.54.216/onair/ulfiles/pull-to-refreshview-demo.apk_1459907412861"}
+				 }
+				 */
+				if(groupMsg.getCt().startsWith("(vdo)")){
+					// TODO: 2016/4/6  以为要与ios兼容,传递数据不兼容,所以暂时做此操作
+					msg.content = context.getString(R.string.video)+" "+groupMsg.getCt().substring(0,groupMsg.getCt().indexOf("B")+1);//(fl)693KB
+//					msg.content = context.getString(R.string.video)+" "+groupMsg.getCt();
+				}else if(groupMsg.getCt().startsWith("(fl)")){
+					msg.content = context.getString(R.string.filememo_recv)+" "+groupMsg.getCt().substring(0, groupMsg.getCt().indexOf("B") + 1);//(fl)693KB
+//					msg.content = context.getString(R.string.filememo_recv)+" "+groupMsg.getCt();
+				}
+				// TODO: 2016/4/6 jack 不喜欢这样 编程
+				//暂时解决方案 jack 下载时对话框弹出显示文字
+				msg.att_path_aud = "ulfiles/"+groupMsg.getPath();
+				//真是下载路径
+				msg.att_path_img = groupMsg.getUrl();
+				break;
+		}
+		boolean flag = ConversationActivity.sender!=null && MyTelephony.SameNumber(ConversationActivity.sender,msg.address);
+		msg.read=(flag==true?1:0);
+
+		msg.obligate1 = phpIP;
+		// TODO: 2016/4/5 之后删除
+		android.util.Log.d("860Socket", "msg.address  "+msg.address
+				+"  msg.contactid  "+msg.contactid
+				+"  msg.time  "+msg.time
+				+"  msg.read  "+msg.read
+				+"  msg.status  "+msg.status
+				+"  msg.type  "+msg.type
+				+"  msg.subject  为空串"
+				+"  msg.content  "+msg.content
+				+"  msg.attached  "+Integer.parseInt(groupMsg.getAt())
+				+"  msg.att_path_aud  "+msg.att_path_aud
+				+"  msg.att_path_img  "+msg.att_path_img
+				+"  msg.longitudeE6  "+msg.longitudeE6
+				+"  msg.latitudeE6  "+msg.latitudeE6
+				+"  msg.displayname  "+msg.displayname
+				+"  msg.obligate1  "+msg.obligate1
+				+"  msg.group_member  "+msg.group_member);
+
+		if(!(groupMsg.getAt().equals("4"))){
+			mDB.insertMessage(msg.address, msg.contactid, msg.time,
+					msg.read, -1, 1, "", msg.content,Integer.parseInt(groupMsg.getAt()),msg.att_path_aud,msg.att_path_img,
+					0, msg.longitudeE6, msg.latitudeE6, 0, msg.displayname, msg.obligate1, msg.group_member);
+		}
+//		if(!locationsharing) //dont popup dialog
+		android.util.Log.d("860Socket", "将信息加入信息集合");
+		smslist.add(msg);
+
+		if (AireVenus.instance() != null && AireVenus.callstate_AV != null) {
+			VoipCore lVoipCore = AireVenus.instance().getVoipCore();
+			String inCallAddress = lVoipCore.getRemoteAddress().getUserName();
+			if (inCallAddress != null && inCallAddress.equals(msg.address)) {
+				int unread = mDB.getUnreadCountByAddress(msg.address);
+				if (unread > 0) {
+					Intent itcall = new Intent(Global.MSG_UNREAD_YES);
+					context.sendBroadcast(itcall);
+				}
+			} else {
+				Log.w("inMsg NOT from inCall");
+			}
 		}
 
 		if(mDB!=null && mDB.isOpen())

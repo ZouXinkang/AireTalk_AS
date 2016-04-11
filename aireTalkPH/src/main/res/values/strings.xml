@@ -391,6 +391,9 @@
 
 <string name="add_new_member_in_group">Sure to add new members?</string>
 <string name="group_invite_new_member">%1$s has been invited to Group \"%2$s\"</string>
+<string name="group_invite_new_members">%1$s invited \"%2$s\" to join in the group</string>
+<string name="group_removed_members">%1$s has been removed from the group</string>
+
 
 <!-- from iphone -->
 <string name="aire_call">AireCall</string>

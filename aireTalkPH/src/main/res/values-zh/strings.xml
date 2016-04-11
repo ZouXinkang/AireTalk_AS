@@ -379,7 +379,9 @@
 
 <string name="add_new_member_in_group">您確定要為這群組添加新成員嗎?</string>
 <string name="group_invite_new_member">%1$s已經被邀請到\"%2$s\"群組</string>
-
+    //jack 2.4.51
+    <string name="group_invite_new_members">%1$s invited \"%2$s\" to join in the group</string>
+    <string name="group_removed_members">%1$s has been removed from the group</string>
 <!-- from iphone -->
 <string name="aire_call">AireCall</string>
 <string name="purchase">儲值</string>

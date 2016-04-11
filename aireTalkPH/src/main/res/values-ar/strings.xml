@@ -395,8 +395,11 @@
 المجموعة 
 %2$s
 </string>
+ //jack 2.4.51
+ <string name="group_invite_new_members">%1$s invited \"%2$s\" to join in the group</string>
+ <string name="group_removed_members">%1$s has been removed from the group</string>
 
-<!-- from iphone -->
+ <!-- from iphone -->
 <string name="aire_call">AireCall</string>
 <string name="purchase">شراء</string>
 <string name="airecall_credits">قروض AireCall</string>

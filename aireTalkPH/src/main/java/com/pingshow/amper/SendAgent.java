@@ -118,7 +118,7 @@ public class SendAgent {
 				}while(count<4);
 				
     		}catch(Exception e){}
-    		
+
     		if (Return.startsWith("Done"))
 	        {
     			uploadSucess = 1;
@@ -372,11 +372,11 @@ public class SendAgent {
 
 	//jack 2.4.51
 	public boolean onGroupSend(final GroupMsg groupMsg) {
-		if (groupMsg.getContent().length()==0 && groupMsg.getAttached().equals("0")) return false;
+		android.util.Log.d("发送消息", "发送消息的内容: "+groupMsg.toString());
+		if (groupMsg.getCt().length() == 0 && groupMsg.getAt().equals("0")) return false;
 		// TODO: 2016/3/30  jack 发送 图片 文字 消息
-		Thread thr = new Thread(new Runnable(){
-			public void run()
-			{
+		Thread thr = new Thread(new Runnable() {
+			public void run() {
 				UploadMessageToServer(groupMsg);
 			}
 		}, "mMultipleSendingThread...");
@@ -389,12 +389,12 @@ public class SendAgent {
 	private void UploadMessageToServer(GroupMsg groupMsg) {
 		String remoteFilePath="";
 		String Return="";
-		int upload_done=0;
+		String url="";
 
 		//1.jack 上传图片和文字
-		String attached = groupMsg.getAttached();
-		String attachmentURL = groupMsg.getAttachmentURL();
-		String content = groupMsg.getContent();
+		String attached = groupMsg.getAt();
+		String attachmentURL = groupMsg.getUrl();
+		String content = groupMsg.getCt();
 		
 		String phpIP = null;
 		if (AireJupiter.getInstance() != null) {  //tml*** china ip
@@ -405,6 +405,7 @@ public class SendAgent {
 		Log.d("msgs.UploadMessageToServer phpIP=" + phpIP + " mAttached=" + attached );
 
 		int uploadSucess = 0; // 0 no attachment,-1 attachment upload fail, 1 attachment upload sucess
+
 		//jack 发的语音
 		if (attached.equals("1"))
 		{
@@ -431,6 +432,7 @@ public class SendAgent {
 
 			}catch(Exception e){}
 
+			android.util.Log.d("发送消息", "上传语音的结果:"+Return);
 			if (Return.startsWith("Done"))
 			{
 				uploadSucess = 1;
@@ -441,13 +443,12 @@ public class SendAgent {
 						file.delete();
 				}
 				remoteFilePath=Return.substring(5);
-				upload_done|=1;
+				url="http://"+phpIP+"/onair/vmemo/"+remoteFilePath;
 			}else{
 				uploadSucess = -1;
 				attached=String.valueOf(Integer.parseInt(attached)& 0xFE);
 				content = content.replace("(Vm)", ""); // clear voice because voide send failed
 			}
-//    		Log.d("uploadvmemo.php Return="+Return);
 		}
 
 		//图片 jack
@@ -467,11 +468,13 @@ public class SendAgent {
 				}while(count<4);
 			}catch(Exception e){}
 
+			android.util.Log.d("发送消息", "上传图片的结果:"+Return);
+
 			if (Return.startsWith("Done"))
 			{
 				uploadSucess = 1;
 				remoteFilePath=Return.substring(5);
-				upload_done|=2;
+				url = "http://"+phpIP+"/onair/mms/"+remoteFilePath;
 			}else{
 				uploadSucess = -1;
 				attached=String.valueOf(Integer.parseInt(attached)& 0xFD);
@@ -492,10 +495,13 @@ public class SendAgent {
 			return;
 		}
 		//2.发送消息
-		groupMsg.setAttachmentURL(remoteFilePath);
+		android.util.Log.d("发送消息", "groupMsg.setUrl(url): "+url);
+		android.util.Log.d("发送消息", "groupMsg.setPath(remoteFilePath):  "+remoteFilePath);
+		groupMsg.setUrl(url);
+		groupMsg.setPath(remoteFilePath);
 		Gson gson = new Gson();
 		String msgJson = gson.toJson(groupMsg);
-		android.util.Log.d("SendFileAgent", msgJson);
-		AireJupiter.getInstance().tcpSocket.send850(Integer.toHexString(mGroupID),msgJson);
+		android.util.Log.d("发送消息", "发送850的body: "+msgJson);
+		AireJupiter.getInstance().tcpSocket.send850(Integer.toHexString(mGroupID),Integer.toHexString((int) row_id),msgJson);
 	}
 }

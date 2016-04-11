@@ -252,7 +252,8 @@ public class SendFileAgent {
 
 	//jack 2.4.51 group发送文件
 	public boolean onGroupSend(final GroupMsg groupMsg) {
-		if (groupMsg.getContent().length()==0 && groupMsg.getAttached().equals("0")) return false;
+		android.util.Log.d("发送消息", "发送消息的内容: "+groupMsg.toString());
+		if (groupMsg.getCt().length()==0 && groupMsg.getAt().equals("0")) return false;
 		// TODO: 2016/3/30  jack 发送 文件 消息
 		Thread thr = new Thread(new Runnable(){
 			public void run()
@@ -270,7 +271,7 @@ public class SendFileAgent {
 		//1.上传文件
 		String remoteFilePath="";
 		String Return="";
-		int upload_done=0;
+		String url="";
 
 		String phpIP = null;
 		if (AireJupiter.getInstance() != null) {  //tml*** china ip
@@ -282,13 +283,13 @@ public class SendFileAgent {
 		int uploadSucess = 0; // 0 no attachment,-1 attachment upload fail, 1 attachment upload sucess
 			try
 			{
-				String filename = groupMsg.getAttachmentURL().substring(groupMsg.getAttachmentURL().lastIndexOf("/")+1).replace(" ", "");
+				String filename = groupMsg.getUrl().substring(groupMsg.getUrl().lastIndexOf("/")+1).replace(" ", "");
 				int count=0;
 				ConversationActivity.fileUploading = true;
 				do{
 					MyNet net=new MyNet(mContext);
 					Return=net.doPostAttach8("uploadfiles_aire.php", myidx,
-							URLEncoder.encode(filename, "UTF-8"),  groupMsg.getAttachmentURL(), phpIP);
+							URLEncoder.encode(filename, "UTF-8"),  groupMsg.getUrl(), phpIP);
 					if(Return.startsWith("Done"))
 						break;
 					count++;
@@ -296,17 +297,22 @@ public class SendFileAgent {
 			}catch(Exception e){
 				Log.e("doPostAttach8 uploading !@#$  "+e.getMessage());
 			}
+
 			ConversationActivity.fileUploading = false;
 			Log.d("Return="+Return);
+			android.util.Log.d("发送消息", "上传文件的结果:"+Return);
+
 			if (Return.startsWith("Done"))
 			{
 				uploadSucess = 1;
 				remoteFilePath=Return.substring(5);
-				upload_done|=8;
+				try {
+					url ="http://"+phpIP+"/onair/ulfiles/"+URLEncoder.encode(remoteFilePath, "UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
 			}else
 				uploadSucess = -1;
-
-
 		synchronized(lock_200){
 			try{
 				lock_200.wait(1000);
@@ -321,10 +327,13 @@ public class SendFileAgent {
 			return;
 		}
 		//2.发送消息
-		groupMsg.setAttachmentURL(remoteFilePath);
+		android.util.Log.d("发送消息", "groupMsg.setUrl(url): "+url);
+		android.util.Log.d("发送消息", "groupMsg.setPath(remoteFilePath):  "+remoteFilePath);
+		groupMsg.setUrl(url);
+		groupMsg.setPath(remoteFilePath);
 		Gson gson = new Gson();
 		String msgJson = gson.toJson(groupMsg);
-		android.util.Log.d("SendFileAgent", msgJson);
-		AireJupiter.getInstance().tcpSocket.send850(Integer.toHexString(mGroupID), msgJson);
+		android.util.Log.d("发送消息", "发送850的body: "+msgJson);
+		AireJupiter.getInstance().tcpSocket.send850(Integer.toHexString(mGroupID), Integer.toHexString((int) row_id),msgJson);
 	}
 }

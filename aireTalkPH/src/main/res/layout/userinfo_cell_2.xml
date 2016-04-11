@@ -33,15 +33,18 @@
 
     <TextView
         android:id="@+id/friendname"
+        android:maxLines="2"
+        android:ellipsize="end"
         android:textSize="17sp"
         android:textColor="@color/darkgray"
         android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:paddingLeft="10dp"
-        android:maxWidth="140dp"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/photo"/>
+        android:layout_toRightOf="@+id/photo"
+        android:maxWidth="140dp"/>
+
     
     <TextView
 		android:id="@+id/mood"

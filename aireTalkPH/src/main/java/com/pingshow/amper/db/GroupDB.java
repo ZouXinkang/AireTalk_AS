@@ -44,7 +44,51 @@ public class GroupDB {
 	    KEY_R3			+ " TEXT );";
 	
 	private final Context context;
-	
+
+	public synchronized  void GdbbeginTransaction(){
+		mDb.beginTransaction();
+	}
+
+	public synchronized void GdbEndTransaction(){
+		mDb.setTransactionSuccessful();
+		mDb.endTransaction();
+	}
+	//jack 2.4.51 将群组插入数据库
+	public synchronized long insertGroup(int groupidx, String name, int idx, int rank) {
+		ContentValues vals = new ContentValues();
+		vals.put(KEY_GROUPIDX, groupidx);
+		vals.put(KEY_IDX, idx);
+		vals.put(KEY_TIME, new Date().getTime());
+		vals.put(KEY_NAME, name);
+		vals.put(KEY_R1, rank);
+		return mDb.insert(GROUP_DB_TABLE, null, vals);
+	}
+
+	/**
+	 * jack
+	 * 查询群主
+	 * @return 群主
+	 * @param groupidx
+	 */
+	public int getGroupCreator(int groupidx) {
+		String creator="0";
+		if(!mDb.isOpen()) return 0;
+		Cursor cursor=mDb.query(true, GROUP_DB_TABLE,
+				null, KEY_GROUPIDX + "=" + groupidx+ " AND "+KEY_R1+" = 0", null,
+				null, null, null, null);
+		if (cursor!=null)
+		{
+			if (cursor.moveToNext())
+			{
+				creator = cursor.getString(3);
+			}
+			cursor.close();
+		}
+
+		Log.w("addG.mGDB getGroupCreator=" + groupidx + " " + creator);
+		return Integer.parseInt(creator);
+	}
+
 	private static class DatabaseHelper extends SQLiteOpenHelper {
 		DatabaseHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);

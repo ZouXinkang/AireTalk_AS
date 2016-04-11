@@ -68,6 +68,10 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
     private ArrayList<String> removeMembers;
     private MyPreference mPref;
     private String groupID;
+    private StringBuffer nameBuffer;
+//    private int rowid;
+
+    private boolean is_admin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +80,14 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
         //初始化组合数据
         initData();
 
+        //初始化视图和点击事件
+        initView();
+
+        //显示成员
+        showMembers();
+    }
+
+    private void initView() {
         //设置群名称
         ((TextView) findViewById(R.id.tv_groupname)).setText(groupname);
 
@@ -90,9 +102,6 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
         chattotop.setOnClickListener(this);
         groupmsg.setOnClickListener(this);
         exit_grp.setOnClickListener(this);
-
-        //显示成员
-        showMembers();
     }
 
     //初始化数据
@@ -104,6 +113,7 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
 
         //群组成员
         members = new ArrayList<Member>();
+
         //被删除的群组成员
         removeMembers = new ArrayList<String>();
 
@@ -112,6 +122,9 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
 
         GroupDB mGDB = new GroupDB(this);
         mGDB.open(true);
+        // TODO: 2016/4/6  查询群组中的创建者,如果是创建者才显示删人按钮'
+        int creatorIdx = mGDB.getGroupCreator(Integer.parseInt(groupID));
+        if (creatorIdx==Integer.parseInt(mPref.read("myIdx")))is_admin=true;
 
         sendeeList = mGDB.getGroupMembersByGroupIdx(Integer.parseInt(groupID));
         mGDB.close();
@@ -135,8 +148,6 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
         //设置idx
         member.setIdx(Integer.parseInt(idx));
         //设置头像
-
-//          String userphotoPath = Global.SdcardPath_inbox + "photo_" + idx + ".jpg";
         String userphotoPath;
         if (Integer.parseInt(idx) == Integer.parseInt(mPref.read("myIdx"))) {
             int uid = Integer.valueOf(mPref.read("myID", "0"), 16);
@@ -159,7 +170,7 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
     private void showMembers() {
         adapter = new GridAdapter(this, members);
         gridView.setAdapter(adapter);
-        //设置touchlistener方面用户退出删除模式
+        //设置touchlistener方便用户退出删除模式
         gridView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -262,12 +273,11 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
         private Context context;
         public boolean isInDeleteMode;
 
-        private boolean is_admin = true;
-
         public GridAdapter(Context context, ArrayList<Member> members) {
             this.context = context;
             this.members = members;
             isInDeleteMode = false;
+            nameBuffer = new StringBuffer("");
 
         }
 
@@ -343,11 +353,11 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
                         // TODO: 2016/3/23 将移出好友的从group删除
                         removeMembersFromGroup();
 
-                        Toast.makeText(context, "进入选人界面", Toast.LENGTH_SHORT).show();
-                        // TODO: 2016/3/17 使用添加好友页面,PickupActivity,自动判断是否是多方会议,不是的话只显示好友列表
+                        // TODO: 2016/3/17 使用添加好友页面,PickupActivity
                         Intent it = new Intent(context, MembersListActivity.class);
                         it.putExtra("Exclude", sendeeList);
                         it.putExtra("GroupID", groupID);
+
                         startActivityForResult(it, 0);
                     }
                 });
@@ -403,7 +413,7 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
             members.remove(member);
             //将删除的好友加入集合中
             removeMembers.add(member.getIdx()+"");
-
+            nameBuffer.append(member.getNickname()+",");
             sendeeList.remove(member.getIdx() + "");
             notifyDataSetChanged();
         }
@@ -422,11 +432,13 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
         //发送广播call Php
         Intent deleteMembers = new Intent(Global.Action_InternalCMD);
         deleteMembers.putExtra("Command",Global.CMD_LEAVE_GROUP);
-        deleteMembers.putExtra("GroupID",Integer.parseInt(groupID));
-        deleteMembers.putStringArrayListExtra("idxs",removeMembers);
+        deleteMembers.putExtra("GroupID", Integer.parseInt(groupID));
+        deleteMembers.putStringArrayListExtra("idxs", removeMembers);
+        deleteMembers.putExtra("nameBuffer",nameBuffer.toString());
         sendBroadcast(deleteMembers);
         //清空列表
         removeMembers.clear();
+        nameBuffer.delete(0,nameBuffer.length());
     }
 
 }

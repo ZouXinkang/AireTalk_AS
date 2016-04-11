@@ -583,6 +583,69 @@ public class MyNet {
 		return Return;
 	}
 
+	public boolean DownloadGroupFile(String tmpCurFilePath, String filename, int attached) {
+		if (!getNetStatus()) return false;
+		boolean ret=false;
+		Intent intent = new Intent();
+		intent.setAction(Global.Action_FileDownload);
+		String sURL = tmpCurFilePath;
+		try {
+			HttpURLConnection URLConn = null;
+			String proxyHost = android.net.Proxy.getDefaultHost();
+			if (proxyHost != null) {
+				java.net.Proxy p = new java.net.Proxy(java.net.Proxy.Type.HTTP, new InetSocketAddress(
+						android.net.Proxy.getDefaultHost(), android.net.Proxy.getDefaultPort()));
+				URLConn = (HttpURLConnection) new URL(sURL).openConnection(p);
+			} else {
+				URLConn = (HttpURLConnection) new URL(sURL).openConnection();
+			}
+			//
+
+//	    	String sURL=HostURL+surl;
+//	    	Log.d(sURL);
+//	    	URL url = new URL(sURL);
+//	    	HttpURLConnection URLConn = (HttpURLConnection) url.openConnection();
+			URLConn.setReadTimeout(HTTP_READ_TIME_OUT);
+			URLConn.setConnectTimeout(HTTP_CONNECTION_TIME_OUT);
+			URLConn.setRequestMethod("GET");
+			URLConn.setDoInput(true);
+			URLConn.connect();
+
+			InputStream stream = URLConn.getInputStream();
+			File file1 = new File(filename.substring(0, filename.lastIndexOf("/")));
+			if(!file1.exists()){
+				file1.mkdirs();
+			}
+			String temp=filename+".tmp";
+			FileOutputStream file= new FileOutputStream(temp);
+
+			byte [] data=new byte[1024];
+			int len;
+			while((len=stream.read(data)) > 0)
+			{
+				file.write(data, 0, len);
+			}
+			file.flush();
+			file.close();
+			stream.close();
+			ret=true;
+
+			MyUtil.renameFile(temp, filename);
+			URLConn.disconnect();
+
+			intent.putExtra("err", false);
+		} catch (Exception e) {
+			Log.e("Download Failed1 !@#$ "+e.getMessage());
+			intent.putExtra("err", true);
+		}
+		intent.putExtra("attached", attached);
+		intent.putExtra("filename", filename);
+		mContext.sendBroadcast(intent);
+		Log.i("net.Download1! " + sURL);
+		return ret;
+
+	}
+
 	static class MyMultipartEntity extends MultipartEntity {
 		private long total=1;
 		private String filename;

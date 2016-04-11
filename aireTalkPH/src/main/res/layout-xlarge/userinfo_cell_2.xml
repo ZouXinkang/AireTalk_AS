@@ -32,6 +32,8 @@
 
     <TextView
         android:id="@+id/friendname"
+        android:maxLines="2"
+        android:ellipsize="end"
         android:textSize="24sp"
         android:textColor="@color/darkgray"
         android:gravity="center_vertical"

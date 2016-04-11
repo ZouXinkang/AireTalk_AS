@@ -379,8 +379,11 @@
 
 <string name="add_new_member_in_group">このグループに新しいメンバーを追加するようにしてください。</string>
 <string name="group_invite_new_member">%1$sは、\"%2$s\"のグループに追加されました</string>
+    //jack 2.4.51
+    <string name="group_invite_new_members">%1$s invited \"%2$s\" to join in the group</string>
+    <string name="group_removed_members">%1$s has been removed from the group</string>
 
-<!-- from iphone -->
+    <!-- from iphone -->
 <string name="aire_call">Aireコール</string>
 <string name="purchase">購買</string>
 <string name="airecall_credits">Aireコールの残額</string>

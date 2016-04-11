@@ -6,49 +6,77 @@ package com.pingshow.amper.bean;
  */
 public class GroupMsg {
     private String cmd;
-    private String attachment;
-    private String attachmentURL;
-    private String content;
+    private String at;
+    private String url;
+    private String path;
+    private String ct;
 
-    public GroupMsg(String cmd, String attachment, String attachmentURL, String content) {
+    /**
+     *
+     * @param cmd  命令行
+     * @param attachment 附件类型标注
+     * @param attachmentURL 附件URL(服务器端文件url)
+     * @param content   文本信息
+     * @param attachmentPath 本地文件名
+     */
+    public GroupMsg( String cmd, String attachment, String attachmentURL, String content,String attachmentPath) {
+        this.path = attachmentPath;
         this.cmd = cmd;
-        this.attachment = attachment;
-        this.attachmentURL = attachmentURL;
-        this.content = content;
+        this.at = attachment;
+        this.url = attachmentURL;
+        this.ct = content;
     }
+    public GroupMsg(){}
 
-    public GroupMsg() {
-    }
-
-    public String getCMD() {
+    public String getCmd() {
         return cmd;
     }
 
-    public void setCMD(String cmd) {
+    public void setCmd(String cmd) {
         this.cmd = cmd;
     }
 
-    public String getAttached() {
-        return attachment;
+    public String getAt() {
+        return at;
     }
 
-    public void setAttached(String attached) {
-        this.attachment = attached;
+    public void setAt(String at) {
+        this.at = at;
     }
 
-    public String getAttachmentURL() {
-        return attachmentURL;
+    public String getUrl() {
+        return url;
     }
 
-    public void setAttachmentURL(String attachmentURL) {
-        this.attachmentURL = attachmentURL;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public String getContent() {
-        return content;
+    public String getCt() {
+        return ct;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setCt(String ct) {
+        this.ct = ct;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    // TODO: 2016/4/11 稍后删除
+    @Override
+    public String toString() {
+        return "GroupMsg{" +
+                "cmd='" + cmd + '\'' +
+                ", at='" + at + '\'' +
+                ", url='" + url + '\'' +
+                ", path='" + path + '\'' +
+                ", ct='" + ct + '\'' +
+                '}';
     }
 }

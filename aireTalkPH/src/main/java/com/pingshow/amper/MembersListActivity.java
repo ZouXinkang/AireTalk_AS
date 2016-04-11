@@ -12,6 +12,7 @@ import android.os.Message;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ImageSpan;
+import android.util.*;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -26,8 +27,10 @@ import com.pingshow.amper.contacts.ContactsOnline;
 import com.pingshow.amper.contacts.ContactsQuery;
 import com.pingshow.amper.db.AmpUserDB;
 import com.pingshow.amper.db.GroupDB;
+import com.pingshow.amper.db.SmsDB;
 import com.pingshow.network.MyNet;
 import com.pingshow.util.AsyncImageLoader;
+import com.pingshow.util.MyTelephony;
 import com.pingshow.util.MyUtil;
 import com.pingshow.util.ResizeImage;
 
@@ -35,6 +38,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +59,7 @@ public class MembersListActivity extends Activity {
     private AmpUserDB mADB;
     private ContactsQuery cq;
     private ArrayList<String> excludeList;
-
+    private StringBuffer nameBuffer;
     private AsyncImageLoader asyncImageLoader;
 
     private ProgressDialog progress;
@@ -92,12 +96,9 @@ public class MembersListActivity extends Activity {
         mListView = (ListView) findViewById(R.id.lv_listview);
         mDensity = getResources().getDisplayMetrics().density;
 
-        //获取已经在群里的人
-        excludeList = (ArrayList<String>) (getIntent().getSerializableExtra("Exclude"));
-        groupID = getIntent().getStringExtra("GroupID");
+        initData();
 
-        mPref = new MyPreference(this);
-        myIdx = Integer.parseInt(mPref.read("myID", "0"), 16) + "";
+        mListView.setOnItemClickListener(onChooseUser);
 
         findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,19 +122,22 @@ public class MembersListActivity extends Activity {
                     if (map.get("checked").equals("2")) {
                         String idx = map.get("idx");
                         idxBuffer.append(idx + " ");
+                        nameBuffer.append(mADB.getNicknameByIdx(Integer.parseInt(idx)) + ",");
                         idxList.add(idx);
                         addressList.add(mADB.getAddressByIdx(Integer
                                 .parseInt(idx)));
                         count++;
                     }
                 }
+
+                //选中的有效人数大于0,判断是否是群组加人还是新生成群组
                 if (count > 0) {
                     Intent it = new Intent();
                     String idxArray = idxBuffer.toString();
 
                     if (!TextUtils.isEmpty(groupID)) {
                         // TODO: 2016/3/21 已经是群组,发送将人加入群组的广播,并返回群设置界面
-                        SendAgent agent = new SendAgent(MembersListActivity.this, Integer.parseInt(mPref.read("myID", "0"), 16), 0,
+                        SendAgent agent = new SendAgent(MembersListActivity.this, Integer.parseInt(myIdx), 0,
                                 true);
 
                         //发送广播call Php
@@ -145,14 +149,20 @@ public class MembersListActivity extends Activity {
 
                         //对指定的人发送加群的tcp
                         agent.setAsGroup(Integer.parseInt(groupID));
-                        GroupMsg groupAdd = new GroupMsg("groupadd", "", "", "");
+
+                        // TODO: 2016/4/6 将加人消息写入数据库
+                        String content = String.format(getString(R.string.group_invite_new_members), mPref.read("myNickname"), nameBuffer.toString());
+                        //将这句邀请加入信息数据库
+                        insertMsg(content);
+                        //发送tcp通知组成员
+                        GroupMsg groupAdd = new GroupMsg("groupUpdate", "0", "", content, "");
                         agent.onGroupSend(groupAdd);
 
                         //返回GroupSettingActivity的idxArray用于更新界面
                         it.putExtra("idx", idxArray);
                         setResult(RESULT_OK, it);
                         finish();
-                    }else{
+                    } else {
                         // TODO: 2016/3/21 本来不是群组,之后创建群组 ,
                         //开启进入conversationActivity
                         createGroup(idxArray);
@@ -161,7 +171,53 @@ public class MembersListActivity extends Activity {
             }
         });
 
-        initData();
+
+    }
+
+    private void insertMsg(final String content) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String obligate1 = null;
+                if (AireJupiter.getInstance() != null) {  //tml*** china ip
+                    obligate1 = AireJupiter.getInstance().getIsoPhp(0, true, null);
+                } else {
+                    obligate1 = AireJupiter.myPhpServer_default;
+                }
+                String address = "[<GROUP>]" + groupID;
+
+                ContactsQuery cq = new ContactsQuery(MembersListActivity.this);
+                long contactid = cq.getContactIdByNumber(address);
+
+                boolean flag = ConversationActivity.sender != null && MyTelephony.SameNumber(ConversationActivity.sender, "[<GROUP>]" + groupID);
+                int read = (flag == true ? 1 : 0);
+
+                String displayname = mADB.getNicknameByAddress(address);
+                SmsDB smsDB = new SmsDB(MembersListActivity.this);
+                smsDB.open();
+
+                // TODO: 2016/4/7 之后删除
+                android.util.Log.d("已知群组添加人", "将加人消息插入数据库:----------------"
+                        + "msg.address  " + address
+                        + "  msg.contactid  " + contactid
+                        + "  msg.time  方法中"
+                        + "  msg.read  1"
+                        + "  msg.status  -1"
+                        + "  msg.type  1"
+                        + "  msg.subject  为空串"
+                        + "  msg.content  " + content
+                        + "  msg.attached  0"
+                        + "  msg.att_path_aud  null"
+                        + "  msg.att_path_img  null"
+                        + "  msg.longitudeE6  0"
+                        + "  msg.latitudeE6  0"
+                        + "  msg.displayname  " + displayname
+                        + "  msg.obligate1  " + obligate1
+                        + "  msg.group_member  " + Integer.parseInt(myIdx));
+                smsDB.insertMessage(address, contactid, (new Date()).getTime(), read, -1, 1, "", content, 0, null, null, 0, 0, 0, 0, displayname, obligate1, Integer.parseInt(myIdx));
+                smsDB.close();
+            }
+        }).start();
     }
 
     //jack 创建群组
@@ -174,10 +230,9 @@ public class MembersListActivity extends Activity {
         String[] items = idxArray.split(" ");
         final ArrayList<String> sendeeList = new ArrayList<String>();
 
-
         //jack 2.4.51 初始化成员(聊天个人+本身),拼接选择成员,并组合数据
-        mIdx = excludeList.get(0);
-        members = myIdx+","+mIdx;
+        mIdx = excludeList.get(0);//自己
+        members = myIdx+","+mIdx;//自己+聊天的人
         groupName = mPref.read("myNickname") + "、" + mADB.getNicknameByIdx(Integer.parseInt(mIdx));
 
         for (int i = 0; i < items.length; i++) {
@@ -227,7 +282,12 @@ public class MembersListActivity extends Activity {
                     sendeeList.add(mIdx);
                     for (int i = 0; i < sendeeList.size(); i++) {
                         int idx = Integer.parseInt(sendeeList.get(i));
-                        gdb.insertGroup(groupidx, groupName, idx);
+                        // TODO: 2016/4/6  将创建者加入数据库
+                        if (myIdx.equals(sendeeList.get(i))){
+                            gdb.insertGroup(groupidx, groupName, idx,0);
+                        }else {
+                            gdb.insertGroup(groupidx, groupName, idx, 1);
+                        }
                     }
                     gdb.close();
 
@@ -259,25 +319,6 @@ public class MembersListActivity extends Activity {
                         MyUtil.Sleep(250);
                     } while (++count < 3);
 
-                    SendAgent agent = new SendAgent(MembersListActivity.this, Integer.parseInt(myIdx), 0,
-                            true);
-
-                    agent.setAsGroup(groupidx);
-                    ArrayList<String> addressList = new ArrayList<String>();
-                    String allMembers = myIdx + "," + members;
-
-                    String[] sendeeList = allMembers.split(",");
-                    try {
-                        for (int i = 0; i < sendeeList.length; i++)
-                            addressList.add(mADB.getAddressByIdx(Integer
-                                    .parseInt(sendeeList[i])));
-
-                        GroupMsg groupAdd = new GroupMsg("groupadd", "", "", "");
-
-                        agent.onGroupSend(groupAdd);
-                    } catch (Exception e) {
-                    }
-
                     mADB.close();
                     if (progress != null && progress.isShowing())
                         progress.dismiss();
@@ -305,7 +346,15 @@ public class MembersListActivity extends Activity {
         mADB.open();
         cq = new ContactsQuery(this);
 
-        mListView.setOnItemClickListener(onChooseUser);
+        //增加组员的名字
+        nameBuffer = new StringBuffer("");
+        mPref = new MyPreference(this);
+
+        //获取已经在群里的人的集合和GroupID
+        excludeList = (ArrayList<String>) (getIntent().getSerializableExtra("Exclude"));
+        groupID = getIntent().getStringExtra("GroupID");
+
+        myIdx = Integer.parseInt(mPref.read("myIdx")) + "";
 
         //jack 组装数据
         new Thread(mFetchFriends).start();
@@ -367,8 +416,7 @@ public class MembersListActivity extends Activity {
             holder.photoimage.setTag(imagePath);
             Drawable cachedImage = asyncImageLoader.loadDrawable(imagePath, new AsyncImageLoader.ImageCallback() {
                 public void imageLoaded(Drawable imageDrawable, String path) {
-                    ImageView imageViewByTag = null;
-                    imageViewByTag = (ImageView) mListView.findViewWithTag(path);
+                    ImageView imageViewByTag = (ImageView) mListView.findViewWithTag(path);
                     if (imageViewByTag != null && imageDrawable != null) {
                         imageViewByTag.setImageDrawable(imageDrawable);
                     }
@@ -446,8 +494,9 @@ public class MembersListActivity extends Activity {
                     if (excludeList != null)//alec Exclude some users
                     {
                         try {
-                            for (String a : excludeList) {
-                                if (Integer.parseInt(a) == idx) {
+                            for (String ecidx : excludeList) {
+                                if (Integer.parseInt(ecidx) == idx) {
+                                    //代表已经选择的
                                     map.put("checked", "1");
                                     break;
                                 }
@@ -455,6 +504,7 @@ public class MembersListActivity extends Activity {
                         } catch (Exception e) {
                         }
                     }
+                    //将用户存入map
                     amperList.add(map);
                 } while (c.moveToNext());
                 c.close();
@@ -470,8 +520,7 @@ public class MembersListActivity extends Activity {
             Map<String, String> map = amperList.get(position);
             if (map.get("checked").equals("0")) {
                 map.put("checked", "2");
-            } else {
-                if (map.get("checked").equals("2"))
+            } else if(map.get("checked").equals("2")){
                     map.put("checked", "0");
             }
             adapter.notifyDataSetInvalidated();
@@ -484,6 +533,7 @@ public class MembersListActivity extends Activity {
         if (mADB != null && mADB.isOpen())
             mADB.close();
         amperList.clear();
+        nameBuffer.delete(0, nameBuffer.length());
         System.gc();
         System.gc();
     }

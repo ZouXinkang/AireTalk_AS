@@ -381,6 +381,8 @@
 
 <string name="add_new_member_in_group">您确定要为这个群组添加新成员吗？</string>
 <string name="group_invite_new_member">%1$s已经被邀请到\"%2$s\"群组</string>
+<string name="group_invite_new_members">%1$s邀请\"%2$s\"加入群组</string>
+    <string name="group_removed_members">%1$s被从群组中移除</string>
 
 <!-- from iphone -->
     <!--jack 2.4.51-->

@@ -19,9 +19,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Looper;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.pingshow.amper.AireJupiter;
+import com.pingshow.amper.ConversationActivity;
 import com.pingshow.amper.Global;
 import com.pingshow.amper.Log;
 import com.pingshow.amper.MyPreference;
@@ -45,210 +48,217 @@ import com.pingshow.voip.DialerActivity;
 import com.pingshow.voip.core.VoipCall;
 
 public class MySocket {
-	//jack 2.4.51
-	private Gson gson = new Gson();
+    //jack 2.4.51
+    private Gson gson = new Gson();
 
-	static int CLIENT_CONNECTION_TIMEOUT = 0;
-	static int TRANSIT_TIMEOUT = 10000; // 10,15 sec
-	static long minOutPeriod = 100;  //tml*** outToServer period/
+    static int CLIENT_CONNECTION_TIMEOUT = 0;
+    static int TRANSIT_TIMEOUT = 10000; // 10,15 sec
+    static long minOutPeriod = 100;  //tml*** outToServer period/
 
-	static public String ServerIP = AireJupiter.myFafaServer_default;
-	public static String ServerDM_d = "", ServerIP_d = "";
+    static public String ServerIP = AireJupiter.myFafaServer_default;
+    public static String ServerDM_d = "", ServerIP_d = "";
 
-	private Socket clientSocket = null;
-	private DataInputStream inFromServer;
-	private DataOutputStream outToServer;
+    private Socket clientSocket = null;
+    private DataInputStream inFromServer;
+    private DataOutputStream outToServer;
 
-	public boolean tcpStatus0 = true;
-	private boolean tcpStatus1 = false;
-	private boolean tcpStatus2 = false;
-	public int logged = 0;
-	public int Logging = 0;
+    public boolean tcpStatus0 = true;
+    private boolean tcpStatus1 = false;
+    private boolean tcpStatus2 = false;
+    public int logged = 0;
+    public int Logging = 0;
 
-	public String myPhoneNumber;
-	public String myPasswd;
-	public String mySipServer;
-	private String SenderID;
-	private String SendeeAddress;
+    public String myPhoneNumber;
+    public String myPasswd;
+    public String mySipServer;
+    private String SenderID;
+    private String SendeeAddress;
 
-	private Context mContext;
-	private AmpUserDB mADB;
-	private RelatedUserDB mRDB;
-	private boolean RecvedCallACK = false;
-	private boolean NotfoundACK = false;
-	private boolean WaitForPush = false;
-	private String myId="xxxxx";
-	private SocketCommThread thrClient = null;
-	private MyPreference mPref;
-	private byte[] buffer;
-	private String status460;
-	private boolean needUpdateStatus=false;
-	private SmsDB mSmsDB;
-	private ArrayList<String> ridList;
+    private Context mContext;
+    private AmpUserDB mADB;
+    private RelatedUserDB mRDB;
+    private boolean RecvedCallACK = false;
+    private boolean NotfoundACK = false;
+    private boolean WaitForPush = false;
+    private String myId = "xxxxx";
+    private SocketCommThread thrClient = null;
+    private MyPreference mPref;
+    private byte[] buffer;
+    private String status460;
+    private boolean needUpdateStatus = false;
+    private SmsDB mSmsDB;
+    private ArrayList<String> ridList;
+    private GroupDB groupDB;
 
-	public MySocket(String phoneNumber, String passwd, Context context,
-					AmpUserDB ampDB, RelatedUserDB rdb,ContactsQuery cq,
-					String tcpServerIP, SmsDB smsDB) {
-		ServerIP = tcpServerIP;
-		myPhoneNumber = phoneNumber;
-		myPasswd = passwd;
-		mContext = context;
-		mADB = ampDB;
-		mRDB = rdb;
-		mSmsDB = smsDB;
-		mPref = new MyPreference(context);
-		myId = mPref.read("myID");
-		buffer = new byte[2560];
-		ridList = new ArrayList<String>();
-	}
+    public MySocket(String phoneNumber, String passwd, Context context,
+                    AmpUserDB ampDB, RelatedUserDB rdb, ContactsQuery cq,
+                    String tcpServerIP, SmsDB smsDB) {
+        ServerIP = tcpServerIP;
+        myPhoneNumber = phoneNumber;
+        myPasswd = passwd;
+        mContext = context;
+        mADB = ampDB;
+        mRDB = rdb;
+        mSmsDB = smsDB;
+        mPref = new MyPreference(context);
+        myId = mPref.read("myID");
+        buffer = new byte[2560];
+        ridList = new ArrayList<String>();
+    }
 
-	public void updateMySipServer(String sipServer) {
-		mPref.write("mySipServer", sipServer);
-		if (AireJupiter.getInstance() != null) {
+    public void updateMySipServer(String sipServer) {
+        mPref.write("mySipServer", sipServer);
+        if (AireJupiter.getInstance() != null) {
 //			sipServer = AireJupiter.getInstance().getIsoSip();  //tml*** china ip
-			AireJupiter.getInstance().mySipServer = sipServer;
-		}
-	}
+            AireJupiter.getInstance().mySipServer = sipServer;
+        }
+    }
 
-	public class SocketCommThread extends Thread {
-		boolean ready;
-		boolean ready450;
-		boolean ready470;
-		boolean ready310;
-		boolean Running = true;
+    public class SocketCommThread extends Thread {
+        boolean ready;
+        boolean ready450;
+        boolean ready470;
+        boolean ready310;
+        boolean Running = true;
 
-		public void reset() {
-			ready = false;
-		}
+        public void reset() {
+            ready = false;
+        }
 
-		public boolean isReady() {
-			return ready;
-		}
+        public boolean isReady() {
+            return ready;
+        }
 
-		public void reset450() {
-			ready450 = false;
-		}
+        public void reset450() {
+            ready450 = false;
+        }
 
-		public boolean isReady450() {
-			return ready450;
-		}
-		public void reset470() {
-			ready470 = false;
-		}
+        public boolean isReady450() {
+            return ready450;
+        }
 
-		public boolean isReady470() {
-			return ready470;
-		}
-		public void reset310() {
-			ready310 = false;
-		}
+        public void reset470() {
+            ready470 = false;
+        }
 
-		public boolean isReady310() {
-			return ready310;
-		}
+        public boolean isReady470() {
+            return ready470;
+        }
 
-		public void terminate() {
-			Running = false;
-		}
+        public void reset310() {
+            ready310 = false;
+        }
 
-		public void run() {
-			ArrayList<String> fromServerA = new ArrayList<String>();
-			String fromServer;
-			int countSpam1 = 0, countSpam2 = 0;
-			final int serverSpamLimit1 = 10, serverSpamLimit2 = 1000;
-			Running = true;
-			android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_MORE_FAVORABLE);
-			do {
-				fromServer = "";
-				if (inFromServer==null || buffer==null)
-				{
-					Running = false;
-					Log.e("!fromServer :: NULL1!");
-					disconnect("null socket", true);
-					return;
-				}
-				try {
-					buffer[0] = 0;
-					inFromServer.read(buffer);
+        public boolean isReady310() {
+            return ready310;
+        }
+
+        public void terminate() {
+            Running = false;
+        }
+
+        public void run() {
+            ArrayList<String> fromServerA = new ArrayList<String>();
+            String fromServer;
+            int countSpam1 = 0, countSpam2 = 0;
+            final int serverSpamLimit1 = 10, serverSpamLimit2 = 1000;
+            Running = true;
+            android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_MORE_FAVORABLE);
+            do {
+                fromServer = "";
+                if (inFromServer == null || buffer == null) {
+                    Running = false;
+                    Log.e("!fromServer :: NULL1!");
+                    disconnect("null socket", true);
+                    return;
+                }
+                try {
+                    buffer[0] = 0;
+                    inFromServer.read(buffer);
 //					fromServer = MyUtil.decryptTCPCmd(buffer);
-					fromServerA.addAll(MyUtil.decryptTCPCmd2(buffer));  //tml|alex*** tcp stuck bug
-				} catch (Exception e) {
-					if (!Running) return;
-					Log.e("!fromServer :: TIMEOUT...!");
-					Running = false;
-					disconnect("bad socket read", true);
-					return;
-				}
-				//tml|alex*** tcp stuck bug
-				while (fromServerA.size() > 0) {
+                    fromServerA.addAll(MyUtil.decryptTCPCmd2(buffer));  //tml|alex*** tcp stuck bug
+                } catch (Exception e) {
+                    if (!Running) return;
+                    Log.e("!fromServer :: TIMEOUT...!");
+                    Running = false;
+                    disconnect("bad socket read", true);
+                    return;
+                }
+                //tml|alex*** tcp stuck bug
+                while (fromServerA.size() > 0) {
 
-					try {  //tml|alex*** tcp stuck bug
-						fromServer = fromServerA.remove(0);
-						if (fromServer == null) throw new IOException();
-					} catch (Exception e) {
-						Log.e("!fromServer :: Q!@#$!");
-						fromServer = null;
-						fromServerA.clear();
-					}
-					//tml*** tcp junk debug
-					if (fromServer == null) {
-						countSpam1++;
-						Log.e("!fromServer(" + fromServerA.size() + "):: null!@#$ " + countSpam1);
-						if (countSpam1 > serverSpamLimit1) {
-							if (!Running) return;
-							Log.e("!fromServer :: null ERROR!!!");
-							Running = false;
-							countSpam1 = 0;
-							disconnectAndReconnect("fromServer null", true);
-							return;
-						}
-						continue;
-					} else if (fromServer.equals("")) {
-						countSpam2++;
-						if (countSpam2 == 100 || countSpam2 == 200
-								|| countSpam2 == 500 || countSpam2 == 1000
-								|| countSpam2 == 5000 || countSpam2 == 10000
-								|| countSpam2 == 50000 || countSpam2 == 100000)
-							Log.e("!fromServer(" + fromServerA.size() + "):: z_!@#$ " + countSpam2);
-						if (countSpam2 > serverSpamLimit2) {
-							if (!Running) return;
-							Log.e("!fromServer :: junk ERROR!!!");
-							Running = false;
-							fromServerA.clear();
-							countSpam2 = 0;
-							disconnectAndReconnect("fromServer junk", true);
-							return;
-						}
-						continue;
-					} else {
-						if (countSpam1 > 0 || countSpam2 > 0)
-							Log.w("!fromServer :: !@#$ recovered! " + countSpam1 + countSpam2);
-						countSpam1 = 0; countSpam2 = 0;
-					}
+                    try {  //tml|alex*** tcp stuck bug
+                        fromServer = fromServerA.remove(0);
+                        if (fromServer == null) throw new IOException();
+                    } catch (Exception e) {
+                        Log.e("!fromServer :: Q!@#$!");
+                        fromServer = null;
+                        fromServerA.clear();
+                    }
+                    //tml*** tcp junk debug
+                    if (fromServer == null) {
+                        countSpam1++;
+                        Log.e("!fromServer(" + fromServerA.size() + "):: null!@#$ " + countSpam1);
+                        if (countSpam1 > serverSpamLimit1) {
+                            if (!Running) return;
+                            Log.e("!fromServer :: null ERROR!!!");
+                            Running = false;
+                            countSpam1 = 0;
+                            disconnectAndReconnect("fromServer null", true);
+                            return;
+                        }
+                        continue;
+                    } else if (fromServer.equals("")) {
+                        countSpam2++;
+                        if (countSpam2 == 100 || countSpam2 == 200
+                                || countSpam2 == 500 || countSpam2 == 1000
+                                || countSpam2 == 5000 || countSpam2 == 10000
+                                || countSpam2 == 50000 || countSpam2 == 100000)
+                            Log.e("!fromServer(" + fromServerA.size() + "):: z_!@#$ " + countSpam2);
+                        if (countSpam2 > serverSpamLimit2) {
+                            if (!Running) return;
+                            Log.e("!fromServer :: junk ERROR!!!");
+                            Running = false;
+                            fromServerA.clear();
+                            countSpam2 = 0;
+                            disconnectAndReconnect("fromServer junk", true);
+                            return;
+                        }
+                        continue;
+                    } else {
+                        if (countSpam1 > 0 || countSpam2 > 0)
+                            Log.w("!fromServer :: !@#$ recovered! " + countSpam1 + countSpam2);
+                        countSpam1 = 0;
+                        countSpam2 = 0;
+                    }
 
-					Log.d("@fromServer(" + fromServerA.size() + "):: " + fromServer);
+                    Log.d("@fromServer(" + fromServerA.size() + "):: " + fromServer);
 
-					if (fromServer.startsWith("210")) {
-						String items[] = null;
-						Boolean isExist=false;
-						try {
-							items = fromServer.split("/");
-							if (fromServer.contains("[<NEW") || fromServer.contains("(iPh)<Z>4"))
-							{
-								// No need to feedback
-							}
-							else
-							{
-								String rowid = "0";
-								try {
-									if (items.length>0)
-									{
-										String tmp = items[items.length - 1];
-										if (tmp.startsWith("`")) {
-											rowid = tmp.substring(1);
-										}
-									}
-								} catch (Exception e) {}
+                    if (fromServer.startsWith("210")) {
+                        android.util.Log.d("Socket210", fromServer);
+                        String items[] = null;
+                        Boolean isExist = false;
+                        try {
+                            items = fromServer.split("/");
+
+                            // TODO: 2016/4/1 之后删除
+                            for (int i = 0; i < items.length; i++) {
+                                android.util.Log.d("Socket210", "items[" + i + "] " + items[i]);
+                            }
+
+                            if (fromServer.contains("[<NEW") || fromServer.contains("(iPh)<Z>4")) {
+                                // No need to feedback
+                            } else {
+                                String rowid = "0";
+                                try {
+                                    if (items.length > 0) {
+                                        String tmp = items[items.length - 1];
+                                        if (tmp.startsWith("`")) {
+                                            rowid = tmp.substring(1);
+                                        }
+                                    }
+                                } catch (Exception e) {
+                                }
 //								isExist=ridList.contains(rowid);
 //								if ("0".equals(rowid)) {
 //									isExist=false;
@@ -256,103 +266,102 @@ public class MySocket {
 //								if (!isExist) {
 //									ridList.add(rowid);
 //								}
-								//tml*** rowid check
-								if ("0".equals(rowid)) {
-									isExist = false;
-								} else {
-									String ridItem = items[1] + ":" + rowid;
-									if (ridList.size() > 0) {
-										for (int i = 0; i < ridList.size(); i++) {
-											if (ridList.get(i).equals(ridItem)) {
-												isExist = true;
-												break;
-											}
-										}
-									}
+                                //tml*** rowid check
+                                if ("0".equals(rowid)) {
+                                    isExist = false;
+                                } else {
+                                    String ridItem = items[1] + ":" + rowid;
+                                    // TODO: 2016/4/5 之后删除
+                                    android.util.Log.d("Socket210", "ridItem   " + ridItem);
+                                    if (ridList.size() > 0) {
+                                        for (int i = 0; i < ridList.size(); i++) {
+                                            if (ridList.get(i).equals(ridItem)) {
+                                                isExist = true;
+                                                break;
+                                            }
+                                        }
+                                    }
 
-									if (!isExist) {
-										ridList.add(ridItem);
-									}
-								}
-								//***tml
-								try{
-									outToServerPeriod();  //tml*** outToServer period/
-									outToServer.write(MyUtil.encryptTCPCmd("220/"
-											+ items[1] + "/" + myId + "/" + rowid));
-									Log.d("220/" + items[1] + "/" + myId + "/" + rowid);
-								} catch (Exception e) {
-									Log.e("Failed to send 220 ack back...");
-									disconnect("fail 220", true);
-									return;
-								}
-							}
-						} catch (Exception e) {
-							Log.e("data paring error...");
-							continue;
-						}
+                                    if (!isExist) {
+                                        ridList.add(ridItem);
+                                    }
+                                }
+                                //***tml
+                                try {
+                                    outToServerPeriod();  //tml*** outToServer period/
+                                    outToServer.write(MyUtil.encryptTCPCmd("220/"
+                                            + items[1] + "/" + myId + "/" + rowid));
+                                    Log.d("220/" + items[1] + "/" + myId + "/" + rowid);
+                                } catch (Exception e) {
+                                    Log.e("Failed to send 220 ack back...");
+                                    disconnect("fail 220", true);
+                                    return;
+                                }
+                            }
+                        } catch (Exception e) {
+                            Log.e("data paring error...");
+                            continue;
+                        }
 
-						if (items.length>1)
-						{
-							int idx = Integer.parseInt(items[1], 16);
-							if (mADB.isOpen() && AireJupiter.getInstance()!=null)
-							{
-								Log.d("items210 = " + items[3] + " idx=" + idx);
-								if (mADB.isUserBlocked(idx)==1 || mRDB.isUserBlocked(idx)==1) {//User in black list
-									Log.e("addF.UserBlocked! UserBlocked!");
-									continue;
-								}
-								if (items[3].startsWith("<Z>[<NEWUSERJOINS>]"))
-								{
-									try{
-										String [] info=items[3].split("<Z>", 4);
-										int uid=Integer.parseInt(info[1].substring(16),16);
-										if (mADB.insertUser(info[2],uid,info[3])>0)
-											mRDB.deleteContactByAddress(info[2]);
-										ContactsOnline.setContactOnlineStatus(info[2], 2);
+                        if (items.length > 1) {
+                            int idx = Integer.parseInt(items[1], 16);
+                            if (mADB.isOpen() && AireJupiter.getInstance() != null) {
+                                Log.d("items210 = " + items[3] + " idx=" + idx);
+                                if (mADB.isUserBlocked(idx) == 1 || mRDB.isUserBlocked(idx) == 1) {//User in black list
+                                    Log.e("addF.UserBlocked! UserBlocked!");
+                                    continue;
+                                }
+                                if (items[3].startsWith("<Z>[<NEWUSERJOINS>]")) {
+                                    try {
+                                        String[] info = items[3].split("<Z>", 4);
+                                        int uid = Integer.parseInt(info[1].substring(16), 16);
+                                        if (mADB.insertUser(info[2], uid, info[3]) > 0)
+                                            mRDB.deleteContactByAddress(info[2]);
+                                        ContactsOnline.setContactOnlineStatus(info[2], 2);
 
-										String localfile = Global.SdcardPath_inbox + "photo_" + uid + ".jpg";
-										File f=new File(localfile);
-										if(!f.exists())
-										{
-											String remotefile = "profiles/thumbs/photo_" + uid + ".jpg";
-											try{
-												int success=0;
-												int count=0;
-												do {
-													MyNet net = new MyNet(mContext);
-													//bree
-													success = net.DownloadUserPhoto(remotefile, localfile);
+                                        String localfile = Global.SdcardPath_inbox + "photo_" + uid + ".jpg";
+                                        File f = new File(localfile);
+                                        if (!f.exists()) {
+                                            String remotefile = "profiles/thumbs/photo_" + uid + ".jpg";
+                                            try {
+                                                int success = 0;
+                                                int count = 0;
+                                                do {
+                                                    MyNet net = new MyNet(mContext);
+                                                    //bree
+                                                    success = net.DownloadUserPhoto(remotefile, localfile);
 //													success = net.Download(remotefile, localfile, AireJupiter.myLocalPhpServer);
-													if (success==1||success==0)
-														break;
-													MyUtil.Sleep(500);
-												} while (++count < 2);
+                                                    if (success == 1 || success == 0)
+                                                        break;
+                                                    MyUtil.Sleep(500);
+                                                } while (++count < 2);
 
-												if (success!=1)
-												{
-													count=0;
-													do {
-														MyNet net = new MyNet(mContext);
-														//bree
-														success = net.DownloadUserPhoto(remotefile, localfile);
+                                                if (success != 1) {
+                                                    count = 0;
+                                                    do {
+                                                        MyNet net = new MyNet(mContext);
+                                                        //bree
+                                                        success = net.DownloadUserPhoto(remotefile, localfile);
 //														success = net.Download(remotefile, localfile, null);
-														if (success==1||success==0)
-															break;
-														MyUtil.Sleep(500);
-													} while (++count < 2);
-												}
-											}catch(Exception e){}
-										}
+                                                        if (success == 1 || success == 0)
+                                                            break;
+                                                        MyUtil.Sleep(500);
+                                                    } while (++count < 2);
+                                                }
+                                            } catch (Exception e) {
+                                            }
+                                        }
 
-										Intent intent = new Intent(Global.Action_Refresh_Gallery);
-										mContext.sendBroadcast(intent);
+                                        Intent intent = new Intent(Global.Action_Refresh_Gallery);
+                                        mContext.sendBroadcast(intent);
 
-									}catch(Exception e){}
-									continue;
+                                    } catch (Exception e) {
+                                    }
+                                    continue;
 
-								} else if(items[3].startsWith("<Z>[<activeCall>]")) {//alex
-									RecvedCallACK = true;
-									Log.d("receive active call3");
+                                } else if (items[3].startsWith("<Z>[<activeCall>]")) {//alex
+                                    RecvedCallACK = true;
+                                    Log.d("receive active call3");
 
 //					    			if (items[3].startsWith("<Z>[<activeCall>]:2")){//request if call is active or not
 //
@@ -361,10 +370,9 @@ public class MySocket {
 //					    			} else if(items[3].startsWith("[<activeCall>]:0")) {//0 call is not active
 //					    				
 //					    			}
-									continue;
-								}
-								else if (!mADB.isFafauser(idx))//unknown person
-								{
+                                    continue;
+                                } else if (!mADB.isFafauser(idx))//unknown person
+                                {
 //									try {
 //										outToServerPeriod();  //tml*** outToServer period/
 //										Log.d("addF.unknown-200 > 380");
@@ -386,124 +394,124 @@ public class MySocket {
 //										disconnect("fail1 390", true);
 //										return;
 //									}
-									responseStranger_onlyIdx(idx);  //tml*** getuserinfo
-								}
-							} else {
-								Log.e("210 !@#$ mADB closed / AJ dead");
-							}
-						}
-						if (!isExist) {
-							responseMessageGot(fromServer);
-						} else {
-							Log.e("msgX isExist");
-						}
-					} else if (fromServer.startsWith("390"))
-					{
-						try{
-							String address=fromServer.split("/")[1];
-							responseStranger(address, mQueryIdx);
-						}catch(Exception e){
-						}
-					} else if (fromServer.startsWith("460") && friends.length() > 0) {
-						// split friends:
-						try{
-							if (friends!=null)
-							{
-								needUpdateStatus=(!fromServer.equals(status460));
-								status460=fromServer;
+                                    responseStranger_onlyIdx(idx);  //tml*** getuserinfo
+                                }
+                            } else {
+                                Log.e("210 !@#$ mADB closed / AJ dead");
+                            }
+                        }
+                        if (!isExist) {
+                            responseMessageGot(fromServer);
+                        } else {
+                            Log.e("msgX isExist");
+                        }
+                    } else if (fromServer.startsWith("390")) {
+                        try {
+                            String address = fromServer.split("/")[1];
+                            responseStranger(address, mQueryIdx);
+                        } catch (Exception e) {
+                        }
+                    } else if (fromServer.startsWith("460") && friends.length() > 0) {
+                        // split friends:
+                        try {
+                            if (friends != null) {
+                                needUpdateStatus = (!fromServer.equals(status460));
+                                status460 = fromServer;
 
-								Pattern and = Pattern.compile("\\&");
-								String[] numbers = and.split(friends, 100);
+                                Pattern and = Pattern.compile("\\&");
+                                String[] numbers = and.split(friends, 100);
 
-								if (numbers.length > 0) {
-									fromServer = fromServer.substring(4);
-									for (int k = 0; k < fromServer.length(); k++) {
-										if (k < numbers.length) {
-											char a = fromServer.charAt(k);
-											int online_type = -1;
-											if (a >= '0' && a <= '4')
-												online_type = a - '0';
-											ContactsOnline.setContactOnlineStatus(numbers[k], online_type);
-										}
-									}
-								}
-							}
-						}catch(Exception e){}
-						friends = null;
-						ready450 = true;
-						synchronized (lock_450) {
-							lock_450.notifyAll();
-						}
+                                if (numbers.length > 0) {
+                                    fromServer = fromServer.substring(4);
+                                    for (int k = 0; k < fromServer.length(); k++) {
+                                        if (k < numbers.length) {
+                                            char a = fromServer.charAt(k);
+                                            int online_type = -1;
+                                            if (a >= '0' && a <= '4')
+                                                online_type = a - '0';
+                                            ContactsOnline.setContactOnlineStatus(numbers[k], online_type);
+                                        }
+                                    }
+                                }
+                            }
+                        } catch (Exception e) {
+                        }
+                        friends = null;
+                        ready450 = true;
+                        synchronized (lock_450) {
+                            lock_450.notifyAll();
+                        }
 
-					} else if (fromServer.startsWith("230")
-							|| fromServer.startsWith("240")) {// 230/3f/X/4e928cc6
-						// 240/X/4e928cf2
-						try {
-							String[] splits = fromServer.split("/");
-							if (splits.length>=2)
-							{
-								try {
-									int row_id = Integer.valueOf(splits[splits.length - 2], 16);
-									long sentTime = Long.parseLong(splits[splits.length - 1], 16) * 1000;
-									Log.d("row_id="+row_id);
-									if (row_id >= 0 && mSmsDB.isOpen()) {
-										mSmsDB.setMessageSentById(row_id,
-												SMS.STATUS_SENT,
-												sentTime);
-									}
-								} catch (Exception e) {}
-							}
-						} catch (Exception e) {}
+                    } else if (fromServer.startsWith("230")
+                            || fromServer.startsWith("240")) {// 230/3f/X/4e928cc6
+                        // 240/X/4e928cf2
+                        try {
+                            String[] splits = fromServer.split("/");
+                            if (splits.length >= 2) {
+                                try {
+                                    int row_id = Integer.valueOf(splits[splits.length - 2], 16);
+                                    long sentTime = Long.parseLong(splits[splits.length - 1], 16) * 1000;
+                                    Log.d("row_id=" + row_id);
+                                    if (row_id >= 0 && mSmsDB.isOpen()) {
+                                        mSmsDB.setMessageSentById(row_id,
+                                                SMS.STATUS_SENT,
+                                                sentTime);
+                                    }
+                                } catch (Exception e) {
+                                }
+                            }
+                        } catch (Exception e) {
+                        }
 
-						Intent it = new Intent(Global.Action_MsgSent);
-						it.putExtra("SendeeAddress", SendeeAddress);
-						mContext.sendBroadcast(it);
+                        Intent it = new Intent(Global.Action_MsgSent);
+                        it.putExtra("SendeeAddress", SendeeAddress);
+                        mContext.sendBroadcast(it);
 
-						//tml*** 200timeout
-						SMSoK = true;
+                        //tml*** 200timeout
+                        SMSoK = true;
 //						MyUtil.Sleep(TRANSIT_TIMEOUT + 1000);  //for lock200 testing
-						synchronized (lock_200) {
-							lock_200.notifyAll();
-						}
+                        synchronized (lock_200) {
+                            lock_200.notifyAll();
+                        }
 
-						if (fromServer.startsWith("240"))//iPhone Push
-						{
-							SMS280oK = true;  //tml*** 280timeout, set false to test msg fail
-							if (!(BufferedMsg.contains("[<CallFrom>]")
-									|| BufferedMsg.contains(Global.Hi_AddFriend2)
-									|| BufferedMsg.contains("[<NEWMOOD>]")
-									|| BufferedMsg.contains("[<NEWPHOTO>]"))) {  //280 parse //alex*** callfrom
-								try{
-									String[] splits = fromServer.split("/");
-									if (splits.length>1 && splits[1].equals("i"))
-									{
-										Log.e("apple doAppPushMsg?");
-										doAppPushMsg();
-									}
-								}catch(Exception e){}
-							} else {
-								Log.e("apple no 240push");
-							}
-						}
-					}
-					else if (fromServer.startsWith("710"))// Sender wants to call me
-					{
-						int slash = fromServer.indexOf('/');
-						if (slash != -1)
-							SenderID = fromServer.substring(slash + 1);
-						Log.d("voip.(710) Incoming call from " + SenderID);
+                        if (fromServer.startsWith("240"))//iPhone Push
+                        {
+                            SMS280oK = true;  //tml*** 280timeout, set false to test msg fail
+                            if (!(BufferedMsg.contains("[<CallFrom>]")
+                                    || BufferedMsg.contains(Global.Hi_AddFriend2)
+                                    || BufferedMsg.contains("[<NEWMOOD>]")
+                                    || BufferedMsg.contains("[<NEWPHOTO>]"))) {  //280 parse //alex*** callfrom
+                                try {
+                                    String[] splits = fromServer.split("/");
+                                    if (splits.length > 1 && splits[1].equals("i")) {
+                                        Log.e("apple doAppPushMsg?");
+                                        doAppPushMsg();
+                                    }
+                                } catch (Exception e) {
+                                }
+                            } else {
+                                Log.e("apple no 240push");
+                            }
+                        }
+                    } else if (fromServer.startsWith("710"))// Sender wants to call me
+                    {
+                        int slash = fromServer.indexOf('/');
+                        if (slash != -1)
+                            SenderID = fromServer.substring(slash + 1);
+                        Log.d("voip.(710) Incoming call from " + SenderID);
 
-						//alec: for iphone active from push
-						int idx = 0;
-						try{
-							if (SenderID == null) {
-								Log.e("(710) idx ERROR?!?!");
-							} else {
-								idx = Integer.parseInt(SenderID, 16);
-							}
+                        //alec: for iphone active from push
+                        int idx = 0;
+                        try {
+                            if (SenderID == null) {
+                                Log.e("(710) idx ERROR?!?!");
+                            } else {
+                                idx = Integer.parseInt(SenderID, 16);
+                            }
 //							mPref.write("tempCheckSameIN", idx);  //tml*** sametime
-						}catch(Exception e){}
-						/*
+                        } catch (Exception e) {
+                        }
+                        /*
 						if (idx==BufferedIdxForCall)
 						{
 							Log.d("idx==BufferedIdxForCall");
@@ -512,42 +520,40 @@ public class MySocket {
 							continue;
 						}*/
 
-						BufferedIdxForCall=0;
+                        BufferedIdxForCall = 0;
 
-						boolean blackListUser=(mADB.isUserBlocked(idx)==1 || mRDB.isUserBlocked(idx)==1);//User in black list
+                        boolean blackListUser = (mADB.isUserBlocked(idx) == 1 || mRDB.isUserBlocked(idx) == 1);//User in black list
 
-						if (DialerActivity.getDialer()!=null || !mADB.isFafauser(idx) || blackListUser)// in call (i am busy)
-						{
-							try {
-								outToServerPeriod();  //tml*** outToServer period/
-								Log.d("voip.770/" + myId + "/" +SenderID);
-								outToServer.write(MyUtil.encryptTCPCmd("770/" + myId + "/" +SenderID));
-							} catch (IOException e) {
-								Log.e("write 770 fail");
-								disconnect("fail 770", true);
-								return;
-							}
-							continue;
-						}
+                        if (DialerActivity.getDialer() != null || !mADB.isFafauser(idx) || blackListUser)// in call (i am busy)
+                        {
+                            try {
+                                outToServerPeriod();  //tml*** outToServer period/
+                                Log.d("voip.770/" + myId + "/" + SenderID);
+                                outToServer.write(MyUtil.encryptTCPCmd("770/" + myId + "/" + SenderID));
+                            } catch (IOException e) {
+                                Log.e("write 770 fail");
+                                disconnect("fail 770", true);
+                                return;
+                            }
+                            continue;
+                        }
 
-						if (blackListUser) {
-							Log.e("710 reject! " + blackListUser);
-							continue;
-						}
+                        if (blackListUser) {
+                            Log.e("710 reject! " + blackListUser);
+                            continue;
+                        }
 
-						if (mADB.isFafauser(idx))
-						{
-							mPref.write("tempCheckSameIN", idx);  //tml*** sametime
-							String Sender = mADB.getAddressByIdx(idx);
-							mPref.write("curCall", Sender);
-							notifyServiceXtoLanuchServiceY();  //720
-							continue;
-						}
+                        if (mADB.isFafauser(idx)) {
+                            mPref.write("tempCheckSameIN", idx);  //tml*** sametime
+                            String Sender = mADB.getAddressByIdx(idx);
+                            mPref.write("curCall", Sender);
+                            notifyServiceXtoLanuchServiceY();  //720
+                            continue;
+                        }
 
-						try {
-							if (mADB.isOpen() && AireJupiter.getInstance()!=null)
-							{
-								if (!mADB.isFafauser(idx)) {
+                        try {
+                            if (mADB.isOpen() && AireJupiter.getInstance() != null) {
+                                if (!mADB.isFafauser(idx)) {
 //									try {
 //										outToServerPeriod();  //tml*** outToServer period/
 //										Log.d("addF.unknown-700 > 380");
@@ -570,730 +576,860 @@ public class MySocket {
 //										disconnect("fail2 390", true);
 //										return;
 //									}
-									responseStranger_onlyIdx(idx);  //tml*** getuserinfo
-								}
-							}
-						} catch (Exception e) {
+                                    responseStranger_onlyIdx(idx);  //tml*** getuserinfo
+                                }
+                            }
+                        } catch (Exception e) {
 
-						}
-					} else if (fromServer.startsWith("730")) {
-						//tml*** ghost730
-						boolean ghost730 = false;
-						int slash = fromServer.indexOf('/');
-						if (slash != -1) {
-							SenderID = fromServer.substring(slash + 1);
-							String sender0 = mADB.getAddressByIdx(Integer.valueOf(SenderID, 16));
-							Log.e("730 sender " + sender0 + "=" + mPref.read("curCall", ""));
-							if (!sender0.equals(mPref.read("curCall", ""))) {
-								ghost730 = true;
-								Log.e("730 ghost1");
-								sendTerminateCommand(sender0);
-							}
-						}
+                        }
+                    } else if (fromServer.startsWith("730")) {
+                        //tml*** ghost730
+                        boolean ghost730 = false;
+                        int slash = fromServer.indexOf('/');
+                        if (slash != -1) {
+                            SenderID = fromServer.substring(slash + 1);
+                            String sender0 = mADB.getAddressByIdx(Integer.valueOf(SenderID, 16));
+                            Log.e("730 sender " + sender0 + "=" + mPref.read("curCall", ""));
+                            if (!sender0.equals(mPref.read("curCall", ""))) {
+                                ghost730 = true;
+                                Log.e("730 ghost1");
+                                sendTerminateCommand(sender0);
+                            }
+                        }
 
-						if (!ghost730) {
-							RecvedCallACK = true;
-							Log.d("voip.(730) Callee got call request. Done ***");
-							synchronized (lock_700) {
-								lock_700.notifyAll();
-							}
-						}
-					} else if (fromServer.startsWith("750")) {
-						try{
-							if ((AireVenus.instance() != null) && AireVenus.callstate_AV != null) {
-								AireJupiter.getInstance().attemptCall = true;  //"StreamsRunning"
-							}
-							int slash = fromServer.indexOf('/');
-							if (slash != -1)
-								SenderID = fromServer.substring(slash + 1);
+                        if (!ghost730) {
+                            RecvedCallACK = true;
+                            Log.d("voip.(730) Callee got call request. Done ***");
+                            synchronized (lock_700) {
+                                lock_700.notifyAll();
+                            }
+                        }
+                    } else if (fromServer.startsWith("750")) {
+                        try {
+                            if ((AireVenus.instance() != null) && AireVenus.callstate_AV != null) {
+                                AireJupiter.getInstance().attemptCall = true;  //"StreamsRunning"
+                            }
+                            int slash = fromServer.indexOf('/');
+                            if (slash != -1)
+                                SenderID = fromServer.substring(slash + 1);
 
-							if (DialerActivity.getDialer() != null
-									&& AireJupiter.getInstance() != null && mADB.isOpen()) {
-								if (AireJupiter.getInstance().attemptCall == false) {
-									String Sender = mADB.getAddressByIdx(Integer
-											.valueOf(SenderID, 16));
-									Log.e("voip.(750) Terminate Call by TCPSocket :" + Sender);
-									if (Sender.equals(mPref.read("curCall", "")))
-										if (DialerActivity.getDialer() != null)
-											DialerActivity.getDialer().endUpDialer(Sender);
-								} else {
-									Log.e("voip.750 busy,cancelled,voicemail?");
-									AireJupiter.getInstance().attemptCall = false;
-								}
-							} else {
-								Log.d("voip.750 empty");
-								mPref.write("tempCheckSameIN", 0);  //tml*** sametime
-							}
+                            if (DialerActivity.getDialer() != null
+                                    && AireJupiter.getInstance() != null && mADB.isOpen()) {
+                                if (AireJupiter.getInstance().attemptCall == false) {
+                                    String Sender = mADB.getAddressByIdx(Integer
+                                            .valueOf(SenderID, 16));
+                                    Log.e("voip.(750) Terminate Call by TCPSocket :" + Sender);
+                                    if (Sender.equals(mPref.read("curCall", "")))
+                                        if (DialerActivity.getDialer() != null)
+                                            DialerActivity.getDialer().endUpDialer(Sender);
+                                } else {
+                                    Log.e("voip.750 busy,cancelled,voicemail?");
+                                    AireJupiter.getInstance().attemptCall = false;
+                                }
+                            } else {
+                                Log.d("voip.750 empty");
+                                mPref.write("tempCheckSameIN", 0);  //tml*** sametime
+                            }
 
-							if (AireVenus.instance()!=null)
-								AireVenus.instance().callStopRing();
+                            if (AireVenus.instance() != null)
+                                AireVenus.instance().callStopRing();
 
-						}catch(Exception e){}
+                        } catch (Exception e) {
+                        }
 
-						BufferedIdxForCall=0;
+                        BufferedIdxForCall = 0;
 
-					} else if (fromServer.startsWith("790")) {
-						NotfoundACK = true;
-						Log.e("voip.(790) Callee not found");
-						String[] splits = fromServer.split("/");
-						if (splits.length>1 && splits[1].equals("i"))
-						{
-							Log.d("voip.apple 790");
-							try{
-								doAppPushCall();
-								WaitForPush=true;
-								NotfoundACK=false;
-								//Hsia lock_700放开
-								synchronized (lock_700) {
-									lock_700.notifyAll();
-								}
-							}catch(Exception e){}
-						} else {
-							Log.d("NOTapple 790");
-							synchronized (lock_700) {
-								lock_700.notifyAll();
-							}
-						}
-						//***tml
-					} else if (fromServer.startsWith("780")) { //Line is busy
-						StopCalling=true;
-						Log.e("voip.780 Line is busy");
+                    } else if (fromServer.startsWith("790")) {
+                        NotfoundACK = true;
+                        Log.e("voip.(790) Callee not found");
+                        String[] splits = fromServer.split("/");
+                        if (splits.length > 1 && splits[1].equals("i")) {
+                            Log.d("voip.apple 790");
+                            try {
+                                doAppPushCall();
+                                WaitForPush = true;
+                                NotfoundACK = false;
+                                //Hsia lock_700放开
+                                synchronized (lock_700) {
+                                    lock_700.notifyAll();
+                                }
+                            } catch (Exception e) {
+                            }
+                        } else {
+                            Log.d("NOTapple 790");
+                            synchronized (lock_700) {
+                                lock_700.notifyAll();
+                            }
+                        }
+                        //***tml
+                    } else if (fromServer.startsWith("780")) { //Line is busy
+                        StopCalling = true;
+                        Log.e("voip.780 Line is busy");
 
-						if (DialerActivity.getDialer()!=null)
-							DialerActivity.getDialer().responseCallBusy();
+                        if (DialerActivity.getDialer() != null)
+                            DialerActivity.getDialer().responseCallBusy();
 
-					} else if (fromServer.startsWith("160")) {
-						try{
-							CalleeSipIP = fromServer.substring(4);
-							if (CalleeSipIP.equals("0.0.0.0"))
-								CalleeSipIP = null;
-							synchronized (lock_150) {
-								lock_150.notifyAll();
-							}
-						}catch(Exception e){}
-					} else if (fromServer.startsWith("180")) {
-						//tml*** xcountry sip
-					} else if (fromServer.startsWith("009")) {
-						// prelogin
-						if (AireJupiter.getInstance() != null)
-							AireJupiter.getInstance().getServers();
-					}else if (fromServer.startsWith("195")) {
-						//tml*** tcp test
-						count190++;
-						Log.d("190/195 ok! +" + count190);
-						synchronized (lock_190) {
-							lock_190.notifyAll();
-						}
-					}else if (fromServer.startsWith("810")){
-						boolean isExist = false;
-						String[] items = fromServer.split("/", 6);
-						String sender = items[1];
-						String msgId = items[3];
-						int ts = Integer.parseInt(items[4], 16);
-						String cmdStr = items[5];
-						//li*** response 820
-						try{
-							outToServerPeriod();
+                    } else if (fromServer.startsWith("160")) {
+                        try {
+                            CalleeSipIP = fromServer.substring(4);
+                            if (CalleeSipIP.equals("0.0.0.0"))
+                                CalleeSipIP = null;
+                            synchronized (lock_150) {
+                                lock_150.notifyAll();
+                            }
+                        } catch (Exception e) {
+                        }
+                    } else if (fromServer.startsWith("180")) {
+                        //tml*** xcountry sip
+                    } else if (fromServer.startsWith("009")) {
+                        // prelogin
+                        if (AireJupiter.getInstance() != null)
+                            AireJupiter.getInstance().getServers();
+                    } else if (fromServer.startsWith("195")) {
+                        //tml*** tcp test
+                        count190++;
+                        Log.d("190/195 ok! +" + count190);
+                        synchronized (lock_190) {
+                            lock_190.notifyAll();
+                        }
+                    } else if (fromServer.startsWith("810")) {
+                        boolean isExist = false;
+                        String[] items = fromServer.split("/", 6);
+                        String sender = items[1];
+                        String msgId = items[3];
+                        int ts = Integer.parseInt(items[4], 16);
+                        String cmdStr = items[5];
+                        //li*** response 820
+                        try {
+                            outToServerPeriod();
 
-							outToServer.write(MyUtil.encryptTCPCmd("820/"
-									+ items[1] + "/" + myId + "/" + msgId));
-							Log.d("820/" + items[1] + "/" + myId + "/" + msgId);
-						} catch (Exception e) {
-							Log.e("Failed to send 820 ack back...");
-							disconnect("fail 820", true);
-							return;
-						}
-						String ridItem = sender + ":" + msgId;
-						if (ridList.size() > 0) {
-							for (int i = 0; i < ridList.size(); i++) {
-								if (ridList.get(i).equals(ridItem)) {
-									isExist = true;
-									break;
-								}
-							}
-						}
+                            outToServer.write(MyUtil.encryptTCPCmd("820/"
+                                    + items[1] + "/" + myId + "/" + msgId));
+                            Log.d("820/" + items[1] + "/" + myId + "/" + msgId);
+                        } catch (Exception e) {
+                            Log.e("Failed to send 820 ack back...");
+                            disconnect("fail 820", true);
+                            return;
+                        }
+                        String ridItem = sender + ":" + msgId;
+                        if (ridList.size() > 0) {
+                            for (int i = 0; i < ridList.size(); i++) {
+                                if (ridList.get(i).equals(ridItem)) {
+                                    isExist = true;
+                                    break;
+                                }
+                            }
+                        }
 
-						if (!isExist) {
-							ridList.add(ridItem);
-							Intent it = new Intent(Global.Action_InternalCMD);
-							it.putExtra("Command", Global.CMD_TCP_COMMAND_ARRIVAL);
-							it.putExtra("cmdStr", fromServer);
-							mContext.sendBroadcast(it);
-						}
+                        if (!isExist) {
+                            ridList.add(ridItem);
+                            Intent it = new Intent(Global.Action_InternalCMD);
+                            it.putExtra("Command", Global.CMD_TCP_COMMAND_ARRIVAL);
+                            it.putExtra("cmdStr", fromServer);
+                            mContext.sendBroadcast(it);
+                        }
 
-					}else if(fromServer.startsWith("860")) {
-						android.util.Log.d("860SocketCommThread", fromServer);
-						String msg860[] = fromServer.split("/");
-						// 860/sender/receiver/groupId/msgId/TS/body(json)
-						if (msg860.length == 0)
-							return;
+                    } else if (fromServer.startsWith("860")) {
+                        Boolean isExist = false;
+                        android.util.Log.d("Socket860", "来自服务器: " + fromServer);
 
-						int groupID = Integer.parseInt(msg860[3], 16);
-						GroupMsg groupMsg = gson.fromJson(msg860[6],GroupMsg.class);
+                        int index = fromServer.indexOf("{");
+                        String command = fromServer.substring(0, index);
+                        android.util.Log.d("Socket860", "截取非json字段: " + command);
+                        String[] msg860 = command.split("/");
 
-						Intent it = new Intent(Global.Action_InternalCMD);
-						// TODO: 2016/3/30 判断是否有cmd,有cmd意味着对群组操作,没有则意味着信息
-						if (!groupMsg.getCMD().isEmpty()) {
-							switch (groupMsg.getCMD()) {
-								case "groupadd":
-									it.putExtra("Command", Global.CMD_JOIN_A_NEW_GROUP);
-									it.putExtra("GroupID", groupID);
-									mContext.sendBroadcast(it);
-									break;
-								case "groupremove":
-									//发送广播call Php
-//									it.putExtra("Command",Global.CMD_LEAVE_GROUP);
-//									it.putExtra("GroupID", Integer.parseInt(groupId));
-//									mContext.sendBroadcast(it);
-									break;
-							}
-						}else{
-							//不存在
-//						Intent it = new Intent(Global.Action_InternalCMD);
-//						it.putExtra("Command", Global.CMD_JOIN_A_NEW_GROUP);
-//						it.putExtra("GroupID", Integer.parseInt(groupId, 16));
-//						mContext.sendBroadcast(it);
-						}
-					}
-				}
+                        String json = fromServer.substring(index);
+                        android.util.Log.d("Socket860", "截取json字段" + json);
 
-			} while (Running);
-		}
-	}
+                        // 860/sender/receiver/groupId/msgId/TS/body(json)
+                        if (msg860.length == 0)
+                            return;
 
-	//tml|alex*** iphone push
-	public Runnable iphoneTimeout10 = new Runnable() {
-		public void run() {
-			try {
-				Thread.sleep(TRANSIT_TIMEOUT * 3);
-			} catch (InterruptedException e) {}
-			if (AireVenus.callstate_AV != null) {
-				Log.d("apple Timeout state = " + AireVenus.callstate_AV);
-				if (AireVenus.callstate_AV.contains("Outgoing")) {
-					Log.e("tml apple 730Timeout doAppPushCall");
-					doAppPushCall();
-					WaitForPush = true;
-					NotfoundACK = false;
-				} else {
-					Log.e("apple 730Timeout NO PUSH");
-				}
-			} else {
-				Log.e("apple 730Timeout NO PUSH (nullstate)");
-			}
-		}
-	};
+                        int groupID = Integer.parseInt(msg860[3], 16);
+                        GroupMsg groupMsg = gson.fromJson(json, GroupMsg.class);
 
-	private final Object lock_190 = new Object();
-	private volatile int sent190 = 0;
-	private volatile int count190 = 0;
-	public Runnable selfCheck = new Runnable() {
-		public void run() {
-			try {
-				outToServerPeriod();  //tml*** outToServer period/
-				outToServer.write(MyUtil.encryptTCPCmd("190/" + myId));
 
-				//tml*** tcp test
-				tcpStatus0 = true;
-				tcpStatus1 = false;
-				tcpStatus2 = false;
-				sent190++;
-				synchronized (lock_190) {
-					try {
-						lock_190.wait(TRANSIT_TIMEOUT / 2);
-					} catch (Exception e) {}
-				}
+                        //判断是否存在群组
+                        if (groupDB == null) {
+                            groupDB = new GroupDB(mContext);
+                        }
+                        groupDB.open();
+                        int memberCount = groupDB.getGroupMemberCount(groupID);
+                        groupDB.close();
+                        Intent it = new Intent(Global.Action_InternalCMD);
+                        // TODO: 2016/3/30 判断是否有cmd,有cmd意味着对群组操作,没有则意味着信息
+                        if (!groupMsg.getCmd().isEmpty()) {
+                            //只有当在群组中才解析群组消息,没有在群组中不解析消息
+                            if (memberCount != 0) {
+                                switch (groupMsg.getCmd()) {
+                                    case "groupUpdate":
+                                        it.putExtra("Command", Global.CMD_JOIN_A_NEW_GROUP);
+                                        it.putExtra("GroupID", groupID);
+                                        mContext.sendBroadcast(it);
+                                        break;
+                                }
+                                // TODO: 2016/4/7 下一步解析消息
+                                parseMsgFollow(fromServer, isExist, msg860);
+                            }
 
-				Log.d("190 attempt #" + sent190);
-				if (sent190 < 3) {
-					new Thread(selfCheck).start();
-					return;
-				}
+                        } else {
+                            // TODO: 2016/3/31 不存在CMD,意味着是文本消息,所以显示文本消息
+                            // 判断Group是否存在
+                            if (memberCount == 0) {
+                                //为0表示群组不存在,请求php加入数据库
+                                it.putExtra("Command", Global.CMD_JOIN_A_NEW_GROUP);
+                                it.putExtra("GroupID", groupID);
+                                it.putExtra("Empty", true);
+                                mContext.sendBroadcast(it);
+                            }
+                            // TODO: 2016/4/7 下一步解析消息
+                            parseMsgFollow(fromServer, isExist, msg860);
+                        }
 
-				if (count190 == 0) {
-					tcpStatus1 = false;  //warning
-					tcpStatus2 = false;  //wifi reassociate
-				} else if (count190 == 1) {
-					tcpStatus1 = false;  //warning
-					tcpStatus2 = true;
-				} else if (count190 == 2) {
-					//ok
-					tcpStatus1 = true;
-					tcpStatus2 = true;
-				} else {  //count190 == 3
-					//great
-					tcpStatus1 = true;
-					tcpStatus2 = true;
-				}
 
-				int[] wifiLevel = checkWifi();
-				if (wifiLevel[0] < 1) {
-					tcpStatus1 = false;
-				}
+                        try {
+                            outToServerPeriod();  //tml*** outToServer period/
+                            outToServer.write(MyUtil.encryptTCPCmd("870/"
+                                    + msg860[1] + "/" + myId + "/" + msg860[3] + "/" + msg860[4]));
+                            Log.d("870/" + msg860[1] + "/" + myId + "/" + msg860[3] + "/" + msg860[4]);
 
-				if (!tcpStatus1) {
-					tcpStatus0 = false;
-					warningPoor(false, "190");
-				}
-				if (!tcpStatus2) {
-					//not implemented
-				}
-				checkingKeepAlive = false;
-				Log.d("(190) Keeping Alive: " + count190 + tcpStatus1 + tcpStatus2 + " " + wifiLevel[0] + "," + wifiLevel[1]);
-				//***tml
-			} catch (Exception e) {
-				checkingKeepAlive = false;
-				Log.e("Failed to write 190");
-				disconnectAndReconnect("fail 190", true);
-				return;
-			}
-		}
-	};
+                            android.util.Log.d("SocketCommThread", "发送返回消息:-------870/" + msg860[1] + "/" + myId + "/" + msg860[3] + "/" + msg860[4]);
+                        } catch (Exception e) {
+                            Log.e("Failed to send 870 ack back...");
+                            disconnect("fail 870", true);
+                            return;
+                        }
 
-	private volatile boolean checkingKeepAlive = false;
-	public void keepAlive(boolean force) {
-		long now = new Date().getTime();
-		long last = mPref.readLong("last_self_check_time", 0);
-		long elapsed = now - last;
-		if ((elapsed < 30000 && !force) || checkingKeepAlive) {  //30 sec
-			Log.e("x190 not yet! " + elapsed + " " + force + " " + checkingKeepAlive);
-			return;// no need to do it
-		}
-		if (!checkingKeepAlive) {
-			mPref.writeLong("last_self_check_time", now);
-		}
 
-		checkingKeepAlive = true;
-		sent190 = 0;
-		count190 = 0;
-		new Thread(selfCheck).start();
-	}
-	//tml*** tcp test
-	public int[] checkWifi() {
-		WifiManager wifi = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
-		WifiInfo wifiInfo = wifi.getConnectionInfo();
-		int[] wifiLevel = new int[2];
-		int numLevels = 5;
+                    } else if (fromServer.startsWith("880")) {
+                        // TODO: 2016/3/31 接收到880的消息,之后刷新信息状态
+                        android.util.Log.d("Socket880", "收到880消息:-----"+fromServer);
+                        String[] splits = fromServer.split("/");
+                        try {
+                            if (splits.length >= 2) {
+                                int row_id = Integer.valueOf(splits[splits.length - 2], 16);
+                                long sentTime = Long.parseLong(splits[splits.length - 1], 16) * 1000;
+                                Log.d("row_id=" + row_id);
+                                android.util.Log.d("Socket880", "row_id=" + row_id);
+                                if (row_id >= 0 && mSmsDB.isOpen()) {
+                                    mSmsDB.setMessageSentById(row_id,
+                                            SMS.STATUS_SENT,
+                                            sentTime);
+                                }
+                            }
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
+                        Intent it = new Intent(Global.Action_MsgSent);
+                        mContext.sendBroadcast(it);
 
-		int rssi = wifiInfo.getRssi();
-		int level = WifiManager.calculateSignalLevel(rssi, numLevels);
-		int speed = wifiInfo.getLinkSpeed();
-		wifiLevel[0] = level;
-		wifiLevel[1] = speed;
+                        SMSoK = true;
+                        synchronized (lock_200) {
+                            lock_200.notifyAll();
+                        }
 
-		return wifiLevel;
-	}
+                    }else if (fromServer.startsWith("890")) {
+                        android.util.Log.d("Socket890", "收到890消息:-----"+fromServer);
+                        // TODO: 2016/4/7 删除掉指定的group
+                        String[] msg890 = fromServer.split("/");
+                        int mGroupID = Integer.parseInt(msg890[3], 16);
+                        mADB.deleteContactByAddress("[<GROUP>]" + mGroupID);
 
-	private void warningPoor(boolean force, String from) {
-		Intent it = new Intent(Global.Action_InternalCMD);
-		it.putExtra("Command", Global.CMD_CONNECTION_POOR);
-		it.putExtra("ForcePoor", force);
-		it.putExtra("warnFrom", from);
-		mContext.sendBroadcast(it);
-	}
-	//***tml
+                        GroupDB gdb = new GroupDB(mContext);
+                        gdb.open();
+                        boolean result = gdb.deleteGroup(mGroupID);
+                        android.util.Log.d("Socket890", "删除group的结果" + result);
+                        gdb.close();
 
-	static int VersionCode = 32;
+                        try {
+                            mSmsDB.deleteThreadByAddress("[<GROUP>]" + mGroupID);
+                        } catch (Exception e) {
+                        }
 
-	public synchronized boolean Login() {
-		return Login(VersionCode);
-	}
+                        //刷新Gallery
+                        UsersActivity.needRefresh = true;
+                        Intent intent = new Intent(Global.Action_Refresh_Gallery);
+                        mContext.sendBroadcast(intent);
+                    }
+                }
 
-	public synchronized boolean Login(int versionCode) {
-		VersionCode = versionCode;
+            } while (Running);
+        }
+    }
 
-		if (logged == 1) {
-			return true;
-		} else {
+    private void parseMsgFollow(String fromServer, Boolean isExist, String[] msg860) {
+        //取row_id
+        String rowid = msg860[4];
+
+        android.util.Log.d("860Socket", "ridList:" + ridList);
+        if ("0".equals(rowid)) {
+            isExist = false;
+        } else {
+            String ridItem = msg860[1] + ":" + rowid;
+            if (ridList.size() > 0) {
+                for (int i = 0; i < ridList.size(); i++) {
+                    if (ridList.get(i).equals(ridItem)) {
+                        isExist = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!isExist) {
+                ridList.add(ridItem);
+            }
+        }
+        //解析文字
+        if (!isExist) {
+            responseMessageGot(fromServer);
+        } else {
+            Log.e("msgX isExist");
+        }
+    }
+
+    //tml|alex*** iphone push
+    public Runnable iphoneTimeout10 = new Runnable() {
+        public void run() {
+            try {
+                Thread.sleep(TRANSIT_TIMEOUT * 3);
+            } catch (InterruptedException e) {
+            }
+            if (AireVenus.callstate_AV != null) {
+                Log.d("apple Timeout state = " + AireVenus.callstate_AV);
+                if (AireVenus.callstate_AV.contains("Outgoing")) {
+                    Log.e("tml apple 730Timeout doAppPushCall");
+                    doAppPushCall();
+                    WaitForPush = true;
+                    NotfoundACK = false;
+                } else {
+                    Log.e("apple 730Timeout NO PUSH");
+                }
+            } else {
+                Log.e("apple 730Timeout NO PUSH (nullstate)");
+            }
+        }
+    };
+
+    private final Object lock_190 = new Object();
+    private volatile int sent190 = 0;
+    private volatile int count190 = 0;
+    public Runnable selfCheck = new Runnable() {
+        public void run() {
+            try {
+                outToServerPeriod();  //tml*** outToServer period/
+                outToServer.write(MyUtil.encryptTCPCmd("190/" + myId));
+
+                //tml*** tcp test
+                tcpStatus0 = true;
+                tcpStatus1 = false;
+                tcpStatus2 = false;
+                sent190++;
+                synchronized (lock_190) {
+                    try {
+                        lock_190.wait(TRANSIT_TIMEOUT / 2);
+                    } catch (Exception e) {
+                    }
+                }
+
+                Log.d("190 attempt #" + sent190);
+                if (sent190 < 3) {
+                    new Thread(selfCheck).start();
+                    return;
+                }
+
+                if (count190 == 0) {
+                    tcpStatus1 = false;  //warning
+                    tcpStatus2 = false;  //wifi reassociate
+                } else if (count190 == 1) {
+                    tcpStatus1 = false;  //warning
+                    tcpStatus2 = true;
+                } else if (count190 == 2) {
+                    //ok
+                    tcpStatus1 = true;
+                    tcpStatus2 = true;
+                } else {  //count190 == 3
+                    //great
+                    tcpStatus1 = true;
+                    tcpStatus2 = true;
+                }
+
+                int[] wifiLevel = checkWifi();
+                if (wifiLevel[0] < 1) {
+                    tcpStatus1 = false;
+                }
+
+                if (!tcpStatus1) {
+                    tcpStatus0 = false;
+                    warningPoor(false, "190");
+                }
+                if (!tcpStatus2) {
+                    //not implemented
+                }
+                checkingKeepAlive = false;
+                Log.d("(190) Keeping Alive: " + count190 + tcpStatus1 + tcpStatus2 + " " + wifiLevel[0] + "," + wifiLevel[1]);
+                //***tml
+            } catch (Exception e) {
+                checkingKeepAlive = false;
+                Log.e("Failed to write 190");
+                disconnectAndReconnect("fail 190", true);
+                return;
+            }
+        }
+    };
+
+    private volatile boolean checkingKeepAlive = false;
+
+    public void keepAlive(boolean force) {
+        long now = new Date().getTime();
+        long last = mPref.readLong("last_self_check_time", 0);
+        long elapsed = now - last;
+        if ((elapsed < 30000 && !force) || checkingKeepAlive) {  //30 sec
+            Log.e("x190 not yet! " + elapsed + " " + force + " " + checkingKeepAlive);
+            return;// no need to do it
+        }
+        if (!checkingKeepAlive) {
+            mPref.writeLong("last_self_check_time", now);
+        }
+
+        checkingKeepAlive = true;
+        sent190 = 0;
+        count190 = 0;
+        new Thread(selfCheck).start();
+    }
+
+    //tml*** tcp test
+    public int[] checkWifi() {
+        WifiManager wifi = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
+        WifiInfo wifiInfo = wifi.getConnectionInfo();
+        int[] wifiLevel = new int[2];
+        int numLevels = 5;
+
+        int rssi = wifiInfo.getRssi();
+        int level = WifiManager.calculateSignalLevel(rssi, numLevels);
+        int speed = wifiInfo.getLinkSpeed();
+        wifiLevel[0] = level;
+        wifiLevel[1] = speed;
+
+        return wifiLevel;
+    }
+
+    private void warningPoor(boolean force, String from) {
+        Intent it = new Intent(Global.Action_InternalCMD);
+        it.putExtra("Command", Global.CMD_CONNECTION_POOR);
+        it.putExtra("ForcePoor", force);
+        it.putExtra("warnFrom", from);
+        mContext.sendBroadcast(it);
+    }
+    //***tml
+
+    static int VersionCode = 32;
+
+    public synchronized boolean Login() {
+        return Login(VersionCode);
+    }
+
+    public synchronized boolean Login(int versionCode) {
+        VersionCode = versionCode;
+
+        if (logged == 1) {
+            return true;
+        } else {
 //			disconnect(true);
-		}
-		if (myPhoneNumber.equals("----")) return false;
-		LocationUpdate location = new LocationUpdate(mContext, mPref);
-		location.getMyLocFromIpAddress();
+        }
+        if (myPhoneNumber.equals("----")) return false;
+        LocationUpdate location = new LocationUpdate(mContext, mPref);
+        location.getMyLocFromIpAddress();
 
-		String fromServer = "";
-		tcpStatus0 = false;
-		logged = 0;
-		Logging = 1;
-		int alter = 0;
-		int count = 0;
-		boolean connected = false;
+        String fromServer = "";
+        tcpStatus0 = false;
+        logged = 0;
+        Logging = 1;
+        int alter = 0;
+        int count = 0;
+        boolean connected = false;
 
-		while(count++ < 2 && !connected)
-		{
-			int port = ((alter % 2) == 0) ? 9135 : 80;
-			InetAddress address;
-			String domainName = "tcp.airetalk.org";
-			String iso = mPref.read("iso", "cn");
+        while (count++ < 2 && !connected) {
+            int port = ((alter % 2) == 0) ? 9135 : 80;
+            InetAddress address;
+            String domainName = "tcp.airetalk.org";
+            String iso = mPref.read("iso", "cn");
 
-			try {
-				if (iso.equals("cn"))
-					domainName = "tcp.xingfafa.com.cn";
-				address = InetAddress.getByName(domainName);
-				ServerIP = address.toString().substring(address.toString().lastIndexOf("/") + 1);
-			} catch (UnknownHostException e1) {
-				Log.e("TCP domainName !@#$ " + e1.getMessage());
-				ServerIP = "74.3.164.16";
-			}
+            try {
+                if (iso.equals("cn"))
+                    domainName = "tcp.xingfafa.com.cn";
+                address = InetAddress.getByName(domainName);
+                ServerIP = address.toString().substring(address.toString().lastIndexOf("/") + 1);
+            } catch (UnknownHostException e1) {
+                Log.e("TCP domainName !@#$ " + e1.getMessage());
+                ServerIP = "74.3.164.16";
+            }
 
 //			ServerIP = "115.29.185.116";  //cn
 //			ServerIP = "74.3.162.130";  //us-old-temp
-			if (mPref.readBoolean("NEWTCPCHINA", false)) {
-				ServerIP = "218.244.139.96";  //115.29.185.116
-			} else if (mPref.readBoolean("NEWTCPUSA", false)) {
-				ServerIP = "74.3.162.130";
-			}
+            if (mPref.readBoolean("NEWTCPCHINA", false)) {
+                ServerIP = "218.244.139.96";  //115.29.185.116
+            } else if (mPref.readBoolean("NEWTCPUSA", false)) {
+                ServerIP = "74.3.162.130";
+            }
 
-			InetSocketAddress isa = new InetSocketAddress(ServerIP, port);
-			clientSocket = new Socket();
+            InetSocketAddress isa = new InetSocketAddress(ServerIP, port);
+            clientSocket = new Socket();
 
-			try {
-				ServerDM_d = domainName;
-				ServerIP_d = ServerIP;
-				Log.e("...CONNECTING !! TCP " + domainName + " " + ServerIP + ":" + port + ":" + iso);
+            try {
+                ServerDM_d = domainName;
+                ServerIP_d = ServerIP;
+                Log.e("...CONNECTING !! TCP " + domainName + " " + ServerIP + ":" + port + ":" + iso);
 
-				clientSocket.setTcpNoDelay(true);
-				clientSocket.setReuseAddress(true);
-				clientSocket.connect(isa, TRANSIT_TIMEOUT * 2);
+                clientSocket.setTcpNoDelay(true);
+                clientSocket.setReuseAddress(true);
+                clientSocket.connect(isa, TRANSIT_TIMEOUT * 2);
 
-				outToServer = new DataOutputStream(clientSocket.getOutputStream());
-				inFromServer = new DataInputStream(clientSocket.getInputStream());
+                outToServer = new DataOutputStream(clientSocket.getOutputStream());
+                inFromServer = new DataInputStream(clientSocket.getInputStream());
 
-				connected = true;
-			} catch (Exception e) {
-				Log.e("TCP Socket Create !@#$ " + e.getMessage());
-				tcpStatus0 = false;
-				Logging = 0;
-				alter++;
-				return false;
-			}
-		}
+                connected = true;
+            } catch (Exception e) {
+                Log.e("TCP Socket Create !@#$ " + e.getMessage());
+                // TODO: 2016/4/8 网络不好,弹出消息
+                Looper.prepare();
+                Toast.makeText(mContext, "网络差!请稍等或者重新登录!", Toast.LENGTH_SHORT).show();
+                Looper.loop();
+                tcpStatus0 = false;
+                Logging = 0;
+                alter++;
+                return false;
+            }
+        }
 
-		try {
-			clientSocket.setSoTimeout(TRANSIT_TIMEOUT * 3);
+        try {
+            clientSocket.setSoTimeout(TRANSIT_TIMEOUT * 3);
 
-			if (mPref.readBoolean("accountUpdated", false))
-			{
-				outToServerPeriod();  //tml*** outToServer period/
-				String cmd = "120/" + myPhoneNumber + '/' + myPasswd;
-				Log.d(cmd);
-				byte[] encrypted = MyUtil.encryptTCPCmd(cmd);
-				outToServer.write(encrypted);
-				inFromServer.read(buffer);
-				MyUtil.Sleep(1000);
-			}
+            if (mPref.readBoolean("accountUpdated", false)) {
+                outToServerPeriod();  //tml*** outToServer period/
+                String cmd = "120/" + myPhoneNumber + '/' + myPasswd;
+                Log.d(cmd);
+                byte[] encrypted = MyUtil.encryptTCPCmd(cmd);
+                outToServer.write(encrypted);
+                inFromServer.read(buffer);
+                MyUtil.Sleep(1000);
+            }
 
-			String xcmd;
-			myId = mPref.read("myID", "");
-			NetInfo nt=new NetInfo(mContext);
+            String xcmd;
+            myId = mPref.read("myID", "");
+            NetInfo nt = new NetInfo(mContext);
 
-			if (myId.length()>0)
-				xcmd = "101/" + myId + '/' + myPasswd + '/' + nt.netType + "/a/" + versionCode;
-			else//first login
-				xcmd = "100/" + myPhoneNumber + '/' + myPasswd + '/' + nt.netType + "/a/" + versionCode;
+            if (myId.length() > 0)
+                xcmd = "101/" + myId + '/' + myPasswd + '/' + nt.netType + "/a/" + versionCode;
+            else//first login
+                xcmd = "100/" + myPhoneNumber + '/' + myPasswd + '/' + nt.netType + "/a/" + versionCode;
 
-			outToServerPeriod();  //tml*** outToServer period/
-			Log.d(xcmd);
-			byte[] encryptStr = MyUtil.encryptTCPCmd(xcmd);
-			outToServer.write(encryptStr);
-			inFromServer.read(buffer);
-			fromServer = MyUtil.decryptTCPCmd(buffer);
-			Log.d("Login: " + fromServer);
-		} catch (Exception e) {
-			Log.e("Login Failed !@#$ " + e.getMessage());
-			disconnect("fail 100 read", true);
-			Logging = 0;
-			return false;
-		}
+            outToServerPeriod();  //tml*** outToServer period/
+            Log.d(xcmd);
+            byte[] encryptStr = MyUtil.encryptTCPCmd(xcmd);
+            outToServer.write(encryptStr);
+            inFromServer.read(buffer);
+            fromServer = MyUtil.decryptTCPCmd(buffer);
+            Log.d("Login: " + fromServer);
+        } catch (Exception e) {
+            Log.e("Login Failed !@#$ " + e.getMessage());
+            disconnect("fail 100 read", true);
+            Logging = 0;
+            return false;
+        }
 
-		if (fromServer == null) // login failed
-		{
-			Log.e("Login Failed NULL");
-			disconnect("fail login", true);
-			Logging = 0;
-			return false;
-		} else if (fromServer.startsWith("999") && !MyTelephony.isPhoneNumber(myPhoneNumber)) // login failed
-		{
-			Log.e("Login, Failed : 999/" + fromServer.substring(3));
-			notifyServiceX_Login_fail_999();
-			//disconnect();
-			Logging = 0;
-			return false;
-		}
+        if (fromServer == null) // login failed
+        {
+            Log.e("Login Failed NULL");
+            disconnect("fail login", true);
+            Logging = 0;
+            return false;
+        } else if (fromServer.startsWith("999") && !MyTelephony.isPhoneNumber(myPhoneNumber)) // login failed
+        {
+            Log.e("Login, Failed : 999/" + fromServer.substring(3));
+            notifyServiceX_Login_fail_999();
+            //disconnect();
+            Logging = 0;
+            return false;
+        }
 
-		if (fromServer.startsWith("110")) {
-			String tmp1;
-			tcpStatus0 = true;
-			logged=1;
-			Log.d("Login successfully 110." + logged);
-			tmp1 = fromServer.substring(4);
+        if (fromServer.startsWith("110")) {
+            String tmp1;
+            tcpStatus0 = true;
+            logged = 1;
+            Log.d("Login successfully 110." + logged);
+            tmp1 = fromServer.substring(4);
 
-			String tmp2[] = tmp1.split(",");
-			String debug = "";
-			for (int i = 0; i < tmp2.length; i++) {  //tml*** debug
-				debug = debug + " [" + i + "]" + tmp2[i];
-			}
-			Log.e("Login debug.tmp2 =" + debug);
-			if (tmp2[1].contentEquals("ok")) {
-				myId = tmp2[0];
-				mPref.write("myID", myId);
-				mySipServer = tmp2[2];
+            String tmp2[] = tmp1.split(",");
+            String debug = "";
+            for (int i = 0; i < tmp2.length; i++) {  //tml*** debug
+                debug = debug + " [" + i + "]" + tmp2[i];
+            }
+            Log.e("Login debug.tmp2 =" + debug);
+            if (tmp2[1].contentEquals("ok")) {
+                myId = tmp2[0];
+                mPref.write("myID", myId);
+                mySipServer = tmp2[2];
 
-				if(tmp2.length>4){
-					AireJupiter.myLocalPhpServer = new NetInfo(mContext).longToIPForServer(Long.valueOf(tmp2[4],16));
-					Log.d("myLocalPhpServer=" + AireJupiter.myLocalPhpServer);
-				}
+                if (tmp2.length > 4) {
+                    AireJupiter.myLocalPhpServer = new NetInfo(mContext).longToIPForServer(Long.valueOf(tmp2[4], 16));
+                    Log.d("myLocalPhpServer=" + AireJupiter.myLocalPhpServer);
+                }
 
-				if(tmp2.length>5){
-					String stun_server = new NetInfo(mContext).longToIPForServer(Long.valueOf(tmp2[5],16));
-					mPref.write("StunServer", stun_server);
-					Log.d("stun_server=" + stun_server);
-				}
+                if (tmp2.length > 5) {
+                    String stun_server = new NetInfo(mContext).longToIPForServer(Long.valueOf(tmp2[5], 16));
+                    mPref.write("StunServer", stun_server);
+                    Log.d("stun_server=" + stun_server);
+                }
 
-				Log.d("mySipServer=" + mySipServer);
-				updateMySipServer(mySipServer);
-				//tml*** conf-200 offset
-				if (tmp2.length > 6) {
-					long server_time = Long.parseLong(tmp2[6], 16);
-					long my_time = new Date().getTime() / 1000;
-					long timeOffset = server_time - my_time;
-					mPref.writeLong("confServerOffset", timeOffset);
-					Log.d("time offset=" + timeOffset);
-				}
+                Log.d("mySipServer=" + mySipServer);
+                updateMySipServer(mySipServer);
+                //tml*** conf-200 offset
+                if (tmp2.length > 6) {
+                    long server_time = Long.parseLong(tmp2[6], 16);
+                    long my_time = new Date().getTime() / 1000;
+                    long timeOffset = server_time - my_time;
+                    mPref.writeLong("confServerOffset", timeOffset);
+                    Log.d("time offset=" + timeOffset);
+                }
 
-				if (tmp2.length>3 && tmp2[3].equals("1"))//I got offline msg
-				{
-					if (AireJupiter.getInstance()!=null)
-						AireJupiter.getInstance().offlineMessage();
-				}
+                if (tmp2.length > 3 && tmp2[3].equals("1"))//I got offline msg
+                {
+                    if (AireJupiter.getInstance() != null)
+                        AireJupiter.getInstance().offlineMessage();
+                }
 
-				if (mPref.readBoolean("accountUpdated",false))
-					mPref.delect("accountUpdated");
+                if (mPref.readBoolean("accountUpdated", false))
+                    mPref.delect("accountUpdated");
 
-			} else { // there are error login
-				Log.e("there happens error login");
-				disconnect("error login", true);
-				Logging = 0;
-				return false;
-			}
-			try {
-				clientSocket.setSoTimeout(CLIENT_CONNECTION_TIMEOUT);
-				clientSocket.setKeepAlive(true);
-				clientSocket.setTrafficClass(4);
-			} catch (Exception e) {
-			}
+            } else { // there are error login
+                Log.e("there happens error login");
+                disconnect("error login", true);
+                Logging = 0;
+                return false;
+            }
+            try {
+                clientSocket.setSoTimeout(CLIENT_CONNECTION_TIMEOUT);
+                clientSocket.setKeepAlive(true);
+                clientSocket.setTrafficClass(4);
+            } catch (Exception e) {
+            }
 
-			thrClient = new SocketCommThread();
-			thrClient.start();
+            thrClient = new SocketCommThread();
+            thrClient.start();
 
-			Intent it2 = new Intent(Global.Action_InternalCMD);
-			it2.putExtra("Command", Global.CMD_TCP_CONNECTION_UPDATE);
-			mContext.sendBroadcast(it2);
+            Intent it2 = new Intent(Global.Action_InternalCMD);
+            it2.putExtra("Command", Global.CMD_TCP_CONNECTION_UPDATE);
+            mContext.sendBroadcast(it2);
 
-			Logging = 0;
-			location.getMyRoamId();  //tml*** xcountry sip
-			Log.d("Login DONE");
-			return true;
-		}
+            Logging = 0;
+            location.getMyRoamId();  //tml*** xcountry sip
+            Log.d("Login DONE");
+            return true;
+        }
 
-		Logging = 0;
-		return false;
-	}
+        Logging = 0;
+        return false;
+    }
 
-	private final Object lock_150 = new Object();
-	private String CalleeSipIP;
+    private final Object lock_150 = new Object();
+    private String CalleeSipIP;
 
-	/*
-	 * Send : 150/calleeID success : 160/calleeSip failed : null or 999/result
-	 */
-	public String tcpGetCalleeSip(String Callee) {
-		if (logged == 0)
-			return null;
+    /*
+     * Send : 150/calleeID success : 160/calleeSip failed : null or 999/result
+     */
+    public String tcpGetCalleeSip(String Callee) {
+        if (logged == 0)
+            return null;
 
-		if (!mADB.isOpen()) return null;
-		int idx = mADB.getIdxByAddress(Callee);
-		if (idx<0)
-			return "nonmember";
-		String uid=Integer.toHexString(idx);
-		CalleeSipIP = null;
-		try {
-			outToServerPeriod();  //tml*** outToServer period/
-			Log.d("150/" + myId + "/" + uid);
-			outToServer.write(MyUtil.encryptTCPCmd("150/" + myId + "/"
-					+ uid));
-		} catch (Exception e) {
-			Log.e("FailtoSendtoServer.150");
-			disconnect("fail 150", true);
-			return null;
-		}
+        if (!mADB.isOpen()) return null;
+        int idx = mADB.getIdxByAddress(Callee);
+        if (idx < 0)
+            return "nonmember";
+        String uid = Integer.toHexString(idx);
+        CalleeSipIP = null;
+        try {
+            outToServerPeriod();  //tml*** outToServer period/
+            Log.d("150/" + myId + "/" + uid);
+            outToServer.write(MyUtil.encryptTCPCmd("150/" + myId + "/"
+                    + uid));
+        } catch (Exception e) {
+            Log.e("FailtoSendtoServer.150");
+            disconnect("fail 150", true);
+            return null;
+        }
 
-		synchronized (lock_150) {
-			try {
-				lock_150.wait(TRANSIT_TIMEOUT * 2);
-			} catch (Exception e) {
-				Log.e("tcpGetYourSip Timeout");
-				return null;
-			}
-		}
-		return CalleeSipIP;
-	}
-	//tml*** xcountry sip
-	public boolean updateMyRoamSip(String roamid) {
-		if (logged == 0) return false;
-		try {
-			outToServerPeriod();  //tml*** outToServer period/
-			Log.d("170/" + myId + "/" + roamid);
-			outToServer.write(MyUtil.encryptTCPCmd("170/" + myId + "/" + roamid));
-		} catch (Exception e) {
-			Log.e("FailtoSendtoServer.170");
-			return false;
-		}
-		return true;
-	}
+        synchronized (lock_150) {
+            try {
+                lock_150.wait(TRANSIT_TIMEOUT * 2);
+            } catch (Exception e) {
+                Log.e("tcpGetYourSip Timeout");
+                return null;
+            }
+        }
+        return CalleeSipIP;
+    }
 
-	/* Send : 800/myid/lat/lon */
-	public void sendCmd(String receiverId, String cmdStr) {
-		if (logged == 0)
-			return;
-		try {
-			outToServerPeriod(); //tml*** outToServer period/
-			UUID uuid = UUID.randomUUID();
-			String msgId=uuid.toString();
-			outToServer.write(MyUtil.encryptTCPCmd("800/" + myId + "/" + receiverId + "/" + msgId + "/" + cmdStr));
-			Log.d("800/" + myId + "/" + receiverId + "/" + msgId + "/" + cmdStr);
-		} catch (Exception e) {
-			Log.e("FailtoSendtoServer.800");
-			disconnect("fail 800", true);
-		}
-	}
+    //tml*** xcountry sip
+    public boolean updateMyRoamSip(String roamid) {
+        if (logged == 0) return false;
+        try {
+            outToServerPeriod();  //tml*** outToServer period/
+            Log.d("170/" + myId + "/" + roamid);
+            outToServer.write(MyUtil.encryptTCPCmd("170/" + myId + "/" + roamid));
+        } catch (Exception e) {
+            Log.e("FailtoSendtoServer.170");
+            return false;
+        }
+        return true;
+    }
 
-	/* Send : 850/myid/lat/lon */
-	public boolean send850(String groupId, String cmdStr) {
-		if (logged == 0)
-			return false;
-		try {
-			outToServerPeriod(); //tml*** outToServer period/
-			UUID uuid = UUID.randomUUID();
-			String msgId=uuid.toString();
-			outToServer.write(MyUtil.encryptTCPCmd("850/" + myId + "/" + groupId + "/" + msgId + "/" + cmdStr));
-			Log.d("850/" + myId + "/" + groupId + "/" + msgId + "/" + cmdStr);
-			return  true;
-		} catch (Exception e) {
-			Log.e("FailtoSendtoServer.850");
-			disconnect("fail 850", true);
-			return  false;
-		}
-	}
+    /* Send : 800/myid/lat/lon */
+    public void sendCmd(String receiverId, String cmdStr) {
+        if (logged == 0)
+            return;
+        try {
+            outToServerPeriod(); //tml*** outToServer period/
+            UUID uuid = UUID.randomUUID();
+            String msgId = uuid.toString();
+            outToServer.write(MyUtil.encryptTCPCmd("800/" + myId + "/" + receiverId + "/" + msgId + "/" + cmdStr));
+            Log.d("800/" + myId + "/" + receiverId + "/" + msgId + "/" + cmdStr);
+        } catch (Exception e) {
+            Log.e("FailtoSendtoServer.800");
+            disconnect("fail 800", true);
+        }
+    }
+
+    /* Send : 850/myid/lat/lon */
+    public boolean send850(String groupId, String row_id, String cmdStr) {
+        if (logged == 0)
+            return false;
+        try {
+            outToServerPeriod(); //tml*** outToServer period/
+//			UUID uuid = UUID.randomUUID();
+//			String msgId=uuid.toString();
+            outToServer.write(MyUtil.encryptTCPCmd("850/" + myId + "/" + groupId + "/" + row_id + "/" + cmdStr));
+            android.util.Log.d("发送消息", "Socket850:------850/" + myId + "/" + groupId + "/" + row_id + "/" + cmdStr);
+            Log.d("850/" + myId + "/" + groupId + "/" + row_id + "/" + cmdStr);
+            return true;
+        } catch (Exception e) {
+            Log.e("FailtoSendtoServer.850");
+            disconnect("fail 850", true);
+            return false;
+        }
+    }
 
 
-	public boolean isLogged(boolean force) {
+    public boolean isLogged(boolean force) {
 //		return (logged == 1);
-		boolean _logged = (logged == 1);
-		if (force) {
-			logged = 0;
-			return false;
-		} else {
-			return _logged;
-		}
-	}
+        boolean _logged = (logged == 1);
+        if (force) {
+            logged = 0;
+            return false;
+        } else {
+            return _logged;
+        }
+    }
 
-	public boolean getTcpStatus() {
-		return (tcpStatus0);
-	}
+    public boolean getTcpStatus() {
+        return (tcpStatus0);
+    }
 
-	public boolean send(String Callee, String MsgTexg, int Attached,
-						String remoteAudioPath, String remoteImagePath, long rowId, String phpIP) {
-		return send(Callee, MsgTexg, Attached, remoteAudioPath, remoteImagePath, rowId, phpIP, 0);
-	}
+    public boolean send(String Callee, String MsgTexg, int Attached,
+                        String remoteAudioPath, String remoteImagePath, long rowId, String phpIP) {
+        return send(Callee, MsgTexg, Attached, remoteAudioPath, remoteImagePath, rowId, phpIP, 0);
+    }
 
-	private final Object lock_200 = new Object();
-	private boolean SMSoK = false, SMS280oK = true;
-	public boolean send(String Callee, String MsgTexg, int Attached,
-						String remoteAudioPath, String remoteImagePath, long rowId, String phpIP, int groupID) {
-		SMSoK = false;
-		SMS280oK = true;
-		if (!mADB.isOpen() || Logging==1 || logged==0) {
-			Log.e("msgs.Fail1 > " + !mADB.isOpen() + " " + Logging + " " + logged);
-			return false;
-		}
+    private final Object lock_200 = new Object();
+    private boolean SMSoK = false, SMS280oK = true;
 
-		int idx = mADB.getIdxByAddress(Callee);
-		if (idx < 0) {
-			Log.e("msgs.Fail2 idx !@#$ > " + Callee + " " + idx);
-			return false;
-		}
+    public boolean send(String Callee, String MsgTexg, int Attached,
+                        String remoteAudioPath, String remoteImagePath, long rowId, String phpIP, int groupID) {
+        SMSoK = false;
+        SMS280oK = true;
+        if (!mADB.isOpen() || Logging == 1 || logged == 0) {
+            Log.e("msgs.Fail1 > " + !mADB.isOpen() + " " + Logging + " " + logged);
+            return false;
+        }
 
-		if (Attached == 8
-				&& MsgTexg.startsWith(mContext.getString(R.string.video))
-				&& MsgTexg.contains("(vdo)")) {
-			MsgTexg = MsgTexg.substring(mContext.getString(R.string.video)
-					.length());
-		} else if (Attached == 8
-				&& MsgTexg.startsWith(mContext
-				.getString(R.string.filememo_send))
-				&& MsgTexg.contains("(fl)")) {
-			MsgTexg = MsgTexg.substring(mContext.getString(
-					R.string.filememo_send).length());
-		}
-		SendeeAddress = Callee;
-		String uid=Integer.toHexString(idx);
-		String buffer;
+        int idx = mADB.getIdxByAddress(Callee);
+        if (idx < 0) {
+            Log.e("msgs.Fail2 idx !@#$ > " + Callee + " " + idx);
+            return false;
+        }
 
-		BufferedIdxForMsg=idx;
+        if (Attached == 8
+                && MsgTexg.startsWith(mContext.getString(R.string.video))
+                && MsgTexg.contains("(vdo)")) {
+            MsgTexg = MsgTexg.substring(mContext.getString(R.string.video)
+                    .length());
+        } else if (Attached == 8
+                && MsgTexg.startsWith(mContext
+                .getString(R.string.filememo_send))
+                && MsgTexg.contains("(fl)")) {
+            MsgTexg = MsgTexg.substring(mContext.getString(
+                    R.string.filememo_send).length());
+        }
+        SendeeAddress = Callee;
+        String uid = Integer.toHexString(idx);
+        String buffer;
+
+        BufferedIdxForMsg = idx;
 //		BufferedMsg=MsgTexg;
 
-		if (groupID != 0) {
-			buffer = "200/" + myId + "/" + uid + "/`[" + groupID + "]\n" + MsgTexg;
-		} else if (MsgTexg.contains("[<CallFrom>]")) {  //280 direct  //alex*** callfrom
-			buffer = "280/" + myId + "/" + uid + "/" + MsgTexg;
-		} else if (MsgTexg.startsWith(Global.Temp_Parse)) {
-			MsgTexg = MsgTexg.substring(Global.Temp_Parse.length(), MsgTexg.length());
-			buffer = "280/" + myId + "/" + uid + "/" + MsgTexg;
-		} else {
-			if (MsgTexg.equals("/")) {  //tml*** temp / fix
-				MsgTexg = " /";
-			}
-			buffer = "200/" + myId + "/" + uid + "/" + MsgTexg;
-			if (mPref.readBoolean("SLOWMSG", false)) {
-				buffer = "280/" + myId + "/" + uid + "/" + MsgTexg;
-			}
-		}
+        if (groupID != 0) {
+            buffer = "200/" + myId + "/" + uid + "/`[" + groupID + "]\n" + MsgTexg;
+        } else if (MsgTexg.contains("[<CallFrom>]")) {  //280 direct  //alex*** callfrom
+            buffer = "280/" + myId + "/" + uid + "/" + MsgTexg;
+        } else if (MsgTexg.startsWith(Global.Temp_Parse)) {
+            MsgTexg = MsgTexg.substring(Global.Temp_Parse.length(), MsgTexg.length());
+            buffer = "280/" + myId + "/" + uid + "/" + MsgTexg;
+        } else {
+            if (MsgTexg.equals("/")) {  //tml*** temp / fix
+                MsgTexg = " /";
+            }
+            buffer = "200/" + myId + "/" + uid + "/" + MsgTexg;
+            if (mPref.readBoolean("SLOWMSG", false)) {
+                buffer = "280/" + myId + "/" + uid + "/" + MsgTexg;
+            }
+        }
 
-		BufferedMsg=MsgTexg;  //tml*** 200timeout
+        BufferedMsg = MsgTexg;  //tml*** 200timeout
 
-		try {
-			if (Attached != 0){
-				buffer += "<Z>" + Attached + "<Z>" + remoteAudioPath + "<Z>"
-						+ remoteImagePath + "<Z>"+ Long.toHexString(new NetInfo(mContext).ipToLong(phpIP)) + "<Z>";
-			}
-		} catch (Exception e) {
-			if (Attached != 0){
-				buffer += "<Z>" + Attached + "<Z>" + remoteAudioPath + "<Z>"
-						+ remoteImagePath + "<Z>"+ phpIP + "<Z>";
-			}
-		}
+        try {
+            if (Attached != 0) {
+                buffer += "<Z>" + Attached + "<Z>" + remoteAudioPath + "<Z>"
+                        + remoteImagePath + "<Z>" + Long.toHexString(new NetInfo(mContext).ipToLong(phpIP)) + "<Z>";
+            }
+        } catch (Exception e) {
+            if (Attached != 0) {
+                buffer += "<Z>" + Attached + "<Z>" + remoteAudioPath + "<Z>"
+                        + remoteImagePath + "<Z>" + phpIP + "<Z>";
+            }
+        }
 
-		try {
-			buffer += "/`" + Integer.toHexString((int) rowId);
-			outToServerPeriod();  //tml*** outToServer period/
-			Log.i("!msgs :: " + buffer);
-			outToServer.write(MyUtil.encryptTCPCmd(buffer));
+        try {
+            buffer += "/`" + Integer.toHexString((int) rowId);
+            outToServerPeriod();  //tml*** outToServer period/
+            Log.i("!msgs :: " + buffer);
+            outToServer.write(MyUtil.encryptTCPCmd(buffer));
 
-			//tml*** 200timeout
-			synchronized (lock_200) {
-				try {
-					lock_200.wait(TRANSIT_TIMEOUT * 2);
-				} catch (Exception e) {}
-			}
+            //tml*** 200timeout
+            synchronized (lock_200) {
+                try {
+                    lock_200.wait(TRANSIT_TIMEOUT * 2);
+                } catch (Exception e) {
+                }
+            }
 
-			Log.e("msgs.lock_200 SMSoK=" + SMSoK + " SMS280oK=" + SMS280oK);
-			if (!SMSoK) {
-				int versionCode = mContext.getPackageManager()
-						.getPackageInfo(mContext.getPackageName(), 0).versionCode;
-				if (!isLogged(false)) Login(versionCode);
-				if (AireJupiter.getInstance() != null) {
-					SMS280oK = false;
-					AireJupiter.getInstance().sendPendingSMS();
-				}
+            Log.e("msgs.lock_200 SMSoK=" + SMSoK + " SMS280oK=" + SMS280oK);
+            if (!SMSoK) {
+                int versionCode = mContext.getPackageManager()
+                        .getPackageInfo(mContext.getPackageName(), 0).versionCode;
+                if (!isLogged(false)) Login(versionCode);
+                if (AireJupiter.getInstance() != null) {
+                    SMS280oK = false;
+                    AireJupiter.getInstance().sendPendingSMS();
+                }
 //				if (MsgTexg.contains(Global.Call_Conference_Switch)) {  //tml*** switch conf, 0bX
 //					Log.e("--------- SWITCH CALL --------- 200 not ok");
 //					if (AireJupiter.getInstance() != null)
@@ -1303,555 +1439,556 @@ public class MySocket {
 //						
 //					}
 //				}
-				return false;
-			} else if (!SMS280oK) {
-				Intent it = new Intent(Global.Action_SMS_Fail);
-				mContext.sendBroadcast(it);
-				return false;
+                return false;
+            } else if (!SMS280oK) {
+                Intent it = new Intent(Global.Action_SMS_Fail);
+                mContext.sendBroadcast(it);
+                return false;
 //			} else if (MsgTexg.contains(Global.Call_Conference_Switch)) {  //tml*** switch conf, 0b
 //				Log.e("--------- SWITCH CALL --------- 200 ok");
 //				if (AireJupiter.getInstance() != null)
 //					AireJupiter.getInstance().setSwitchCall(true, "200conf ok");
 //				if (DialerActivity.getDialer() != null)
 //					DialerActivity.getDialer().readySwitchCall();
-			}
-			//***tml
+            }
+            //***tml
 
 //			outToServer.write(MyUtil.encryptTCPCmd(buffer));  //test send duplicate
-		} catch (Exception e) {
-			Log.e("FailtoSendtoServer.200 " + e.getMessage());
-			disconnect("fail 200", true);
-		}
-		return true;
-	}
+        } catch (Exception e) {
+            Log.e("FailtoSendtoServer.200 " + e.getMessage());
+            disconnect("fail 200", true);
+        }
+        return true;
+    }
 
-	private boolean StopCalling=false;
-	String mCallee;
-	private final Object lock_700 = new Object();
-	public int sendCallRequest(String Callee) {
-		if (!mADB.isOpen()) return -1;
-		RecvedCallACK = false;
-		NotfoundACK = false;
-		StopCalling = false;
-		WaitForPush = false;
-		for (int i = 0; i < 1; i++) {
-			outToServerPeriod();  //tml*** outToServer period/
-			try {
-				mCallee = Callee;
-				mPref.write("curCall", Callee);
-				int idx=mADB.getIdxByAddress(Callee);
-				if (idx<0) return -1;
-				BufferedIdxForCall=idx;
-				String uid=Integer.toHexString(idx);
-				Log.d("voip.Socket: Sending Call Request.. 700 " + myId + "/" + uid);
-				outToServer.write(MyUtil.encryptTCPCmd("700/" + myId + "/" + uid));
-			} catch (Exception e) {
-				Log.e("FailtoSendtoServer.700");
-			}
+    private boolean StopCalling = false;
+    String mCallee;
+    private final Object lock_700 = new Object();
 
-			synchronized (lock_700) {
-				try {
-					lock_700.wait(TRANSIT_TIMEOUT * 2);
-				} catch (Exception e) {}
-			}
+    public int sendCallRequest(String Callee) {
+        if (!mADB.isOpen()) return -1;
+        RecvedCallACK = false;
+        NotfoundACK = false;
+        StopCalling = false;
+        WaitForPush = false;
+        for (int i = 0; i < 1; i++) {
+            outToServerPeriod();  //tml*** outToServer period/
+            try {
+                mCallee = Callee;
+                mPref.write("curCall", Callee);
+                int idx = mADB.getIdxByAddress(Callee);
+                if (idx < 0) return -1;
+                BufferedIdxForCall = idx;
+                String uid = Integer.toHexString(idx);
+                Log.d("voip.Socket: Sending Call Request.. 700 " + myId + "/" + uid);
+                outToServer.write(MyUtil.encryptTCPCmd("700/" + myId + "/" + uid));
+            } catch (Exception e) {
+                Log.e("FailtoSendtoServer.700");
+            }
 
-			Log.d("voip.lock700 waitdone Stop=" + StopCalling + " ACK=" + RecvedCallACK
-					+ " NoACK=" + NotfoundACK + " Push=" + WaitForPush);
-			if (WaitForPush)
-				return 2;
-			if (StopCalling)
-				return 0;
-			if (RecvedCallACK)
-				return 1;
-			if (NotfoundACK)
-				return 1;
-			if (!RecvedCallACK) {  //tml|alex*** iphone push
-				Log.d("voip.apple 700 still no 730");
-				doAppPushCall();
-				return 2;
-			}
-		}
-		return 0;
-	}
+            synchronized (lock_700) {
+                try {
+                    lock_700.wait(TRANSIT_TIMEOUT * 2);
+                } catch (Exception e) {
+                }
+            }
 
-	//tml|alex*** iphone push
-	public int sendCallRequestApple(String Callee) {
-		if (!mADB.isOpen()) return -1;
-		RecvedCallACK = false;
-		NotfoundACK = false;
-		StopCalling = false;
-		WaitForPush = false;
-		for (int i = 0; i < 1; i++) {
+            Log.d("voip.lock700 waitdone Stop=" + StopCalling + " ACK=" + RecvedCallACK
+                    + " NoACK=" + NotfoundACK + " Push=" + WaitForPush);
+            if (WaitForPush)
+                return 2;
+            if (StopCalling)
+                return 0;
+            if (RecvedCallACK)
+                return 1;
+            if (NotfoundACK)
+                return 1;
+            if (!RecvedCallACK) {  //tml|alex*** iphone push
+                Log.d("voip.apple 700 still no 730");
+                doAppPushCall();
+                return 2;
+            }
+        }
+        return 0;
+    }
 
-			synchronized (lock_700) {
-				try {
-					lock_700.wait(TRANSIT_TIMEOUT * 3);
-				} catch (Exception e) {}
-			}
+    //tml|alex*** iphone push
+    public int sendCallRequestApple(String Callee) {
+        if (!mADB.isOpen()) return -1;
+        RecvedCallACK = false;
+        NotfoundACK = false;
+        StopCalling = false;
+        WaitForPush = false;
+        for (int i = 0; i < 1; i++) {
 
-			Log.d("voip.applelock_700x2 waitdone Stop=" + StopCalling + " ACK=" + RecvedCallACK
-					+ " NoACK=" + NotfoundACK + " Push=" + WaitForPush);
-			if (StopCalling)
-				return 0;
-			if (RecvedCallACK)
-				return 1;
-			if (NotfoundACK)
-				return 1;
-			if (WaitForPush)
-				return 2;
-		}
-		return 0;
-	}
-	//***tml
+            synchronized (lock_700) {
+                try {
+                    lock_700.wait(TRANSIT_TIMEOUT * 3);
+                } catch (Exception e) {
+                }
+            }
 
-	//Jerry, 031214, Bug 0000204, will be accessed by DialerActivity OnClick hangup.
-	public static int BufferedIdxForCall=0;
-	//private int BufferedIdxForCall;
-	private int BufferedIdxForMsg;
-	private String BufferedMsg="";
-	public void doAppPushCall() {
-		new Thread(new Runnable(){
-			public void run()
-			{
-				int myIdx=Integer.parseInt(myId,16);
-				//alex*** callfrom
-				String nickname = mADB.getNicknameByIdx(myIdx);
-				String pushMsg = "[<CallFrom>]//" + nickname;
-				Log.d("voip.do Apple Push Call " + mCallee + " " + pushMsg);
-				send(mCallee, pushMsg, 0, null, null, 0, null);
-				//***alex
-				MyNet net = new MyNet(mContext);
-				net.doPost("apns.php","sender="+myIdx+
-						"&idx="+BufferedIdxForCall+
-						"&cmd=700"+
-						"&msg=", null);
-			}
-		}).start();
-	}
+            Log.d("voip.applelock_700x2 waitdone Stop=" + StopCalling + " ACK=" + RecvedCallACK
+                    + " NoACK=" + NotfoundACK + " Push=" + WaitForPush);
+            if (StopCalling)
+                return 0;
+            if (RecvedCallACK)
+                return 1;
+            if (NotfoundACK)
+                return 1;
+            if (WaitForPush)
+                return 2;
+        }
+        return 0;
+    }
+    //***tml
 
-	public void doAppPushMsg() {
-		Log.d("msgs.do Apple Push Msg");
-		new Thread(new Runnable(){
-			public void run()
-			{
-				int myIdx=Integer.parseInt(myId,16);
-				MyNet net = new MyNet(mContext);
-				try{
-					net.doPost("apns.php","sender="+myIdx+
-							"&idx="+BufferedIdxForMsg+
-							"&cmd=200"+
-							"&msg="+URLEncoder.encode(BufferedMsg,"UTF-8"), null);
-				}catch(Exception e){}
-			}
-		}).start();
-	}
+    //Jerry, 031214, Bug 0000204, will be accessed by DialerActivity OnClick hangup.
+    public static int BufferedIdxForCall = 0;
+    //private int BufferedIdxForCall;
+    private int BufferedIdxForMsg;
+    private String BufferedMsg = "";
 
-	static void Sleep(int ms) {
-		try {
-			Thread.sleep(ms);
-		} catch (Exception e) {
-		}
-	}
+    public void doAppPushCall() {
+        new Thread(new Runnable() {
+            public void run() {
+                int myIdx = Integer.parseInt(myId, 16);
+                //alex*** callfrom
+                String nickname = mADB.getNicknameByIdx(myIdx);
+                String pushMsg = "[<CallFrom>]//" + nickname;
+                Log.d("voip.do Apple Push Call " + mCallee + " " + pushMsg);
+                send(mCallee, pushMsg, 0, null, null, 0, null);
+                //***alex
+                MyNet net = new MyNet(mContext);
+                net.doPost("apns.php", "sender=" + myIdx +
+                        "&idx=" + BufferedIdxForCall +
+                        "&cmd=700" +
+                        "&msg=", null);
+            }
+        }).start();
+    }
 
-	public boolean disconnect(String from, boolean hidden) {
+    public void doAppPushMsg() {
+        Log.d("msgs.do Apple Push Msg");
+        new Thread(new Runnable() {
+            public void run() {
+                int myIdx = Integer.parseInt(myId, 16);
+                MyNet net = new MyNet(mContext);
+                try {
+                    net.doPost("apns.php", "sender=" + myIdx +
+                            "&idx=" + BufferedIdxForMsg +
+                            "&cmd=200" +
+                            "&msg=" + URLEncoder.encode(BufferedMsg, "UTF-8"), null);
+                } catch (Exception e) {
+                }
+            }
+        }).start();
+    }
 
-		if (Logging==1) return false;
+    static void Sleep(int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (Exception e) {
+        }
+    }
 
-		status460="";
+    public boolean disconnect(String from, boolean hidden) {
 
-		if (thrClient != null)// alec
-			thrClient.terminate();
+        if (Logging == 1) return false;
 
-		try {
-			outToServerPeriod(); //tml*** outToServer period
-			mPref.writeLong("outToServerLast", 0);
-			if (outToServer != null)
-				outToServer.write(MyUtil.encryptTCPCmd("300/" + myId));
-		} catch (Exception e) {
-			Log.w("fail to say goodbye");
-		}
+        status460 = "";
 
-		try {// alec
-			if (clientSocket != null) {
-				clientSocket.shutdownInput();
-				clientSocket.shutdownOutput();
-			}
-		} catch (Exception e) {
-		}
+        if (thrClient != null)// alec
+            thrClient.terminate();
 
-		try {
-			if (inFromServer != null) {
-				inFromServer.close();
-				inFromServer = null;
-			}
-		} catch (Exception e) {
-		}
+        try {
+            outToServerPeriod(); //tml*** outToServer period
+            mPref.writeLong("outToServerLast", 0);
+            if (outToServer != null)
+                outToServer.write(MyUtil.encryptTCPCmd("300/" + myId));
+        } catch (Exception e) {
+            Log.w("fail to say goodbye");
+        }
 
-		try {
-			if (outToServer != null)
-				outToServer.close();
-			outToServer = null;
-		} catch (Exception e) {
-		}
+        try {// alec
+            if (clientSocket != null) {
+                clientSocket.shutdownInput();
+                clientSocket.shutdownOutput();
+            }
+        } catch (Exception e) {
+        }
 
-		try {
-			if (clientSocket != null)
-				clientSocket.close();
-			clientSocket = null;
-		} catch (Exception e) {
-		}
-		tcpStatus0 = false;
-		logged = 0;
+        try {
+            if (inFromServer != null) {
+                inFromServer.close();
+                inFromServer = null;
+            }
+        } catch (Exception e) {
+        }
 
-		Log.e("Socket ***** Disconnected... ***** <" + from);
+        try {
+            if (outToServer != null)
+                outToServer.close();
+            outToServer = null;
+        } catch (Exception e) {
+        }
 
-		if (AireJupiter.getInstance() != null) {
-			if (!hidden) {
-				AireJupiter.getInstance().notifyConnectionChanged();
-				warningPoor(true, "disconnect");
-			}
-		} else {
-			try{
-				if (new MyPreference(mContext).readBoolean("Registered",false))
-				{
-					Intent itx=new Intent(mContext, AireJupiter.class);
-					mContext.startService(itx);
-				}
-			}catch(Exception e){}
-		}
+        try {
+            if (clientSocket != null)
+                clientSocket.close();
+            clientSocket = null;
+        } catch (Exception e) {
+        }
+        tcpStatus0 = false;
+        logged = 0;
 
-		mPref.writeLong("last_dlf_status", 0);
+        Log.e("Socket ***** Disconnected... ***** <" + from);
 
-		return true;
-	}
+        if (AireJupiter.getInstance() != null) {
+            if (!hidden) {
+                AireJupiter.getInstance().notifyConnectionChanged();
+                warningPoor(true, "disconnect");
+            }
+        } else {
+            try {
+                if (new MyPreference(mContext).readBoolean("Registered", false)) {
+                    Intent itx = new Intent(mContext, AireJupiter.class);
+                    mContext.startService(itx);
+                }
+            } catch (Exception e) {
+            }
+        }
 
-	public boolean disconnectAndReconnect(String from, boolean hidden) {
+        mPref.writeLong("last_dlf_status", 0);
 
-		if (Logging==1) return false;
+        return true;
+    }
 
-		status460="";
+    public boolean disconnectAndReconnect(String from, boolean hidden) {
 
-		if (thrClient != null)// alec
-			thrClient.terminate();
+        if (Logging == 1) return false;
 
-		try {
-			outToServerPeriod(); //tml*** outToServer period
-			mPref.writeLong("outToServerLast", 0);
-			if (outToServer != null)
-				outToServer.write(MyUtil.encryptTCPCmd("300/" + myId));
-		} catch (Exception e) {
-			Log.w("fail to say goodbye");
-		}
+        status460 = "";
 
-		try {// alec
-			if (clientSocket != null) {
-				clientSocket.shutdownInput();
-				clientSocket.shutdownOutput();
-			}
-		} catch (Exception e) {
-		}
+        if (thrClient != null)// alec
+            thrClient.terminate();
 
-		try {
-			if (inFromServer != null) {
-				inFromServer.close();
-				inFromServer = null;
-			}
-		} catch (Exception e) {
-		}
+        try {
+            outToServerPeriod(); //tml*** outToServer period
+            mPref.writeLong("outToServerLast", 0);
+            if (outToServer != null)
+                outToServer.write(MyUtil.encryptTCPCmd("300/" + myId));
+        } catch (Exception e) {
+            Log.w("fail to say goodbye");
+        }
 
-		try {
-			if (outToServer != null)
-				outToServer.close();
-			outToServer = null;
-		} catch (Exception e) {
-		}
+        try {// alec
+            if (clientSocket != null) {
+                clientSocket.shutdownInput();
+                clientSocket.shutdownOutput();
+            }
+        } catch (Exception e) {
+        }
 
-		try {
-			if (clientSocket != null)
-				clientSocket.close();
-			clientSocket = null;
-		} catch (Exception e) {
-		}
-		tcpStatus0 = false;
-		logged = 0;
+        try {
+            if (inFromServer != null) {
+                inFromServer.close();
+                inFromServer = null;
+            }
+        } catch (Exception e) {
+        }
 
-		Log.e("Socket ***** Disconnected...And Reconnect ***** <" + from);
+        try {
+            if (outToServer != null)
+                outToServer.close();
+            outToServer = null;
+        } catch (Exception e) {
+        }
 
-		if (AireJupiter.getInstance() != null) {
-			AireJupiter.getInstance().notifyReconnectTCP();
-			if (!hidden) {
-				warningPoor(true, "disconnectRE");
-			}
-		} else {
-			try{
-				if (new MyPreference(mContext).readBoolean("Registered",false))
-				{
-					Intent itx=new Intent(mContext, AireJupiter.class);
-					mContext.startService(itx);
-				}
-			}catch(Exception e){}
-		}
+        try {
+            if (clientSocket != null)
+                clientSocket.close();
+            clientSocket = null;
+        } catch (Exception e) {
+        }
+        tcpStatus0 = false;
+        logged = 0;
 
-		mPref.writeLong("last_dlf_status", 0);
+        Log.e("Socket ***** Disconnected...And Reconnect ***** <" + from);
 
-		return true;
-	}
+        if (AireJupiter.getInstance() != null) {
+            AireJupiter.getInstance().notifyReconnectTCP();
+            if (!hidden) {
+                warningPoor(true, "disconnectRE");
+            }
+        } else {
+            try {
+                if (new MyPreference(mContext).readBoolean("Registered", false)) {
+                    Intent itx = new Intent(mContext, AireJupiter.class);
+                    mContext.startService(itx);
+                }
+            } catch (Exception e) {
+            }
+        }
 
-	private void responseMessageGot(String originalSignal) {
-		Intent it = new Intent(Global.Action_InternalCMD);
-		it.putExtra("Command", Global.CMD_TCP_MESSAGE_ARRIVAL);
-		it.putExtra("originalSignal", originalSignal);
-		mContext.sendBroadcast(it);
-	}
+        mPref.writeLong("last_dlf_status", 0);
 
-	private void responseStranger(String address, int idx) {
-		Log.d("addF.stranger! " + idx + " " + address);
-		Intent it = new Intent(Global.Action_InternalCMD);
-		it.putExtra("Command", Global.CMD_STRANGER_COMING);
-		it.putExtra("Address", address);
-		it.putExtra("Idx", idx);
-		mContext.sendBroadcast(it);
-	}
-	//tml*** getuserinfo
-	private void responseStranger_onlyIdx(int idx) {
-		Log.d("addF.stranger2! " + idx);
-		Intent it = new Intent(Global.Action_InternalCMD);
-		it.putExtra("Command", Global.CMD_STRANGER_COMING);
-		it.putExtra("Idx", idx);
-		mContext.sendBroadcast(it);
-	}
+        return true;
+    }
 
-	private void notifyServiceXtoLanuchServiceY() {
-		ServiceZ.acquireStaticLock(mContext);
+    private void responseMessageGot(String originalSignal) {
+        Intent it = new Intent(Global.Action_InternalCMD);
+        it.putExtra("Command", Global.CMD_TCP_MESSAGE_ARRIVAL);
+        it.putExtra("originalSignal", originalSignal);
+        mContext.sendBroadcast(it);
+    }
 
-		(new Thread() {
-			public void run() {
+    private void responseStranger(String address, int idx) {
+        Log.d("addF.stranger! " + idx + " " + address);
+        Intent it = new Intent(Global.Action_InternalCMD);
+        it.putExtra("Command", Global.CMD_STRANGER_COMING);
+        it.putExtra("Address", address);
+        it.putExtra("Idx", idx);
+        mContext.sendBroadcast(it);
+    }
 
-				int c=0;
+    //tml*** getuserinfo
+    private void responseStranger_onlyIdx(int idx) {
+        Log.d("addF.stranger2! " + idx);
+        Intent it = new Intent(Global.Action_InternalCMD);
+        it.putExtra("Command", Global.CMD_STRANGER_COMING);
+        it.putExtra("Idx", idx);
+        mContext.sendBroadcast(it);
+    }
 
-				while(AireVenus.destroying && c++<30)
-				{
-					Sleep(100);
-				}
+    private void notifyServiceXtoLanuchServiceY() {
+        ServiceZ.acquireStaticLock(mContext);
 
-				if (AireJupiter.getInstance()!=null)
-					AireJupiter.getInstance().startServiceY(AireVenus.CALLTYPE_FAFA);
+        (new Thread() {
+            public void run() {
 
-				c = 0;
-				while (AireVenus.instance() == null || !AireVenus.instance().registered) {
-					if (c++ > 50)
-						break;
-					Sleep(100);
-				}
-				outToServerPeriod(); //tml*** outToServer period/
-				Log.d("voip.(720) Response");
+                int c = 0;
 
-				try {
-					outToServer.write(MyUtil.encryptTCPCmd("720/" + SenderID + "/" + myId));
-				} catch (Exception e) {
-					Log.e("Failed to write 720 ack");
-					disconnect("fail 720", true);
-					return;
-				}
-			}
-		}).start();
+                while (AireVenus.destroying && c++ < 30) {
+                    Sleep(100);
+                }
 
-		if (mADB.isOpen()){
-			String Caller = mADB.getAddressByIdx(Integer.valueOf(SenderID, 16));
-			if (ContactsOnline.getContactOnlineStatus(Caller) <= 0) {
-				ContactsOnline.setContactOnlineStatus(Caller, 2);
-			}
-		}
-	}
+                if (AireJupiter.getInstance() != null)
+                    AireJupiter.getInstance().startServiceY(AireVenus.CALLTYPE_FAFA);
 
-	private void notifyServiceX_Login_fail_999() {
-		Intent it = new Intent(Global.Action_InternalCMD);
-		it.putExtra("Command", Global.CMD_LOGIN_FAILED);
-		mContext.sendBroadcast(it);
-	}
+                c = 0;
+                while (AireVenus.instance() == null || !AireVenus.instance().registered) {
+                    if (c++ > 50)
+                        break;
+                    Sleep(100);
+                }
+                outToServerPeriod(); //tml*** outToServer period/
+                Log.d("voip.(720) Response");
 
-	public void sendTerminateCommand(String Callee) {
-		Log.d("Socket: sendTerminateCommand...");
-		mPref.write("tempCheckSameIN", 0);  //tml*** sametime
-		BufferedIdxForCall=0;//alec
-		if (!mADB.isOpen()) return;
-		int idx=mADB.getIdxByAddress(Callee);
-		if (idx<0) return;
-		try {
-			String uid=Integer.toHexString(idx);
-			outToServerPeriod(); //tml*** outToServer period/
-			Log.d("voip.740/" + myId + "/" + uid);
-			outToServer.write(MyUtil.encryptTCPCmd("740/" + myId + "/" + uid));
-		} catch (Exception e) {
-			Log.e("FailtoSendtoServer.740");
-			disconnect("fail 740", true);
-		}
-	}
+                try {
+                    outToServer.write(MyUtil.encryptTCPCmd("720/" + SenderID + "/" + myId));
+                } catch (Exception e) {
+                    Log.e("Failed to write 720 ack");
+                    disconnect("fail 720", true);
+                    return;
+                }
+            }
+        }).start();
 
-	//alec:
-	int mQueryIdx;
-	public void queryUserAddressByIdx(int idx)
-	{
-		try {
-			mQueryIdx=idx;
-			String uid=Integer.toHexString(idx);
-			outToServerPeriod(); //tml*** outToServer period/
-			outToServer.write(MyUtil.encryptTCPCmd("380/" + uid));
-		} catch (IOException e) {
-			Log.e("write 380 fail");
-			disconnect("fail 380", true);
-			return;
-		}
-	}
+        if (mADB.isOpen()) {
+            String Caller = mADB.getAddressByIdx(Integer.valueOf(SenderID, 16));
+            if (ContactsOnline.getContactOnlineStatus(Caller) <= 0) {
+                ContactsOnline.setContactOnlineStatus(Caller, 2);
+            }
+        }
+    }
 
-	private final Object lock_450 = new Object();
-	private String friends = "";
+    private void notifyServiceX_Login_fail_999() {
+        Intent it = new Intent(Global.Action_InternalCMD);
+        it.putExtra("Command", Global.CMD_LOGIN_FAILED);
+        mContext.sendBroadcast(it);
+    }
 
-	public synchronized boolean queryFriendsOnlineStatus(String from) {
-		Log.i("do queryFriendsOnlineStatus! (" + from + ")");
-		if (logged != 1 || Logging==1 || !mADB.isOpen()) {
-			Log.i("do queryFriendsOnlineStatus! NOT YET !login/mADB");
-			return false;
-		}
-		String friendsIdx = "";
-		long now = new Date().getTime();
-		long last = mPref.readLong("last_dlf_status", 0);
-		if (now - last < 5000) { // 10 sec
-			Log.i("do queryFriendsOnlineStatus! NOT YET 5s");
-			return true;// no need to update
-		}
+    public void sendTerminateCommand(String Callee) {
+        Log.d("Socket: sendTerminateCommand...");
+        mPref.write("tempCheckSameIN", 0);  //tml*** sametime
+        BufferedIdxForCall = 0;//alec
+        if (!mADB.isOpen()) return;
+        int idx = mADB.getIdxByAddress(Callee);
+        if (idx < 0) return;
+        try {
+            String uid = Integer.toHexString(idx);
+            outToServerPeriod(); //tml*** outToServer period/
+            Log.d("voip.740/" + myId + "/" + uid);
+            outToServer.write(MyUtil.encryptTCPCmd("740/" + myId + "/" + uid));
+        } catch (Exception e) {
+            Log.e("FailtoSendtoServer.740");
+            disconnect("fail 740", true);
+        }
+    }
 
-		friends = "";
+    //alec:
+    int mQueryIdx;
 
-		int j = 0;
-		int n = 0;
+    public void queryUserAddressByIdx(int idx) {
+        try {
+            mQueryIdx = idx;
+            String uid = Integer.toHexString(idx);
+            outToServerPeriod(); //tml*** outToServer period/
+            outToServer.write(MyUtil.encryptTCPCmd("380/" + uid));
+        } catch (IOException e) {
+            Log.e("write 380 fail");
+            disconnect("fail 380", true);
+            return;
+        }
+    }
+
+    private final Object lock_450 = new Object();
+    private String friends = "";
+
+    public synchronized boolean queryFriendsOnlineStatus(String from) {
+        Log.i("do queryFriendsOnlineStatus! (" + from + ")");
+        if (logged != 1 || Logging == 1 || !mADB.isOpen()) {
+            Log.i("do queryFriendsOnlineStatus! NOT YET !login/mADB");
+            return false;
+        }
+        String friendsIdx = "";
+        long now = new Date().getTime();
+        long last = mPref.readLong("last_dlf_status", 0);
+        if (now - last < 5000) { // 10 sec
+            Log.i("do queryFriendsOnlineStatus! NOT YET 5s");
+            return true;// no need to update
+        }
+
+        friends = "";
+
+        int j = 0;
+        int n = 0;
 //		Log.i("Check online friends...");
-		Cursor cursor = mADB.getFafaFriends();
-		if (cursor.moveToFirst()) {
-			do {
-				String address=cursor.getString(1);
-				if (address.startsWith("[<GROUP>]")) continue;
-				if (friends.length() > 0) {
-					friends += "&";
-					friendsIdx += "&";
-				}
-				friends += cursor.getString(1);
-				friendsIdx += Integer.toHexString(cursor.getInt(3));
-				j++;
+        Cursor cursor = mADB.getFafaFriends();
+        if (cursor.moveToFirst()) {
+            do {
+                String address = cursor.getString(1);
+                if (address.startsWith("[<GROUP>]")) continue;
+                if (friends.length() > 0) {
+                    friends += "&";
+                    friendsIdx += "&";
+                }
+                friends += cursor.getString(1);
+                friendsIdx += Integer.toHexString(cursor.getInt(3));
+                j++;
 
-				if (j >= 80) {
-					thrClient.reset450();
-					outToServerPeriod(); //tml*** outToServer period/
-					Log.d("1.450/" + myId + "/" + friendsIdx);
-					try {
-						outToServer.write(MyUtil.encryptTCPCmd("450/"
-								+ myId + "/" + friendsIdx));
-					} catch (Exception e) {
-						Log.e("fail to getFriendsOnlineStatus1 !@#$ " + e.getMessage());
-						disconnect("fail fonline1", true);
-						if(cursor!=null && !cursor.isClosed())
-							cursor.close();
-						return false;
-					}
+                if (j >= 80) {
+                    thrClient.reset450();
+                    outToServerPeriod(); //tml*** outToServer period/
+                    Log.d("1.450/" + myId + "/" + friendsIdx);
+                    try {
+                        outToServer.write(MyUtil.encryptTCPCmd("450/"
+                                + myId + "/" + friendsIdx));
+                    } catch (Exception e) {
+                        Log.e("fail to getFriendsOnlineStatus1 !@#$ " + e.getMessage());
+                        disconnect("fail fonline1", true);
+                        if (cursor != null && !cursor.isClosed())
+                            cursor.close();
+                        return false;
+                    }
 
-					synchronized (lock_450) {
-						try {
-							lock_450.wait(TRANSIT_TIMEOUT * 3);
-						} catch (InterruptedException e) {
-						}
-					}
+                    synchronized (lock_450) {
+                        try {
+                            lock_450.wait(TRANSIT_TIMEOUT * 3);
+                        } catch (InterruptedException e) {
+                        }
+                    }
 
-					if (!thrClient.isReady450()) {
-						Log.e("getFriendsOnlineStatus Timeout1");
-						friends = "";
-						if(cursor!=null && !cursor.isClosed())
-							cursor.close();
-						disconnect("fail fonline1 timeout", true);
-						return false;
-					} else {
+                    if (!thrClient.isReady450()) {
+                        Log.e("getFriendsOnlineStatus Timeout1");
+                        friends = "";
+                        if (cursor != null && !cursor.isClosed())
+                            cursor.close();
+                        disconnect("fail fonline1 timeout", true);
+                        return false;
+                    } else {
 
-						if (needUpdateStatus && DialerActivity.getDialer()==null)
-						{
-							if (UsersActivity.sortMethod==2)
-								UsersActivity.forceRefresh=true;
-							Intent it = new Intent(Global.Action_Friends_Status_Updated);
-							mContext.sendBroadcast(it);
-						}
-					}
+                        if (needUpdateStatus && DialerActivity.getDialer() == null) {
+                            if (UsersActivity.sortMethod == 2)
+                                UsersActivity.forceRefresh = true;
+                            Intent it = new Intent(Global.Action_Friends_Status_Updated);
+                            mContext.sendBroadcast(it);
+                        }
+                    }
 
-					friends = "";
-					friendsIdx = "";//alec
-					j = 0;
-					n++;
-					if (n > 2)
-						break;
-				}
-			} while (cursor.moveToNext());
-		}
-		if(cursor!=null && !cursor.isClosed())
-			cursor.close();
+                    friends = "";
+                    friendsIdx = "";//alec
+                    j = 0;
+                    n++;
+                    if (n > 2)
+                        break;
+                }
+            } while (cursor.moveToNext());
+        }
+        if (cursor != null && !cursor.isClosed())
+            cursor.close();
 
-		if (friends.length() > 0) {
+        if (friends.length() > 0) {
 
-			outToServerPeriod(); //tml*** outToServer period/
-			Log.d("2.450/" + myId + "/" + friendsIdx);
-			thrClient.reset450();
-			try {
-				outToServer.write(MyUtil.encryptTCPCmd("450/" + myId + "/"
-						+ friendsIdx));
-			} catch (Exception e) {
-				Log.e("fail to getFriendsOnlineStatus2 !@#$ " + e.getMessage());
-				disconnect("fail fonline2", true);
-				return false;
-			}
+            outToServerPeriod(); //tml*** outToServer period/
+            Log.d("2.450/" + myId + "/" + friendsIdx);
+            thrClient.reset450();
+            try {
+                outToServer.write(MyUtil.encryptTCPCmd("450/" + myId + "/"
+                        + friendsIdx));
+            } catch (Exception e) {
+                Log.e("fail to getFriendsOnlineStatus2 !@#$ " + e.getMessage());
+                disconnect("fail fonline2", true);
+                return false;
+            }
 
-			synchronized (lock_450) {
-				try {
-					lock_450.wait(TRANSIT_TIMEOUT * 3);
-				} catch (InterruptedException e) {
-				}
-			}
+            synchronized (lock_450) {
+                try {
+                    lock_450.wait(TRANSIT_TIMEOUT * 3);
+                } catch (InterruptedException e) {
+                }
+            }
 
-			if (!thrClient.isReady450()) {
-				Log.e("getFriendsOnlineStatus Timeout2");
-				friends = "";
-				disconnect("fail fonline2 timeout", true);
-				return false;
-			} else {
+            if (!thrClient.isReady450()) {
+                Log.e("getFriendsOnlineStatus Timeout2");
+                friends = "";
+                disconnect("fail fonline2 timeout", true);
+                return false;
+            } else {
 
-				if (needUpdateStatus && DialerActivity.getDialer()==null)
-				{
-					if (UsersActivity.sortMethod==2)
-						UsersActivity.forceRefresh=true;
-					Intent it = new Intent(Global.Action_Friends_Status_Updated);
-					mContext.sendBroadcast(it);
-				}
-			}
-		}
+                if (needUpdateStatus && DialerActivity.getDialer() == null) {
+                    if (UsersActivity.sortMethod == 2)
+                        UsersActivity.forceRefresh = true;
+                    Intent it = new Intent(Global.Action_Friends_Status_Updated);
+                    mContext.sendBroadcast(it);
+                }
+            }
+        }
 
-		mPref.writeLong("last_dlf_status", now);
-		return true;
-	}
+        mPref.writeLong("last_dlf_status", now);
+        return true;
+    }
 
-	//tml*** outToServer Period
-	public void outToServerPeriod () {
-		try {
-			long now = System.currentTimeMillis();
-			long last = mPref.readLong("outToServerLast", 0);
-			long tpast = (now - last);
+    //tml*** outToServer Period
+    public void outToServerPeriod() {
+        try {
+            long now = System.currentTimeMillis();
+            long last = mPref.readLong("outToServerLast", 0);
+            long tpast = (now - last);
 //			Log.d("tmlotsp " + tpast + "=" + now + "-" + last);
 //			Log.d("tml socketOut work!");
-			if ((tpast < minOutPeriod) && (tpast >= 0)) {
-				int sleept = (int) (minOutPeriod - tpast);
-				Log.w("otsp sleep=" + sleept + "ms");
-				MyUtil.Sleep(sleept);
-			} else {
+            if ((tpast < minOutPeriod) && (tpast >= 0)) {
+                int sleept = (int) (minOutPeriod - tpast);
+                Log.w("otsp sleep=" + sleept + "ms");
+                MyUtil.Sleep(sleept);
+            } else {
 //				Log.d("otsp a-ok");
-			}
-			mPref.writeLong("outToServerLast", System.currentTimeMillis());
-		} catch (Exception e) {
-			Log.e("otsp !@#$ " + e.getMessage());
-		}
-	}
-	//***tml
+            }
+            mPref.writeLong("outToServerLast", System.currentTimeMillis());
+        } catch (Exception e) {
+            Log.e("otsp !@#$ " + e.getMessage());
+        }
+    }
+    //***tml
 }

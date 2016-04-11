@@ -187,6 +187,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
 
     static private ConversationActivity msgpage;
     private String imagePath;
+    private String fileDownloadUrl;
 
 
     static public ConversationActivity getInstance() {
@@ -199,7 +200,6 @@ public class ConversationActivity extends Activity implements OnClickListener {
         ProgressBar p = mProgress.get(fn);
         return p;
     }
-
 
 
     @Override
@@ -226,7 +226,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
         mFromGroup = getIntent().getBooleanExtra("fromGroup", false);  //xwf*** beta ui3
         mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
-        android.util.Log.d("ConversationActivity", mAddress + "--------" + mNickname);
+        android.util.Log.d("发送消息", mAddress + "--------" + mNickname);
 
         //tml*** detect stb
         if (mAddress.startsWith(Global.STB_HeaderName + Global.STB_Name1)
@@ -327,6 +327,30 @@ public class ConversationActivity extends Activity implements OnClickListener {
         } else if (inGroup) {
 //			v = inflater.inflate(R.layout.inflate_group_member, null, false);
 //			v.setVisibility(View.GONE);
+            // TODO: 2016/4/8  ,当数据库中不存在此分组时,发送广播查询群成员
+            mGroupID = Integer.parseInt(mAddress.substring(9));
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    GroupDB mGDB = new GroupDB(ConversationActivity.this);
+                    mGDB.open();
+                    int memberCount = mGDB.getGroupMemberCount(mGroupID);
+                    ArrayList<String> membersList = mGDB.getGroupMembersByGroupIdx(mGroupID);
+                    for (String idx : membersList) {
+                        //如果idx为0就是第一次登陆,没有写入idx,应该查询php重新写入数据库
+                        if ("0".equals(idx)) {
+                            Intent it = new Intent(Global.Action_InternalCMD);
+                            it.putExtra("Command", Global.CMD_JOIN_A_NEW_GROUP);
+                            it.putExtra("GroupID", mGroupID);
+                            android.util.Log.d("刷新group", "删除分组后,查询分组并写入数据库");
+                            ConversationActivity.this.sendBroadcast(it);
+                        }
+                        break;
+                    }
+                    mGDB.close();
+                }
+            }).start();
+
         } else {
             v = inflater.inflate(R.layout.inflate_call_view, null, false);
         }
@@ -353,7 +377,6 @@ public class ConversationActivity extends Activity implements OnClickListener {
 
             String szGroup = getResources().getString(R.string.the_group);
             mSendee.setText(szGroup + ": " + mNickname);
-            mGroupID = Integer.parseInt(mAddress.substring(9));
             GroupDB mGDB = new GroupDB(this);
             mGDB.open(true);
             sendeeList = mGDB.getGroupMembersByGroupIdx(mGroupID);
@@ -376,6 +399,8 @@ public class ConversationActivity extends Activity implements OnClickListener {
                     Intent intent = new Intent(ConversationActivity.this, GroupSettingActivity.class);
                     intent.putExtra("groupname", mNickname);
                     intent.putExtra("GroupID", mGroupID + "");
+                    // TODO: 2016/4/6 测试
+                    intent.putExtra("rowid", rowid);
                     startActivity(intent);
                 }
             });
@@ -859,22 +884,6 @@ public class ConversationActivity extends Activity implements OnClickListener {
             }, 200);
         }
 //		MobclickAgent.onResume(this);
-    }
-
-    private void requeryGroupDB() {
-        GroupDB mGDB = new GroupDB(this);
-        android.util.Log.d("ConversationActivity", "重新查询");
-        mGDB.open(true);
-        sendeeList = mGDB.getGroupMembersByGroupIdx(mGroupID);
-        addressList.clear();
-        mGDB.close();
-        try {
-            for (int i = 0; i < sendeeList.size(); i++) {
-                android.util.Log.d("ConversationActivity", sendeeList.get(i));
-                addressList.add(mADB.getAddressByIdx(Integer.parseInt(sendeeList.get(i))));
-            }
-        } catch (Exception e) {
-        }
     }
 
     @Override
@@ -1377,8 +1386,8 @@ public class ConversationActivity extends Activity implements OnClickListener {
                 if (inGroup) {
                     agent.setAsGroup(mGroupID);
 
-                    android.util.Log.d("ConversationActivity", "requestCode == 7 定位" + " addressList " + addressList + " mMsgText " + mMsgText + " mAttached " + mAttached + " SrcAudioPath " + SrcAudioPath + " SrcImagePath " + SrcImagePath);
-                    GroupMsg groupMsg = new GroupMsg("", mAttached+"", "", mMsgText);
+                    android.util.Log.d("发送消息", "mAttached == 0 定位" + " addressList " + addressList + " mMsgText " + mMsgText + " mAttached " + mAttached + " SrcAudioPath " + SrcAudioPath + " SrcImagePath " + SrcImagePath);
+                    GroupMsg groupMsg = new GroupMsg("", mAttached + "", "", mMsgText, "");
                     if (agent.onGroupSend(groupMsg))
                         addMsgtoTalklist(false);
                 } else {
@@ -1426,8 +1435,8 @@ public class ConversationActivity extends Activity implements OnClickListener {
 
                     if (inGroup) {
                         agent.setAsGroup(mGroupID);
-                        android.util.Log.d("ConversationActivity", "requestCode == 200 表情" + " addressList " + addressList + " mMsgText " + mMsgText + " mAttached " + mAttached + " SrcAudioPath " + SrcAudioPath + " SrcImagePath " + SrcImagePath);
-                        GroupMsg groupMsg = new GroupMsg("", mAttached+"", "", mMsgText);
+                        android.util.Log.d("发送消息", "mAttached == 8 表情" + " addressList " + addressList + " mMsgText " + mMsgText + " mAttached " + mAttached + " SrcAudioPath " + SrcAudioPath + " SrcImagePath " + SrcImagePath);
+                        GroupMsg groupMsg = new GroupMsg("", mAttached + "", "", mMsgText, "");
                         if (agent.onGroupSend(groupMsg))
                             addMsgtoTalklist(false);
                     } else {
@@ -1455,9 +1464,8 @@ public class ConversationActivity extends Activity implements OnClickListener {
                 if (inGroup) {
                     agent.setAsGroup(mGroupID);
 
-                    android.util.Log.d("ConversationActivity", "requestCode == 15");
-                    android.util.Log.d("ConversationActivity", "requestCode == 15" + " addressList "+addressList+" mMsgText "+mMsgText+" mAttached "+mAttached+" SrcAudioPath "+SrcAudioPath+" SrcImagePath "+SrcImagePath);
-                    GroupMsg groupMsg = new GroupMsg("", mAttached+"", SrcAudioPath, "");
+                    android.util.Log.d("发送消息", "mAttached == 15 语音" + " addressList " + addressList + " mMsgText " + mMsgText + " mAttached " + mAttached + " SrcAudioPath " + SrcAudioPath + " SrcImagePath " + SrcImagePath);
+                    GroupMsg groupMsg = new GroupMsg("", mAttached + "", SrcAudioPath, mMsgText, "");
                     if (agent.onGroupSend(groupMsg)) {
                         addMsgtoTalklist(false);
                         playSoundTouch();
@@ -1476,7 +1484,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
 
                 if (inGroup) {
                     fileAgent.setAsGroup(mGroupID);
-                    android.util.Log.d("ConversationActivity", "requestCode ==40" + " addressList "+addressList+" mMsgText "+mMsgText+" mAttached "+mAttached+" SrcAudioPath "+SrcAudioPath+" SrcImagePath "+SrcImagePath);
+                    android.util.Log.d("发送消息", "requestCode ==40  未知" + " addressList " + addressList + " mMsgText " + mMsgText + " mAttached " + mAttached + " SrcAudioPath " + SrcAudioPath + " SrcImagePath " + SrcImagePath);
 
                     if (!fileAgent.onMultipleSend(addressList, mMsgText, mAttached, SrcAudioPath, SrcImagePath))
                         mSend.setEnabled(true);
@@ -1553,14 +1561,25 @@ public class ConversationActivity extends Activity implements OnClickListener {
                             tmpCurFilePath = prex
                                     + URLEncoder.encode(filename, "UTF-8")
                                     + suffix;
+
                         } catch (UnsupportedEncodingException e) {
                         }
                         MyNet myNet = new MyNet(ConversationActivity.this);
                         fileDownloading = true;
-                        myNet.Download(
-                                tmpCurFilePath,
-                                Global.SdcardPath_downloads
-                                        + filename.replace(" ", ""), type == 1 ? 9 : 10, obligate1_phpIP);//downloaded, 9 is video, 10 is file
+
+                        if (fileDownloadUrl != null) {
+                            myNet.DownloadGroupFile(
+                                    fileDownloadUrl,
+                                    Global.SdcardPath_downloads
+                                            + filename.replace(" ", ""), type == 1 ? 9 : 10);
+
+                        } else {
+                            myNet.Download(
+                                    tmpCurFilePath,
+                                    Global.SdcardPath_downloads
+                                            + filename.replace(" ", ""), type == 1 ? 9 : 10, obligate1_phpIP);
+                        }
+                        //downloaded, 9 is video, 10 is file
                         obligate1_phpIP = null;
                     }
                 }).start();
@@ -2368,6 +2387,8 @@ public class ConversationActivity extends Activity implements OnClickListener {
                         obligate1_phpIP = msg.obligate1;
                         if (obligate1_phpIP == null || obligate1_phpIP.length() == 0)
                             obligate1_phpIP = AireJupiter.myPhpServer_default;
+                        //jack hardcode don't like
+                        fileDownloadUrl = msg.att_path_img;
                         if (msg.content.startsWith(getString(R.string.video)) && msg.content.contains("(vdo)")) {
                             String len = msg.content.substring(msg.content.indexOf("(vdo)") + 5);
                             type = 1;
@@ -2384,6 +2405,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
                             String len = msg.content.substring(msg.content.indexOf("(fl)") + 4);
                             type = 2;
                             try {
+                                // TODO: 2016/4/6 jack 因为ios Url改变,所以parse Url为准
                                 dialogFileDownload(msg.att_path_aud, len.substring(0, len.indexOf("KB") + 3));
                             } catch (Exception e) {
                                 dialogFileDownload(msg.att_path_aud, len);
@@ -2557,7 +2579,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
                 }
             } else if (intent.getAction().equals(Global.Action_MsgSent)) {
                 if (AireJupiter.notifying) return;
-				/*String address=intent.getStringExtra("SendeeAddress");
+                /*String address=intent.getStringExtra("SendeeAddress");
 				if (address!=null && !mAddress.equals(address))
 					return;*/
                 ArrangeTalkList();
@@ -2922,10 +2944,6 @@ public class ConversationActivity extends Activity implements OnClickListener {
                 }
                 break;
             case R.id.sendmsg:
-                // TODO: 2016/3/28 重新查询数据库
-                requeryGroupDB();
-                android.util.Log.d("ConversationActivity", "Requery" + sendeeList.toString());
-                android.util.Log.d("ConversationActivity", "Requery" + addressList.toString());
                 onSend();
                 showFunctions(false);  //tml|xwf*** beta ui2
                 break;
@@ -3535,11 +3553,8 @@ public class ConversationActivity extends Activity implements OnClickListener {
 
             if (inGroup) {
                 fileAgent.setAsGroup(mGroupID);
-                android.util.Log.d("ConversationActivity", "mAttached ==8" + " addressList "+addressList+" mMsgText "+mMsgText+" mAttached "+mAttached+" SrcAudioPath "+SrcAudioPath+" SrcImagePath "+SrcImagePath);
-
-//                if (!fileAgent.onMultipleSend(addressList, mMsgText, mAttached, SrcAudioPath, SrcImagePath)) {
-
-                GroupMsg groupMsg = new GroupMsg("", mAttached+"", SrcAudioPath, mMsgText);
+                android.util.Log.d("发送消息", "mAttached ==8 文件" + " addressList " + addressList + " mMsgText " + mMsgText + " mAttached " + mAttached + " SrcAudioPath " + SrcAudioPath + " SrcImagePath " + SrcImagePath);
+                GroupMsg groupMsg = new GroupMsg("", mAttached + "", SrcAudioPath, mMsgText, "");
                 //jack 2.4.51
                 if (!fileAgent.onGroupSend(groupMsg)) {
 //					mSend.setEnabled(true);
@@ -3571,17 +3586,17 @@ public class ConversationActivity extends Activity implements OnClickListener {
             if (inGroup) {
                 agent.setAsGroup(mGroupID);
                 GroupMsg groupMsg = null;
-                android.util.Log.d("ConversationActivity", "requestCode == else" + " addressList "+addressList+" mMsgText "+mMsgText+" mAttached "+mAttached+" SrcAudioPath "+SrcAudioPath+" SrcImagePath "+SrcImagePath);
-                if (mAttached==2){
+                android.util.Log.d("发送消息", "requestCode == else 文字和图片" + " addressList " + addressList + " mMsgText " + mMsgText + " mAttached " + mAttached + " SrcAudioPath " + SrcAudioPath + " SrcImagePath " + SrcImagePath);
+                if (mAttached == 2) {
                     //图片
-                    groupMsg = new GroupMsg("", mAttached+"", SrcImagePath, "");
-                }else if (mAttached==0){
+                    groupMsg = new GroupMsg("", mAttached + "", SrcImagePath, mMsgText, "");
+                } else if (mAttached == 0) {
                     //文字
-                    groupMsg = new GroupMsg("",mAttached+"","",mMsgText);
+                    groupMsg = new GroupMsg("", mAttached + "", "", mMsgText, "");
                 }
                 if (!agent.onGroupSend(groupMsg)) {
                     mSend.setEnabled(true);
-                }else {
+                } else {
                     addMsgtoTalklist(false);
                     playSoundTouch();
                 }

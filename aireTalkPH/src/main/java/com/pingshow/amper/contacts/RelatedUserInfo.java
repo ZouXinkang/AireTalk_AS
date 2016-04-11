@@ -38,4 +38,13 @@ public class RelatedUserInfo {
 		this.jointfriends = jointfriends;
 	}
 
+	@Override
+	public String toString() {
+		return "RelatedUserInfo{" +
+				"idx=" + idx +
+				", nickname='" + nickname + '\'' +
+				", address='" + address + '\'' +
+				", jointfriends=" + jointfriends +
+				'}';
+	}
 }
