@@ -1,29 +1,51 @@
 package com.pingshow.amper;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.*;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.pingshow.amper.bean.Group;
+import com.pingshow.amper.bean.GroupMsg;
 import com.pingshow.amper.bean.Member;
 import com.pingshow.amper.bean.Person;
 import com.pingshow.amper.db.AmpUserDB;
 import com.pingshow.amper.db.GroupDB;
+import com.pingshow.amper.db.SmsDB;
 import com.pingshow.amper.view.ExpandGridView;
+import com.pingshow.network.MyNet;
+import com.pingshow.util.GroupUpdateMessageSender;
 import com.pingshow.util.ImageUtil;
+import com.pingshow.util.MyUtil;
+import com.pingshow.util.ResizeImage;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +73,7 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
     private ArrayList<Member> members;
 
     private AmpUserDB mADB;
+    private GroupDB mGDB;
     private GridAdapter adapter;
     private ImageView groupmsg;
     private String groupname;
@@ -65,13 +88,25 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
     /**
      * 已被删除的成员
      */
-    private ArrayList<String> removeMembers;
+    private StringBuffer idxsBuffer;
     private MyPreference mPref;
     private String groupID;
     private StringBuffer nameBuffer;
 //    private int rowid;
 
     private boolean is_admin = false;
+    private ImageView mGroupPhoto;
+    private RelativeLayout mChangeGroupCreater;
+    private ImageView mRefresh;
+    private Animation animation;
+    private SmsDB mSmsDB;
+
+    //群组头像
+    private String photoPath;
+    private Uri uriOrig = null;
+    private boolean photoAssigned = false;
+    private String localPath;
+    private TextView mGroupName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +124,9 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
 
     private void initView() {
         //设置群名称
-        ((TextView) findViewById(R.id.tv_groupname)).setText(groupname);
+        mGroupName = (TextView) findViewById(R.id.tv_groupname);
+        mGroupName.setText(groupname);
+        RelativeLayout mChangeGroupName = (RelativeLayout) findViewById(R.id.re_change_groupname);
 
         gridView = (ExpandGridView) findViewById(R.id.gridview);
         mCancel = (ImageView) findViewById(R.id.cancel);
@@ -98,10 +135,268 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
         exit_grp = (Button) findViewById(R.id.btn_exit_grp);
         tv_m_total = (TextView) findViewById(R.id.tv_m_total);
 
+        animation = AnimationUtils.loadAnimation(this, R.anim.grouprefresh);
+        LinearInterpolator lin = new LinearInterpolator();
+        animation.setInterpolator(lin);
+
+        mRefresh = (ImageView) findViewById(R.id.iv_refresh);
+        mRefresh.setVisibility(View.INVISIBLE);
+        mRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //播放动画
+                mRefresh.clearAnimation();
+                mRefresh.setAnimation(animation);
+                //重新查询,并更新界面
+                android.util.Log.d("刷新group", "删除分组后,查询分组并写入数据库");
+                requeryGroupInfo(groupID);
+            }
+        });
+
+        // TODO: 2016/4/19 群主才有的功能
+        mGroupPhoto = (ImageView) findViewById(R.id.group_photo);
+        mChangeGroupCreater = (RelativeLayout) findViewById(R.id.re_change_group_creater);
+        //设置群头像
+        showGroupPhoto();
+
+
+        mGroupPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPickPictureOption();
+            }
+        });
+        //顺序要在click方法下
+        if (!is_admin) {
+            mChangeGroupCreater.setVisibility(View.GONE);
+            mGroupPhoto.setClickable(false);
+        }
+
         mCancel.setOnClickListener(this);
         chattotop.setOnClickListener(this);
         groupmsg.setOnClickListener(this);
         exit_grp.setOnClickListener(this);
+        //群主管理权移交
+        mChangeGroupCreater.setOnClickListener(this);
+        //改群名字
+        mChangeGroupName.setOnClickListener(this);
+    }
+
+    private void showGroupPhoto() {
+        Drawable photo = ImageUtil.getBitmapAsRoundCorner(localPath, 3,
+                10);// alec
+        if (photo != null) {
+            mGroupPhoto.setImageDrawable(photo);
+            mGroupPhoto
+                    .setScaleType(ImageView.ScaleType.FIT_CENTER);
+        } else {
+            mGroupPhoto.setImageResource(R.drawable.bighead);
+            mGroupPhoto
+                    .setScaleType(ImageView.ScaleType.FIT_CENTER);
+        }
+
+    }
+
+    private void onPickPictureOption() {
+        final CharSequence[] items = {
+                getResources().getString(R.string.photo_gallery),
+                getResources().getString(R.string.takepicture)};
+        final CharSequence[] items_noCamera = {getResources().getString(
+                R.string.photo_gallery)};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (item == 0)
+                    onPickPicture();
+                else if (item == 1)
+                    onTakePicture();
+                dialog.dismiss();
+            }
+        });
+
+        builder.setTitle(this.getResources().getString(
+                R.string.choose_photo_source));
+        builder.setNegativeButton(R.string.cancel,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    @SuppressLint("ShowToast")
+    private void onTakePicture() {
+        try {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            photoPath = Global.SdcardPath_sent + "tmp.jpg";
+            intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,
+                    Uri.fromFile(new File(photoPath)));
+            startActivityForResult(intent, 20);
+        } catch (Exception e) {
+            Toast.makeText(this, R.string.take_picture_error,
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void onPickPicture() {
+        Intent intent = new Intent(Intent.ACTION_PICK);  //li*** fill picture
+        intent.setType("image/*");
+
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", 240);
+        intent.putExtra("outputY", 240);
+        //li*** fill picture
+        intent.putExtra("scale", true);
+        intent.putExtra("scaleUpIfNeeded", true);
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent, 1);
+    }
+
+    private void requeryGroupInfo(final String groupID) {
+        final int mGroupID = Integer.parseInt(groupID);
+
+        new Thread(new Runnable() {
+            String downloadGroupname;
+
+            @Override
+            public void run() {
+                GroupDB gdb = new GroupDB(getApplicationContext());
+                gdb.open();
+                AmpUserDB adb = new AmpUserDB(getApplicationContext());
+                adb.open();
+                SmsDB smsDB = new SmsDB(getApplicationContext());
+                smsDB.open();
+
+                String Return = "";
+                Group groupInfo = null;
+                Gson gson = null;
+                try {
+                    int c = 0;
+                    do {
+                        MyNet net = new MyNet(GroupSettingActivity.this);
+                        Return = net.doPostHttps("query_group_v2.php", "id=" + mGroupID, null);
+                        com.pingshow.amper.Log.i("query_group Return=" + Return);
+                        gson = new Gson();
+                        groupInfo = gson.fromJson(Return, Group.class);
+                        //请求成功
+                        if (groupInfo.getCode() == 200) break;
+                        MyUtil.Sleep(2500);
+                    } while (++c < 3);
+                } catch (Exception e) {
+                }
+                if (groupInfo != null) {
+                    if (groupInfo.getCode() == 200) {
+                        downloadGroupname = groupInfo.getGname();
+
+                        Log.d("AireJupiter", downloadGroupname);
+                        // TODO: 2016/4/5  存入组信息,4/18 groupname
+                        adb.deleteContactByAddress("[<GROUP>]" + mGroupID);
+                        adb.insertUser("[<GROUP>]" + mGroupID, mGroupID + 100000000,
+                                downloadGroupname);
+                        //获取群组信息成功
+                        List<Group.MembersEntity> members = groupInfo.getMembers();
+                        Boolean inThisGroup = false;
+                        //删除数据库群组
+                        gdb.deleteGroup(mGroupID);
+                        for (Group.MembersEntity member : members) {
+                            if (member.getIdx().equals(mPref.read("myIdx"))) inThisGroup = true;
+                            long l = gdb.insertGroup(mGroupID, member.getNickname(), Integer.parseInt(member.getIdx()), member.getRank());
+
+                            String localfile = Global.SdcardPath_inbox + "photo_" + member.getIdx() + ".jpg";
+                            boolean ret = AireJupiter.getInstance().downloadPhoto(Integer.parseInt(member.getIdx()), localfile);
+                            Log.d("GroupSettingActivity", "本地文件: " + localfile + " ret:" + ret);
+                            if (ret)//delete big one
+                                new File(Global.SdcardPath_inbox + "photo_" + member.getIdx() + "b.jpg").delete();
+                        }
+                        // TODO: 2016/4/7 不在此群组中,删除此群
+                        if (!inThisGroup) {
+                            adb.deleteContactByAddress("[<GROUP>]" + mGroupID);
+                            gdb.deleteGroup(mGroupID);
+
+                            try {
+                                smsDB.deleteThreadByAddress("[<GROUP>]" + mGroupID);
+                            } catch (Exception e) {
+                            }
+                            // TODO: 2016/4/12  发送广播隐藏群组显示
+                            UsersActivity.needRefresh = true;
+                            Intent hideintent = new Intent(Global.Action_Hide_Group_Icon);
+                            sendBroadcast(hideintent);
+                            sendRefreshCommand();
+                            //关闭当前页面
+                            ConversationActivity.getInstance().finish();
+                            finish();
+
+
+                        }
+
+                        //下载图片,不管原图片是否存在,都去下载
+                        try {
+                            String localfile = Global.SdcardPath_inbox + "photo_" + (mGroupID + 100000000) + ".jpg";
+                            File f = new File(localfile);
+                            String remotefile = "groups/thumbs/photo_" + mGroupID + ".jpg";
+                            AireJupiter.getInstance().downloadAnyPhoto(remotefile, localfile, 3, true);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    //重新设置数据
+                    if (sendeeList != null) {
+                        int creatorIdx = gdb.getGroupCreator(mGroupID);
+                        if (creatorIdx == Integer.parseInt(mPref.read("myID", "0"), 16))
+                            is_admin = true;
+
+                        sendeeList.clear();
+                        sendeeList = gdb.getGroupMembersByGroupIdx(mGroupID);
+                        Log.d("群组加人", "groupID" + groupID + "groupname" + groupname + "sendeeList.size():" + sendeeList.size());
+
+                        //填充数据
+                        members.clear();
+                        for (String idx : sendeeList) {
+                            Member member = getMember(mGroupID, idx);
+                            members.add(member);
+                        }
+                        adapter = new GridAdapter(GroupSettingActivity.this, members);
+                        //更新UI
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                gridView.setAdapter(adapter);
+                                if (!is_admin) {
+                                    mChangeGroupCreater.setVisibility(View.GONE);
+                                    mGroupPhoto.setClickable(false);
+                                } else {
+                                    mChangeGroupCreater.setVisibility(View.VISIBLE);
+                                    mGroupPhoto.setClickable(true);
+                                }
+                                mRefresh.clearAnimation();
+                                //显示新的群组头像
+                                showGroupPhoto();
+                                //显示最新的群名称
+                                mGroupName.setText(downloadGroupname);
+                                // TODO: 2016/4/18 刷新UserActivity
+                                sendRefreshCommand();
+                            }
+                        });
+                    }
+                    adb.close();
+                    gdb.close();
+                    smsDB.close();
+                }
+            }
+        }).start();
+    }
+
+    private void sendRefreshCommand() {
+        UsersActivity.forceRefresh = true;
+        Intent refreshIntent = new Intent(Global.Action_Refresh_Gallery);
+        sendBroadcast(refreshIntent);
     }
 
     //初始化数据
@@ -109,29 +404,39 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
         mADB = new AmpUserDB(GroupSettingActivity.this);
         mADB.open();
 
+        mGDB = new GroupDB(GroupSettingActivity.this);
+        mGDB.open();
+
+        mSmsDB = new SmsDB(GroupSettingActivity.this);
+        mSmsDB.open();
+
         mPref = new MyPreference(this);
 
         //群组成员
         members = new ArrayList<Member>();
+        sendeeList = new ArrayList<>();
 
         //被删除的群组成员
-        removeMembers = new ArrayList<String>();
+        idxsBuffer = new StringBuffer("");
 
         groupname = getIntent().getStringExtra("groupname");
         groupID = getIntent().getStringExtra("GroupID");
+        // TODO: 2016/4/20 路径
+        localPath = Global.SdcardPath_inbox + "photo_"
+                + (Integer.parseInt(groupID) + 100000000) + ".jpg";
 
-        GroupDB mGDB = new GroupDB(this);
-        mGDB.open(true);
         // TODO: 2016/4/6  查询群组中的创建者,如果是创建者才显示删人按钮'
         int creatorIdx = mGDB.getGroupCreator(Integer.parseInt(groupID));
-        if (creatorIdx==Integer.parseInt(mPref.read("myIdx")))is_admin=true;
+        if (creatorIdx == Integer.parseInt(mPref.read("myID", "0"), 16)) is_admin = true;
 
+        sendeeList.clear();
         sendeeList = mGDB.getGroupMembersByGroupIdx(Integer.parseInt(groupID));
-        mGDB.close();
+        Log.d("群组加人", "groupID" + groupID + "groupname" + groupname + "sendeeList.size():" + sendeeList.size());
 
         //填充数据
+        members.clear();
         for (String idx : sendeeList) {
-            Member member = getMember(idx);
+            Member member = getMember(Integer.parseInt(groupID), idx);
             members.add(member);
         }
     }
@@ -142,9 +447,8 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
      * @param idx
      * @return
      */
-    private Member getMember(String idx) {
+    private Member getMember(int groupId, String idx) {
         Member member = new Member();
-
         //设置idx
         member.setIdx(Integer.parseInt(idx));
         //设置头像
@@ -160,8 +464,12 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
             photo = getResources().getDrawable(R.drawable.bighead);
         }
         member.setPhoto(photo);
-        //设置昵称
+        //设置昵称,因为广播需要时间所以做判断
         String nickname = mADB.getNicknameByIdx(Integer.parseInt(idx));
+        if (nickname!=null) {
+            //陌生人的话
+            nickname = mGDB.getGroupMemberNameByGroupIdxAndMemberIdx(groupId, Integer.parseInt(idx));
+        }
         member.setNickname(nickname);
         return member;
     }
@@ -170,6 +478,7 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
     private void showMembers() {
         adapter = new GridAdapter(this, members);
         gridView.setAdapter(adapter);
+        mRefresh.setVisibility(View.VISIBLE);
         //设置touchlistener方便用户退出删除模式
         gridView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -205,10 +514,38 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
                 removeMembersFromGroup();
                 finish();
                 break;
+            case R.id.re_change_group_creater:
+                //跳转到群成员界面移交管理权
+                Intent intent1 = new Intent(this, GroupMembersActivity.class);
+                StringBuffer idxs = new StringBuffer();
+                for (String idx : sendeeList) {
+                    idxs.append(idx + " ");
+                }
+                intent1.putExtra("members", idxs.toString().trim());
+                intent1.putExtra("groupId", groupID);
+                startActivityForResult(intent1, 0);
 
+                break;
+            case R.id.re_change_groupname:
+                Intent intent2 = new Intent(this, GroupNameActivity.class);
+                intent2.putExtra("groupId", groupID);
+                intent2.putExtra("groupname", groupname);
+                startActivityForResult(intent2, 0);
+                break;
             case R.id.btn_exit_grp:
-                Toast.makeText(this, "删除并退出", Toast.LENGTH_SHORT).show();
-                //// TODO: 2016/3/16 退出进入到信息界面......
+                if (is_admin) {
+                    //如果是群主,要求移交管理权权限
+                    Toast.makeText(this, "请移交管理员权限", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+
+                Intent it = new Intent(Global.Action_InternalCMD);
+                it.putExtra("Command", Global.CMD_DELETE_GROUP);
+                it.putExtra("GroupID", Integer.parseInt(groupID));
+                sendBroadcast(it);
+
+                ConversationActivity.getInstance().finish();
+                finish();
                 break;
 
             case R.id.iv_switch_chattotop:
@@ -244,21 +581,192 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
                     String[] items = idxArray.split(" ");
 
                     for (int i = 0; i < items.length; i++) {
-                        members.add(getMember(items[i]));
+                        members.add(getMember(Integer.parseInt(groupID), items[i]));
                         sendeeList.add(items[i]);
                     }
                     adapter.notifyDataSetChanged();
 
                 } catch (Exception e) {
                 }
+            } else if (resultCode == 1) {
+                //选择了新的群主
+                try {
+                    is_admin = false;
+                    mChangeGroupCreater.setVisibility(View.GONE);
+                    mGroupPhoto.setClickable(false);
+
+                    int groupId = Integer.parseInt(groupID);
+                    int myIdx = Integer.parseInt(mPref.read("myIdx"));
+                    String myNickname = mPref.read("myNickname");
+                    int newCreaterIdx = Integer.parseInt(data.getStringExtra("newCreater"));
+                    String nickname = data.getStringExtra("nickname");
+                    //发送tcp
+                    String content = String.format(getString(R.string.group_creater_changed), nickname);
+                    GroupUpdateMessageSender.getInstance().send(GroupSettingActivity.this, myIdx, groupId, content);
+
+                    //缺少update方法
+                    mGDB.deleteGroupMember(groupId, newCreaterIdx);
+                    mGDB.insertGroup(groupId, nickname, newCreaterIdx, 0);
+                    mGDB.deleteGroupMember(groupId, myIdx);
+                    mGDB.insertGroup(groupId, myNickname, myIdx, 1);
+
+                    adapter.getCount();
+                    adapter.notifyDataSetChanged();
+                    sendRefreshCommand();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (resultCode == 2) {
+                Toast.makeText(this, getResources().getString(R.string.no_change), Toast.LENGTH_SHORT).show();
+            } else if (resultCode == 3) {
+                int groupId = Integer.parseInt(groupID);
+                String newGroupName = data.getStringExtra("groupname");
+                mADB.deleteContactByAddress("[<GROUP>]" + groupId);
+                mADB.insertUser("[<GROUP>]" + groupId, groupId + 100000000,
+                        newGroupName);
+
+                mGroupName.setText(data.getStringExtra("groupname"));
+                //发送tcp
+                String content = String.format(getString(R.string.group_name_changed), newGroupName);
+                GroupUpdateMessageSender.getInstance().send(GroupSettingActivity.this, Integer.parseInt(mPref.read("myIdx")), groupId, content);
+                sendRefreshCommand();
+            } else if (resultCode == 4) {
+                Toast.makeText(this, getResources().getString(R.string.no_change), Toast.LENGTH_SHORT).show();
+
+            }
+
+        } else if (requestCode == 20) {
+            boolean HDSize = false;
+            try {
+                BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                bitmapOptions.inJustDecodeBounds = true;
+                bitmapOptions.inPurgeable = true;
+                BitmapFactory.decodeFile(photoPath, bitmapOptions);
+                if (bitmapOptions.outHeight > 1000)
+                    HDSize = true;
+            } catch (Exception e) {
+            } catch (OutOfMemoryError e) {
+            }
+            if (HDSize) {
+                Bitmap bmp = ImageUtil.loadBitmapSafe(2, photoPath);
+                try {
+                    uriOrig = Uri.parse(MediaStore.Images.Media
+                            .insertImage(getContentResolver(), bmp, null,
+                                    null));
+                } catch (Exception e) {
+                }
+            } else {
+                try {
+                    uriOrig = Uri.parse(MediaStore.Images.Media
+                            .insertImage(getContentResolver(), photoPath,
+                                    null, null));
+                } catch (Exception e) {
+                } catch (OutOfMemoryError e) {
+                }
+            }
+            startActivityForResult(getCropImageIntent(uriOrig), 3);
+        } else if (requestCode == 1 || requestCode == 3) {
+            if (data == null)
+                return;
+            String SrcImagePath = "";
+            try {
+                Uri uri = null;
+                Bitmap bitmap = data.getParcelableExtra("data");
+                uri = Uri.parse(MediaStore.Images.Media.insertImage(
+                        getContentResolver(), bitmap, null, null));
+                SrcImagePath = getPath(uri);
+
+                String outFilename = Global.SdcardPath_sent
+                        + "temp_group.jpg";
+                ResizeImage.ResizeXY(this, SrcImagePath, outFilename, 320,
+                        100); // tml*** bitmap quality, 240->320
+
+                photoPath = outFilename;
+                photoAssigned = true;
+
+                if (uriOrig != null)
+                    getContentResolver().delete(uriOrig, null, null);
+                getContentResolver().delete(uri, null, null);
+
+                if (requestCode == 3)// taken from camera
+                {
+                    Intent it = new Intent(GroupSettingActivity.this,
+                            PictureRotationActivity.class);
+                    it.putExtra("photoPath", outFilename);
+                    startActivityForResult(it, 7);
+                } else {
+                    Drawable photo = ImageUtil.getBitmapAsRoundCorner(
+                            outFilename, 3, 10);// alec
+                    if (photo != null) {
+                        mGroupPhoto.setImageDrawable(photo);
+                        mGroupPhoto
+                                .setScaleType(ImageView.ScaleType.FIT_CENTER);
+                        renameFileAndRefreash();
+                    }
+                }
+
+            } catch (Exception e) {
+            }
+        } else if (requestCode == 7) {
+            Drawable photo = ImageUtil.getBitmapAsRoundCorner(photoPath, 3,
+                    10);// alec
+            if (photo != null) {
+                mGroupPhoto.setImageDrawable(photo);
+                mGroupPhoto.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                renameFileAndRefreash();
             }
         }
+
+    }
+
+    private void renameFileAndRefreash() {
+        if (photoAssigned) {
+            File f = new File(photoPath);
+            File f2 = new File(localPath);
+            f.renameTo(f2);
+            // TODO: 2016/4/20 上传照片
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        String Return;
+                        int count = 0;
+                        do {
+                            //jack 2.4.51
+                            MyNet net = new MyNet(GroupSettingActivity.this);
+                            Return = net.doPostAttach("uploadgroupphoto.php",
+                                    Integer.parseInt(groupID), 0, localPath, AireJupiter.myPhpServer_default2A); // httppost
+                            if (Return.startsWith("Done"))
+                                break;
+                            MyUtil.Sleep(2000);
+                        } while (++count < 3);
+                        if (Return.startsWith("Done")) {
+                            //发送更换头像的tcp
+                            String content = String.format(getString(R.string.group_photo_changed), mPref.read("myNickname"));
+                            GroupUpdateMessageSender.getInstance().send(GroupSettingActivity.this, Integer.parseInt(mPref.read("myIdx")), Integer.parseInt(groupID), content);
+                        }
+                    } catch (Exception e) {
+                    }
+                }
+            }).start();
+
+        }
+        //刷新界面
+        UsersActivity.forceRefresh = true;
+        UsersActivity.needRefresh = true;
+        Intent intent = new Intent(Global.Action_Refresh_Gallery);
+        sendBroadcast(intent);
     }
 
     @Override
     protected void onDestroy() {
         if (mADB != null && mADB.isOpen())
             mADB.close();
+        if (mGDB != null && mGDB.isOpen())
+            mGDB.close();
+        if (mSmsDB != null && mSmsDB.isOpen())
+            mSmsDB.close();
+
         super.onDestroy();
 
     }
@@ -409,11 +917,11 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
 
         //删除分组内的成员
         private void deleteMemberFromGroup(Member member) {
-            // TODO: 2016/3/15 目前只做了群主删除群成员,没做群主退群操作
+            // TODO: 2016/3/15 群主删除群成员
             members.remove(member);
             //将删除的好友加入集合中
-            removeMembers.add(member.getIdx()+"");
-            nameBuffer.append(member.getNickname()+",");
+            idxsBuffer.append(member.getIdx() + " ");
+            nameBuffer.append(member.getNickname() + ",");
             sendeeList.remove(member.getIdx() + "");
             notifyDataSetChanged();
         }
@@ -429,16 +937,51 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
      * 将好友从group里面删除
      */
     private void removeMembersFromGroup() {
+        if ("".equals(idxsBuffer.toString())) {
+            return;
+        }
         //发送广播call Php
         Intent deleteMembers = new Intent(Global.Action_InternalCMD);
-        deleteMembers.putExtra("Command",Global.CMD_LEAVE_GROUP);
+        deleteMembers.putExtra("Command", Global.CMD_LEAVE_GROUP);
         deleteMembers.putExtra("GroupID", Integer.parseInt(groupID));
-        deleteMembers.putStringArrayListExtra("idxs", removeMembers);
-        deleteMembers.putExtra("nameBuffer",nameBuffer.toString());
+        deleteMembers.putExtra("MembersIdxs", idxsBuffer.toString());
+        deleteMembers.putExtra("nameBuffer", nameBuffer.toString());
         sendBroadcast(deleteMembers);
         //清空列表
-        removeMembers.clear();
-        nameBuffer.delete(0,nameBuffer.length());
+        idxsBuffer.delete(0, idxsBuffer.length());
+        nameBuffer.delete(0, nameBuffer.length());
     }
 
+    public static Intent getCropImageIntent(Uri photoUri) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(photoUri, "image/*");
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", 240);
+        intent.putExtra("outputY", 240);
+        intent.putExtra("return-data", true);
+        return intent;
+    }
+
+    public String getPath(Uri uri) {
+        if (uri.toString().startsWith("content:")) {
+            try {
+                String[] projection = {MediaStore.Images.Media.DATA};
+                Cursor cursor = managedQuery(uri, projection, null, null, null);
+                int column_index = cursor
+                        .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                if (cursor != null) {
+                    cursor.moveToFirst();
+                    String path = cursor.getString(column_index);
+                    return path;
+                }
+            } catch (Exception e) {
+            }
+        } else if (uri.toString().startsWith("file:")) {
+            String uriStr = uri.toString();
+            return uriStr.substring(uriStr.indexOf("sdcard"));
+        }
+        return "";
+    }
 }

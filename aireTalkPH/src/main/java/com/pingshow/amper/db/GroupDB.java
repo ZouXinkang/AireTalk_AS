@@ -45,14 +45,6 @@ public class GroupDB {
 	
 	private final Context context;
 
-	public synchronized  void GdbbeginTransaction(){
-		mDb.beginTransaction();
-	}
-
-	public synchronized void GdbEndTransaction(){
-		mDb.setTransactionSuccessful();
-		mDb.endTransaction();
-	}
 	//jack 2.4.51 将群组插入数据库
 	public synchronized long insertGroup(int groupidx, String name, int idx, int rank) {
 		ContentValues vals = new ContentValues();
@@ -147,7 +139,7 @@ public class GroupDB {
 		}
 	}
 	
-	public synchronized long insertGroup(int groupidx, String name, int idx) 
+	public synchronized long insertGroup(int groupidx, String name, int idx)
 	{
 		if(!mDb.isOpen()) return -1;
 		boolean found=false;
@@ -175,6 +167,23 @@ public class GroupDB {
 		String name="";
 		Cursor cursor=mDb.query(true, GROUP_DB_TABLE,
 				null, KEY_GROUPIDX + "=" + groupidx, null,
+				null, null, null, null);
+		if (cursor!=null)
+		{
+			if (cursor.moveToFirst())
+				name=cursor.getString(4);
+			cursor.close();
+		}
+		Log.w("addG.mGDB getGroupNameByGroupIdx=" + groupidx + " " + name);
+		return name;
+	}
+
+	//4/18修改 ,根据组id和idx查询nickname
+	public synchronized String getGroupMemberNameByGroupIdxAndMemberIdx(int groupidx,int idx) throws SQLException {
+		if(!mDb.isOpen()) return null;
+		String name="";
+		Cursor cursor=mDb.query(true, GROUP_DB_TABLE,
+				null, KEY_GROUPIDX + "=" + groupidx+" AND "+KEY_IDX+" = "+idx, null,
 				null, null, null, null);
 		if (cursor!=null)
 		{

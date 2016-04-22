@@ -2200,6 +2200,8 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 			new Thread(sendNotifyForJoinChatroom).start();
 		if (addingList2.size() > 0)
 			new Thread(addPSTNtoJoinChatroom).start();
+//		if (addingList3.size() > 0)
+//			new Thread(addPhonetoJoinChatroom).start();
 	}
 
 	@Override
@@ -2754,7 +2756,10 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 				}
 			}
 
-			String room = String.format("%07d", myIdx);
+//			String room = String.format("%07d", myIdx);
+
+			//jack 以前的bug
+			int room = mPref.readInt("ChatroomHostIdx");
 			MCrypt mc = new MCrypt();
 
 			String pass = "aireping*$857";
@@ -2770,27 +2775,41 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 				String number = MyTelephony.cleanPhoneNumber2(address);
 				String globalnumber = address;
 
+//				globalnumber = MyTelephony.addPrefixWithCurrentISO(globalnumber);
+
+				android.util.Log.d("DialerActivity", "初始化:" + globalnumber);
+
 				MyTelephony.init(DialerActivity.this);
-				if (MyTelephony.validWithCurrentISO(number))
-					globalnumber = MyTelephony.attachPrefix(
-							DialerActivity.this, number);
-				else {
+				if (MyTelephony.validWithCurrentISO(number)) {
+//					globalnumber = MyTelephony.attachPrefix(DialerActivity.this, number);
+
+					globalnumber = MyTelephony.addPrefixWithCurrentISO(number);
+					android.util.Log.d("DialerActivity", "第一个:" + globalnumber);
+
+				}else {
 					isMobileNumber = false;
 					globalnumber = MyTelephony.attachFixedPrefix(
 							DialerActivity.this, number);
+					android.util.Log.d("DialerActivity", "第一个Fixed:"+globalnumber);
 				}
+
+
 
 				if (!globalnumber.startsWith("+")) {
 					globalnumber = MyTelephony.attachPrefix(
 							DialerActivity.this, number);
 					if (globalnumber.startsWith("+"))
 						isMobileNumber = true;
+					android.util.Log.d("DialerActivity", "第二个:"+globalnumber);
 				}
+
 				if (!globalnumber.startsWith("+")) {
 					globalnumber = MyTelephony.attachFixedPrefix(
 							DialerActivity.this, number);
 					if (globalnumber.startsWith("+"))
 						isMobileNumber = false;
+					android.util.Log.d("DialerActivity", "第三个:"+globalnumber);
+
 				}
 
 				cIndex = MyTelephony.getCountryIndexByNumber(globalnumber, 1);

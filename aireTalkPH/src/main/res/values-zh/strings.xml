@@ -447,6 +447,10 @@
 
 <string name="home_monitor">家庭監控</string>
 <string name="surveillance">移動偵測</string>
+
+    <string name="chat_info">聊天信息</string>
+    <string name="group_photo">群組头像</string>
+    <string name="ownership_transfer">群組管理权转让</string>
 </resources>
 
 

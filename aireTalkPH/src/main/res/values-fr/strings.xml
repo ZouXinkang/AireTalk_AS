@@ -443,4 +443,7 @@
 <string name="delete_post_confirm">Etes-vous sûr de vouloir supprimer ce message?</string>
 
 <string name="free">Gratuit</string>
+    <string name="chat_info">Chat Info</string>
+    <string name="group_photo">Group Photo</string>
+    <string name="ownership_transfer">Ownership Transfer</string>
 </resources>

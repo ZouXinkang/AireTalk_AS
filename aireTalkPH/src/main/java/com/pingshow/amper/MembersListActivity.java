@@ -13,6 +13,7 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ImageSpan;
 import android.util.*;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -30,6 +31,7 @@ import com.pingshow.amper.db.GroupDB;
 import com.pingshow.amper.db.SmsDB;
 import com.pingshow.network.MyNet;
 import com.pingshow.util.AsyncImageLoader;
+import com.pingshow.util.GroupUpdateMessageSender;
 import com.pingshow.util.MyTelephony;
 import com.pingshow.util.MyUtil;
 import com.pingshow.util.ResizeImage;
@@ -52,7 +54,7 @@ public class MembersListActivity extends Activity {
     private float mDensity = 1.0f;
 
     //jack db
-    public List<Map<String, String>> amperList = new ArrayList<Map<String, String>>();
+    private List<Map<String, String>> amperList;
 
     public static final int SHOWMEMBERS = 0;
 
@@ -113,7 +115,7 @@ public class MembersListActivity extends Activity {
                 //更新Adapter所需要的字符串
                 StringBuffer idxBuffer = new StringBuffer("");
                 //发送广播需要的字符串
-                ArrayList<String> idxList = new ArrayList<String>();
+//                ArrayList<String> idxList = new ArrayList<String>();
                 //发送加群广播需要的集合
                 ArrayList<String> addressList = new ArrayList<String>();
                 int count = 0;
@@ -123,7 +125,7 @@ public class MembersListActivity extends Activity {
                         String idx = map.get("idx");
                         idxBuffer.append(idx + " ");
                         nameBuffer.append(mADB.getNicknameByIdx(Integer.parseInt(idx)) + ",");
-                        idxList.add(idx);
+//                        idxList.add(idx);
                         addressList.add(mADB.getAddressByIdx(Integer
                                 .parseInt(idx)));
                         count++;
@@ -132,34 +134,34 @@ public class MembersListActivity extends Activity {
 
                 //选中的有效人数大于0,判断是否是群组加人还是新生成群组
                 if (count > 0) {
-                    Intent it = new Intent();
                     String idxArray = idxBuffer.toString();
-
                     if (!TextUtils.isEmpty(groupID)) {
                         // TODO: 2016/3/21 已经是群组,发送将人加入群组的广播,并返回群设置界面
                         SendAgent agent = new SendAgent(MembersListActivity.this, Integer.parseInt(myIdx), 0,
                                 true);
 
-                        //发送广播call Php
+                        //发送广播call Php,4/18防止对象被回收,使用string代替
                         Intent addMembers = new Intent(Global.Action_InternalCMD);
                         addMembers.putExtra("Command", Global.CMD_GROUP_ADD_NEW_MEMBER);
                         addMembers.putExtra("GroupID", Integer.parseInt(groupID));
-                        addMembers.putStringArrayListExtra("idxs", idxList);
+                        addMembers.putExtra("MembersIdxs", idxBuffer.toString());
                         sendBroadcast(addMembers);
 
-                        //对指定的人发送加群的tcp
-                        agent.setAsGroup(Integer.parseInt(groupID));
+                        // TODO: 2016/4/6 将加人消息写入数据库 对指定的人发送加群的tcp
+//                        agent.setAsGroup(Integer.parseInt(groupID));
+//                        String content = String.format(getString(R.string.group_invite_new_members), mPref.read("myNickname"), nameBuffer.toString());
+//                        insertMsg(content);
+//                        GroupMsg groupAdd = new GroupMsg("groupUpdate", "0", "", content, "");
+//                        agent.onGroupSend(groupAdd);
 
-                        // TODO: 2016/4/6 将加人消息写入数据库
                         String content = String.format(getString(R.string.group_invite_new_members), mPref.read("myNickname"), nameBuffer.toString());
-                        //将这句邀请加入信息数据库
-                        insertMsg(content);
-                        //发送tcp通知组成员
-                        GroupMsg groupAdd = new GroupMsg("groupUpdate", "0", "", content, "");
-                        agent.onGroupSend(groupAdd);
+                        GroupUpdateMessageSender.getInstance().send(MembersListActivity.this, Integer.parseInt(myIdx), Integer.parseInt(groupID), content);
 
                         //返回GroupSettingActivity的idxArray用于更新界面
+                        Intent it = new Intent();
                         it.putExtra("idx", idxArray);
+                        //刷新界面
+                        refreshGallery();
                         setResult(RESULT_OK, it);
                         finish();
                     } else {
@@ -167,11 +169,20 @@ public class MembersListActivity extends Activity {
                         //开启进入conversationActivity
                         createGroup(idxArray);
                     }
+                }else{
+                    finish();
                 }
             }
         });
 
 
+    }
+
+    private void refreshGallery() {
+        // TODO: 2016/4/18 刷新UserActivity
+        UsersActivity.forceRefresh=true;
+        Intent intent = new Intent(Global.Action_Refresh_Gallery);
+        sendBroadcast(intent);
     }
 
     private void insertMsg(final String content) {
@@ -284,9 +295,9 @@ public class MembersListActivity extends Activity {
                         int idx = Integer.parseInt(sendeeList.get(i));
                         // TODO: 2016/4/6  将创建者加入数据库
                         if (myIdx.equals(sendeeList.get(i))){
-                            gdb.insertGroup(groupidx, groupName, idx,0);
+                            gdb.insertGroup(groupidx, mPref.read("myNickname"), idx,0);
                         }else {
-                            gdb.insertGroup(groupidx, groupName, idx, 1);
+                            gdb.insertGroup(groupidx,  mADB.getNicknameByIdx(idx), idx, 1);
                         }
                     }
                     gdb.close();
@@ -296,32 +307,35 @@ public class MembersListActivity extends Activity {
                     mADB.insertUser("[<GROUP>]" + groupidx, groupidx + 100000000,
                             groupName);
 
-                    // TODO: 2016/3/21 创建图片,以后做多用户头像
-                    String photoPath = Global.SdcardPath_sent + "tmp.jpg";
-                    String outFilename = Global.SdcardPath_sent + "temp_group.jpg";
-                    ResizeImage.ResizeXY(MembersListActivity.this, photoPath, outFilename, 320, 100); // tml*** bitmap quality, 240->320
-                    photoPath = outFilename;
-
-                    File f = new File(photoPath);
-                    String localPath = Global.SdcardPath_inbox + "photo_"
-                            + (groupidx + 100000000) + ".jpg";
-                    File f2 = new File(localPath);
-                    f.renameTo(f2);
-
-                    int count = 0;
-                    do {
-                        //jack 2.4.51
-                        MyNet net = new MyNet(MembersListActivity.this);
-                        Return = net.doPostAttach("uploadgroupphoto.php",
-                                groupidx, 0, localPath, AireJupiter.myPhpServer_default2A); // httppost
-                        if (Return.startsWith("Done"))
-                            break;
-                        MyUtil.Sleep(250);
-                    } while (++count < 3);
+//                    // TODO: 2016/3/21 创建图片,以后做多用户头像
+//                    String photoPath = Global.SdcardPath_sent + "tmp.jpg";
+//                    String outFilename = Global.SdcardPath_sent + "temp_group.jpg";
+////                    ResizeImage.ResizeXY(MembersListActivity.this, photoPath, outFilename, 320, 100); // tml*** bitmap quality, 240->320
+//                    photoPath = outFilename;
+//
+//                    File f = new File(photoPath);
+//                    String localPath = Global.SdcardPath_inbox + "photo_"
+//                            + (groupidx + 100000000) + ".jpg";
+//                    File f2 = new File(localPath);
+//                    f.renameTo(f2);
+//
+//                    int count = 0;
+//                    do {
+//                        //jack 2.4.51
+//                        MyNet net = new MyNet(MembersListActivity.this);
+//                        Return = net.doPostAttach("uploadgroupphoto.php",
+//                                groupidx, 0, localPath, AireJupiter.myPhpServer_default2A); // httppost
+//                        if (Return.startsWith("Done"))
+//                            break;
+//                        MyUtil.Sleep(250);
+//                    } while (++count < 3);
 
                     mADB.close();
                     if (progress != null && progress.isShowing())
                         progress.dismiss();
+
+                    //刷新界面
+                    refreshGallery();
 
                     // TODO: 2016/3/21 跳转到群组界面
                     Intent it = new Intent(MembersListActivity.this, ConversationActivity.class);
@@ -350,11 +364,13 @@ public class MembersListActivity extends Activity {
         nameBuffer = new StringBuffer("");
         mPref = new MyPreference(this);
 
+        amperList = new ArrayList<Map<String, String>>();
+
         //获取已经在群里的人的集合和GroupID
         excludeList = (ArrayList<String>) (getIntent().getSerializableExtra("Exclude"));
         groupID = getIntent().getStringExtra("GroupID");
 
-        myIdx = Integer.parseInt(mPref.read("myIdx")) + "";
+        myIdx = Integer.parseInt(mPref.read("myID","0"),16) + "";
 
         //jack 组装数据
         new Thread(mFetchFriends).start();
@@ -532,7 +548,7 @@ public class MembersListActivity extends Activity {
         super.onDestroy();
         if (mADB != null && mADB.isOpen())
             mADB.close();
-        amperList.clear();
+//        amperList.clear();
         nameBuffer.delete(0, nameBuffer.length());
         System.gc();
         System.gc();

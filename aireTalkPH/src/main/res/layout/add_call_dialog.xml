@@ -57,6 +57,25 @@
 			android:layout_margin="2dp"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"/>
+
+		<!--jack 2.4.51 caonference 添加电话号码-->
+		<ToggleButton
+			android:id="@+id/call"
+			android:padding="6dp"
+			android:background="@drawable/plainbtn"
+			android:textOn="@string/call"
+			android:textOff="@string/call"
+			android:gravity="center"
+			android:textColor="#ffffff"
+			android:textSize="17sp"
+			android:shadowColor="#000000"
+			android:shadowDx="1"
+			android:shadowDy="1"
+			android:shadowRadius="2"
+			android:layout_weight="1"
+			android:layout_margin="2dp"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"/>
 	</LinearLayout>
 	
     <FrameLayout 
@@ -80,6 +99,75 @@
 	        android:layout_width="fill_parent"
 	        android:layout_height="fill_parent"
 	        android:visibility="gone"/>
+
+		<LinearLayout
+			android:background="#000000"
+			android:orientation="vertical"
+			android:id="@+id/enter_phonenumber"
+			android:listSelector="@drawable/optionbtn"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:visibility="gone">
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="40dp"
+				android:text="@string/add_num_to_conference"
+				android:textColor="@color/conferenceSelect"
+				android:textSize="13sp" />
+
+			<TextView
+				android:id="@+id/tv_select_country"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:background="@drawable/conference_bg"
+				android:clickable="true"
+				android:gravity="center"
+				android:padding="3dp"
+				android:text="@string/select_country"
+				android:textColor="@color/conference_btn"
+				android:textSize="20sp" />
+
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp"
+				android:orientation="horizontal">
+
+				<EditText
+					android:id="@+id/et_iso"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="2"
+					android:gravity="center"
+					android:singleLine="true"
+					android:phoneNumber="true"
+					android:text="+86"
+					android:textSize="20sp" />
+
+				<EditText
+					android:id="@+id/et_number"
+					android:layout_width="0dp"
+					android:phoneNumber="true"
+					android:layout_height="wrap_content"
+					android:layout_weight="5" />
+			</LinearLayout>
+
+			<!--<Button-->
+				<!--android:id="@+id/bt_add"-->
+				<!--android:layout_width="match_parent"-->
+				<!--android:layout_height="wrap_content"-->
+				<!--android:layout_marginTop="20dp"-->
+				<!--android:background="@drawable/conference_bg"-->
+				<!--android:focusable="true"-->
+				<!--android:padding="10dp"-->
+				<!--android:text="@string/add_in_conference"-->
+				<!--android:textColor="@color/conference_btn"-->
+				<!--android:textSize="20sp" />-->
+
+		</LinearLayout>
 		
 	</FrameLayout>
 	

@@ -67,34 +67,6 @@ public class ConferenceCallPager extends ConferenceBasePager {
             et_iso.clearFocus();
         }
 
-        et_num.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    if (et_num != null) {
-                        InputMethodManager imanager = (InputMethodManager) context
-                                .getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imanager.hideSoftInputFromWindow(et_num.getWindowToken(), 0);
-
-                    }
-                }
-            }
-        });
-
-        et_iso.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    if (et_iso != null) {
-                        InputMethodManager imanager = (InputMethodManager) context
-                                .getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imanager.hideSoftInputFromWindow(et_iso.getWindowToken(), 0);
-
-                    }
-                }
-            }
-        });
-
         //按钮点击事件
         bt_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,9 +76,21 @@ public class ConferenceCallPager extends ConferenceBasePager {
                 if (TextUtils.isEmpty(phoneNumber) || TextUtils.isEmpty(iso)) {
                     Toast.makeText(context, context.getResources().getString(R.string.edit_input_empty), Toast.LENGTH_SHORT).show();
                     return;
+                } else if (!iso.startsWith("+")) {
+                    Toast.makeText(context, context.getResources().getString(R.string.iso_input_invalid), Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
                 String globalnumber = iso + phoneNumber;
                 context.addPhoneCall(globalnumber);
+
+                // TODO: 2016/4/11 判断准确值
+                Toast.makeText(context, context.getResources().getString(R.string.add_successful), Toast.LENGTH_SHORT).show();
+                //隐藏键盘
+                InputMethodManager imanager = (InputMethodManager) context
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+                imanager.hideSoftInputFromWindow(et_iso.getWindowToken(), 0);
+                imanager.hideSoftInputFromWindow(et_num.getWindowToken(), 0);
             }
         });
 
@@ -129,5 +113,13 @@ public class ConferenceCallPager extends ConferenceBasePager {
     public void setCountry(String country) {
         String str = context.getResources().getString(R.string.select_country).split(":")[0];
         tv_select_country.setText(str + ":" + country);
+    }
+
+    //隐藏软键盘
+    public void hideKeyBoard(){
+        InputMethodManager imanager = (InputMethodManager) context
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        imanager.hideSoftInputFromWindow(et_iso.getWindowToken(), 0);
+        imanager.hideSoftInputFromWindow(et_num.getWindowToken(), 0);
     }
 }

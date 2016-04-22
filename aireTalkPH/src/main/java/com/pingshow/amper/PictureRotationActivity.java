@@ -31,7 +31,7 @@ public class PictureRotationActivity extends Activity {
 	    
 	    mPref = new MyPreference(this);
 	    photopath=getIntent().getStringExtra("photoPath");
-	    
+
 	    if (photopath==null)
 	    {
 		    int uid = Integer.valueOf(mPref.read("myID", "0"), 16);
@@ -40,7 +40,7 @@ public class PictureRotationActivity extends Activity {
         
 	    if (photoBmp==null) photoBmp=ImageUtil.loadBitmapSafe(1, photopath);
         if (photoBmp!=null) ((ImageView)findViewById(R.id.photo)).setImageBitmap(photoBmp);
-        
+
         ((Button)findViewById(R.id.done)).setOnClickListener(new OnClickListener() {
     		public void onClick(View v)
     		{

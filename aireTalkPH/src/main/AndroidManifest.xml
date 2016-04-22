@@ -116,7 +116,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden|adjustPan" />
 
         <activity
             android:name=".SipCallActivity"
@@ -566,21 +566,33 @@
             android:screenOrientation="landscape" />
 
         //jack 2.4.51 分组设置
-        <activity android:name=".GroupSettingActivity"
+        <activity
+            android:name=".GroupSettingActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"/>
-
-        <activity android:name=".MembersListActivity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity
+            android:name=".GroupMembersActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity
+            android:name="com.pingshow.amper.GroupNameActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".MembersListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
 
         //jack 2.4.51 个人
-        <activity android:name=".SingleSettingActiivty"
+        <activity
+            android:name=".SingleSettingActiivty"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
 
         <receiver android:name="com.pingshow.util.FileShareBroadcast">
             <intent-filter>

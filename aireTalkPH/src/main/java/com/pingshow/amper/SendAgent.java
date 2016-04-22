@@ -395,6 +395,8 @@ public class SendAgent {
 		String attached = groupMsg.getAt();
 		String attachmentURL = groupMsg.getUrl();
 		String content = groupMsg.getCt();
+
+		android.util.Log.d("SendAgent", attached + "---" + attachmentURL + "---" + content);
 		
 		String phpIP = null;
 		if (AireJupiter.getInstance() != null) {  //tml*** china ip
@@ -436,12 +438,6 @@ public class SendAgent {
 			if (Return.startsWith("Done"))
 			{
 				uploadSucess = 1;
-				// delete voice file if voice is interphone
-				if((Integer.parseInt(attached)&1)==1){
-					File file = new File(attachmentURL);
-					if(file.exists())
-						file.delete();
-				}
 				remoteFilePath=Return.substring(5);
 				url="http://"+phpIP+"/onair/vmemo/"+remoteFilePath;
 			}else{

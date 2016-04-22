@@ -444,5 +444,8 @@
 <string name="delete_post_confirm">Tem certeza que deseja remover este post?</string>
 
 <string name="free">Grátis</string>
+    <string name="chat_info">Chat Info</string>
+    <string name="group_photo">Group Photo</string>
+    <string name="ownership_transfer">Ownership Transfer</string>
 </resources>
 

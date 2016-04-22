@@ -444,5 +444,9 @@
 <string name="delete_post_confirm">あなたはこの記事を削除しますか？</string>
 
 <string name="free">無料で</string>
+
+    <string name="chat_info">Chat Info</string>
+    <string name="group_photo">Group Photo</string>
+    <string name="ownership_transfer">Ownership Transfer</string>
 </resources>
 

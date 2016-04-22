@@ -7,6 +7,8 @@ import android.graphics.drawable.Drawable;
  */
 public class Member {
     private int idx;
+    private Drawable photo;
+    private String nickname;
 
     public Drawable getPhoto() {
         return photo;
@@ -24,8 +26,6 @@ public class Member {
         this.idx = idx;
     }
 
-    private Drawable photo;
-
     public String getNickname() {
         return nickname;
     }
@@ -34,7 +34,13 @@ public class Member {
         this.nickname = nickname;
     }
 
-    private String nickname;
 
-
+    @Override
+    public String toString() {
+        return "Member{" +
+                "idx=" + idx +
+                ", photo=" + photo +
+                ", nickname='" + nickname + '\'' +
+                '}';
+    }
 }

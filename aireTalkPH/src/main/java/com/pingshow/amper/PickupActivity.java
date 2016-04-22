@@ -222,6 +222,9 @@ public class PickupActivity extends FragmentActivity {
 			public void onPageSelected(int position) {
 				mIndicator.setCurrentItem(position);
 				ConferenceBasePager basePager = pageList.get(position);
+				// TODO: 2016/4/11 不是输入电话号码页面 就关闭软键盘
+				if (position!=2)
+					((ConferenceCallPager)pageList.get(2)).hideKeyBoard();
 				basePager.initData();
 			}
 		});

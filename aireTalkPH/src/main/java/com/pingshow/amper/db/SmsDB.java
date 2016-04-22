@@ -80,7 +80,7 @@ public class SmsDB {
 	    KEY_DATE        + " LONG NOT NULL, " +
 		KEY_READ        + " INTEGER, " +
 		KEY_STATUS		+ " INTEGER, " +
-		KEY_TYPE 		+ " INTEGER, " +
+		KEY_TYPE 		+ " INTEGER, " +//jack 发出去的是2,收到的是1
 		KEY_SUBJECT     + " VARCHAR(32) NULL, " +
 		KEY_BODY        + " TEXT NULL, " +
 		KEY_ATTACH_TYPE	+ " INTEGER DEFAULT 0, " +

@@ -442,4 +442,7 @@
 <string name="delete_post_confirm">Sure to remove this post?</string>
 
 <string name="free">Free</string>
+    <string name="chat_info">Chat Info</string>
+    <string name="group_photo">Group Photo</string>
+    <string name="ownership_transfer">Ownership Transfer</string>
 </resources>

@@ -36,6 +36,10 @@ public class Global {
 	public static final String Action_Raw_Audio_Playback = "com.pingshow.amper.rawaudioplayback";
 	public static final String Action_Chatroom_Members = "com.pingshow.amper.chatroom.members";
 
+	//jack hide group icon
+	public static final String Action_Hide_Group_Icon = "com.pingshow.amper.hidegroupicon";
+
+
 	public static final String SdcardPath=Environment.getExternalStorageDirectory()+"/.com.amper/";
 	public static final String SdcardPath_inbox=Environment.getExternalStorageDirectory()+"/.com.amper/inbox/";
 	public static final String SdcardPath_sent=Environment.getExternalStorageDirectory()+"/.com.amper/sent/";
@@ -91,7 +95,6 @@ public class Global {
 	public static final int CMD_CHECK_PAYPAL_AGAIN = 76;
 	public static final int CMD_CONNECTION_POOR = 78;
 	public static final int CMD_ADDF_280 = 282;
-
 	public static final int CMD_GROUP_SENDEE = 80; //jack send group sendee
 
 

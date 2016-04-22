@@ -484,4 +484,7 @@ $%5$.3f $%4$s
 <string name="delete_post_confirm">هل أنت متأكد لإزالة هذا المنصب؟</string>
 
 <string name="free">مجانا</string>
+ <string name="chat_info">Chat Info</string>
+ <string name="group_photo">Group Photo</string>
+ <string name="ownership_transfer">Ownership Transfer</string>
 </resources>

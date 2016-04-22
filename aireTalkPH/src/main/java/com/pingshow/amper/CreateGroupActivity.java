@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.*;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AccelerateInterpolator;
@@ -138,7 +139,7 @@ public class CreateGroupActivity extends Activity {
         public void run() {
             sendeeList.remove("0");
             // TODO: 2016/4/8  jack 2.4.51 原来的请求Php没有将创建的creator放在members里面,850是查询整个members群发,所以为了避免,缺少群发群主
-            int myIdx = Integer.parseInt(mPref.read("myIdx"));
+            int myIdx = Integer.parseInt(mPref.read("myID","0"),16);
             sendeeList.addFirst(myIdx + "");
             String Return = "";
             String members = "";
@@ -179,26 +180,26 @@ public class CreateGroupActivity extends Activity {
                 return;
             }
 
+            AmpUserDB mADB = new AmpUserDB(CreateGroupActivity.this);
+            mADB.open();
             GroupDB gdb = new GroupDB(CreateGroupActivity.this);
             gdb.open();
 
             for (int i = 0; i < sendeeList.size(); i++) {
                 int idx = Integer.parseInt(sendeeList.get(i));
-                // TODO: 2016/4/6  将创建者加入数据库,rank为0代表创建者
+                // TODO: 2016/4/6  将创建者加入数据库,rank为0代表创建者 4/18修改,存入将name作为nickname
                 if ((myIdx + "").equals(sendeeList.get(i))) {
-                    gdb.insertGroup(groupidx, groupName, idx, 0);
+                    gdb.insertGroup(groupidx, mPref.read("myNickname"), idx, 0);
                 } else {
-                    gdb.insertGroup(groupidx, groupName, idx, 1);
+                    gdb.insertGroup(groupidx, mADB.getNicknameByIdx(idx), idx, 1);
                 }
             }
             gdb.close();
 
-            AmpUserDB mADB = new AmpUserDB(CreateGroupActivity.this);
-            mADB.open();
             mADB.insertUser("[<GROUP>]" + groupidx, groupidx + 100000000,
                     groupName);
 
-            // TODO: 2016/4/8 上传群组图片,待查
+            // TODO: 2016/4/8 上传群组图片,默认照片
             if (photoAssigned) {
                 File f = new File(photoPath);
                 String localPath = Global.SdcardPath_inbox + "photo_"
@@ -232,6 +233,11 @@ public class CreateGroupActivity extends Activity {
 
             if (progress != null && progress.isShowing())
                 progress.dismiss();
+
+            // TODO: 2016/4/18 刷新UserActivity
+            UsersActivity.forceRefresh=true;
+            Intent intent = new Intent(Global.Action_Refresh_Gallery);
+            sendBroadcast(intent);
 
             setResult(RESULT_OK);
             finish();
@@ -368,14 +374,9 @@ public class CreateGroupActivity extends Activity {
                     path = null;
             }
 
-            boolean showMyself = false;
-
-            if (path == null || !MyUtil.checkSDCard(this)
-                    || !(new File(path).exists())) {
-            } else {
-                sendeeList.add("0");
-                showMyself = true;
-            }
+            //显示自己
+            boolean showMyself = true;
+            sendeeList.add("0");
 
             int count = sendeeList.size();
             int width = (int) ((float) s.getWidth() / mDensity);

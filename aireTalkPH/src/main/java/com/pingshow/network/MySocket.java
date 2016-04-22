@@ -832,7 +832,7 @@ public class MySocket {
                         android.util.Log.d("Socket890", "收到890消息:-----"+fromServer);
                         // TODO: 2016/4/7 删除掉指定的group
                         String[] msg890 = fromServer.split("/");
-                        int mGroupID = Integer.parseInt(msg890[3], 16);
+                        int mGroupID = Integer.parseInt(msg890[2], 16);
                         mADB.deleteContactByAddress("[<GROUP>]" + mGroupID);
 
                         GroupDB gdb = new GroupDB(mContext);
@@ -845,6 +845,10 @@ public class MySocket {
                             mSmsDB.deleteThreadByAddress("[<GROUP>]" + mGroupID);
                         } catch (Exception e) {
                         }
+
+                        // TODO: 2016/4/12  发送广播隐藏群组显示
+                        Intent hideintent = new Intent(Global.Action_Hide_Group_Icon);
+                        mContext.sendBroadcast(hideintent);
 
                         //刷新Gallery
                         UsersActivity.needRefresh = true;
@@ -1168,6 +1172,7 @@ public class MySocket {
             if (tmp2[1].contentEquals("ok")) {
                 myId = tmp2[0];
                 mPref.write("myID", myId);
+                mPref.write("myIdx",Integer.parseInt(myId,16)+"");
                 mySipServer = tmp2[2];
 
                 if (tmp2.length > 4) {

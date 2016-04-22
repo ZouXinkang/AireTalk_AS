@@ -443,5 +443,9 @@
 <string name="delete_post_confirm">이 게시물을 삭제 하시겠습니까?</string>
 
 <string name="free">무료</string>
+
+    <string name="chat_info">Chat Info</string>
+    <string name="group_photo">Group Photo</string>
+    <string name="ownership_transfer">Ownership Transfer</string>
 </resources>
 

@@ -62,11 +62,8 @@ import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -188,6 +185,8 @@ public class ConversationActivity extends Activity implements OnClickListener {
     static private ConversationActivity msgpage;
     private String imagePath;
     private String fileDownloadUrl;
+    private ImageView mSetting;
+    private GroupDB mGDB;
 
 
     static public ConversationActivity getInstance() {
@@ -250,6 +249,10 @@ public class ConversationActivity extends Activity implements OnClickListener {
         //***tml
         mADB = new AmpUserDB(ConversationActivity.this);
         mADB.open();
+        //jack
+        mGDB = new GroupDB(ConversationActivity.this);
+        mGDB.open();
+
         mPref = new MyPreference(this);
         mPref.write("GuardYou", false);
         MyProfile.init(ConversationActivity.this);
@@ -332,8 +335,6 @@ public class ConversationActivity extends Activity implements OnClickListener {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    GroupDB mGDB = new GroupDB(ConversationActivity.this);
-                    mGDB.open();
                     int memberCount = mGDB.getGroupMemberCount(mGroupID);
                     ArrayList<String> membersList = mGDB.getGroupMembersByGroupIdx(mGroupID);
                     for (String idx : membersList) {
@@ -347,7 +348,6 @@ public class ConversationActivity extends Activity implements OnClickListener {
                         }
                         break;
                     }
-                    mGDB.close();
                 }
             }).start();
 
@@ -372,28 +372,24 @@ public class ConversationActivity extends Activity implements OnClickListener {
 
         mSendee = (TextView) findViewById(R.id.sendee);
 
+        //jack
+        mSetting = (ImageView) findViewById(R.id.right);
         if (inGroup) {
-
-
             String szGroup = getResources().getString(R.string.the_group);
             mSendee.setText(szGroup + ": " + mNickname);
-            GroupDB mGDB = new GroupDB(this);
-            mGDB.open(true);
             sendeeList = mGDB.getGroupMembersByGroupIdx(mGroupID);
-            mGDB.close();
             try {
                 for (int i = 0; i < sendeeList.size(); i++)
                     addressList.add(mADB.getAddressByIdx(Integer.parseInt(sendeeList.get(i))));
             } catch (Exception e) {
             }
             //显示群组成员
-//			arrangePickedUsers();
+			arrangePickedUsers();
 
             //jack 2.4.51
-            ImageView groupSetting = (ImageView) findViewById(R.id.right);
-            groupSetting.setVisibility(View.VISIBLE);
+            mSetting.setVisibility(View.VISIBLE);
             //点击进入群组设置
-            groupSetting.setOnClickListener(new OnClickListener() {
+            mSetting.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(ConversationActivity.this, GroupSettingActivity.class);
@@ -406,11 +402,11 @@ public class ConversationActivity extends Activity implements OnClickListener {
             });
         } else {
             //jack 2.4.51
-            ImageView singleSetting = (ImageView) findViewById(R.id.right);
-            singleSetting.setImageResource(R.drawable.icon_single_setting);
-            singleSetting.setVisibility(View.VISIBLE);
+            mSetting = (ImageView) findViewById(R.id.right);
+            mSetting.setImageResource(R.drawable.icon_single_setting);
+            mSetting.setVisibility(View.VISIBLE);
 
-            singleSetting.setOnClickListener(new OnClickListener() {
+            mSetting.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(ConversationActivity.this, SingleSettingActiivty.class);
@@ -655,6 +651,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
         intentToReceiveFilter.addAction(Global.Action_MsgSent);
         intentToReceiveFilter.addAction(Global.Action_InternalCMD);
         intentToReceiveFilter.addAction(Global.ACTION_PLAY_OVER);
+        intentToReceiveFilter.addAction(Global.Action_Hide_Group_Icon);
         this.registerReceiver(HandleListChanged, intentToReceiveFilter);
 
         msgpage = this;
@@ -701,68 +698,69 @@ public class ConversationActivity extends Activity implements OnClickListener {
     private void arrangePickedUsers() {
         if (!inGroup || sendeeList == null || sendeeList.size() == 0) return;
 
-        RelativeLayout s = (RelativeLayout) findViewById(R.id.members);
-        s.removeAllViews();
+//        RelativeLayout s = (RelativeLayout) findViewById(R.id.members);
+//        s.removeAllViews();
 
         try {
 
             int count = sendeeList.size();
-            int width = (int) ((float) s.getWidth() / mDensity) - (largeScreen ? 60 : 45);
-            if (width < 0) {
-                int w = getWindowManager().getDefaultDisplay().getWidth();
-                width = (int) ((float) w / mDensity) - (largeScreen ? 45 : 30);
-            }
-            int space = width / count;
-            int w = 60;
-            int p = 5;
-            if (largeScreen) {
-                w = 90;
-                p = 8;
-            }
+//            int width = (int) ((float) s.getWidth() / mDensity) - (largeScreen ? 60 : 45);
+//            if (width < 0) {
+//                int w = getWindowManager().getDefaultDisplay().getWidth();
+//                width = (int) ((float) w / mDensity) - (largeScreen ? 45 : 30);
+//            }
+//            int space = width / count;
+//            int w = 60;
+//            int p = 5;
+//            if (largeScreen) {
+//                w = 90;
+//                p = 8;
+//            }
 
             for (int i = 0; i < count; i++) {
-                ImageView a = new ImageView(this);
-                TextView t = new TextView(this);
-                a.setBackgroundResource(R.drawable.empty);
-                a.setPadding((int) (mDensity * p), (int) (mDensity * p), (int) (mDensity * p), (int) (mDensity * p));
-                a.setClickable(true);
+//                ImageView a = new ImageView(this);
+//                TextView t = new TextView(this);
+//                a.setBackgroundResource(R.drawable.empty);
+//                a.setPadding((int) (mDensity * p), (int) (mDensity * p), (int) (mDensity * p), (int) (mDensity * p));
+//                a.setClickable(true);
                 int idx = Integer.parseInt(sendeeList.get(i));
                 String userphotoPath = Global.SdcardPath_inbox + "photo_" + idx + ".jpg";
 
                 Drawable photo = ImageUtil.getBitmapAsRoundCorner(userphotoPath, 1, 4);
-                if (photo != null)
-                    a.setImageDrawable(photo);
-                else
-                    a.setImageResource(R.drawable.bighead);
+                android.util.Log.d("ConversationActivity", "路径 "+userphotoPath+" photo:" + photo+" 结果");
+//                if (photo != null)
+//                    a.setImageDrawable(photo);
+//                else
+//                    a.setImageResource(R.drawable.bighead);
 
                 friendsPhotoMap.put(Integer.valueOf(idx), photo);
 
-                RelativeLayout.LayoutParams lp = null;
-                lp = new RelativeLayout.LayoutParams((int) (mDensity * w), (int) (mDensity * w));
-                lp.leftMargin = (int) (mDensity * space) * (count - i - 1);
-                lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-                a.setId(i * 2 + 1);
-                s.addView(a, lp);
-
-                lp = new RelativeLayout.LayoutParams((int) (mDensity * (space - w)), (int) (mDensity * w));
-                lp.addRule(RelativeLayout.RIGHT_OF, a.getId());
-                lp.addRule(RelativeLayout.CENTER_VERTICAL);
-                t.setGravity(Gravity.CENTER_VERTICAL);
-                t.setText(mADB.getNicknameByIdx(idx));
-                t.setTextSize(9);
-                t.setTextColor(0xD0FFFFFF);
-                s.addView(t, lp);
-
-                if (i < count - 1) {
-                    AnimationSet as = new AnimationSet(false);
-                    as.setInterpolator(new AccelerateInterpolator());
-                    TranslateAnimation ta = new TranslateAnimation(mDensity * (-width + space), 0, 0, 0);
-                    ta.setDuration(500 + 100 * (count - i));
-                    as.addAnimation(ta);
-                    as.setDuration(500 + 100 * (count - i));
-                    a.startAnimation(as);
-                    t.startAnimation(as);
-                }
+//                RelativeLayout.LayoutParams lp = null;
+//                lp = new RelativeLayout.LayoutParams((int) (mDensity * w), (int) (mDensity * w));
+//                lp.leftMargin = (int) (mDensity * space) * (count - i - 1);
+//                lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+//                a.setId(i * 2 + 1);
+//                s.addView(a, lp);
+//
+//                lp = new RelativeLayout.LayoutParams((int) (mDensity * (space - w)), (int) (mDensity * w));
+//                lp.addRule(RelativeLayout.RIGHT_OF, a.getId());
+//                lp.addRule(RelativeLayout.CENTER_VERTICAL);
+//                t.setGravity(Gravity.CENTER_VERTICAL);
+//                t.setText(mADB.getNicknameByIdx(idx));
+//                t.setTextSize(9);
+//                t.setTextColor(0xD0FFFFFF);
+//                s.addView(t, lp);
+//
+//                if (i < count - 1) {
+//                    AnimationSet as = new AnimationSet(false);
+//                    as.setInterpolator(new AccelerateInterpolator());
+//                    TranslateAnimation ta = new TranslateAnimation(mDensity * (-width + space), 0, 0, 0);
+//                    ta.setDuration(500 + 100 * (count - i));
+//                    as.addAnimation(ta);
+//                    as.setDuration(500 + 100 * (count - i));
+//                    a.startAnimation(as);
+//                    t.startAnimation(as);
+//                }
             }
         } catch (Exception e) {
         }
@@ -813,6 +811,8 @@ public class ConversationActivity extends Activity implements OnClickListener {
             mDB.close();
         if (mADB != null && mADB.isOpen())
             mADB.close();
+        if (mGDB != null && mGDB.isOpen())
+            mGDB.close();
         unregisterReceiver(HandleListChanged);
 
         spAnimation = null;
@@ -1994,6 +1994,11 @@ public class ConversationActivity extends Activity implements OnClickListener {
                     lpName.setMargins(largeScreen ? (int) (6 * mDensity) : (int) (4 * mDensity), 0,
                             0, largeScreen ? (int) (2 * mDensity) : (int) (1 * mDensity));
                     String nickname = mADB.getNicknameByIdx(msg.group_member);
+                    //群组中的陌生人
+                    if (nickname.isEmpty()) {
+                        android.util.Log.d("MsgListAdapter", "陌生人消息     "+msg.group_member);
+                        nickname = mGDB.getGroupMemberNameByGroupIdxAndMemberIdx(mGroupID, msg.group_member);
+                    }
                     holder.username.setText(nickname);
                     holder.username.setVisibility(View.VISIBLE);
                     holder.username.setLayoutParams(lpName);
@@ -2617,6 +2622,10 @@ public class ConversationActivity extends Activity implements OnClickListener {
                 Toast.makeText(ConversationActivity.this,
                         getString(R.string.smsfail), Toast.LENGTH_SHORT).show();
                 return;
+            }else if (intent.getAction().equals(Global.Action_Hide_Group_Icon)) {
+                //jack 收到此广播隐藏群设置图标
+                android.util.Log.d("ConversationActivity", "隐藏图标");
+                mSetting.setVisibility(View.INVISIBLE);
             }
 
             if (msgListAdapter != null)

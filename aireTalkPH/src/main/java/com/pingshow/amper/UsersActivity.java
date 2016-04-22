@@ -260,8 +260,9 @@ public class UsersActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				editing=2;
-				mMoreBtn.setImageResource(R.drawable.done);
-				mMoreBtn.setBackgroundResource(R.drawable.graybtn);
+				// TODO: 2016/4/18 隐藏按钮
+//				mMoreBtn.setImageResource(R.drawable.done);
+//				mMoreBtn.setBackgroundResource(R.drawable.graybtn);
 				int mMoreBtnPad = 0;
 				if (largeScreen) {
 					mMoreBtnPad = (int) (15 * mDensity);
@@ -334,8 +335,8 @@ public class UsersActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				editing=1;
-				mMoreBtn.setImageResource(R.drawable.done);
-				mMoreBtn.setBackgroundResource(R.drawable.graybtn);
+//				mMoreBtn.setImageResource(R.drawable.done);
+//				mMoreBtn.setBackgroundResource(R.drawable.graybtn);
 				int mMoreBtnPad = 0;
 				if (largeScreen) {
 					mMoreBtnPad = (int) (15 * mDensity);
@@ -345,6 +346,8 @@ public class UsersActivity extends Activity {
 				mMoreBtn.setPadding(mMoreBtnPad, mMoreBtnPad, mMoreBtnPad, mMoreBtnPad);
 				friendAdapter[displayType].notifyDataSetChanged();
 				mDropDownList.setVisibility(View.GONE);
+
+
 			}
 		});
 		
@@ -499,6 +502,15 @@ public class UsersActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				startActivity(new Intent(UsersActivity.this, PopwindowDialog.class));
+				// TODO: 2016/4/18 隐藏不显示的界面
+				if (mDropDownList.getVisibility()== View.VISIBLE ) {
+					mDropDownList.setVisibility(View.GONE);
+				}
+
+				editing = 0;
+				friendAdapter[displayType].notifyDataSetChanged();
+
+
 				/*if (editing>0)
 				{
 					editing=0;
@@ -1069,11 +1081,12 @@ public class UsersActivity extends Activity {
 							try{
 								GroupID=Integer.parseInt(address.substring(9));
 							}catch(Exception e){}
-							
-							Intent it = new Intent(Global.Action_InternalCMD);
-							it.putExtra("Command", Global.CMD_DELETE_GROUP);
-							it.putExtra("GroupID", GroupID);
-							sendBroadcast(it);
+
+								Intent it = new Intent(Global.Action_InternalCMD);
+								it.putExtra("Command", Global.CMD_DELETE_GROUP);
+								it.putExtra("GroupID", GroupID);
+								sendBroadcast(it);
+
 						}
 						else if (idx>50)
 						{
