@@ -535,5 +535,19 @@ public class AmpUserDB {
 		if(!mDb.isOpen()) return;
 		mDb.delete(AMP_USER_DB_TABLE, null, null);
 	}
+
+	//jack update
+	public synchronized boolean updateGroupname(String address,int idx, String nickname){
+		if(!mDb.isOpen()) return false;
+		if (address.length()<6) return false;
+		ContentValues vals = new ContentValues();
+		vals.put(KEY_ADDRESS, address);
+		vals.put(KEY_TIME, new Date().getTime());
+		vals.put(KEY_IDX, idx);
+		vals.put(KEY_DELETED, 0);
+		vals.put(KEY_NICKNAME, nickname);
+		Log.d("addF.mADB updateUser1=" + address + " " + idx + " " + nickname);
+		return mDb.update(AMP_USER_DB_TABLE, vals, KEY_ADDRESS + "='" + address + "'", null) > 0;
+	}
 }
 

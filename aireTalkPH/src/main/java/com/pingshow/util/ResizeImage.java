@@ -2,6 +2,7 @@ package com.pingshow.util;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -189,10 +190,10 @@ public class ResizeImage {
 			bitmapOptions.inPurgeable=true; 
 			bitmapOrg = BitmapFactory.decodeFile(SrcFilePath, bitmapOptions);
 		} catch (Exception e1) {
-			Toast.makeText(context,context.getString(R.string.photo_large), Toast.LENGTH_LONG).show();
+			Toast.makeText(context, context.getString(R.string.photo_large), Toast.LENGTH_LONG).show();
 			return -1;
 		} catch (OutOfMemoryError e) {
-			Toast.makeText(context,context.getString(R.string.photo_large), Toast.LENGTH_LONG).show();
+			Toast.makeText(context, context.getString(R.string.photo_large), Toast.LENGTH_LONG).show();
 			return -1;
 		}
 		
@@ -296,44 +297,40 @@ public class ResizeImage {
 		try {
 			BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 			InputStream is = context.getContentResolver().openInputStream(data.getData());
-		    
-		    // Limit the filesize since 5MP pictures will kill you RAM
- 			bitmapOptions.inJustDecodeBounds=true;
- 			bitmapOrg = BitmapFactory.decodeStream(is, null, bitmapOptions);
- 			is.close();
- 			if (bitmapOptions.outHeight > bitmapOptions.outWidth)
- 			{
- 				if (bitmapOptions.outHeight!=-1)
- 				{
- 					if (bitmapOptions.outHeight > newHeight)
- 						bitmapOptions.inSampleSize=((bitmapOptions.outHeight+(newHeight-1))/newHeight);
- 					else
- 						bitmapOptions.inSampleSize=1;
- 				}
- 			}
- 			else{
- 				if (bitmapOptions.outWidth!=-1)
- 				{
- 					if (bitmapOptions.outWidth > newWidth)
- 						bitmapOptions.inSampleSize=((bitmapOptions.outWidth+(newWidth-1))/newWidth);
- 					else
- 						bitmapOptions.inSampleSize=1;
- 				}
- 			}
- 			bitmapOptions.inJustDecodeBounds=false;
- 			bitmapOptions.inPurgeable=true; 
- 			is = context.getContentResolver().openInputStream(data.getData());
- 			bitmapOrg = BitmapFactory.decodeStream(is, null, bitmapOptions);
-		    is.close();
-		} catch (Exception e1) {
-			Toast.makeText(context,context.getString(R.string.photo_large), Toast.LENGTH_LONG).show();
-			return -1;
+
+			// Limit the filesize since 5MP pictures will kill you RAM
+			bitmapOptions.inJustDecodeBounds = true;
+			bitmapOrg = BitmapFactory.decodeStream(is, null, bitmapOptions);
+			is.close();
+			if (bitmapOptions.outHeight > bitmapOptions.outWidth) {
+				if (bitmapOptions.outHeight != -1) {
+					if (bitmapOptions.outHeight > newHeight)
+						bitmapOptions.inSampleSize = ((bitmapOptions.outHeight + (newHeight - 1)) / newHeight);
+					else
+						bitmapOptions.inSampleSize = 1;
+				}
+			} else {
+				if (bitmapOptions.outWidth != -1) {
+					if (bitmapOptions.outWidth > newWidth)
+						bitmapOptions.inSampleSize = ((bitmapOptions.outWidth + (newWidth - 1)) / newWidth);
+					else
+						bitmapOptions.inSampleSize = 1;
+				}
+			}
+			bitmapOptions.inJustDecodeBounds = false;
+			bitmapOptions.inPurgeable = true;
+			is = context.getContentResolver().openInputStream(data.getData());
+			bitmapOrg = BitmapFactory.decodeStream(is, null, bitmapOptions);
+			is.close();
 		} catch (OutOfMemoryError e) {
-			Toast.makeText(context,context.getString(R.string.photo_large), Toast.LENGTH_LONG).show();
+			Toast.makeText(context, context.getString(R.string.photo_large), Toast.LENGTH_LONG).show();
+			return -1;
+		} catch (Exception e) {
+			Toast.makeText(context, context.getString(R.string.photo_large), Toast.LENGTH_LONG).show();
 			return -1;
 		}
-		
-        if(bitmapOrg==null)
+
+		if(bitmapOrg==null)
         {
         	return -1;
         }

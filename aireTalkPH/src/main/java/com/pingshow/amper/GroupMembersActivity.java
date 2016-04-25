@@ -11,25 +11,22 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pingshow.amper.bean.Member;
 import com.pingshow.amper.db.GroupDB;
 import com.pingshow.network.MyNet;
+import com.pingshow.util.GroupUpdateMessageSender;
 import com.pingshow.util.ImageUtil;
+import com.pingshow.util.LBMUtil;
 import com.pingshow.util.MyUtil;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by jack on 2016/4/21.
  */
 public class GroupMembersActivity extends Activity{
-    public static final int NOTCHOICE = 2;
     public static final int CHOICE = 1;
-    private List<String> sendeeList;
 
     private MyPreference mPref;
     private ArrayList<Member> members;
@@ -37,7 +34,6 @@ public class GroupMembersActivity extends Activity{
     private ListView mListView;
     private MyAdapter myAdapter;
     private int groupId;
-    private boolean result =false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +92,6 @@ public class GroupMembersActivity extends Activity{
         ((ImageView) findViewById(R.id.cancel)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(NOTCHOICE);
                 finish();
             }
         });
@@ -105,9 +100,7 @@ public class GroupMembersActivity extends Activity{
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                final Intent intent = new Intent();
-                intent.putExtra("newCreater", members.get(position).getIdx()+"");
-                intent.putExtra("nickname", members.get(position).getNickname());
+
                 //请求php更换群主
                 new Thread(new Runnable() {
                     @Override
@@ -121,29 +114,27 @@ public class GroupMembersActivity extends Activity{
                                         "id=" + mPref.read("myIdx") + "&gid=" + groupId + "&creater="
                                                 + members.get(position).getIdx(),
                                         null);
-                                android.util.Log.d("修改群主", "修改群主的返回值: " + Return);
+                                Log.d("修改群主  修改群主的返回值: " + Return);
                                 if (Return.startsWith("sucess")) {
-                                    result=true;
+                                    //发送群主变更消息和群主变更广播
+                                    String content = String.format(getString(R.string.group_creater_changed), members.get(position).getNickname());
+                                    GroupUpdateMessageSender.getInstance().send(GroupMembersActivity.this, Integer.parseInt(mPref.read("myIdx")), groupId, content);
+
+                                    //发送本地广播
+                                    Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
+                                    intent.putExtra("Command",Global.CMD_Refresh_Change_Manager);
+                                    intent.putExtra("newCreater",  members.get(position).getIdx()+"");
+                                    LBMUtil.sendBroadcast(GroupMembersActivity.this, intent);
                                     break;
                                 }
                                 MyUtil.Sleep(2000);
                             } while (++c < 3);
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (result) {
-                                        setResult(CHOICE, intent);
-                                    }else{
-                                        setResult(NOTCHOICE);
-                                        Toast.makeText(GroupMembersActivity.this, getResources().getString(R.string.poor_network_doesnt_change), Toast.LENGTH_SHORT).show();
-                                    }
-                                    GroupMembersActivity.this.finish();
-                                }
-                            });
                         } catch (Exception e) {
                         }
                     }
                 }).start();
+                setResult(CHOICE);
+                finish();
 
             }
         });

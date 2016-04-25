@@ -2,11 +2,12 @@ package com.pingshow.amper;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,15 +15,12 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.*;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -32,9 +30,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.pingshow.amper.bean.Group;
-import com.pingshow.amper.bean.GroupMsg;
 import com.pingshow.amper.bean.Member;
-import com.pingshow.amper.bean.Person;
 import com.pingshow.amper.db.AmpUserDB;
 import com.pingshow.amper.db.GroupDB;
 import com.pingshow.amper.db.SmsDB;
@@ -42,11 +38,12 @@ import com.pingshow.amper.view.ExpandGridView;
 import com.pingshow.network.MyNet;
 import com.pingshow.util.GroupUpdateMessageSender;
 import com.pingshow.util.ImageUtil;
+import com.pingshow.util.LBMUtil;
 import com.pingshow.util.MyUtil;
 import com.pingshow.util.ResizeImage;
+import com.pingshow.amper.Log;
 
 import java.io.File;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,21 +105,98 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
     private String localPath;
     private TextView mGroupName;
 
+    private boolean refreshing = false;
+    private LoadingDialog loadingDialog;
+    private boolean isGroupnameChanged = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_details);
-        //初始化组合数据
-        initData();
-
         //初始化视图和点击事件
         initView();
+
+        //初始化组合数据
+        initData();
 
         //显示成员
         showMembers();
     }
 
+    BroadcastReceiver InternalCommand = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(Global.Action_Refresh_Groupinfo)) {
+                int command = intent.getIntExtra("Command", 0);
+                int groupId = Integer.parseInt(groupID);
+                boolean result;
+                switch (command) {
+                    case Global.CMD_Refresh_Add_Members:
+                        loadingDialog.dismiss();
+                        //添加用户成功
+                        try {
+                            String idxArray = intent.getStringExtra("idxs");
+                            String[] items = idxArray.split(" ");
+
+                            for (int i = 0; i < items.length; i++) {
+                                members.add(getMember(Integer.parseInt(groupID), items[i]));
+                                sendeeList.add(items[i]);
+                            }
+                            adapter.getCount();
+                            adapter.notifyDataSetChanged();
+
+                        } catch (Exception e) {
+                        }
+                        break;
+                    case Global.CMD_Refresh_Cut_Members:
+                        break;
+                    case Global.CMD_Refresh_Rename_Groupname:
+                        // TODO: 2016/4/25 设置一个值表示群名称改变
+                        isGroupnameChanged = true;
+                        loadingDialog.dismiss();
+
+                        groupname = intent.getStringExtra("groupname");
+                        //修改conversation界面的群名称
+                        mGroupName.setText(groupname);
+                        result = mADB.updateGroupname("[<GROUP>]" + groupId, groupId + 100000000,
+                                groupname);
+                        Log.d("修改组名的结果: " + result);
+                        break;
+                    case Global.CMD_Refresh_Change_Manager:
+                        loadingDialog.dismiss();
+                        //群主变更成功
+                        try {
+                            is_admin = false;
+                            mChangeGroupCreater.setVisibility(View.GONE);
+                            mGroupPhoto.setClickable(false);
+
+                            int myIdx = Integer.parseInt(mPref.read("myIdx"));
+                            int newCreaterIdx = Integer.parseInt(intent.getStringExtra("newCreater"));
+
+                            result = mGDB.updateGroupCreater(groupId, myIdx, newCreaterIdx);
+                            Log.d("修改群主结果: " + result);
+
+                            adapter.getCount();
+                            adapter.notifyDataSetChanged();
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                }
+                sendRefreshCommand();
+            }
+        }
+    };
+
     private void initView() {
+        groupname = getIntent().getStringExtra("groupname");
+        groupID = getIntent().getStringExtra("GroupID");
+        // TODO: 2016/4/20 路径
+        localPath = Global.SdcardPath_inbox + "photo_"
+                + (Integer.parseInt(groupID) + 100000000) + ".jpg";
+
         //设置群名称
         mGroupName = (TextView) findViewById(R.id.tv_groupname);
         mGroupName.setText(groupname);
@@ -140,25 +214,27 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
         animation.setInterpolator(lin);
 
         mRefresh = (ImageView) findViewById(R.id.iv_refresh);
-        mRefresh.setVisibility(View.INVISIBLE);
         mRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //播放动画
-                mRefresh.clearAnimation();
-                mRefresh.setAnimation(animation);
-                //重新查询,并更新界面
-                android.util.Log.d("刷新group", "删除分组后,查询分组并写入数据库");
-                requeryGroupInfo(groupID);
+                if (!refreshing) {
+                    mRefresh.clearAnimation();
+                    refreshing = true;
+                    mRefresh.setAnimation(animation);
+                    //重新查询,并更新界面
+                    Log.d("刷新group  删除分组后,查询分组并写入数据库");
+                    requeryGroupInfo(groupID);
+                }
             }
         });
 
         // TODO: 2016/4/19 群主才有的功能
         mGroupPhoto = (ImageView) findViewById(R.id.group_photo);
         mChangeGroupCreater = (RelativeLayout) findViewById(R.id.re_change_group_creater);
+
         //设置群头像
         showGroupPhoto();
-
 
         mGroupPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,11 +242,6 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
                 onPickPictureOption();
             }
         });
-        //顺序要在click方法下
-        if (!is_admin) {
-            mChangeGroupCreater.setVisibility(View.GONE);
-            mGroupPhoto.setClickable(false);
-        }
 
         mCancel.setOnClickListener(this);
         chattotop.setOnClickListener(this);
@@ -181,6 +252,53 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
         //改群名字
         mChangeGroupName.setOnClickListener(this);
     }
+
+    //初始化数据
+    private void initData() {
+        IntentFilter intentToReceiveFilter = new IntentFilter();
+        intentToReceiveFilter.addAction(Global.Action_Refresh_Groupinfo);
+        LBMUtil.registerReceiver(this, InternalCommand, intentToReceiveFilter);
+
+        mADB = new AmpUserDB(GroupSettingActivity.this);
+        mADB.open();
+
+        mGDB = new GroupDB(GroupSettingActivity.this);
+        mGDB.open();
+
+        mSmsDB = new SmsDB(GroupSettingActivity.this);
+        mSmsDB.open();
+
+        mPref = new MyPreference(this);
+
+        //群组成员
+        members = new ArrayList<Member>();
+        sendeeList = new ArrayList<>();
+
+        //被删除的群组成员
+        idxsBuffer = new StringBuffer("");
+
+        // TODO: 2016/4/6  查询群组中的创建者,如果是创建者才显示删人按钮'
+        int creatorIdx = mGDB.getGroupCreator(Integer.parseInt(groupID));
+        if (creatorIdx == Integer.parseInt(mPref.read("myID", "0"), 16)) is_admin = true;
+
+        //顺序要在click方法下
+        if (!is_admin) {
+            mChangeGroupCreater.setVisibility(View.GONE);
+            mGroupPhoto.setClickable(false);
+        }
+
+        sendeeList.clear();
+        sendeeList = mGDB.getGroupMembersByGroupIdx(Integer.parseInt(groupID));
+        Log.d("群组加人:  groupID" + groupID + "groupname" + groupname + "sendeeList.size():" + sendeeList.size());
+
+        //填充数据
+        members.clear();
+        for (String idx : sendeeList) {
+            Member member = getMember(Integer.parseInt(groupID), idx);
+            members.add(member);
+        }
+    }
+
 
     private void showGroupPhoto() {
         Drawable photo = ImageUtil.getBitmapAsRoundCorner(localPath, 3,
@@ -294,7 +412,6 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
                     if (groupInfo.getCode() == 200) {
                         downloadGroupname = groupInfo.getGname();
 
-                        Log.d("AireJupiter", downloadGroupname);
                         // TODO: 2016/4/5  存入组信息,4/18 groupname
                         adb.deleteContactByAddress("[<GROUP>]" + mGroupID);
                         adb.insertUser("[<GROUP>]" + mGroupID, mGroupID + 100000000,
@@ -310,7 +427,7 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
 
                             String localfile = Global.SdcardPath_inbox + "photo_" + member.getIdx() + ".jpg";
                             boolean ret = AireJupiter.getInstance().downloadPhoto(Integer.parseInt(member.getIdx()), localfile);
-                            Log.d("GroupSettingActivity", "本地文件: " + localfile + " ret:" + ret);
+                            Log.d("GroupSettingActivity  本地文件: " + localfile + " ret:" + ret);
                             if (ret)//delete big one
                                 new File(Global.SdcardPath_inbox + "photo_" + member.getIdx() + "b.jpg").delete();
                         }
@@ -354,7 +471,7 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
 
                         sendeeList.clear();
                         sendeeList = gdb.getGroupMembersByGroupIdx(mGroupID);
-                        Log.d("群组加人", "groupID" + groupID + "groupname" + groupname + "sendeeList.size():" + sendeeList.size());
+                        com.pingshow.amper.Log.d("群组加人:  groupID" + groupID + "groupname" + groupname + "sendeeList.size():" + sendeeList.size());
 
                         //填充数据
                         members.clear();
@@ -375,13 +492,15 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
                                     mChangeGroupCreater.setVisibility(View.VISIBLE);
                                     mGroupPhoto.setClickable(true);
                                 }
-                                mRefresh.clearAnimation();
                                 //显示新的群组头像
                                 showGroupPhoto();
                                 //显示最新的群名称
                                 mGroupName.setText(downloadGroupname);
                                 // TODO: 2016/4/18 刷新UserActivity
                                 sendRefreshCommand();
+
+                                mRefresh.clearAnimation();
+                                refreshing = false;
                             }
                         });
                     }
@@ -399,47 +518,6 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
         sendBroadcast(refreshIntent);
     }
 
-    //初始化数据
-    private void initData() {
-        mADB = new AmpUserDB(GroupSettingActivity.this);
-        mADB.open();
-
-        mGDB = new GroupDB(GroupSettingActivity.this);
-        mGDB.open();
-
-        mSmsDB = new SmsDB(GroupSettingActivity.this);
-        mSmsDB.open();
-
-        mPref = new MyPreference(this);
-
-        //群组成员
-        members = new ArrayList<Member>();
-        sendeeList = new ArrayList<>();
-
-        //被删除的群组成员
-        idxsBuffer = new StringBuffer("");
-
-        groupname = getIntent().getStringExtra("groupname");
-        groupID = getIntent().getStringExtra("GroupID");
-        // TODO: 2016/4/20 路径
-        localPath = Global.SdcardPath_inbox + "photo_"
-                + (Integer.parseInt(groupID) + 100000000) + ".jpg";
-
-        // TODO: 2016/4/6  查询群组中的创建者,如果是创建者才显示删人按钮'
-        int creatorIdx = mGDB.getGroupCreator(Integer.parseInt(groupID));
-        if (creatorIdx == Integer.parseInt(mPref.read("myID", "0"), 16)) is_admin = true;
-
-        sendeeList.clear();
-        sendeeList = mGDB.getGroupMembersByGroupIdx(Integer.parseInt(groupID));
-        Log.d("群组加人", "groupID" + groupID + "groupname" + groupname + "sendeeList.size():" + sendeeList.size());
-
-        //填充数据
-        members.clear();
-        for (String idx : sendeeList) {
-            Member member = getMember(Integer.parseInt(groupID), idx);
-            members.add(member);
-        }
-    }
 
     /**
      * 根据idx获取member对象
@@ -466,7 +544,7 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
         member.setPhoto(photo);
         //设置昵称,因为广播需要时间所以做判断
         String nickname = mADB.getNicknameByIdx(Integer.parseInt(idx));
-        if (nickname!=null) {
+        if (nickname != null) {
             //陌生人的话
             nickname = mGDB.getGroupMemberNameByGroupIdxAndMemberIdx(groupId, Integer.parseInt(idx));
         }
@@ -478,7 +556,6 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
     private void showMembers() {
         adapter = new GridAdapter(this, members);
         gridView.setAdapter(adapter);
-        mRefresh.setVisibility(View.VISIBLE);
         //设置touchlistener方便用户退出删除模式
         gridView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -502,6 +579,11 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        if (isGroupnameChanged) {
+            Intent intent = new Intent();
+            intent.putExtra("newGroupName",groupname);
+            setResult(1, intent);
+        }
         finish();
     }
 
@@ -512,6 +594,11 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
                 //关闭页面
                 // TODO: 2016/3/23 关闭页面前发送广播,将删除的好友移出group
                 removeMembersFromGroup();
+                if (isGroupnameChanged) {
+                    Intent intent = new Intent();
+                    intent.putExtra("newGroupName",groupname);
+                    setResult(1, intent);
+                }
                 finish();
                 break;
             case R.id.re_change_group_creater:
@@ -575,64 +662,17 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 0) {
+            //发送了请求但是不一定成功
             if (resultCode == RESULT_OK) {
-                try {
-                    String idxArray = data.getStringExtra("idx");
-                    String[] items = idxArray.split(" ");
-
-                    for (int i = 0; i < items.length; i++) {
-                        members.add(getMember(Integer.parseInt(groupID), items[i]));
-                        sendeeList.add(items[i]);
-                    }
-                    adapter.notifyDataSetChanged();
-
-                } catch (Exception e) {
-                }
+                //添加人进群
+                showLoadingDialog(getResources().getString(R.string.adding));
             } else if (resultCode == 1) {
                 //选择了新的群主
-                try {
-                    is_admin = false;
-                    mChangeGroupCreater.setVisibility(View.GONE);
-                    mGroupPhoto.setClickable(false);
+                showLoadingDialog(getResources().getString(R.string.transferring));
 
-                    int groupId = Integer.parseInt(groupID);
-                    int myIdx = Integer.parseInt(mPref.read("myIdx"));
-                    String myNickname = mPref.read("myNickname");
-                    int newCreaterIdx = Integer.parseInt(data.getStringExtra("newCreater"));
-                    String nickname = data.getStringExtra("nickname");
-                    //发送tcp
-                    String content = String.format(getString(R.string.group_creater_changed), nickname);
-                    GroupUpdateMessageSender.getInstance().send(GroupSettingActivity.this, myIdx, groupId, content);
-
-                    //缺少update方法
-                    mGDB.deleteGroupMember(groupId, newCreaterIdx);
-                    mGDB.insertGroup(groupId, nickname, newCreaterIdx, 0);
-                    mGDB.deleteGroupMember(groupId, myIdx);
-                    mGDB.insertGroup(groupId, myNickname, myIdx, 1);
-
-                    adapter.getCount();
-                    adapter.notifyDataSetChanged();
-                    sendRefreshCommand();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else if (resultCode == 2) {
-                Toast.makeText(this, getResources().getString(R.string.no_change), Toast.LENGTH_SHORT).show();
             } else if (resultCode == 3) {
-                int groupId = Integer.parseInt(groupID);
-                String newGroupName = data.getStringExtra("groupname");
-                mADB.deleteContactByAddress("[<GROUP>]" + groupId);
-                mADB.insertUser("[<GROUP>]" + groupId, groupId + 100000000,
-                        newGroupName);
-
-                mGroupName.setText(data.getStringExtra("groupname"));
-                //发送tcp
-                String content = String.format(getString(R.string.group_name_changed), newGroupName);
-                GroupUpdateMessageSender.getInstance().send(GroupSettingActivity.this, Integer.parseInt(mPref.read("myIdx")), groupId, content);
-                sendRefreshCommand();
-            } else if (resultCode == 4) {
-                Toast.makeText(this, getResources().getString(R.string.no_change), Toast.LENGTH_SHORT).show();
-
+                //更新群名称
+                showLoadingDialog(getResources().getString(R.string.saving));
             }
 
         } else if (requestCode == 20) {
@@ -719,6 +759,12 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
 
     }
 
+    private void showLoadingDialog(String description) {
+        loadingDialog = new LoadingDialog(this, description);
+        loadingDialog.setCanceledOnTouchOutside(false);
+        loadingDialog.show();
+    }
+
     private void renameFileAndRefreash() {
         if (photoAssigned) {
             File f = new File(photoPath);
@@ -760,6 +806,7 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
 
     @Override
     protected void onDestroy() {
+        LBMUtil.unregisterReceiver(this, InternalCommand);
         if (mADB != null && mADB.isOpen())
             mADB.close();
         if (mGDB != null && mGDB.isOpen())
@@ -865,7 +912,6 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
                         Intent it = new Intent(context, MembersListActivity.class);
                         it.putExtra("Exclude", sendeeList);
                         it.putExtra("GroupID", groupID);
-
                         startActivityForResult(it, 0);
                     }
                 });

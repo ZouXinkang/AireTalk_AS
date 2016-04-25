@@ -2,6 +2,7 @@ package com.pingshow.amper;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -63,7 +64,8 @@ public class TimeLineCompose extends Activity {
 	private boolean didSend=false;
 	private boolean didAttach=false;
 	private float mDensity = 1.f;
-	
+	private String takePhotoPath;
+
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -305,6 +307,9 @@ public class TimeLineCompose extends Activity {
 		}
 		try{
 			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//			takePhotoPath = Global.SdcardPath_sent + "tmp.jpg";
+//			intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,
+//					Uri.fromFile(new File(takePhotoPath)));
 			startActivityForResult(intent, 3);
 		}catch(Exception e){
 			Toast.makeText(this, R.string.take_picture_error, Toast.LENGTH_SHORT).show();
@@ -399,34 +404,40 @@ public class TimeLineCompose extends Activity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == 1 || requestCode == 3){
 			if (resultCode == RESULT_OK) {
-
+//				if (null==data.getData()) return;
 				String filename = Global.SdcardPath_timeline + ConversationActivity.getRandomName() + ".jpg";
+//				Uri uri = null;
+//				try {
+//					uri = Uri.parse(MediaStore.Images.Media
+//							.insertImage(getContentResolver(), takePhotoPath,
+//									null, null));
+//				} catch (FileNotFoundException e) {
+//					e.printStackTrace();
+//				}
+//				data.setData(uri);
+				android.util.Log.d("TimeLineCompose", "requestCode " + requestCode + "resultCode " + resultCode + "----" + data);
 				int result = ResizeImage.saveFromStream(this, data, filename, 1600, 1600, 95);
 				String thumbnail = Global.SdcardPath_timeline + "thumb_" + ConversationActivity.getRandomName() + "s.jpg";
 				ResizeImage.saveFromStream(this, data, thumbnail, 320, 320, 80);  //tml*** bitmap quality, 120>320, 50>80
-				if (result!=-1)
-				{
-					boolean found=false;
-					for (String filePath: attachedList)
-					{
-						if (filePath.endsWith(".mp3") || filePath.endsWith(".mp4"))
-						{
-							found=true;
+				if (result != -1) {
+					boolean found = false;
+					for (String filePath : attachedList) {
+						if (filePath.endsWith(".mp3") || filePath.endsWith(".mp4")) {
+							found = true;
 							break;
 						}
 					}
-					
-					if (found)
-					{
+
+					if (found) {
 						attachedList.clear();
 						thumbnailList.clear();
 					}
-					
+
 					attachedList.add(filename);
 					thumbnailList.add(thumbnail);
 					arrangeThumbnails();
-					
-					didAttach=true;
+
+					didAttach = true;
 				}
 			}
 		}else if (requestCode == 101){

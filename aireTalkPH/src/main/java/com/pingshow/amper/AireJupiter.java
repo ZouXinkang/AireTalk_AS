@@ -86,6 +86,7 @@ import com.pingshow.network.NetInfo;
 import com.pingshow.network.RWTSocket;
 import com.pingshow.network.upnpc;
 import com.pingshow.util.GroupUpdateMessageSender;
+import com.pingshow.util.LBMUtil;
 import com.pingshow.util.MyTelephony;
 import com.pingshow.util.MyUtil;
 import com.pingshow.util.OpenDifferentFile;
@@ -286,6 +287,7 @@ public class AireJupiter extends Service {
             intentToReceiveFilter.addAction(Global.Action_SD_AvailableSpare);
             intentToReceiveFilter.addAction(Global.Action_FileDownload);
             registerReceiver(InternalCommand, intentToReceiveFilter);
+
         } catch (Exception e) {
             Toast.makeText(this, R.string.no_sdcard, Toast.LENGTH_LONG).show();
         }
@@ -1447,17 +1449,15 @@ public class AireJupiter extends Service {
                                     int c = gdb.getGroupMemberCount(mGroupID);
 
                                     if (c == 0) {
-                                        mADB.deleteContactByAddress("[<GROUP>]" + mGroupID);
-                                        UsersActivity.needRefresh = true;
-                                        Intent intent = new Intent(Global.Action_Refresh_Gallery);
-                                        sendBroadcast(intent);
-
                                         gdb.deleteGroup(mGroupID);
-
+                                        mADB.deleteContactByAddress("[<GROUP>]" + mGroupID);
                                         try {
                                             mSmsDB.deleteThreadByAddress("[<GROUP>]" + mGroupID);
                                         } catch (Exception e) {
                                         }
+                                        UsersActivity.needRefresh = true;
+                                        Intent intent = new Intent(Global.Action_Refresh_Gallery);
+                                        sendBroadcast(intent);
                                     }
                                     gdb.close();
                                 }
@@ -1579,6 +1579,7 @@ public class AireJupiter extends Service {
                         MembersIdxs = intent.getStringExtra("MembersIdxs");
                         //4/18 用String代替list,防止对象被回收
                         final String[] members = MembersIdxs.trim().split(" ");
+
                         if (UnknownIdx > 0) {
                             new Thread(new Runnable() {
                                 public void run() {
@@ -1643,7 +1644,6 @@ public class AireJupiter extends Service {
 
                                         if (Return.startsWith("Done")) {
                                             //jack 请求网络成功,加入数据库
-
                                             //4/18修改
                                             mGroupName = mADB.getNicknameByIdx(mGroupID + 100000000);
 //                                            mGroupName = mGDB.getGroupNameByGroupIdx(mGroupID);
@@ -1653,17 +1653,26 @@ public class AireJupiter extends Service {
                                                 long l = mGDB.insertGroup(mGroupID, nickname, Integer.parseInt(members[i]), 1);
                                                 android.util.Log.d("群组加人", " mGroupID " + mGroupID +" nickname "+mADB.getNicknameByIdx(Integer.parseInt(members[i])) +" mGroupName " + mGroupName + "l:" + l);
                                             }
+                                            // TODO: 2016/4/24 将加人消息写入数据库 对指定的人发送加群的tcp
+                                            String content = String.format(getString(R.string.group_invite_new_members), mPref.read("myNickname"), nicknames);
+                                            GroupUpdateMessageSender.getInstance().send(AireJupiter.this, myIdx,mGroupID, content);
+
+                                            //发送广播通知进度框消失
+                                            Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
+                                            intent.putExtra("Command",Global.CMD_Refresh_Add_Members);
+                                            intent.putExtra("idxs",MembersIdxs);
+                                            LBMUtil.sendBroadcast(AireJupiter.this,intent);
 
                                             // TODO: 2016/3/28 暂时显示将谁加入分组
-                                            Intent it = new Intent(AireJupiter.this, CommonDialog.class);
-                                            it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            String title = String.format(getString(R.string.group_invite_new_member), nicknames.toString(), mGroupName);
-                                            it.putExtra("msgContent", title);
-                                            it.putExtra("numItems", 1);
-                                            it.putExtra("ItemCaption0", getString(R.string.OK));
-                                            it.putExtra("ItemResult0", 0);
-                                            showNotification(title, null, true, R.drawable.icon_sms, null);
-                                            startActivity(it);
+//                                            Intent it = new Intent(AireJupiter.this, CommonDialog.class);
+//                                            it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                            String title = String.format(getString(R.string.group_invite_new_member), nicknames.toString(), mGroupName);
+//                                            it.putExtra("msgContent", title);
+//                                            it.putExtra("numItems", 1);
+//                                            it.putExtra("ItemCaption0", getString(R.string.OK));
+//                                            it.putExtra("ItemResult0", 0);
+//                                            showNotification(title, null, true, R.drawable.icon_sms, null);
+//                                            startActivity(it);
                                         }
                                     } catch (Exception e) {
                                         android.util.Log.d("群组加人", "add_group_member.php" + e.getMessage());

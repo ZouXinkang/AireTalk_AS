@@ -105,6 +105,7 @@ public class MembersListActivity extends Activity {
         findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult(RESULT_CANCELED);
                 finish();
             }
         });
@@ -114,8 +115,6 @@ public class MembersListActivity extends Activity {
             public void onClick(View v) {
                 //更新Adapter所需要的字符串
                 StringBuffer idxBuffer = new StringBuffer("");
-                //发送广播需要的字符串
-//                ArrayList<String> idxList = new ArrayList<String>();
                 //发送加群广播需要的集合
                 ArrayList<String> addressList = new ArrayList<String>();
                 int count = 0;
@@ -125,7 +124,6 @@ public class MembersListActivity extends Activity {
                         String idx = map.get("idx");
                         idxBuffer.append(idx + " ");
                         nameBuffer.append(mADB.getNicknameByIdx(Integer.parseInt(idx)) + ",");
-//                        idxList.add(idx);
                         addressList.add(mADB.getAddressByIdx(Integer
                                 .parseInt(idx)));
                         count++;
@@ -137,32 +135,16 @@ public class MembersListActivity extends Activity {
                     String idxArray = idxBuffer.toString();
                     if (!TextUtils.isEmpty(groupID)) {
                         // TODO: 2016/3/21 已经是群组,发送将人加入群组的广播,并返回群设置界面
-                        SendAgent agent = new SendAgent(MembersListActivity.this, Integer.parseInt(myIdx), 0,
-                                true);
 
                         //发送广播call Php,4/18防止对象被回收,使用string代替
                         Intent addMembers = new Intent(Global.Action_InternalCMD);
                         addMembers.putExtra("Command", Global.CMD_GROUP_ADD_NEW_MEMBER);
                         addMembers.putExtra("GroupID", Integer.parseInt(groupID));
-                        addMembers.putExtra("MembersIdxs", idxBuffer.toString());
+                        addMembers.putExtra("MembersIdxs", idxArray);
                         sendBroadcast(addMembers);
 
-                        // TODO: 2016/4/6 将加人消息写入数据库 对指定的人发送加群的tcp
-//                        agent.setAsGroup(Integer.parseInt(groupID));
-//                        String content = String.format(getString(R.string.group_invite_new_members), mPref.read("myNickname"), nameBuffer.toString());
-//                        insertMsg(content);
-//                        GroupMsg groupAdd = new GroupMsg("groupUpdate", "0", "", content, "");
-//                        agent.onGroupSend(groupAdd);
-
-                        String content = String.format(getString(R.string.group_invite_new_members), mPref.read("myNickname"), nameBuffer.toString());
-                        GroupUpdateMessageSender.getInstance().send(MembersListActivity.this, Integer.parseInt(myIdx), Integer.parseInt(groupID), content);
-
-                        //返回GroupSettingActivity的idxArray用于更新界面
-                        Intent it = new Intent();
-                        it.putExtra("idx", idxArray);
-                        //刷新界面
-                        refreshGallery();
-                        setResult(RESULT_OK, it);
+                        // TODO: 2016/4/6 将加人消息写入数据库 对指定的人发送加群的tcp, 4/25 整合到AireJupiter中
+                        setResult(RESULT_OK);
                         finish();
                     } else {
                         // TODO: 2016/3/21 本来不是群组,之后创建群组 ,

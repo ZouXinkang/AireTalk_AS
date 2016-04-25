@@ -524,6 +524,9 @@
     <string name="creater_doesnt_change">Creater doesn\'t changed!</string>
     <string name="poor_network_doesnt_change">Poor network! Creater doesn\'t changed!</string>
     <string name="no_change">No Change</string>
+    <string name="adding">Adding...</string>
+    <string name="saving">Saving...</string>
+    <string name="transferring">Transferring...</string>
 
 </resources>
 

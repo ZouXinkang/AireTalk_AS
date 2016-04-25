@@ -110,7 +110,8 @@ public class ConversationActivity extends Activity implements OnClickListener {
     static private ArrayList<SMS> TalkList = new ArrayList<SMS>();
     private ArrayList<GifView> GifList = new ArrayList<GifView>();
     private String mAddress;
-    private String mNickname;
+    //    private String mNickname;
+    public String mNickname;
     private String SrcAudioPath;
     private String SrcImagePath;
     private String SrcVideoPath;
@@ -384,7 +385,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
             } catch (Exception e) {
             }
             //显示群组成员
-			arrangePickedUsers();
+            arrangePickedUsers();
 
             //jack 2.4.51
             mSetting.setVisibility(View.VISIBLE);
@@ -395,9 +396,8 @@ public class ConversationActivity extends Activity implements OnClickListener {
                     Intent intent = new Intent(ConversationActivity.this, GroupSettingActivity.class);
                     intent.putExtra("groupname", mNickname);
                     intent.putExtra("GroupID", mGroupID + "");
-                    // TODO: 2016/4/6 测试
-                    intent.putExtra("rowid", rowid);
-                    startActivity(intent);
+                    // TODO: 2016/4/24 根据返回值修改UI
+                    startActivityForResult(intent, 100);
                 }
             });
         } else {
@@ -727,7 +727,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
                 String userphotoPath = Global.SdcardPath_inbox + "photo_" + idx + ".jpg";
 
                 Drawable photo = ImageUtil.getBitmapAsRoundCorner(userphotoPath, 1, 4);
-                android.util.Log.d("ConversationActivity", "路径 "+userphotoPath+" photo:" + photo+" 结果");
+                android.util.Log.d("ConversationActivity", "路径 " + userphotoPath + " photo:" + photo + " 结果");
 //                if (photo != null)
 //                    a.setImageDrawable(photo);
 //                else
@@ -1351,8 +1351,14 @@ public class ConversationActivity extends Activity implements OnClickListener {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 3) // take photo not popupDialog
             mPref.write("vociemessaging", false);
-
-        if (requestCode == 230) {
+        if (requestCode == 100) {
+            if (resultCode == 1) {
+                //更新UI,修改群组名字
+                String szGroup = getResources().getString(R.string.the_group);
+                mNickname = data.getStringExtra("newGroupName");
+                mSendee.setText(szGroup + ": " + mNickname);
+            }
+        } else if (requestCode == 230) {
             if (resultCode == RESULT_OK)
                 MakeCall.Call(ConversationActivity.this, mAddress, false);
         } else if (requestCode == 131) {  //tml|xwf*** beta ui2
@@ -1996,7 +2002,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
                     String nickname = mADB.getNicknameByIdx(msg.group_member);
                     //群组中的陌生人
                     if (nickname.isEmpty()) {
-                        android.util.Log.d("MsgListAdapter", "陌生人消息     "+msg.group_member);
+                        android.util.Log.d("MsgListAdapter", "陌生人消息     " + msg.group_member);
                         nickname = mGDB.getGroupMemberNameByGroupIdxAndMemberIdx(mGroupID, msg.group_member);
                     }
                     holder.username.setText(nickname);
@@ -2585,7 +2591,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
             } else if (intent.getAction().equals(Global.Action_MsgSent)) {
                 if (AireJupiter.notifying) return;
                 /*String address=intent.getStringExtra("SendeeAddress");
-				if (address!=null && !mAddress.equals(address))
+                if (address!=null && !mAddress.equals(address))
 					return;*/
                 ArrangeTalkList();
             } else if (intent.getAction().equals(Global.Action_InternalCMD)) {
@@ -2622,7 +2628,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
                 Toast.makeText(ConversationActivity.this,
                         getString(R.string.smsfail), Toast.LENGTH_SHORT).show();
                 return;
-            }else if (intent.getAction().equals(Global.Action_Hide_Group_Icon)) {
+            } else if (intent.getAction().equals(Global.Action_Hide_Group_Icon)) {
                 //jack 收到此广播隐藏群设置图标
                 android.util.Log.d("ConversationActivity", "隐藏图标");
                 mSetting.setVisibility(View.INVISIBLE);
@@ -2917,7 +2923,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
 //			showitem=false;
 //			sendLocation();
 //			break;
-			/*
+            /*
 		case R.id.guard:
 			messageitem.setVisibility(View.GONE);
 			showitem=false;

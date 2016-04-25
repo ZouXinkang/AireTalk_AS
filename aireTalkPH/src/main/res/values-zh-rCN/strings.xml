@@ -494,6 +494,9 @@
     <string name="no_change">未改变</string>
     <string name="poor_network_doesnt_change">网络差!修改失败</string>
     <string name="group_name_changed">修改群名称为%1$s</string>
+    <string name="adding">正在添加联系人...</string>
+    <string name="saving">正在保存群组名...</string>
+    <string name="transferring">正在移交权限...</string>
 
 </resources>
 

@@ -278,5 +278,18 @@ public class GroupDB {
 		if(!mDb.isOpen()) return;
 		mDb.delete(GROUP_DB_TABLE, null, null);
 	}
+
+	//jack
+	public synchronized boolean updateGroupCreater(int groupIdx,int oldCreater,int newCreater){
+		if(!mDb.isOpen()) return false;
+		ContentValues newcv = new ContentValues();
+		newcv.put(KEY_R1,0);
+		ContentValues oldcv = new ContentValues();
+		oldcv.put(KEY_R1,1);
+		if (mDb.update(GROUP_DB_TABLE, newcv,KEY_GROUPIDX + "=" + groupIdx+" AND "+KEY_IDX+" = "+newCreater, null) > 0 &&
+				mDb.update(GROUP_DB_TABLE, oldcv,KEY_GROUPIDX + "=" + groupIdx+" AND "+KEY_IDX+" = "+oldCreater, null) > 0)
+			return true;
+		return false;
+	}
 }
 

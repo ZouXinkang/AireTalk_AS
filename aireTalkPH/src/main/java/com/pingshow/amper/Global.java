@@ -39,6 +39,7 @@ public class Global {
 	//jack hide group icon
 	public static final String Action_Hide_Group_Icon = "com.pingshow.amper.hidegroupicon";
 
+	public static final String Action_Refresh_Groupinfo = "com.pingshow.amper.refreshgroupinfo";
 
 	public static final String SdcardPath=Environment.getExternalStorageDirectory()+"/.com.amper/";
 	public static final String SdcardPath_inbox=Environment.getExternalStorageDirectory()+"/.com.amper/inbox/";
@@ -96,6 +97,10 @@ public class Global {
 	public static final int CMD_CONNECTION_POOR = 78;
 	public static final int CMD_ADDF_280 = 282;
 	public static final int CMD_GROUP_SENDEE = 80; //jack send group sendee
+	public static final int CMD_Refresh_Add_Members = 82;
+	public static final int CMD_Refresh_Cut_Members = 84;
+	public static final int CMD_Refresh_Rename_Groupname = 86;
+	public static final int CMD_Refresh_Change_Manager = 88;
 
 
 	public static final int CMD_TCP_COMMAND_ARRIVAL = 810;//li*** 收到命令消息。
