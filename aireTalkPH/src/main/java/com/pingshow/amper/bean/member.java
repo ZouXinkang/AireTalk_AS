@@ -10,6 +10,16 @@ public class Member {
     private Drawable photo;
     private String nickname;
 
+    public int getChecked() {
+        return checked;
+    }
+
+    public void setChecked(int checked) {
+        this.checked = checked;
+    }
+
+    private int checked;
+
     public Drawable getPhoto() {
         return photo;
     }
@@ -41,6 +51,7 @@ public class Member {
                 "idx=" + idx +
                 ", photo=" + photo +
                 ", nickname='" + nickname + '\'' +
+                ", checked=" + checked +
                 '}';
     }
 }

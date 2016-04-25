@@ -131,17 +131,17 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
                 int command = intent.getIntExtra("Command", 0);
                 int groupId = Integer.parseInt(groupID);
                 boolean result;
+                loadingDialog.dismiss();
                 switch (command) {
                     case Global.CMD_Refresh_Add_Members:
-                        loadingDialog.dismiss();
+
                         //添加用户成功
                         try {
                             String idxArray = intent.getStringExtra("idxs");
                             String[] items = idxArray.split(" ");
-
                             for (int i = 0; i < items.length; i++) {
-                                members.add(getMember(Integer.parseInt(groupID), items[i]));
                                 sendeeList.add(items[i]);
+                                members.add(getMember(Integer.parseInt(groupID), items[i]));
                             }
                             adapter.getCount();
                             adapter.notifyDataSetChanged();
@@ -150,12 +150,23 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
                         }
                         break;
                     case Global.CMD_Refresh_Cut_Members:
+
+                        String[] idxs = intent.getStringExtra("idxs").trim().split(",");
+                        for (String idx : idxs) {
+                            sendeeList.remove(idx);
+                            for (int i = 0; i < members.size(); i++) {
+                                if ((members.get(i).getIdx()+"").equals(idx)) {
+                                    members.remove(i);
+                                }
+                            }
+                        }
+                        adapter.getCount();
+                        adapter.notifyDataSetChanged();
+
                         break;
                     case Global.CMD_Refresh_Rename_Groupname:
                         // TODO: 2016/4/25 设置一个值表示群名称改变
                         isGroupnameChanged = true;
-                        loadingDialog.dismiss();
-
                         groupname = intent.getStringExtra("groupname");
                         //修改conversation界面的群名称
                         mGroupName.setText(groupname);
@@ -164,7 +175,6 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
                         Log.d("修改组名的结果: " + result);
                         break;
                     case Global.CMD_Refresh_Change_Manager:
-                        loadingDialog.dismiss();
                         //群主变更成功
                         try {
                             is_admin = false;
@@ -183,6 +193,10 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+                        break;
+                    case Global.CMD_Refresh_Logout_Group:
+                        ConversationActivity.getInstance().finish();
+                        finish();
                         break;
                 }
                 sendRefreshCommand();
@@ -556,24 +570,6 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
     private void showMembers() {
         adapter = new GridAdapter(this, members);
         gridView.setAdapter(adapter);
-        //设置touchlistener方便用户退出删除模式
-        gridView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        if (adapter.isInDeleteMode) {
-                            adapter.isInDeleteMode = false;
-                            adapter.notifyDataSetChanged();
-                            return true;
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                return false;
-            }
-        });
     }
 
     @Override
@@ -593,7 +589,6 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
             case R.id.cancel:
                 //关闭页面
                 // TODO: 2016/3/23 关闭页面前发送广播,将删除的好友移出group
-                removeMembersFromGroup();
                 if (isGroupnameChanged) {
                     Intent intent = new Intent();
                     intent.putExtra("newGroupName",groupname);
@@ -631,8 +626,8 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
                 it.putExtra("GroupID", Integer.parseInt(groupID));
                 sendBroadcast(it);
 
-                ConversationActivity.getInstance().finish();
-                finish();
+                showLoadingDialog(getResources().getString(R.string.waiting));
+
                 break;
 
             case R.id.iv_switch_chattotop:
@@ -662,17 +657,19 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 0) {
-            //发送了请求但是不一定成功
+            //群信息操作
             if (resultCode == RESULT_OK) {
                 //添加人进群
                 showLoadingDialog(getResources().getString(R.string.adding));
             } else if (resultCode == 1) {
                 //选择了新的群主
                 showLoadingDialog(getResources().getString(R.string.transferring));
-
             } else if (resultCode == 3) {
                 //更新群名称
                 showLoadingDialog(getResources().getString(R.string.saving));
+            } else if (resultCode == 5){
+                //删除群成员
+                showLoadingDialog(getResources().getString(R.string.deleting));
             }
 
         } else if (requestCode == 20) {
@@ -790,18 +787,17 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
                             //发送更换头像的tcp
                             String content = String.format(getString(R.string.group_photo_changed), mPref.read("myNickname"));
                             GroupUpdateMessageSender.getInstance().send(GroupSettingActivity.this, Integer.parseInt(mPref.read("myIdx")), Integer.parseInt(groupID), content);
+                            //刷新界面
+                            UsersActivity.forceRefresh = true;
+                            UsersActivity.needRefresh = true;
+                            Intent intent = new Intent(Global.Action_Refresh_Gallery);
+                            sendBroadcast(intent);
                         }
                     } catch (Exception e) {
                     }
                 }
             }).start();
-
         }
-        //刷新界面
-        UsersActivity.forceRefresh = true;
-        UsersActivity.needRefresh = true;
-        Intent intent = new Intent(Global.Action_Refresh_Gallery);
-        sendBroadcast(intent);
     }
 
     @Override
@@ -823,15 +819,12 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
      * Created by jack on 2016/3/15.
      */
     private class GridAdapter extends BaseAdapter {
-
         private List<Member> members;
         private Context context;
-        public boolean isInDeleteMode;
 
         public GridAdapter(Context context, ArrayList<Member> members) {
             this.context = context;
             this.members = members;
-            isInDeleteMode = false;
             nameBuffer = new StringBuffer("");
 
         }
@@ -863,7 +856,6 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
                 holder = new ViewHolder();
                 convertView = View.inflate(context, R.layout.social_chatsetting_gridview_item, null);
                 holder.iv_avatar = (ImageView) convertView.findViewById(R.id.iv_avatar);
-                holder.badge_delete = (ImageView) convertView.findViewById(R.id.badge_delete);
                 holder.tv_nickname = (TextView) convertView.findViewById(R.id.tv_nickname);
                 convertView.setTag(holder);
             } else {
@@ -874,39 +866,31 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
             //最后一个item,减人按钮,同时是管理员
             if (position == getCount() - 1 && is_admin) {
                 holder.tv_nickname.setText("");
-                holder.badge_delete.setVisibility(View.GONE);
                 holder.iv_avatar.setImageResource(R.drawable.icon_btn_deleteperson);
-
-                if (isInDeleteMode) {
-                    //在删除模式下
-                    convertView.setVisibility(View.GONE);
-                } else {
-                    convertView.setVisibility(View.VISIBLE);
-                }
+                convertView.setVisibility(View.VISIBLE);
                 holder.iv_avatar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        isInDeleteMode = true;
-                        notifyDataSetChanged();
+                        // TODO: 2016/4/25 跳转到删除群成员页面
+                        Intent it = new Intent(context, MembersDeleteActivity.class);
+                        StringBuffer idxs = new StringBuffer();
+                        for (String idx : sendeeList) {
+                            idxs.append(idx + " ");
+                        }
+                        it.putExtra("members", idxs.toString().trim());
+                        it.putExtra("groupId", groupID);
+                        startActivityForResult(it, 0);
                     }
                 });
             } else if ((is_admin && position == getCount() - 2)
                     || (!is_admin && position == getCount() - 1)) {
                 //添加群组成员按钮
                 holder.tv_nickname.setText("");
-                holder.badge_delete.setVisibility(View.GONE);
                 holder.iv_avatar.setImageResource(R.drawable.jy_drltsz_btn_addperson);
                 // 正处于删除模式下,隐藏添加按钮
-                if (isInDeleteMode) {
-                    convertView.setVisibility(View.GONE);
-                } else {
-                    convertView.setVisibility(View.VISIBLE);
-                }
                 holder.iv_avatar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // TODO: 2016/3/23 将移出好友的从group删除
-                        removeMembersFromGroup();
 
                         // TODO: 2016/3/17 使用添加好友页面,PickupActivity
                         Intent it = new Intent(context, MembersListActivity.class);
@@ -922,80 +906,15 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
                 holder.tv_nickname.setText(nickname);
                 holder.iv_avatar.setImageDrawable(avatar);
 
-                if (isInDeleteMode) {
-                    //如果是删除模式下,同时不是自己显示删除按钮,
-                    if (member.getIdx() != Integer.parseInt(mPref.read("myIdx"))) {
-                        holder.badge_delete.setVisibility(View.VISIBLE);
-                    } else {
-                        //判断一定要加,不加会出现复用的问题
-                        holder.badge_delete.setVisibility(View.GONE);
-                    }
-                } else {
-                    holder.badge_delete.setVisibility(View.GONE);
-                }
-                holder.iv_avatar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (isInDeleteMode) {
-                            //  删除模式下,不能删除自己
-                            if (member.getIdx() != Integer.parseInt(mPref.read("myIdx"))) {
-                                deleteMemberFromGroup(member);
-                            }
-                        }
-                    }
-                });
-                holder.badge_delete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (isInDeleteMode) {
-                            //  删除模式下,不能删除自己
-                            if (member.getIdx() != Integer.parseInt(mPref.read("myIdx"))) {
-                                deleteMemberFromGroup(member);
-                            }
-                        }
-                    }
-                });
-
                 convertView.setVisibility(View.VISIBLE);
             }
             return convertView;
         }
 
-        //删除分组内的成员
-        private void deleteMemberFromGroup(Member member) {
-            // TODO: 2016/3/15 群主删除群成员
-            members.remove(member);
-            //将删除的好友加入集合中
-            idxsBuffer.append(member.getIdx() + " ");
-            nameBuffer.append(member.getNickname() + ",");
-            sendeeList.remove(member.getIdx() + "");
-            notifyDataSetChanged();
-        }
-
         private class ViewHolder {
             ImageView iv_avatar;
             TextView tv_nickname;
-            ImageView badge_delete;
         }
-    }
-
-    /**
-     * 将好友从group里面删除
-     */
-    private void removeMembersFromGroup() {
-        if ("".equals(idxsBuffer.toString())) {
-            return;
-        }
-        //发送广播call Php
-        Intent deleteMembers = new Intent(Global.Action_InternalCMD);
-        deleteMembers.putExtra("Command", Global.CMD_LEAVE_GROUP);
-        deleteMembers.putExtra("GroupID", Integer.parseInt(groupID));
-        deleteMembers.putExtra("MembersIdxs", idxsBuffer.toString());
-        deleteMembers.putExtra("nameBuffer", nameBuffer.toString());
-        sendBroadcast(deleteMembers);
-        //清空列表
-        idxsBuffer.delete(0, idxsBuffer.length());
-        nameBuffer.delete(0, nameBuffer.length());
     }
 
     public static Intent getCropImageIntent(Uri photoUri) {

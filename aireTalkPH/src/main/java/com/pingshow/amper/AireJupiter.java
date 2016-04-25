@@ -1484,36 +1484,37 @@ public class AireJupiter extends Service {
                                     String Return = "";
                                     try {
 
-                                        android.util.Log.d("删除组成员", "组ID:" + mGroupID+"---"+members);
+                                        Log.d("删除组成员  组ID:" + mGroupID+"---"+members);
 
                                         MyNet net = new MyNet(AireJupiter.this);
                                         Return = net.doPostHttps("remove_group_member_aire.php", "id=" + mGroupID
                                                 + "&members=" + members.toString(), null);
-                                        android.util.Log.d("删除组成员", Return);
-                                    } catch (Exception e) {
-                                    }
+                                        Log.d("删除组成员  "+Return);
+
                                     // TODO: 2016/3/28   从数据库中删除这些好友
                                     if (Return.startsWith("Done")) {
 
-                                        GroupDB gdb = new GroupDB(AireJupiter.this);
-                                        gdb.open();
-                                        android.util.Log.d("删除组成员", "组成员开始: "+gdb.getGroupMembersByGroupIdx(mGroupID).toString());
+                                        android.util.Log.d("删除组成员", "组成员开始: "+mGDB.getGroupMembersByGroupIdx(mGroupID).toString());
                                         for (int i = 0; i < idxs.length; i++) {
                                             android.util.Log.d("AireJupiter", i+"--------"+ idxs[i]);
                                             if (!idxs[i].equals("")) {
-                                                boolean result = gdb.deleteGroupMember(mGroupID, Integer.parseInt(idxs[i]));
+                                                boolean result = mGDB.deleteGroupMember(mGroupID, Integer.parseInt(idxs[i]));
                                             }
                                         }
-                                        android.util.Log.d("删除组成员", "组成员结果: " + gdb.getGroupMembersByGroupIdx(mGroupID).toString());
-
+                                        android.util.Log.d("删除组成员", "组成员结果: " + mGDB.getGroupMembersByGroupIdx(mGroupID).toString());
 //                                        // TODO: 2016/4/5 发送TCP删除好友,往数据库中插入删除好友信息数据
-
 //                                        // TODO: 2016/4/6 将加人消息写入数据库
-//
-//                                        // TODO: 2016/4/7 之后删除
-
                                         String content = String.format(getString(R.string.group_removed_members), nameBuffer);
                                         GroupUpdateMessageSender.getInstance().send(AireJupiter.this, myIdx, mGroupID, content);
+
+                                        // TODO: 2016/4/25 发送本地广播
+                                        Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
+                                        intent.putExtra("Command",Global.CMD_Refresh_Cut_Members);
+                                        intent.putExtra("idxs", members.toString());
+                                        LBMUtil.sendBroadcast(AireJupiter.this, intent);
+
+                                    }
+                                    }catch (Exception e) {
                                     }
                                 }
                             }).start();
@@ -1565,6 +1566,11 @@ public class AireJupiter extends Service {
 
                                             Intent refreshIntent = new Intent(Global.Action_Refresh_Gallery);
                                             sendBroadcast(refreshIntent);
+
+                                            // TODO: 2016/4/25 发送本地广播
+                                            Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
+                                            intent.putExtra("Command",Global.CMD_Refresh_Logout_Group);
+                                            LBMUtil.sendBroadcast(AireJupiter.this, intent);
                                         }
 
                                     } catch (Exception e) {
@@ -1660,7 +1666,7 @@ public class AireJupiter extends Service {
                                             //发送广播通知进度框消失
                                             Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
                                             intent.putExtra("Command",Global.CMD_Refresh_Add_Members);
-                                            intent.putExtra("idxs",MembersIdxs);
+                                            intent.putExtra("idxs", MembersIdxs);
                                             LBMUtil.sendBroadcast(AireJupiter.this,intent);
 
                                             // TODO: 2016/3/28 暂时显示将谁加入分组

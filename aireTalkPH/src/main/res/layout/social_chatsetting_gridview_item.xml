@@ -17,14 +17,15 @@
             android:layout_marginTop="12dp"
             android:src="@drawable/bighead" />
 
-        <ImageView
-            android:id="@+id/badge_delete"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:src="@drawable/appitem_del_btn" />
+        <!--jack 4/25 注释-->
+        <!--<ImageView-->
+            <!--android:id="@+id/badge_delete"-->
+            <!--android:layout_width="20dp"-->
+            <!--android:layout_height="20dp"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:src="@drawable/appitem_del_btn" />-->
 
         <TextView
             android:id="@+id/tv_nickname"

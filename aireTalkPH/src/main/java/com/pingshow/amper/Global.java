@@ -101,6 +101,8 @@ public class Global {
 	public static final int CMD_Refresh_Cut_Members = 84;
 	public static final int CMD_Refresh_Rename_Groupname = 86;
 	public static final int CMD_Refresh_Change_Manager = 88;
+	public static final int CMD_Refresh_Logout_Group = 90;
+
 
 
 	public static final int CMD_TCP_COMMAND_ARRIVAL = 810;//li*** 收到命令消息。

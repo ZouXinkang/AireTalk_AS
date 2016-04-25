@@ -497,6 +497,10 @@
     <string name="adding">正在添加联系人...</string>
     <string name="saving">正在保存群组名...</string>
     <string name="transferring">正在移交权限...</string>
+    <string name="deleting">正在删除联系人...</string>
+    <string name="waiting">请稍等!</string>
+
+
 
 </resources>
 

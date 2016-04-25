@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.pingshow.amper"
     android:installLocation="auto"
-    android:versionCode="2451"
-    android:versionName="2.4.51">
+    android:versionCode="2455"
+    android:versionName="2.4.55">
     <!-- 	//also update SplashScreen versionCode if shortcut icon changes -->
 
     <uses-sdk
@@ -565,9 +565,14 @@
             android:name="com.pingshow.util.OpenShareVideo"
             android:screenOrientation="landscape" />
 
-        //jack 2.4.51 分组设置
+        //jack 2.4.51 群组设置
         <activity
             android:name=".GroupSettingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity
+            android:name=".MembersDeleteActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />

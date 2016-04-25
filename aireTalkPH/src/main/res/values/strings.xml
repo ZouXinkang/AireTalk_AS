@@ -527,6 +527,8 @@
     <string name="adding">Adding...</string>
     <string name="saving">Saving...</string>
     <string name="transferring">Transferring...</string>
+    <string name="deleting">Deleting...</string>
+    <string name="waiting">Please Wait!</string>
 
 </resources>
 
