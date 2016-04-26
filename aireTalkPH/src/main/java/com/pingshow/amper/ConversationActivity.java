@@ -333,24 +333,19 @@ public class ConversationActivity extends Activity implements OnClickListener {
 //			v.setVisibility(View.GONE);
             // TODO: 2016/4/8  ,当数据库中不存在此分组时,发送广播查询群成员
             mGroupID = Integer.parseInt(mAddress.substring(9));
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    int memberCount = mGDB.getGroupMemberCount(mGroupID);
-                    ArrayList<String> membersList = mGDB.getGroupMembersByGroupIdx(mGroupID);
-                    for (String idx : membersList) {
-                        //如果idx为0就是第一次登陆,没有写入idx,应该查询php重新写入数据库
-                        if ("0".equals(idx)) {
-                            Intent it = new Intent(Global.Action_InternalCMD);
-                            it.putExtra("Command", Global.CMD_JOIN_A_NEW_GROUP);
-                            it.putExtra("GroupID", mGroupID);
-                            android.util.Log.d("刷新group", "删除分组后,查询分组并写入数据库");
-                            ConversationActivity.this.sendBroadcast(it);
-                        }
-                        break;
-                    }
+            ArrayList<String> membersList = mGDB.getGroupMembersByGroupIdx(mGroupID);
+            for (String idx : membersList) {
+                //如果idx为0就是第一次登陆,没有写入idx,应该查询php重新写入数据库
+                if ("0".equals(idx)) {
+                    Intent it = new Intent(Global.Action_InternalCMD);
+                    it.putExtra("Command", Global.CMD_JOIN_A_NEW_GROUP);
+                    it.putExtra("GroupID", mGroupID);
+                    android.util.Log.d("刷新group", "删除分组后,查询分组并写入数据库");
+                    ConversationActivity.this.sendBroadcast(it);
                 }
-            }).start();
+                break;
+            }
+
 
         } else {
             v = inflater.inflate(R.layout.inflate_call_view, null, false);
@@ -2924,7 +2919,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
 //			sendLocation();
 //			break;
             /*
-		case R.id.guard:
+        case R.id.guard:
 			messageitem.setVisibility(View.GONE);
 			showitem=false;
 			it = new Intent(ConversationActivity.this,

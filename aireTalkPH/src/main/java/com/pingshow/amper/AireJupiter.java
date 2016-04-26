@@ -1513,6 +1513,11 @@ public class AireJupiter extends Service {
                                         intent.putExtra("idxs", members.toString());
                                         LBMUtil.sendBroadcast(AireJupiter.this, intent);
 
+                                    }else{
+                                        //请求网络失败或者数据返回错误
+                                        Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
+                                        intent.putExtra("Command",Global.CMD_Refresh_Failed);
+                                        LBMUtil.sendBroadcast(AireJupiter.this, intent);
                                     }
                                     }catch (Exception e) {
                                     }
@@ -1570,6 +1575,11 @@ public class AireJupiter extends Service {
                                             // TODO: 2016/4/25 发送本地广播
                                             Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
                                             intent.putExtra("Command",Global.CMD_Refresh_Logout_Group);
+                                            LBMUtil.sendBroadcast(AireJupiter.this, intent);
+                                        }else{
+                                            //请求网络失败或者数据返回错误
+                                            Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
+                                            intent.putExtra("Command",Global.CMD_Refresh_Failed);
                                             LBMUtil.sendBroadcast(AireJupiter.this, intent);
                                         }
 
@@ -1679,6 +1689,11 @@ public class AireJupiter extends Service {
 //                                            it.putExtra("ItemResult0", 0);
 //                                            showNotification(title, null, true, R.drawable.icon_sms, null);
 //                                            startActivity(it);
+                                        }else{
+                                            //请求网络失败或者数据返回错误
+                                            Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
+                                            intent.putExtra("Command",Global.CMD_Refresh_Failed);
+                                            LBMUtil.sendBroadcast(AireJupiter.this, intent);
                                         }
                                     } catch (Exception e) {
                                         android.util.Log.d("群组加人", "add_group_member.php" + e.getMessage());

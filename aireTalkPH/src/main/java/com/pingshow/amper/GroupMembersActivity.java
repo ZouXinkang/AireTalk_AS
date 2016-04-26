@@ -126,6 +126,11 @@ public class GroupMembersActivity extends Activity{
                                     intent.putExtra("newCreater",  members.get(position).getIdx()+"");
                                     LBMUtil.sendBroadcast(GroupMembersActivity.this, intent);
                                     break;
+                                }else{
+                                    //请求网络失败或者数据返回错误
+                                    Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
+                                    intent.putExtra("Command",Global.CMD_Refresh_Failed);
+                                    LBMUtil.sendBroadcast(GroupMembersActivity.this, intent);
                                 }
                                 MyUtil.Sleep(2000);
                             } while (++c < 3);

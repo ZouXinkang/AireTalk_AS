@@ -185,7 +185,12 @@ public class UsersActivity extends Activity {
                 if (refresh) {
                     try {
                         refresh = false;
-                        AireJupiter.getInstance().notifyConnectionChanged();
+                        AireJupiter instance = AireJupiter.getInstance();
+                        if (instance!=null) {
+                            instance.notifyReconnectTCP();
+                            instance.onReconnect(instance.startConnection_beginning);
+                        }
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

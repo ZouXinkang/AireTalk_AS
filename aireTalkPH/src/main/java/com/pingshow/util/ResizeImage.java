@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.net.Uri;
 import android.widget.Toast;
 
 import com.pingshow.amper.Log;
@@ -365,6 +366,85 @@ public class ResizeImage {
         catch (OutOfMemoryError e) {}
         
         return 0;
+	}
+	static public int saveFromStreamNew(Context context, Uri uri, String DstFilePath, int newWidth, int newHeight, int Quality)
+	{
+		Bitmap bitmapOrg = null;
+		try {
+			BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+			InputStream is = context.getContentResolver().openInputStream(uri);
+
+			// Limit the filesize since 5MP pictures will kill you RAM
+			bitmapOptions.inJustDecodeBounds = true;
+			bitmapOrg = BitmapFactory.decodeStream(is, null, bitmapOptions);
+			is.close();
+			if (bitmapOptions.outHeight > bitmapOptions.outWidth) {
+				if (bitmapOptions.outHeight != -1) {
+					if (bitmapOptions.outHeight > newHeight)
+						bitmapOptions.inSampleSize = ((bitmapOptions.outHeight + (newHeight - 1)) / newHeight);
+					else
+						bitmapOptions.inSampleSize = 1;
+				}
+			} else {
+				if (bitmapOptions.outWidth != -1) {
+					if (bitmapOptions.outWidth > newWidth)
+						bitmapOptions.inSampleSize = ((bitmapOptions.outWidth + (newWidth - 1)) / newWidth);
+					else
+						bitmapOptions.inSampleSize = 1;
+				}
+			}
+			bitmapOptions.inJustDecodeBounds = false;
+			bitmapOptions.inPurgeable = true;
+			is = context.getContentResolver().openInputStream(uri);
+			bitmapOrg = BitmapFactory.decodeStream(is, null, bitmapOptions);
+			is.close();
+		} catch (OutOfMemoryError e) {
+			Toast.makeText(context, context.getString(R.string.photo_large), Toast.LENGTH_LONG).show();
+			return -1;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			Toast.makeText(context, context.getString(R.string.photo_large), Toast.LENGTH_LONG).show();
+			return -1;
+		}
+
+		if(bitmapOrg==null)
+		{
+			return -1;
+		}
+		int width = bitmapOrg.getWidth();
+		int height = bitmapOrg.getHeight();
+
+		float ratio;
+
+		if (height<width)
+		{
+			ratio=((float)newWidth)/width;
+		}
+		else
+		{
+			ratio=((float)newHeight)/height;
+		}
+
+		try{
+			Matrix matrix = new Matrix();
+			matrix.postScale(ratio, ratio);
+
+			Bitmap resizedBitmap = Bitmap.createBitmap(bitmapOrg, 0, 0,
+					width, height, matrix, true);
+			File myCaptureFile = new File(DstFilePath);
+			BufferedOutputStream bos = new BufferedOutputStream(
+					new FileOutputStream(myCaptureFile));
+
+			resizedBitmap.compress(Bitmap.CompressFormat.JPEG, Quality, bos);
+			bos.flush();
+			bos.close();
+		}catch(Exception e){}
+		catch (OutOfMemoryError e) {}
+
+		return 0;
 	}
 	
 	static public int getOrient(String SrcFilePath) {  //tml*** image orient

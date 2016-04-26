@@ -92,7 +92,7 @@ public class GifDecoder extends Thread{
 			readByte();
 		}
 	}
-	public void free(){
+	public synchronized void free(){
 		GifFrame fg = gifFrame;
 		while(fg != null){
 			fg.image = null;
@@ -283,7 +283,7 @@ public class GifDecoder extends Thread{
 		return readStream();
 	}
 	
-	private int readStream(){
+	private synchronized int readStream(){
 		try{
 			init();
 			if(in != null){

@@ -97,23 +97,14 @@ public class GroupNameActivity extends Activity {
                                             LBMUtil.sendBroadcast(GroupNameActivity.this, intent);
 
                                             break;
+                                        }else{
+                                            //请求网络失败或者数据返回错误
+                                            Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
+                                            intent.putExtra("Command", Global.CMD_Refresh_Failed);
+                                            LBMUtil.sendBroadcast(GroupNameActivity.this, intent);
                                         }
                                         MyUtil.Sleep(2000);
                                     } while (++c < 3);
-//                                    runOnUiThread(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            if (result) {
-//                                                Intent intent = new Intent();
-//                                                intent.putExtra("groupname", newGroupName);
-//                                                setResult(CHANGED, intent);
-//                                            }else{
-//                                                setResult(NOCHANGE);
-//                                                Toast.makeText(GroupNameActivity.this, getResources().getString(R.string.poor_network_doesnt_change), Toast.LENGTH_SHORT).show();
-//                                            }
-//                                            GroupNameActivity.this.finish();
-//                                        }
-//                                    });
                                 } catch (Exception e) {
                                 }
                             }

@@ -102,6 +102,11 @@ public class Global {
 	public static final int CMD_Refresh_Rename_Groupname = 86;
 	public static final int CMD_Refresh_Change_Manager = 88;
 	public static final int CMD_Refresh_Logout_Group = 90;
+	public static final int CMD_Refresh_Group_Photo = 92;
+	public static final int CMD_Refresh_Failed = 94;
+	public static final int CMD_Refresh_Successful = 96;
+
+
 
 
 

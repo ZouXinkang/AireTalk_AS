@@ -307,9 +307,9 @@ public class TimeLineCompose extends Activity {
 		}
 		try{
 			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//			takePhotoPath = Global.SdcardPath_sent + "tmp.jpg";
-//			intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,
-//					Uri.fromFile(new File(takePhotoPath)));
+			takePhotoPath = Global.SdcardPath_sent + "tmp.jpg";
+			intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,
+					Uri.fromFile(new File(takePhotoPath)));
 			startActivityForResult(intent, 3);
 		}catch(Exception e){
 			Toast.makeText(this, R.string.take_picture_error, Toast.LENGTH_SHORT).show();
@@ -404,21 +404,40 @@ public class TimeLineCompose extends Activity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == 1 || requestCode == 3){
 			if (resultCode == RESULT_OK) {
-//				if (null==data.getData()) return;
+				boolean HDSize = false;
+				Uri uriOrig = null;
 				String filename = Global.SdcardPath_timeline + ConversationActivity.getRandomName() + ".jpg";
-//				Uri uri = null;
-//				try {
-//					uri = Uri.parse(MediaStore.Images.Media
-//							.insertImage(getContentResolver(), takePhotoPath,
-//									null, null));
-//				} catch (FileNotFoundException e) {
-//					e.printStackTrace();
-//				}
-//				data.setData(uri);
-				android.util.Log.d("TimeLineCompose", "requestCode " + requestCode + "resultCode " + resultCode + "----" + data);
-				int result = ResizeImage.saveFromStream(this, data, filename, 1600, 1600, 95);
+				try {
+					BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+					bitmapOptions.inJustDecodeBounds = true;
+					bitmapOptions.inPurgeable = true;
+					BitmapFactory.decodeFile(takePhotoPath, bitmapOptions);
+					if (bitmapOptions.outHeight > 1000)
+						HDSize = true;
+				} catch (Exception e) {
+				} catch (OutOfMemoryError e) {
+				}
+				if (HDSize) {
+					Bitmap bmp = ImageUtil.loadBitmapSafe(2, takePhotoPath);
+					try {
+						uriOrig = Uri.parse(MediaStore.Images.Media
+								.insertImage(getContentResolver(), bmp, null,
+										null));
+					} catch (Exception e) {
+					}
+				} else {
+					try {
+						uriOrig = Uri.parse(MediaStore.Images.Media
+								.insertImage(getContentResolver(), takePhotoPath,
+										null, null));
+					} catch (Exception e) {
+					} catch (OutOfMemoryError e) {
+					}
+				}
+				//jack data为null,所以直接使用路径代替
+				int result = ResizeImage.saveFromStreamNew(this, uriOrig, filename, 1600, 1600, 95);
 				String thumbnail = Global.SdcardPath_timeline + "thumb_" + ConversationActivity.getRandomName() + "s.jpg";
-				ResizeImage.saveFromStream(this, data, thumbnail, 320, 320, 80);  //tml*** bitmap quality, 120>320, 50>80
+				ResizeImage.saveFromStreamNew(this, uriOrig, thumbnail, 320, 320, 80);  //tml*** bitmap quality, 120>320, 50>80
 				if (result != -1) {
 					boolean found = false;
 					for (String filePath : attachedList) {

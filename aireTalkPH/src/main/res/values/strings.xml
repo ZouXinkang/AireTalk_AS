@@ -524,11 +524,15 @@
     <string name="creater_doesnt_change">Creater doesn\'t changed!</string>
     <string name="poor_network_doesnt_change">Poor network! Creater doesn\'t changed!</string>
     <string name="no_change">No Change</string>
+
+    <string name="Refreshing">Refreshing!Please Wait...</string>
     <string name="adding">Adding...</string>
     <string name="saving">Saving...</string>
     <string name="transferring">Transferring...</string>
     <string name="deleting">Deleting...</string>
     <string name="waiting">Please Wait!</string>
+    <string name="photo_uploading">Photo Uploading...</string>
+    <string name="refresh_failed">Operation failed! Please check the network...</string>
 
 </resources>
 

@@ -494,11 +494,15 @@
     <string name="no_change">未改变</string>
     <string name="poor_network_doesnt_change">网络差!修改失败</string>
     <string name="group_name_changed">修改群名称为%1$s</string>
+
+    <string name="Refreshing">刷新群组信息!请等待...</string>
     <string name="adding">正在添加联系人...</string>
     <string name="saving">正在保存群组名...</string>
     <string name="transferring">正在移交权限...</string>
     <string name="deleting">正在删除联系人...</string>
     <string name="waiting">请稍等!</string>
+    <string name="photo_uploading">图片上传中...</string>
+    <string name="refresh_failed">操作失败!请检查网络...</string>
 
 
 
