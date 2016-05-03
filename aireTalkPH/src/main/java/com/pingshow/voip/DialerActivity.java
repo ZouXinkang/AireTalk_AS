@@ -2777,20 +2777,20 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 
 //				globalnumber = MyTelephony.addPrefixWithCurrentISO(globalnumber);
 
-				android.util.Log.d("DialerActivity", "初始化:" + globalnumber);
+				Log.d("DialerActivity  初始化:" + globalnumber);
 
 				MyTelephony.init(DialerActivity.this);
 				if (MyTelephony.validWithCurrentISO(number)) {
 //					globalnumber = MyTelephony.attachPrefix(DialerActivity.this, number);
 
 					globalnumber = MyTelephony.addPrefixWithCurrentISO(number);
-					android.util.Log.d("DialerActivity", "第一个:" + globalnumber);
+					Log.d("DialerActivity  第一个:" + globalnumber);
 
 				}else {
 					isMobileNumber = false;
 					globalnumber = MyTelephony.attachFixedPrefix(
 							DialerActivity.this, number);
-					android.util.Log.d("DialerActivity", "第一个Fixed:"+globalnumber);
+					Log.d("DialerActivity  第一个Fixed:"+globalnumber);
 				}
 
 
@@ -2800,7 +2800,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 							DialerActivity.this, number);
 					if (globalnumber.startsWith("+"))
 						isMobileNumber = true;
-					android.util.Log.d("DialerActivity", "第二个:"+globalnumber);
+					Log.d("DialerActivity  第二个:"+globalnumber);
 				}
 
 				if (!globalnumber.startsWith("+")) {
@@ -2808,7 +2808,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 							DialerActivity.this, number);
 					if (globalnumber.startsWith("+"))
 						isMobileNumber = false;
-					android.util.Log.d("DialerActivity", "第三个:"+globalnumber);
+					Log.d("DialerActivity  第三个:"+globalnumber);
 
 				}
 

@@ -381,7 +381,9 @@
 <string name="group_invite_new_member">%1$s ha sido invitado al grupo «%2$s»</string>
     //jack 2.4.51
     <string name="group_invite_new_members">%1$s invited \"%2$s\" to join in the group</string>
-    <string name="group_removed_members">%1$s has been removed from the group</string>
+    <string name="group_removed_members">%1$s removed from the group</string>
+    <string name="group_member_left">%1$s has left the group</string>//4/28
+
 
     <!-- from iphone -->
 <string name="aire_call">AireCall</string>
@@ -449,5 +451,9 @@
     <string name="chat_info">Chat Info</string>
     <string name="group_photo">Group Photo</string>
     <string name="ownership_transfer">Ownership Transfer</string>
+
+    <string name="pull_to_refresh_pull_label">Tirar para actualizar…</string>
+    <string name="pull_to_refresh_release_label">Soltar para actualizar…</string>
+    <string name="pull_to_refresh_refreshing_label">Cargando…</string>
 </resources>
 

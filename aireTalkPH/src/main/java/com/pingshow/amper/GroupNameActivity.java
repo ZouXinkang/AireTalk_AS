@@ -1,8 +1,10 @@
 package com.pingshow.amper;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -63,7 +65,28 @@ public class GroupNameActivity extends Activity {
         mGroupName.setText(groupname);
     }
 
-    private void logicProcess() {
+    BroadcastReceiver InternalCommand = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(Global.Action_Refresh_Groupinfo)) {
+                int command = intent.getIntExtra("Command", 0);
+                switch (command) {
+                    case Global.CMD_Close_Activity:
+                        int removeGroupId = Integer.parseInt(intent.getStringExtra("GroupId"));
+                        if (removeGroupId==groupId) {
+                            finish();
+                        }
+                        break;
+                }
+            }
+        }
+    };
+        private void logicProcess() {
+        IntentFilter intentToReceiveFilter = new IntentFilter();
+        intentToReceiveFilter.addAction(Global.Action_Refresh_Groupinfo);
+        LBMUtil.registerReceiver(this, InternalCommand, intentToReceiveFilter);
+
+
         mDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,8 +111,8 @@ public class GroupNameActivity extends Activity {
                                         Log.d("修改群昵称  修改群昵称: " + Return);
                                         if (Return.startsWith("sucess")) {
                                             //发送tcp消息
-                                            String content = String.format(getString(R.string.group_name_changed), newGroupName);
-                                            GroupUpdateMessageSender.getInstance().send(GroupNameActivity.this, Integer.parseInt(mPref.read("myIdx")), groupId, content);
+//                                            String content = String.format(getString(R.string.group_name_changed), newGroupName);
+                                            GroupUpdateMessageSender.getInstance().send(GroupNameActivity.this, Integer.parseInt(mPref.read("myIdx")), groupId, "Group_Name",mPref.read("myNickname"),newGroupName,mPref.read("myIdx"));
                                             //发送本地广播
                                             Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
                                             intent.putExtra("Command",Global.CMD_Refresh_Rename_Groupname);
@@ -125,5 +148,11 @@ public class GroupNameActivity extends Activity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        LBMUtil.unregisterReceiver(this, InternalCommand);
+        super.onDestroy();
     }
 }

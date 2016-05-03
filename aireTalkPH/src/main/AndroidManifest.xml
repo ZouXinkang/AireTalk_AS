@@ -3,15 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.pingshow.amper"
     android:installLocation="auto"
+
     android:versionCode="2455"
     android:versionName="2.4.55">
     <!-- 	//also update SplashScreen versionCode if shortcut icon changes -->
-
+    <!--android:sharedUserId="android.uid.system"-->
     <uses-sdk
         android:minSdkVersion="10"
         tools:overrideLibrary="org.xwalk.core" />
     <!--     target 14+ removes menu nav -->
 
+    <!--<uses-permission android:name="android.permission.CLEAR_APP_USER_DATA" />-->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -421,17 +423,17 @@
             android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="stateHidden" />
 
+        <!--jack android:launchMode="singleInstance"-->
         <activity
             android:name=".AddCallDialog"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 
+        <!--jack android:launchMode="singleInstance"-->
         <activity
             android:name="com.pingshow.voip.DialerActivity"
             android:hardwareAccelerated="true"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
         <!-- 		android:theme="@android:style/Theme.NoTitleBar.Fullscreen" -->

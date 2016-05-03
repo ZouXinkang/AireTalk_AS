@@ -1269,7 +1269,7 @@ public class AireJupiter extends Service {
                                         if (mADB.isUserDeleted(UnknownAddress)) {
                                             Intent it = new Intent(AireJupiter.this, AddAsFriendActivity.class);
                                             //判断是删除的了用户
-                                            android.util.Log.d("AireJupiter", "mADB.isUserDeleted(UnknownAddress):" + mADB.isUserDeleted(UnknownAddress));
+                                            Log.d("AireJupiter  mADB.isUserDeleted(UnknownAddress):" + mADB.isUserDeleted(UnknownAddress));
                                             it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                             it.putExtra("Address", UnknownAddress);
                                             it.putExtra("Idx", UnknownIdx);
@@ -1367,21 +1367,21 @@ public class AireJupiter extends Service {
                         break;
                     case Global.CMD_JOIN_A_NEW_GROUP://alec
                         mGroupID = intent.getIntExtra("GroupID", 0);
-                        final boolean empty = intent.getBooleanExtra("Empty", false);
+//                        final boolean empty = intent.getBooleanExtra("Empty", false);
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
                                 boolean deleteResult = true;
                                 //群组存在的话,清除Group和组员
-                                if (!empty) {
+//                                if (!empty) {
                                     deleteResult = mGDB.deleteGroup(mGroupID);
-                                    android.util.Log.d("AireJupiter", "deleteResult:" + deleteResult + "adasdasdasd");
-                                }
-                                if (deleteResult) {
+                                    Log.d("AireJupiter  deleteResult:" + deleteResult + "adasdasdasd");
+//                                }
+//                                if (deleteResult) {
                                     //查询组员(call php),并插入数据库(insert db)
                                     queryGroupPhpAndInsertDB(mGroupID, mGDB, mADB);
 
-                                }
+//                                }
 
                             }
                         }).start();
@@ -1483,43 +1483,44 @@ public class AireJupiter extends Service {
                                     // TODO: 2016/3/28 请求服务器删除这些好友
                                     String Return = "";
                                     try {
+                                        // TODO: 2016/4/5 发送TCP删除好友,往数据库中插入删除好友信息数据
+                                        // TODO: 2016/4/6 将加人消息写入数据库
+//                                        String content = String.format(getString(R.string.group_removed_members), nameBuffer);//4/28修改
 
-                                        Log.d("删除组成员  组ID:" + mGroupID+"---"+members);
+                                        GroupUpdateMessageSender.getInstance().send(AireJupiter.this, myIdx, mGroupID, "Group_Remove",nameBuffer,null,members.toString());
+
+                                        Log.d("删除组成员  组ID:" + mGroupID + "---" + members);
 
                                         MyNet net = new MyNet(AireJupiter.this);
                                         Return = net.doPostHttps("remove_group_member_aire.php", "id=" + mGroupID
                                                 + "&members=" + members.toString(), null);
-                                        Log.d("删除组成员  "+Return);
+                                        Log.d("删除组成员  " + Return);
 
-                                    // TODO: 2016/3/28   从数据库中删除这些好友
-                                    if (Return.startsWith("Done")) {
+                                        // TODO: 2016/3/28   从数据库中删除这些好友
+                                        if (Return.startsWith("Done")) {
 
-                                        android.util.Log.d("删除组成员", "组成员开始: "+mGDB.getGroupMembersByGroupIdx(mGroupID).toString());
-                                        for (int i = 0; i < idxs.length; i++) {
-                                            android.util.Log.d("AireJupiter", i+"--------"+ idxs[i]);
-                                            if (!idxs[i].equals("")) {
-                                                boolean result = mGDB.deleteGroupMember(mGroupID, Integer.parseInt(idxs[i]));
+                                            Log.d("删除组成员  组成员开始: " + mGDB.getGroupMembersByGroupIdx(mGroupID).toString());
+                                            for (int i = 0; i < idxs.length; i++) {
+                                                Log.d("AireJupiter  "+ i + "--------" + idxs[i]);
+                                                if (!idxs[i].equals("")) {
+                                                    boolean result = mGDB.deleteGroupMember(mGroupID, Integer.parseInt(idxs[i]));
+                                                }
                                             }
+                                            Log.d("删除组成员  组成员结果: " + mGDB.getGroupMembersByGroupIdx(mGroupID).toString());
+
+                                            // TODO: 2016/4/25 发送本地广播
+                                            Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
+                                            intent.putExtra("Command", Global.CMD_Refresh_Cut_Members);
+                                            intent.putExtra("idxs", members.toString());
+                                            LBMUtil.sendBroadcast(AireJupiter.this, intent);
+
+                                        } else {
+                                            //请求网络失败或者数据返回错误
+                                            Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
+                                            intent.putExtra("Command", Global.CMD_Refresh_Failed);
+                                            LBMUtil.sendBroadcast(AireJupiter.this, intent);
                                         }
-                                        android.util.Log.d("删除组成员", "组成员结果: " + mGDB.getGroupMembersByGroupIdx(mGroupID).toString());
-//                                        // TODO: 2016/4/5 发送TCP删除好友,往数据库中插入删除好友信息数据
-//                                        // TODO: 2016/4/6 将加人消息写入数据库
-                                        String content = String.format(getString(R.string.group_removed_members), nameBuffer);
-                                        GroupUpdateMessageSender.getInstance().send(AireJupiter.this, myIdx, mGroupID, content);
-
-                                        // TODO: 2016/4/25 发送本地广播
-                                        Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
-                                        intent.putExtra("Command",Global.CMD_Refresh_Cut_Members);
-                                        intent.putExtra("idxs", members.toString());
-                                        LBMUtil.sendBroadcast(AireJupiter.this, intent);
-
-                                    }else{
-                                        //请求网络失败或者数据返回错误
-                                        Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
-                                        intent.putExtra("Command",Global.CMD_Refresh_Failed);
-                                        LBMUtil.sendBroadcast(AireJupiter.this, intent);
-                                    }
-                                    }catch (Exception e) {
+                                    } catch (Exception e) {
                                     }
                                 }
                             }).start();
@@ -1545,46 +1546,48 @@ public class AireJupiter extends Service {
 //                                    SendAgent agent = new SendAgent(AireJupiter.this, myIdx, 0, true);
 //                                    agent.setAsGroup(mGroupID);
 //                                    agent.onMultipleSend(addressList, ":((Sk)", 0, null, null);
-                                    try {
-                                        String Return;
-                                        MyNet net = new MyNet(AireJupiter.this);
-                                        Return  = net.doPostHttps("remove_group_member_aire.php", "id=" + mGroupID
-                                                + "&members=" + myIdx, null);
-                                        if (Return.startsWith("Done")) {
-                                            // TODO: 2016/4/18 发送TCP删除好友
-                                            String content = String.format(getString(R.string.group_removed_members), mPref.read("myNickname"));
-                                            GroupUpdateMessageSender.getInstance().send(AireJupiter.this, myIdx, mGroupID, content);
+                                try {
+                                    // TODO: 2016/4/18 发送TCP删除好友
+                                    String content = String.format(getString(R.string.group_member_left), mPref.read("myNickname"));
 
-                                            mADB.deleteContactByAddress("[<GROUP>]" + mGroupID);
-                                            mGDB.deleteGroup(mGroupID);
-                                            try {
-                                                mSmsDB.deleteThreadByAddress("[<GROUP>]" + mGroupID);
-                                            } catch (SQLException e) {
-                                                e.printStackTrace();
-                                            }
+                                    GroupUpdateMessageSender.getInstance().send(AireJupiter.this, myIdx, mGroupID, "Group_Left", mPref.read("myNickname"),null,myIdx+"");
 
-                                            // TODO: 2016/4/20 刷新UserActivity
-                                            UsersActivity.needRefresh = true;
-                                            UsersActivity.forceRefresh=true;
-                                            Intent hideintent = new Intent(Global.Action_Hide_Group_Icon);
-                                            sendBroadcast(hideintent);
-
-                                            Intent refreshIntent = new Intent(Global.Action_Refresh_Gallery);
-                                            sendBroadcast(refreshIntent);
-
-                                            // TODO: 2016/4/25 发送本地广播
-                                            Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
-                                            intent.putExtra("Command",Global.CMD_Refresh_Logout_Group);
-                                            LBMUtil.sendBroadcast(AireJupiter.this, intent);
-                                        }else{
-                                            //请求网络失败或者数据返回错误
-                                            Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
-                                            intent.putExtra("Command",Global.CMD_Refresh_Failed);
-                                            LBMUtil.sendBroadcast(AireJupiter.this, intent);
+                                    String Return;
+                                    MyNet net = new MyNet(AireJupiter.this);
+                                    Return = net.doPostHttps("remove_group_member_aire.php", "id=" + mGroupID
+                                            + "&members=" + myIdx, null);
+                                    if (Return.startsWith("Done")) {
+                                        mADB.deleteContactByAddress("[<GROUP>]" + mGroupID);
+                                        mGDB.deleteGroup(mGroupID);
+                                        try {
+                                            mSmsDB.deleteThreadByAddress("[<GROUP>]" + mGroupID);
+                                        } catch (SQLException e) {
+                                            e.printStackTrace();
                                         }
 
-                                    } catch (Exception e) {
+                                        // TODO: 2016/4/20 刷新UserActivity
+                                        UsersActivity.needRefresh = true;
+                                        UsersActivity.forceRefresh = true;
+                                        Intent hideintent = new Intent(Global.Action_Hide_Group_Icon);
+                                        hideintent.putExtra("GroupId",mGroupID+"");
+                                        sendBroadcast(hideintent);
+
+                                        Intent refreshIntent = new Intent(Global.Action_Refresh_Gallery);
+                                        sendBroadcast(refreshIntent);
+
+                                        // TODO: 2016/4/25 发送本地广播
+                                        Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
+                                        intent.putExtra("Command", Global.CMD_Refresh_Logout_Group);
+                                        LBMUtil.sendBroadcast(AireJupiter.this, intent);
+                                    } else {
+                                        //请求网络失败或者数据返回错误
+                                        Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
+                                        intent.putExtra("Command", Global.CMD_Refresh_Failed);
+                                        LBMUtil.sendBroadcast(AireJupiter.this, intent);
                                     }
+
+                                } catch (Exception e) {
+                                }
                             }
                         }).start();
                         break;
@@ -1609,7 +1612,7 @@ public class AireJupiter extends Service {
                                     //4/18修改
 //                                    mGroupName = mGDB.getGroupNameByGroupIdx(mGroupID);
                                     mGroupName = mADB.getNicknameByIdx(mGroupID + 100000000);
-                                    mGDB.insertGroup(mGroupID,  mADB.getNicknameByIdx(UnknownIdx), UnknownIdx);
+                                    mGDB.insertGroup(mGroupID, mADB.getNicknameByIdx(UnknownIdx), UnknownIdx);
 
                                     Intent it = new Intent(AireJupiter.this, CommonDialog.class);
                                     it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -1625,11 +1628,11 @@ public class AireJupiter extends Service {
                         }
                         //jack 2.4.51
                         if (members.length > 0) {
-                            android.util.Log.d("群组加人", "idxs.size():" + members.length);
+                           Log.d("群组加人  idxs.size():" + members.length);
                             // TODO: 2016/3/21 加入已有group
                             new Thread(new Runnable() {
                                 public void run() {
-                                    android.util.Log.d("群组加人", "idxs.size():" + members.length);
+                                    Log.d("群组加人  idxs.size():" + members.length);
                                     //jack 拼接数据
                                     StringBuffer idxSB = new StringBuffer("");
                                     StringBuffer nicknames = new StringBuffer("");
@@ -1656,7 +1659,7 @@ public class AireJupiter extends Service {
                                         MyNet net = new MyNet(AireJupiter.this);
                                         Return = net.doPostHttps("add_group_member.php", "id=" + mGroupID
                                                 + "&members=" + idxSB.toString(), null);
-                                        android.util.Log.d("群组加人", "id= " + mGroupID + " members=" + idxSB.toString() + " Return: " + Return);
+                                        Log.d("群组加人  id= " + mGroupID + " members=" + idxSB.toString() + " Return: " + Return);
 
                                         if (Return.startsWith("Done")) {
                                             //jack 请求网络成功,加入数据库
@@ -1667,17 +1670,17 @@ public class AireJupiter extends Service {
                                                 //4/18修改
                                                 String nickname = mADB.getNicknameByIdx(Integer.parseInt(members[i]));
                                                 long l = mGDB.insertGroup(mGroupID, nickname, Integer.parseInt(members[i]), 1);
-                                                android.util.Log.d("群组加人", " mGroupID " + mGroupID +" nickname "+mADB.getNicknameByIdx(Integer.parseInt(members[i])) +" mGroupName " + mGroupName + "l:" + l);
+                                                Log.d("群组加人   mGroupID " + mGroupID + " nickname " + mADB.getNicknameByIdx(Integer.parseInt(members[i])) + " mGroupName " + mGroupName + "l:" + l);
                                             }
                                             // TODO: 2016/4/24 将加人消息写入数据库 对指定的人发送加群的tcp
-                                            String content = String.format(getString(R.string.group_invite_new_members), mPref.read("myNickname"), nicknames);
-                                            GroupUpdateMessageSender.getInstance().send(AireJupiter.this, myIdx,mGroupID, content);
+//                                            String content = String.format(getString(R.string.group_invite_new_members), mPref.read("myNickname"), nicknames);
+                                            GroupUpdateMessageSender.getInstance().send(AireJupiter.this, myIdx, mGroupID, "Group_Add",mPref.read("myNickname"),nicknames.toString(),idxSB.toString());
 
                                             //发送广播通知进度框消失
                                             Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
-                                            intent.putExtra("Command",Global.CMD_Refresh_Add_Members);
+                                            intent.putExtra("Command", Global.CMD_Refresh_Add_Members);
                                             intent.putExtra("idxs", MembersIdxs);
-                                            LBMUtil.sendBroadcast(AireJupiter.this,intent);
+                                            LBMUtil.sendBroadcast(AireJupiter.this, intent);
 
                                             // TODO: 2016/3/28 暂时显示将谁加入分组
 //                                            Intent it = new Intent(AireJupiter.this, CommonDialog.class);
@@ -1689,14 +1692,14 @@ public class AireJupiter extends Service {
 //                                            it.putExtra("ItemResult0", 0);
 //                                            showNotification(title, null, true, R.drawable.icon_sms, null);
 //                                            startActivity(it);
-                                        }else{
+                                        } else {
                                             //请求网络失败或者数据返回错误
                                             Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
-                                            intent.putExtra("Command",Global.CMD_Refresh_Failed);
+                                            intent.putExtra("Command", Global.CMD_Refresh_Failed);
                                             LBMUtil.sendBroadcast(AireJupiter.this, intent);
                                         }
                                     } catch (Exception e) {
-                                        android.util.Log.d("群组加人", "add_group_member.php" + e.getMessage());
+                                        Log.d("群组加人  add_group_member.php" + e.getMessage());
                                     }
 
                                 }
@@ -2248,7 +2251,7 @@ public class AireJupiter extends Service {
                 if (smslist.size() > 0) {
                     msgGot = smslist.get(smslist.size() - 1);
                     // TODO: 2016/4/1 删除
-                    android.util.Log.d("860Socket", "msgGot: " + msgGot.toString());
+                    Log.d("860Socket  msgGot: " + msgGot.toString());
                     String tmpMsg = "";
                     if ((msgGot.attached & 3) == 3) {
                         tmpMsg = getString(R.string.voicememo) + ","
@@ -2287,7 +2290,7 @@ public class AireJupiter extends Service {
                         manySmsContent.append(tmp);
                     }
                     // TODO: 2016/4/1 之后删除
-                    android.util.Log.d("860Socket", "tmpMsg " + tmpMsg);
+                    Log.d("860Socket  tmpMsg " + tmpMsg);
                     mHandler.post(HandleMessageComing);
                 }
             }
@@ -2317,7 +2320,7 @@ public class AireJupiter extends Service {
             if (groupInfo.getCode() == 200) {
                 String groupname = groupInfo.getGname();
 
-                android.util.Log.d("AireJupiter", groupname);
+                Log.d("AireJupiter  "+groupname);
 
                 // TODO: 2016/4/5  存入组信息,4/18 groupname
                 adb.insertUser("[<GROUP>]" + mGroupID, mGroupID + 100000000,
@@ -2328,47 +2331,68 @@ public class AireJupiter extends Service {
                 //将数据插入数据库,应该数据库中没有这个group
                 for (Group.MembersEntity member : members) {
                     // TODO: 2016/4/7 判断是否还有自己,没有自己的话就删除group
-                    // TODO: 2016/4/18 将nickname存入groupDB
-                    // TODO: 2016/4/19 下载照片
                     if (member.getIdx().equals(mPref.read("myIdx"))) inThisGroup = true;
-                    gdb.insertGroup(mGroupID, member.getNickname(), Integer.parseInt(member.getIdx()), member.getRank());
-                    String localfile = Global.SdcardPath_inbox + "photo_" + member.getIdx() + ".jpg";
-                    boolean ret = downloadPhoto(Integer.parseInt(member.getIdx()), localfile);
-                    if (ret)//delete big one
-                        new File(Global.SdcardPath_inbox + "photo_" + member.getIdx() + "b.jpg").delete();
                 }
                 // TODO: 2016/4/7 不在此群组中,删除此群
                 if (!inThisGroup) {
-                    android.util.Log.d("AireJupiter", "删除群组");
+                    PopupDialog.getInstance();
+                    Log.d("AireJupiter  删除群组");
                     adb.deleteContactByAddress("[<GROUP>]" + mGroupID);
                     gdb.deleteGroup(mGroupID);
 
+                    if (PopupDialog.getInstance()!=null) {
+                        PopupDialog.getInstance().finish();
+                    }
                     try {
                         mSmsDB.deleteThreadByAddress("[<GROUP>]" + mGroupID);
                     } catch (Exception e) {
                     }
                     // TODO: 2016/4/12  发送广播隐藏群组显示
                     UsersActivity.needRefresh = true;
-                    UsersActivity.forceRefresh=true;
+                    UsersActivity.forceRefresh = true;
                     Intent hideintent = new Intent(Global.Action_Hide_Group_Icon);
+                    hideintent.putExtra("GroupId",mGroupID+"");
                     sendBroadcast(hideintent);
-                    android.util.Log.d("AireJupiter", "发送完广播");
+
+                    Intent closeIntent = new Intent(Global.Action_Refresh_Groupinfo);
+                    closeIntent.putExtra("Command", Global.CMD_Close_Activity);
+                    closeIntent.putExtra("GroupId",mGroupID+"");
+                    LBMUtil.sendBroadcast(AireJupiter.this, closeIntent);
+
+                    Log.d("AireJupiter  发送完广播");
 
                     Intent intent = new Intent(Global.Action_Refresh_Gallery);
                     sendBroadcast(intent);
-                }
-                // TODO: 2016/4/18 刷新UserActivity
-                UsersActivity.forceRefresh=true;
-                Intent refreshIntent = new Intent(Global.Action_Refresh_Gallery);
-                sendBroadcast(refreshIntent);
+                }else{
+                    // TODO: 2016/4/18 将nickname存入groupDB
+                    // TODO: 2016/4/19 下载照片
+                    for (Group.MembersEntity member : members) {
+                        gdb.insertGroup(mGroupID, member.getNickname(), Integer.parseInt(member.getIdx()), member.getRank());
+                        String localfile = Global.SdcardPath_inbox + "photo_" + member.getIdx() + ".jpg";
+                        boolean ret = downloadPhoto(Integer.parseInt(member.getIdx()), localfile);
+                        if (ret)//delete big one
+                            new File(Global.SdcardPath_inbox + "photo_" + member.getIdx() + "b.jpg").delete();
+                    }
 
-                //下载图片
-                try {
-                    String localfile = Global.SdcardPath_inbox + "photo_" + (mGroupID + 100000000) + ".jpg";
+                    //发送广播刷新
+                    Intent refreshIntent = new Intent(Global.Action_Refresh_Groupinfo);
+                    refreshIntent.putExtra("Command", Global.CMD_Refresh_Group_Member);
+                    refreshIntent.putExtra("GroupId",mGroupID+"");
+                    LBMUtil.sendBroadcast(AireJupiter.this, refreshIntent);
+
+                    //下载图片
+                    try {
+                        String localfile = Global.SdcardPath_inbox + "photo_" + (mGroupID + 100000000) + ".jpg";
                         String remotefile = "groups/thumbs/photo_" + mGroupID + ".jpg";
                         downloadAnyPhoto(remotefile, localfile, 3, true);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    // TODO: 2016/4/18 刷新UserActivity
+                    UsersActivity.forceRefresh = true;
+                    Intent refreshGallery = new Intent(Global.Action_Refresh_Gallery);
+                    sendBroadcast(refreshGallery);
                 }
             }
         }
@@ -2537,7 +2561,7 @@ public class AireJupiter extends Service {
                 ArrayList<SMS> smslist = ParseSmsLine.Parse2(AireJupiter.this, LineToParse, cq, mADB, mPref);
                 if (smslist.size() > 0) {
                     msgGot = smslist.get(smslist.size() - 1);
-                    android.util.Log.d("Socket210", "msgGot: " + msgGot);
+                    Log.d("Socket210  msgGot: " + msgGot);
                     String tmpMsg = "";
                     if ((msgGot.attached & 3) == 3) {
                         tmpMsg = getString(R.string.voicememo) + ","
@@ -2575,7 +2599,7 @@ public class AireJupiter extends Service {
                         manySmsContent.setLength(0);
                         manySmsContent.append(tmp);
                     }
-                    android.util.Log.d("Socket210", "tmpMsg: " + tmpMsg);
+                    Log.d("Socket210  tmpMsg: " + tmpMsg);
 
                     mHandler.post(HandleMessageComing);
                 }
@@ -3515,12 +3539,12 @@ public class AireJupiter extends Service {
                         MyNet net = new MyNet(AireJupiter.this);
                         do {
                             // TODO: 2016/4/7 解析XML存入数据库
-                            String response  = net.doPostHttps("get_group_list_aire.php", "id=" + myIdx, null);
+                            String response = net.doPostHttps("get_group_list_aire.php", "id=" + myIdx, null);
 
-                            android.util.Log.d("查询group列表", "groupList:----"+response);
+                            Log.d("查询group列表  groupList:----" + response);
                             // TODO: 2016/4/8 解析xml
                             groups = parseXML(response);
-                            if (groups !=null)break;
+                            if (groups != null) break;
                             MyUtil.Sleep(1500);
                         } while (count++ < 3);
                     } catch (Exception e) {
@@ -3534,7 +3558,7 @@ public class AireJupiter extends Service {
                                 GroupEntity group = groups.get(i);
                                 groupIdx = group.getIdx();
                                 groupName = group.getNn();
-                                mGDB.insertGroup(groupIdx,groupName,0);
+                                mGDB.insertGroup(groupIdx, groupName, 0);
                                 mADB.insertUser("[<GROUP>]" + groupIdx, groupIdx + 100000000,
                                         groupName);
                                 //下载图片
@@ -3555,7 +3579,7 @@ public class AireJupiter extends Service {
                             Intent intent = new Intent(Global.Action_Refresh_Gallery);
                             sendBroadcast(intent);
                         }
-                        android.util.Log.d("查询group列表", "groups.size():" + groups.size());
+                        Log.d("查询group列表  groups.size():" + groups.size());
                     } else {
                         Log.d("get_group_list_aire.php NULL");
                     }
@@ -3574,24 +3598,24 @@ public class AireJupiter extends Service {
             int eventType = parser.getEventType();
             GroupEntity groupEntity = null;
             List<GroupEntity> groups = null;
-            while(eventType != XmlPullParser.END_DOCUMENT)  {
-                switch (eventType){
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                switch (eventType) {
                     case XmlPullParser.START_DOCUMENT: //开始读取XML文档
                         //实例化集合类
                         groups = new ArrayList<>();
                         break;
                     case XmlPullParser.START_TAG://开始读取某个标签
-                        if("g".equals(parser.getName())) {
+                        if ("g".equals(parser.getName())) {
                             //通过getName判断读到哪个标签，然后通过nextText()获取文本节点值，或通过getAttributeValue(i)获取属性节点值
                             groupEntity = new GroupEntity();
-                        }else if ("idx".equals(parser.getName())) {
+                        } else if ("idx".equals(parser.getName())) {
                             groupEntity.setIdx(Integer.parseInt(parser.nextText()));
-                        }else if("nn".equals(parser.getName())){
+                        } else if ("nn".equals(parser.getName())) {
                             groupEntity.setNn(parser.nextText());
                         }
                         break;
                     case XmlPullParser.END_TAG://读完一个Person，可以将其添加到集合类中
-                        if ("g".equals(parser.getName())){
+                        if ("g".equals(parser.getName())) {
                             groups.add(groupEntity);
                         }
                         break;
@@ -4010,6 +4034,72 @@ public class AireJupiter extends Service {
                 }
             }
         }
+    }
+
+    //jack
+    public void sendPendingGroupSMS() {
+        Cursor cursor = mSmsDB.fetchMessageByStatus(2);
+        if (cursor == null) return;//alec
+        try {
+            myIdx = Integer.parseInt(mPref.read("myID", "0"), 16);
+            GroupMsg groupMsg;
+            SendAgent agent;
+
+            if (cursor.getCount() > 0) {
+                Log.d("sendPendingGroupSMS....Start Count:" + cursor.getCount());
+                while (cursor.moveToNext()) {
+                    int fail_count = cursor.getInt(cursor.getColumnIndexOrThrow(SmsDB.KEY_FAIL_COUNT));
+                    if (fail_count >= 2) {
+                        continue;
+                    }
+                    String SendeeNumber = cursor.getString(cursor.getColumnIndexOrThrow(SmsDB.KEY_ADDRESS));
+                    String mMsgText = cursor.getString(cursor.getColumnIndexOrThrow(SmsDB.KEY_BODY));
+
+                    int mAttached = cursor.getInt(cursor.getColumnIndex(SmsDB.KEY_ATTACH_TYPE));
+                    String SrcAudioPath = cursor.getString(cursor.getColumnIndexOrThrow(SmsDB.KEY_VMEMO));
+                    String SrcImagePath = cursor.getString(cursor.getColumnIndexOrThrow(SmsDB.KEY_IMAGE));
+
+
+                    String groupId = SendeeNumber.substring(SendeeNumber.indexOf("]") + 1);
+
+                    if (!TextUtils.isEmpty(SrcAudioPath)) {
+                        groupMsg = new GroupMsg("", mAttached + "", SrcAudioPath, mMsgText, "");
+                    } else if (!TextUtils.isEmpty(SrcImagePath)) {
+                        groupMsg = new GroupMsg("", mAttached + "", SrcImagePath, mMsgText, "");
+                    } else {
+                        groupMsg = new GroupMsg("", mAttached + "", "", mMsgText, "");
+                    }
+
+                    int pending = cursor.getInt(cursor.getColumnIndexOrThrow(SmsDB.KEY_OBLIGATE5));
+                    if (pending==1) {
+                        groupMsg = new GroupMsg("groupUpdate", "0", "", mMsgText, "");
+                    }
+                    int idx = mADB.getIdxByAddress(SendeeNumber);
+
+                    agent = new SendAgent(this, myIdx, idx, false);
+                    agent.setAsGroup(Integer.parseInt(groupId));
+                    agent.setRowId(cursor.getInt(cursor.getColumnIndex(SmsDB.KEY_SMS_ID)));
+                    agent.onGroupSend(groupMsg);
+
+                    mSmsDB.updateFailCountById(cursor.getInt(0), ++fail_count);
+
+                    if (SrcImagePath != null || SrcAudioPath != null)
+                        Thread.sleep(2000);
+                    else
+                        Thread.sleep(500);
+                }
+            } else {
+                Log.e("sendPendingSMS no action");
+            }
+
+
+        } catch (Exception e) {
+            Log.e("sendPendingSMS !@#$ " + e.getMessage());
+        } finally {
+            if (cursor != null && !cursor.isClosed())
+                cursor.close();
+        }
+        Log.d("sendPendingSMS....Over");
     }
 
     private class systemNumberChange extends ContentObserver {
@@ -4916,7 +5006,7 @@ public class AireJupiter extends Service {
                 MyNet net = new MyNet(AireJupiter.this);
                 Return = net.doPost("timelinepost.php", "id=" + myIdx +
                         "&writer=" + myIdx +
-                        "&name=" + URLEncoder.encode(myNickname, "UTF_8") +
+                        "&name=" + URLEncoder.encode(myNickname, "UTF-8") +
                         "&text=" + URLEncoder.encode(newMood, "UTF-8") +
                         "&srvr=" + URLEncoder.encode(myLocalPhpServer, "UTF-8") +
                         "&pms=0"

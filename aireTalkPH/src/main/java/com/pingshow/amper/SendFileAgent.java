@@ -1,9 +1,5 @@
 package com.pingshow.amper;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.Intent;
 
@@ -11,6 +7,10 @@ import com.google.gson.Gson;
 import com.pingshow.amper.bean.GroupMsg;
 import com.pingshow.network.MyNet;
 import com.pingshow.util.MyUtil;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 
 public class SendFileAgent {
 	
@@ -252,7 +252,7 @@ public class SendFileAgent {
 
 	//jack 2.4.51 group发送文件
 	public boolean onGroupSend(final GroupMsg groupMsg) {
-		android.util.Log.d("发送消息", "发送消息的内容: "+groupMsg.toString());
+		Log.d("发送消息  发送消息的内容: "+groupMsg.toString());
 		if (groupMsg.getCt().length()==0 && groupMsg.getAt().equals("0")) return false;
 		// TODO: 2016/3/30  jack 发送 文件 消息
 		Thread thr = new Thread(new Runnable(){
@@ -300,7 +300,7 @@ public class SendFileAgent {
 
 			ConversationActivity.fileUploading = false;
 			Log.d("Return="+Return);
-			android.util.Log.d("发送消息", "上传文件的结果:"+Return);
+			Log.d("发送消息  上传文件的结果:"+Return);
 
 			if (Return.startsWith("Done"))
 			{
@@ -327,13 +327,13 @@ public class SendFileAgent {
 			return;
 		}
 		//2.发送消息
-		android.util.Log.d("发送消息", "groupMsg.setUrl(url): "+url);
-		android.util.Log.d("发送消息", "groupMsg.setPath(remoteFilePath):  "+remoteFilePath);
+		Log.d("发送消息  groupMsg.setUrl(url): "+url);
+		Log.d("发送消息  groupMsg.setPath(remoteFilePath):  "+remoteFilePath);
 		groupMsg.setUrl(url);
 		groupMsg.setPath(remoteFilePath);
 		Gson gson = new Gson();
 		String msgJson = gson.toJson(groupMsg);
-		android.util.Log.d("发送消息", "发送850的body: "+msgJson);
+		Log.d("发送消息  发送850的body: "+msgJson);
 		AireJupiter.getInstance().tcpSocket.send850(Integer.toHexString(mGroupID), Integer.toHexString((int) row_id),msgJson);
 	}
 }

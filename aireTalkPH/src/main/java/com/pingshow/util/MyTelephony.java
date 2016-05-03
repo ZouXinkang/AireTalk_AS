@@ -155,7 +155,7 @@ public class MyTelephony {
 	 * country iso {{iso,prefix,numberLen},...}
 	 */
 	public static final String[][] COUNTRIES=new String[][]{
-		{"cn","+8613|+8614|+8615|+8618","14","+86"},  // china
+		{"cn","+8613|+8614|+8615|+8618|+8617","14","+86"},  // china jack 16/5/3 增加17字段
 		{"tw","+8869","13","+886"}, // taiwan
 		{"do","+1809|+1829|+1849","12","+1"},//DOMINICAN REPUBLIC
 		{"jm","+1876","12","+1"},//JAMAICA

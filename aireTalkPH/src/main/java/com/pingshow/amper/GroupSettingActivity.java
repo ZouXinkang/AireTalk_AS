@@ -132,7 +132,9 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
                 int command = intent.getIntExtra("Command", 0);
                 int groupId = Integer.parseInt(groupID);
                 boolean result;
-                loadingDialog.dismiss();
+                if (loadingDialog!=null) {
+                    loadingDialog.dismiss();
+                }
                 switch (command) {
                     case Global.CMD_Refresh_Add_Members:
 
@@ -180,7 +182,7 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
                         try {
                             is_admin = false;
                             mChangeGroupCreater.setVisibility(View.GONE);
-                            mGroupPhoto.setClickable(false);
+//                            mGroupPhoto.setClickable(false);
 
                             int myIdx = Integer.parseInt(mPref.read("myIdx"));
                             int newCreaterIdx = Integer.parseInt(intent.getStringExtra("newCreater"));
@@ -235,10 +237,10 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
 
                         if (!is_admin) {
                             mChangeGroupCreater.setVisibility(View.GONE);
-                            mGroupPhoto.setClickable(false);
+//                            mGroupPhoto.setClickable(false);
                         } else {
                             mChangeGroupCreater.setVisibility(View.VISIBLE);
-                            mGroupPhoto.setClickable(true);
+//                            mGroupPhoto.setClickable(true);
                         }
 
                         mRefresh.clearAnimation();
@@ -259,6 +261,34 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
                         refreshing = false;
 //                        }
                         Toast.makeText(GroupSettingActivity.this, getResources().getString(R.string.refresh_failed), Toast.LENGTH_SHORT).show();
+                        break;
+
+                    case Global.CMD_Close_Activity:
+                        int removeGroupId = Integer.parseInt(intent.getStringExtra("GroupId"));
+                        if (removeGroupId==groupId) {
+                            ConversationActivity ca = ConversationActivity.getInstance();
+                            if (ca != null) {
+                                ca.finish();
+                            }
+                           finish();
+                        }
+                        break;
+
+                    case Global.CMD_Refresh_Group_Member:
+                        int needToRefreshGroupId = Integer.parseInt(intent.getStringExtra("GroupId"));
+                        if (needToRefreshGroupId == groupId) {
+                            sendeeList = mGDB.getGroupMembersByGroupIdx(Integer.parseInt(groupID));
+                            Log.d("群组成员变动:  groupID" + groupID + "groupname" + groupname + "sendeeList.size():" + sendeeList.size());
+
+                            //填充数据
+                            members.clear();
+                            for (String idx : sendeeList) {
+                                Member member = getMember(Integer.parseInt(groupID), idx);
+                                members.add(member);
+                            }
+                            adapter.getCount();
+                            adapter.notifyDataSetChanged();
+                        }
                         break;
                 }
                 sendRefreshCommand();
@@ -361,7 +391,7 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
         //顺序要在click方法下
         if (!is_admin) {
             mChangeGroupCreater.setVisibility(View.GONE);
-            mGroupPhoto.setClickable(false);
+//            mGroupPhoto.setClickable(false);
         }
 
         sendeeList.clear();
@@ -527,6 +557,7 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
                             // TODO: 2016/4/12  发送广播隐藏群组显示
                             UsersActivity.needRefresh = true;
                             Intent hideintent = new Intent(Global.Action_Hide_Group_Icon);
+                            hideintent.putExtra("GroupId",groupID);
                             sendBroadcast(hideintent);
 
                             sendRefreshCommand();
@@ -824,8 +855,9 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
                         } while (++count < 3);
                         if (Return.startsWith("Done")) {
                             //发送更换头像的tcp
-                            String content = String.format(getString(R.string.group_photo_changed), mPref.read("myNickname"));
-                            GroupUpdateMessageSender.getInstance().send(GroupSettingActivity.this, Integer.parseInt(mPref.read("myIdx")), Integer.parseInt(groupID), content);
+//                            String content = String.format(getString(R.string.group_photo_changed), mPref.read("myNickname"));
+
+                            GroupUpdateMessageSender.getInstance().send(GroupSettingActivity.this, Integer.parseInt(mPref.read("myIdx")), Integer.parseInt(groupID), "Group_Photo",mPref.read("myNickname"),null,mPref.read("myIdx"));
 
                             //发送本地广播
                             Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
@@ -983,13 +1015,25 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
                 if (cursor != null) {
                     cursor.moveToFirst();
                     String path = cursor.getString(column_index);
+                    Log.d("content://  uri "+uri.toString());
+                    Log.d("content://  path "+path);
                     return path;
                 }
             } catch (Exception e) {
             }
         } else if (uri.toString().startsWith("file:")) {
+//            String uriStr = uri.toString();
+//            android.util.Log.d("GroupSettingActivity", "uriStr "+uriStr.toString());
+//            return uriStr.substring(uriStr.indexOf("sdcard"));
             String uriStr = uri.toString();
-            return uriStr.substring(uriStr.indexOf("sdcard"));
+            Log.d("file://  uri " + uri.toString());
+            if (uriStr.indexOf("sdcard") == -1) {
+                Log.d("判断Url不包含sdcard字段  " + uriStr.substring(uriStr.indexOf("/storage")));
+                return uriStr.substring(uriStr.indexOf("/storage"));
+            } else {
+                Log.d("判断Url包含sdcard字段  " + uriStr.substring(uriStr.indexOf("sdcard")));
+                return uriStr.substring(uriStr.indexOf("sdcard"));
+            }
         }
         return "";
     }

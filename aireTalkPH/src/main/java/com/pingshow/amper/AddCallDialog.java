@@ -182,7 +182,7 @@ public class AddCallDialog extends Activity {
                                                                              for (int i = 0; i < contactsList.size() && count < 3; i++) {
                                                                                  String address = contactsList.get(i);
                                                                                  DialerActivity.addingList2.add(address);
-                                                                                 android.util.Log.d("AddCallDialog", address);
+                                                                                 Log.d("AddCallDialog  "+ address);
                                                                                  count++;
                                                                              }
                                                                          }else if (selectionMode ==2){
@@ -199,7 +199,7 @@ public class AddCallDialog extends Activity {
 
                                                                              String globalnumber = iso + phoneNumber;
                                                                              //拼接完成的电话号码
-                                                                             android.util.Log.d("AddCallDialog", globalnumber);
+                                                                             Log.d("AddCallDialog  "+globalnumber);
                                                                              // TODO: 2016/4/11 关闭页面,发送电话号码加入多方会议
 //                                                                             DialerActivity.addPhoneToConference(globalnumber);
                                                                              DialerActivity.addingList2.add(globalnumber);
@@ -297,13 +297,13 @@ public class AddCallDialog extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 1) {
             String iso = data.getStringExtra("iso");
             String country = data.getStringExtra("country");
             et_iso.setText("+" + iso);
             tv_select_country.setText(this.getString(R.string.select_country).split(":")[0] + ":" + country);
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public void onContactQuery() {
@@ -464,7 +464,6 @@ public class AddCallDialog extends Activity {
             mADB.close();
         amperList.clear();
         contactsList.clear();
-        android.util.Log.d("AddCallDialog", "销毁了");
         System.gc();
         System.gc();
         super.onDestroy();

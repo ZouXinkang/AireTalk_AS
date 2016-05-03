@@ -380,9 +380,14 @@
 <string name="add_new_member_in_group">您確定要為這群組添加新成員嗎?</string>
 <string name="group_invite_new_member">%1$s已經被邀請到\"%2$s\"群組</string>
     //jack 2.4.51
-    <string name="group_invite_new_members">%1$s invited \"%2$s\" to join in the group</string>
-    <string name="group_removed_members">%1$s has been removed from the group</string>
-<!-- from iphone -->
+    <string name="group_invite_new_members">%1$s added \"%2$s\"</string>
+    <string name="group_removed_members">%1$s removed from the group</string>
+    <string name="group_member_left">%1$s has left the group</string>//4/28
+    <string name="group_photo_changed">%1$s changed group photo</string>
+    <string name="group_name_changed">%1$s set group name as \"%2$s\"</string>
+    <string name="group_creater_changed">%1$s become a group leader</string>
+
+    <!-- from iphone -->
 <string name="aire_call">AireCall</string>
 <string name="purchase">儲值</string>
 <string name="airecall_credits">AireCall點數</string>
@@ -451,6 +456,10 @@
     <string name="chat_info">聊天信息</string>
     <string name="group_photo">群組头像</string>
     <string name="ownership_transfer">群組管理权转让</string>
+
+    <string name="pull_to_refresh_pull_label">下拉刷新…</string>
+    <string name="pull_to_refresh_release_label">放开以刷新…</string>
+    <string name="pull_to_refresh_refreshing_label">正在载入…</string>
 </resources>
 
 

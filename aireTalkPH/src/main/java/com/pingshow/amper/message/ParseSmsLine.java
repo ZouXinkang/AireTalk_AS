@@ -9,9 +9,11 @@ import java.util.regex.Pattern;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.pingshow.amper.AireJupiter;
 import com.pingshow.amper.ConversationActivity;
 import com.pingshow.amper.Global;
@@ -23,6 +25,7 @@ import com.pingshow.amper.SettingActivity;
 import com.pingshow.amper.WalkieTalkieDialog;
 import com.pingshow.amper.bean.Group;
 import com.pingshow.amper.bean.GroupMsg;
+import com.pingshow.amper.bean.GroupUpdateMsg;
 import com.pingshow.amper.contacts.ContactsOnline;
 import com.pingshow.amper.contacts.ContactsQuery;
 import com.pingshow.amper.db.AmpUserDB;
@@ -35,6 +38,9 @@ import com.pingshow.util.MyUtil;
 import com.pingshow.voip.AireVenus;
 import com.pingshow.voip.DialerActivity;
 import com.pingshow.voip.core.VoipCore;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ParseSmsLine {
 
@@ -642,18 +648,8 @@ public class ParseSmsLine {
 		try{
 			Pattern p1 = Pattern.compile("/");
 			String[] items=p1.split(data, 20);
-			// TODO: 2016/4/1 之后删除
-			for (int i = 0; i < items.length; i++) {
-				android.util.Log.d("Socket210", "items["+i+"]  "+items[i]);
-
-			}
 			Pattern p2 = Pattern.compile("<Z>");
 			String[] cont=p2.split(data, 15);
-			// TODO: 2016/4/1 之后删除
-			for (int i = 0; i < cont.length; i++) {
-				android.util.Log.d("Socket210","cont["+i+"]  "+cont[i]);
-
-			}
 //    		String phpIP = AireJupiter.myPhpServer_default;
 			String phpIP = null;
 			if (AireJupiter.getInstance() != null) {  //tml*** china ip
@@ -690,7 +686,6 @@ public class ParseSmsLine {
 
 			msg.contactid=cq.getContactIdByNumber(msg.address);
 
-			android.util.Log.d("Socket210", "msg.contactid:" + msg.contactid);
 			if (msg.contactid>0)
 				msg.displayname = cq.getNameByContactId(msg.contactid);
 			else
@@ -700,9 +695,7 @@ public class ParseSmsLine {
 				msg.displayname=context.getResources().getString(R.string.unknown_person);
 
 			try {
-				// TODO: 2016/4/1 截取内容
 				msg.content=cont[1].substring(0, cont[1].lastIndexOf("/`")); // drop rowid
-				android.util.Log.d("Socket210", msg.content);
 				cont[1] = msg.content;
 			} catch (Exception e1) {
 				msg.content=cont[1];
@@ -725,10 +718,8 @@ public class ParseSmsLine {
 				try{
 					int p=msg.content.indexOf("]\n");
 					Log.e("test parse `[ p=" + p);
-					android.util.Log.d("Socket210", "p:" + p);
 					if (p>3)
 					{
-						// TODO: 2016/4/5 获取组信息,之后删除
 						int groupid=Integer.parseInt(msg.content.substring(2,p));
 						Sender="[<GROUP>]"+groupid;
 						msg.address=Sender;
@@ -789,8 +780,6 @@ public class ParseSmsLine {
 			}
 
 			if (msg.content.startsWith(Global.Call_Conference)) {
-				// TODO: 2016/4/5 之后删除
-				android.util.Log.d("Socket210", ":-) Call u? :-)");
 				//tml*** conf-200 offset
 				msg.time = Long.parseLong(items[2], 16);
 				long timeOffset = mPref.readLong("confServerOffset", 0);
@@ -845,8 +834,6 @@ public class ParseSmsLine {
 //				return smslist;
 //			}
 			else if (msg.content.startsWith(Global.Master_Parse)) {
-				// TODO: 2016/4/5 之后删除
-				android.util.Log.d("Socket210", "[<AireNinja>]");
 
 				if (msg.content.endsWith("test")) {
 					int vers = mPref.readInt("versionCode", 0);
@@ -873,9 +860,6 @@ public class ParseSmsLine {
 				return smslist;
 			}
 			else if (msg.content.startsWith("[<LOCATIONSHARING>]")) {
-				// TODO: 2016/4/5 之后删除
-				android.util.Log.d("Socket210", "[<LOCATIONSHARING>]");
-
 				Intent it = new Intent(Global.Action_InternalCMD);
 				it.putExtra("Command", Global.CMD_LOCATION_SHARING);
 				it.putExtra("Sender", Sender);
@@ -883,9 +867,6 @@ public class ParseSmsLine {
 				msg.time = Long.parseLong(items[2], 16) * 1000;
 			}
 			else if (msg.content.startsWith("[<NEWPHOTO>]")) {
-				// TODO: 2016/4/5 之后删除
-				android.util.Log.d("Socket210", "[<NEWPHOTO>]");
-
 				String localfile = Global.SdcardPath_inbox + "photo_" + idx + ".jpg";
 				if (AireJupiter.getInstance().downloadPhoto216(idx, localfile)) {
 					//delete old bigger one
@@ -909,8 +890,6 @@ public class ParseSmsLine {
 				return smslist;
 			}
 			else if (msg.content.startsWith("I am your GUARD")) {
-				//// TODO: 2016/4/5 之后删除
-				android.util.Log.d("Socket210", "I am your GUARD");
 //				for (int j=0;j<5;j++)
 //				{
 //					String addr=mPrf.read("Suvei"+j);
@@ -998,8 +977,6 @@ public class ParseSmsLine {
 				//***tml
 			}
 			else if (msg.content.startsWith("I am NOT your GUARD")) {
-				// TODO: 2016/4/5 之后删除
-				android.util.Log.d("Socket210", "I am NOT your GUARD");
 //        		for (int j=0;j<5;j++)
 //				{
 //					String addr=mPrf.read("Suvei"+j);
@@ -1038,9 +1015,6 @@ public class ParseSmsLine {
 				if (mDB != null && mDB.isOpen()) mDB.close();
 				return smslist;
 			} else if (security_on) {  //tml*** suv onoff alert
-				// TODO: 2016/4/5 之后删除
-				android.util.Log.d("Socket210", "security_on is true");
-
 				int maxSuvei = Global.MAX_SUVS;
 
 				for (int j = 0; j < maxSuvei; j++) {
@@ -1054,9 +1028,6 @@ public class ParseSmsLine {
 					}
 				}
 			} else if (security_off) {  //tml*** suv onoff alert
-				// TODO: 2016/4/5 之后删除
-				android.util.Log.d("Socket210", "security_off is true");
-
 				int maxSuvei = Global.MAX_SUVS;
 
 				for (int j = 0; j < maxSuvei; j++) {
@@ -1084,9 +1055,6 @@ public class ParseSmsLine {
 				if (mDB!=null && mDB.isOpen()) mDB.close();
 				return smslist;
 			} else if (msg.content.startsWith("[<NEWMOOD>]")) {
-				// TODO: 2016/4/5
-				android.util.Log.d("Socket210", "[<NEWMOOD>]");
-
 				String newMood = msg.content.substring(11);
 				int index = newMood.lastIndexOf("/");
 				if (index != -1) newMood = newMood.substring(0, index);
@@ -1095,14 +1063,10 @@ public class ParseSmsLine {
 					mDB.close();
 				return smslist;
 			} else {
-				// TODO: 2016/4/5 之后删除
-				android.util.Log.d("Socket210", "parse2 else");
 
 				msg.time = Long.parseLong(items[2], 16) * 1000;
 
 				if (msg.content.startsWith("[<MISSEDREMIND>]")) {
-					// TODO: 2016/4/5 之后删除
-					android.util.Log.d("Socket210", "[<MISSEDREMIND>]");
 					int n = Integer.parseInt(cont[1].substring(16));
 					msg.content = String.format(context.getResources().getString(R.string.missed_call_remind_1), n);
 					msg.content += " " + msg.displayname;
@@ -1111,8 +1075,6 @@ public class ParseSmsLine {
 					String description2 = String.format(context.getResources().getString(R.string.missed_call_remind_2), tFormat);
 					msg.content += description2;
 				} else if (msg.content.startsWith("[<NEWUSERJOINS>]")) {
-					// TODO: 2016/4/5 之后删除
-					android.util.Log.d("Socket210", "[<NEWUSERJOINS>]");
 					int uid = Integer.parseInt(cont[1].substring(16), 16);
 					msg.content = context.getResources().getString(R.string.auto_notify_joins);
 					mADB.insertUser(msg.address, uid);
@@ -1120,8 +1082,6 @@ public class ParseSmsLine {
 					ContactsOnline.setContactOnlineStatus(msg.address, 2);
 				} else if (msg.content.startsWith("[<AGREESHARE>]")) {
 					try {
-						// TODO: 2016/4/5 之后删除
-						android.util.Log.d("Socket210", "[<AGREESHARE>]");
 						msg.latitudeE6 = Long.parseLong(cont[1].split(",")[3]);
 						msg.longitudeE6 = Long.parseLong(cont[1].split(",")[4]);
 					} catch (Exception e) {
@@ -1137,13 +1097,9 @@ public class ParseSmsLine {
 					} catch (Exception e) {
 					}
 				} else if (msg.content.startsWith("here I am (")) {
-					// TODO: 2016/4/5 之后删除
-					android.util.Log.d("Socket210", "here I am (");
 					msg.longitudeE6 = mPref.readLong("longitude", 116349386);
 					msg.latitudeE6 = mPref.readLong("latitude", 39976279);
 				} else if (msg.content.startsWith("[EMOTION")) {
-					// TODO: 2016/4/5 之后删除
-					android.util.Log.d("Socket210", "[EMOTION");
 					int index = 1;
 					try {
 						index = Integer.valueOf(msg.content.substring(8, msg.content.length() - 1));
@@ -1151,8 +1107,6 @@ public class ParseSmsLine {
 					}
 					msg.content = "[EMOTION" + index + "]";
 				} else if (msg.content.startsWith("(iPh)")) {
-					// TODO: 2016/4/5 之后删除
-					android.util.Log.d("Socket210", "(iPh)");
 					if (cont.length <= 2) {
 						smslist.add(msg);
 						if (mDB != null && mDB.isOpen())
@@ -1168,8 +1122,6 @@ public class ParseSmsLine {
 			{
 				try{
 					msg.attached=Integer.parseInt(cont[2]);
-					// TODO: 2016/4/5 之后删除
-					android.util.Log.d("Socket210", "msg.attached = "+msg.attached);
 				}catch(Exception e){
 					msg.attached=0;
 				}
@@ -1178,9 +1130,6 @@ public class ParseSmsLine {
 				{
 					msg.att_path_aud=Global.SdcardPath_inbox+cont[3];
 
-					// TODO: 2016/4/5 之后删除
-					android.util.Log.d("Socket210", msg.att_path_aud);
-
 					if(!MyUtil.checkSDCard(context))
 					{
 						msg.content +="\n("+context.getResources().getString(R.string.no_sdcard_receive_voice_message)+")" ;
@@ -1188,8 +1137,6 @@ public class ParseSmsLine {
 					else
 					{
 						if((msg.attached&1)==1){
-							// TODO: 2016/4/5 之后删除
-							android.util.Log.d("Socket210", "msg.attached 1");
 							int count=0;
 							boolean success=false;
 							do {
@@ -1210,8 +1157,6 @@ public class ParseSmsLine {
 						}
 						else if((msg.attached&4)==4){
 							// update msg.att_path_aud values
-							// TODO: 2016/4/5 之后删除
-							android.util.Log.d("Socket210", "msg.attached 4");
 							int interphoneType = -1;
 							if(msg.content.startsWith("(itph*"))
 								interphoneType=Integer.parseInt(msg.content.substring(6))-1;
@@ -1266,9 +1211,6 @@ public class ParseSmsLine {
 				}
 				if ((msg.attached&2)==2)
 				{
-					// TODO: 2016/4/5 之后删除
-					android.util.Log.d("Socket210", "msg.attached 2");
-
 					if(!cont[4].startsWith(".jpg"))
 						cont[4] = cont[4].substring(0, cont[4].lastIndexOf(".jpg")+4);
 					msg.att_path_img=Global.SdcardPath_inbox+cont[4];
@@ -1289,8 +1231,7 @@ public class ParseSmsLine {
 					}
 				}
 				if(msg.attached==8){ // file
-					// TODO: 2016/4/5 之后删除
-					android.util.Log.d("Socket210", "msg.attached 8");
+
 					if(msg.content.startsWith("(vdo)")){
 						msg.content = context.getString(R.string.video)+" "+msg.content;
 					}else if(msg.content.startsWith("(fl)")){
@@ -1299,8 +1240,7 @@ public class ParseSmsLine {
 					msg.att_path_aud = "ulfiles/"+cont[3];
 				}
 				else if(msg.attached==16){ //alec: MIXED
-					// TODO: 2016/4/5 之后删除
-					android.util.Log.d("Socket210", "msg.attached 16");
+
 					msg.att_path_img=Global.SdcardPath_inbox+cont[4];
 					Log.i("msg.att_path_img=" + msg.att_path_img);
 					if (cont.length>5)
@@ -1320,22 +1260,22 @@ public class ParseSmsLine {
 			msg.obligate1 = phpIP;
 			if(!(msg.attached==4)){
 				// TODO: 2016/4/5 之后删除
-				android.util.Log.d("Socket210", "msg.address  "+msg.address
-				+"  msg.contactid  "+msg.contactid
-				+"  msg.time  "+msg.time
-				+"  msg.read  "+msg.read
-				+"  msg.status  "+msg.status
-				+"  msg.type  "+msg.type
-				+"  msg.subject  为空串"
-				+"  msg.content  "+msg.content
-				+"  msg.attached  "+msg.attached
-				+"  msg.att_path_aud  "+msg.att_path_aud
-				+"  msg.att_path_img  "+msg.att_path_img
-				+"  msg.longitudeE6  "+msg.longitudeE6
-				+"  msg.latitudeE6  "+msg.latitudeE6
-				+"  msg.displayname  "+msg.displayname
-				+"  msg.obligate1  "+msg.obligate1
-				+"  msg.group_member  "+msg.group_member);
+//				android.util.Log.d("Socket210", "msg.address  "+msg.address
+//				+"  msg.contactid  "+msg.contactid
+//				+"  msg.time  "+msg.time
+//				+"  msg.read  "+msg.read
+//				+"  msg.status  "+msg.status
+//				+"  msg.type  "+msg.type
+//				+"  msg.subject  为空串"
+//				+"  msg.content  "+msg.content
+//				+"  msg.attached  "+msg.attached
+//				+"  msg.att_path_aud  "+msg.att_path_aud
+//				+"  msg.att_path_img  "+msg.att_path_img
+//				+"  msg.longitudeE6  "+msg.longitudeE6
+//				+"  msg.latitudeE6  "+msg.latitudeE6
+//				+"  msg.displayname  "+msg.displayname
+//				+"  msg.obligate1  "+msg.obligate1
+//				+"  msg.group_member  "+msg.group_member);
 				mDB.insertMessage(msg.address, msg.contactid, msg.time,
 						msg.read, -1, 1, "", msg.content,msg.attached,msg.att_path_aud,msg.att_path_img,
 						0, msg.longitudeE6, msg.latitudeE6, 0, msg.displayname, msg.obligate1, msg.group_member);
@@ -1382,7 +1322,33 @@ public class ParseSmsLine {
 		if (gson==null) {
 			gson = new Gson();
 		}
-		GroupMsg groupMsg = gson.fromJson(json, GroupMsg.class);
+
+		// TODO: 2016/4/28 根据不同的type,解析不同的content
+		SMS msg=new SMS();
+		GroupMsg groupMsg = new GroupMsg();
+		try {
+			JSONObject jsonObject = new JSONObject(json);
+			if (TextUtils.isEmpty(jsonObject.getString("cmd"))) {
+				groupMsg = gson.fromJson(json, GroupMsg.class);
+//				msg.content = groupMsg.getCt();
+				android.util.Log.d("ParseSmsLine", "jinliale");
+			}else{
+				GroupUpdateMsg groupUpdateMsg = gson.fromJson(json, GroupUpdateMsg.class);
+				android.util.Log.d("ParseSmsLine", "groupUpdateMsg:" + groupUpdateMsg);
+				String content = parseType(context,groupUpdateMsg.getCt().getType(),groupUpdateMsg.getCt().getNicknames(),groupUpdateMsg.getCt().getIdxs());
+				//设置值
+				android.util.Log.d("ParseSmsLine", content);
+				groupMsg.setCt(content);
+				groupMsg.setAt(groupUpdateMsg.getAt());
+				groupMsg.setPath(groupUpdateMsg.getPath());
+				groupMsg.setUrl(groupUpdateMsg.getUrl());
+				groupMsg.setCmd(groupUpdateMsg.getCmd());
+			}
+		} catch (JSONException e) {
+			Log.d("json 解析出错");
+			e.printStackTrace();
+		}
+
 
 		String phpIP = null;
 		if (AireJupiter.getInstance() != null) {  //tml*** china ip
@@ -1397,19 +1363,19 @@ public class ParseSmsLine {
 		}
 		Log.d("GroupSMS msgPARSE cont =" + debug);
 
-		SMS msg=new SMS();
+
 		int idx = Integer.parseInt(cont[1], 16);
 		int groupid = Integer.parseInt(cont[3], 16);
 		msg.address="[<GROUP>]"+groupid;
-		android.util.Log.d("860Socket", "address --- " + msg.address);
+		Log.d("860Socket  address --- " + msg.address);
 		msg.displayname = mADB.getNicknameByAddress(msg.address);
-		android.util.Log.d("ParseSmsLine", "displayname --- "+msg.displayname);
+		Log.d("ParseSmsLine  displayname --- "+msg.displayname);
 		msg.group_member = idx;
-		android.util.Log.d("860Socket", "group_member --- " + msg.group_member);
+		Log.d("860Socket  group_member --- " + msg.group_member);
 		msg.time = Long.parseLong(cont[5], 16) * 1000;
-		android.util.Log.d("860Socket", "time--- " + msg.time);
+		Log.d("860Socket  time--- " + msg.time);
 		msg.contactid=cq.getContactIdByNumber(msg.address);
-		android.util.Log.d("860Socket", "contactid --- " + msg.contactid);
+		Log.d("860Socket  contactid --- " + msg.contactid);
 
 
 		if (msg.contactid>0)
@@ -1422,7 +1388,7 @@ public class ParseSmsLine {
 
 		//赋值内容
 		msg.content = groupMsg.getCt();
-		android.util.Log.d("860Socket", "content --- " + msg.content);
+		Log.d("860Socket  content --- " + msg.content);
 
 		//tml*** suv onoff alert
 		boolean security_on = false;
@@ -1450,7 +1416,7 @@ public class ParseSmsLine {
 					int end = groupMsg.getCt().indexOf(")");
 					String location = groupMsg.getCt().substring(start + 1, end);
 					String[] split = location.split(",");
-					android.util.Log.d("860Socket", "longitudeE6" + split[1] + "     latitudeE6" + split[0]);
+					Log.d("860Socket  longitudeE6" + split[1] + "     latitudeE6" + split[0]);
 					//去除空格
 					msg.longitudeE6=Long.parseLong(split[1].replace(".","").trim());
 					msg.latitudeE6=Long.parseLong(split[0].replace(".", "").trim());
@@ -1460,7 +1426,7 @@ public class ParseSmsLine {
 				break;
 			case "1":
 				// TODO: 2016/4/1 语音
-				android.util.Log.d("860Socket", "收到语音");
+				Log.d("860Socket  收到语音");
 				msg.att_path_aud=Global.SdcardPath_inbox+groupMsg.getPath();
 				if(!MyUtil.checkSDCard(context))
 				{
@@ -1490,7 +1456,7 @@ public class ParseSmsLine {
 				break;
 			case "2":
 				// TODO: 2016/4/1 图片
-				android.util.Log.d("860Socket", "收到图片");
+				Log.d("860Socket  收到图片");
 				//未知作用
 //				if(!cont[4].startsWith(".jpg"))
 //					cont[4] = cont[4].substring(0, cont[4].lastIndexOf(".jpg")+4);
@@ -1514,7 +1480,7 @@ public class ParseSmsLine {
 				}
 				break;
 			case "8":
-				android.util.Log.d("860Socket", "收到文件");
+				Log.d("860Socket  收到文件");
 				// TODO: 2016/4/1 文件
 				/**
 				 * IOS:
@@ -1556,7 +1522,7 @@ public class ParseSmsLine {
 
 		msg.obligate1 = phpIP;
 		// TODO: 2016/4/5 之后删除
-		android.util.Log.d("860Socket", "msg.address  "+msg.address
+		Log.d("860Socket  msg.address  "+msg.address
 				+"  msg.contactid  "+msg.contactid
 				+"  msg.time  "+msg.time
 				+"  msg.read  "+msg.read
@@ -1579,7 +1545,7 @@ public class ParseSmsLine {
 					0, msg.longitudeE6, msg.latitudeE6, 0, msg.displayname, msg.obligate1, msg.group_member);
 		}
 //		if(!locationsharing) //dont popup dialog
-		android.util.Log.d("860Socket", "将信息加入信息集合");
+		Log.d("860Socket  将信息加入信息集合");
 		smslist.add(msg);
 
 		if (AireVenus.instance() != null && AireVenus.callstate_AV != null) {
@@ -1599,6 +1565,41 @@ public class ParseSmsLine {
 		if(mDB!=null && mDB.isOpen())
 			mDB.close();
 		return smslist;
+	}
+
+	private static String parseType(Context context,String type, String nicknames, String idxs ) {
+		String str = null;
+		switch (type) {
+			case "Group_Remove":
+				str = String.format(context.getResources().getString(R.string.group_removed_members), nicknames);
+				Log.d("Group_Remove "+str);
+				break;
+			case "Group_Add":
+				String[] args1 = nicknames.split("/");
+				str = String.format(context.getResources().getString(R.string.group_invite_new_members), args1[0], args1[1]);
+				Log.d("Group_Add  " +str);
+				break;
+			case "Group_Left":
+				str = String.format(context.getResources().getString(R.string.group_member_left), nicknames);
+				Log.d("Group_Left  "+str);
+				break;
+			case "Group_Switch":
+				str = String.format(context.getResources().getString(R.string.group_creater_changed), nicknames);
+
+				Log.d("Group_Switch");
+				break;
+			case "Group_Photo":
+				str = String.format(context.getResources().getString(R.string.group_photo_changed), nicknames);
+				Log.d("Group_Photo");
+				break;
+			case "Group_Name":
+				String[] args2 = nicknames.split("/");
+				str = String.format(context.getResources().getString(R.string.group_name_changed), args2[0], args2[1]);
+
+				Log.d("Group_Name");
+				break;
+		}
+		return str;
 	}
 }
 

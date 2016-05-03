@@ -270,6 +270,10 @@ public class MessageActivity extends Activity {
 				intent.putExtra("SendeeContactId", contact_id);
 				intent.putExtra("SendeeDisplayname", displayname);
 
+				//jack 16/5/3 将头像路径传入ConversationActivity,解决近期聊天界面显示的bug
+				String photopath = Global.SdcardPath_inbox+"photo_"+mADB.getIdxByAddress(Address)+".jpg";
+				intent.putExtra("photopath", photopath);
+
 				startActivity(intent);
 
 				TextView unread = (TextView) view.findViewById(R.id.unread);

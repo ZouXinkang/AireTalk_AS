@@ -10,6 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.pingshow.util.LBMUtil;
+
 /**
  * Created by jack on 2016/3/2.
  */

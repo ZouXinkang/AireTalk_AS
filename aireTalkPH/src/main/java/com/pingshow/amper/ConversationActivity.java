@@ -45,6 +45,7 @@ import android.provider.MediaStore.Video;
 import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.format.DateUtils;
 import android.text.method.LinkMovementMethod;
@@ -226,7 +227,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
         mFromGroup = getIntent().getBooleanExtra("fromGroup", false);  //xwf*** beta ui3
         mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
-        android.util.Log.d("发送消息", mAddress + "--------" + mNickname);
+        Log.d("发送消息  " + mAddress + "--------" + mNickname);
 
         //tml*** detect stb
         if (mAddress.startsWith(Global.STB_HeaderName + Global.STB_Name1)
@@ -323,56 +324,15 @@ public class ConversationActivity extends Activity implements OnClickListener {
 		}*/
 
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        View v = null;
-        if (!mADB.isFafauser(mIdx)) {
-            v = inflater.inflate(R.layout.inflate_stranger, null, false);
-//			((ImageView) findViewById(R.id.attachment)).setVisibility(View.INVISIBLE);
-        } else if (inGroup) {
-//			v = inflater.inflate(R.layout.inflate_group_member, null, false);
-//			v.setVisibility(View.GONE);
-            // TODO: 2016/4/8  ,当数据库中不存在此分组时,发送广播查询群成员
-            mGroupID = Integer.parseInt(mAddress.substring(9));
-            ArrayList<String> membersList = mGDB.getGroupMembersByGroupIdx(mGroupID);
-            for (String idx : membersList) {
-                //如果idx为0就是第一次登陆,没有写入idx,应该查询php重新写入数据库
-                if ("0".equals(idx)) {
-                    Intent it = new Intent(Global.Action_InternalCMD);
-                    it.putExtra("Command", Global.CMD_JOIN_A_NEW_GROUP);
-                    it.putExtra("GroupID", mGroupID);
-                    android.util.Log.d("刷新group", "删除分组后,查询分组并写入数据库");
-                    ConversationActivity.this.sendBroadcast(it);
-                }
-                break;
-            }
-
-
-        } else {
-            v = inflater.inflate(R.layout.inflate_call_view, null, false);
-        }
-        if (v != null) {
-            listview.addHeaderView(v);
-            moresms = (Button) v.findViewById(R.id.moresms);
-        }
-        if (moresms != null) moresms.setOnClickListener(this);
-
-//		callbtn = (Button) v.findViewById(R.id.call);
-//		if (callbtn!=null) callbtn.setOnClickListener(this);
-//		profilebtn = (Button) v.findViewById(R.id.view_profile);
-//		if (profilebtn!=null) profilebtn.setOnClickListener(this);
-
-        listview.setAdapter(msgListAdapter);
-        if (TalkList.size() > 0) {
-            listview.setSelection(TalkList.size() - 1);
-        }
+        //jack
+        mSetting = (ImageView) findViewById(R.id.right);
 
         mSendee = (TextView) findViewById(R.id.sendee);
 
-        //jack
-        mSetting = (ImageView) findViewById(R.id.right);
         if (inGroup) {
             String szGroup = getResources().getString(R.string.the_group);
             mSendee.setText(szGroup + ": " + mNickname);
+            mGroupID = Integer.parseInt(mAddress.substring(9));
             sendeeList = mGDB.getGroupMembersByGroupIdx(mGroupID);
             try {
                 for (int i = 0; i < sendeeList.size(); i++)
@@ -397,7 +357,6 @@ public class ConversationActivity extends Activity implements OnClickListener {
             });
         } else {
             //jack 2.4.51
-            mSetting = (ImageView) findViewById(R.id.right);
             mSetting.setImageResource(R.drawable.icon_single_setting);
             mSetting.setVisibility(View.VISIBLE);
 
@@ -431,11 +390,54 @@ public class ConversationActivity extends Activity implements OnClickListener {
             //***tml
         }
 
+        View v = null;
+        if (!mADB.isFafauser(mIdx)) {
+            v = inflater.inflate(R.layout.inflate_stranger, null, false);
+            mSetting.setVisibility(View.INVISIBLE);
+//			((ImageView) findViewById(R.id.attachment)).setVisibility(View.INVISIBLE);
+        } else if (inGroup) {
+//			v = inflater.inflate(R.layout.inflate_group_member, null, false);
+//			v.setVisibility(View.GONE);
+            // TODO: 2016/4/8  ,当数据库中不存在此分组时,发送广播查询群成员
+            ArrayList<String> membersList = mGDB.getGroupMembersByGroupIdx(mGroupID);
+            for (String idx : membersList) {
+                //如果idx为0就是第一次登陆,没有写入idx,应该查询php重新写入数据库
+                if ("0".equals(idx)) {
+                    Intent it = new Intent(Global.Action_InternalCMD);
+                    it.putExtra("Command", Global.CMD_JOIN_A_NEW_GROUP);
+                    it.putExtra("GroupID", mGroupID);
+                    Log.d("刷新group  删除分组后,查询分组并写入数据库");
+                    ConversationActivity.this.sendBroadcast(it);
+                }
+                break;
+            }
+
+
+        } else {
+            v = inflater.inflate(R.layout.inflate_call_view, null, false);
+        }
+
+        if (v != null) {
+            listview.addHeaderView(v);
+            moresms = (Button) v.findViewById(R.id.moresms);
+        }
+        if (moresms != null) moresms.setOnClickListener(this);
+
+//		callbtn = (Button) v.findViewById(R.id.call);
+//		if (callbtn!=null) callbtn.setOnClickListener(this);
+//		profilebtn = (Button) v.findViewById(R.id.view_profile);
+//		if (profilebtn!=null) profilebtn.setOnClickListener(this);
+
+        listview.setAdapter(msgListAdapter);
+        if (TalkList.size() > 0) {
+            listview.setSelection(TalkList.size() - 1);
+        }
+
         getphoto();
 
         listview.setOnItemLongClickListener(mLongPressTalkListItem);
 
-        //jack 2.4.51
+        //jack 16/5/3 滑动时隐藏工具栏
         listview.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -451,7 +453,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
             }
         });
 
-        //jack 2.4.51
+        //jack 16/4/3 当输入框不具备焦点的时候隐藏软键盘
         ((EditText) findViewById(R.id.msginput)).setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -690,9 +692,9 @@ public class ConversationActivity extends Activity implements OnClickListener {
 
     }
 
+    //jack 16/5/3 设置用户图片
     private void arrangePickedUsers() {
         if (!inGroup || sendeeList == null || sendeeList.size() == 0) return;
-
 //        RelativeLayout s = (RelativeLayout) findViewById(R.id.members);
 //        s.removeAllViews();
 
@@ -719,10 +721,24 @@ public class ConversationActivity extends Activity implements OnClickListener {
 //                a.setPadding((int) (mDensity * p), (int) (mDensity * p), (int) (mDensity * p), (int) (mDensity * p));
 //                a.setClickable(true);
                 int idx = Integer.parseInt(sendeeList.get(i));
-                String userphotoPath = Global.SdcardPath_inbox + "photo_" + idx + ".jpg";
+                String userphotoPath;
+                if (idx == myIdx) {
+                    userphotoPath = mPref.read("myPhotoPath", null);
+                    if (userphotoPath == null) {
+                        int uid = Integer.valueOf(mPref.read("myID", "0"), 16);
+                        userphotoPath = Global.SdcardPath_sent + "myself_photo_" + uid + ".jpg";
+                        if (MyUtil.checkSDCard(this) && (new File(userphotoPath).exists()))
+                            mPref.write("myPhotoPath", userphotoPath);
+                        else
+                            userphotoPath = null;
+                    }
+                } else {
+                    userphotoPath = Global.SdcardPath_inbox + "photo_" + idx + ".jpg";
+                }
+
 
                 Drawable photo = ImageUtil.getBitmapAsRoundCorner(userphotoPath, 1, 4);
-                android.util.Log.d("ConversationActivity", "路径 " + userphotoPath + " photo:" + photo + " 结果");
+                Log.d("ConversationActivity  路径 " + userphotoPath + " photo:" + photo + " 结果");
 //                if (photo != null)
 //                    a.setImageDrawable(photo);
 //                else
@@ -1205,11 +1221,20 @@ public class ConversationActivity extends Activity implements OnClickListener {
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             String path = cursor.getString(column_index);
+            Log.d("content://  uri " + uri.toString());
+            Log.d("content://  path " + path);
             //cursor.close();
             return path;
         } else if (uri.toString().startsWith("file:")) {
             String uriStr = uri.toString();
-            return uriStr.substring(uriStr.indexOf("sdcard"));
+            Log.d("file://  uri " + uri.toString());
+            if (uriStr.indexOf("sdcard") == -1) {
+                Log.d("判断Url不包含sdcard字段  " + uriStr.substring(uriStr.indexOf("/storage")));
+                return uriStr.substring(uriStr.indexOf("/storage"));
+            } else {
+                Log.d("判断Url包含sdcard字段  " + uriStr.substring(uriStr.indexOf("sdcard")));
+                return uriStr.substring(uriStr.indexOf("sdcard"));
+            }
         }
         return "";
     }
@@ -1387,7 +1412,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
                 if (inGroup) {
                     agent.setAsGroup(mGroupID);
 
-                    android.util.Log.d("发送消息", "mAttached == 0 定位" + " addressList " + addressList + " mMsgText " + mMsgText + " mAttached " + mAttached + " SrcAudioPath " + SrcAudioPath + " SrcImagePath " + SrcImagePath);
+                    Log.d("发送消息  mAttached == 0 定位" + " addressList " + addressList + " mMsgText " + mMsgText + " mAttached " + mAttached + " SrcAudioPath " + SrcAudioPath + " SrcImagePath " + SrcImagePath);
                     GroupMsg groupMsg = new GroupMsg("", mAttached + "", "", mMsgText, "");
                     if (agent.onGroupSend(groupMsg))
                         addMsgtoTalklist(false);
@@ -1436,7 +1461,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
 
                     if (inGroup) {
                         agent.setAsGroup(mGroupID);
-                        android.util.Log.d("发送消息", "mAttached == 8 表情" + " addressList " + addressList + " mMsgText " + mMsgText + " mAttached " + mAttached + " SrcAudioPath " + SrcAudioPath + " SrcImagePath " + SrcImagePath);
+                        Log.d("发送消息  mAttached == 8 表情" + " addressList " + addressList + " mMsgText " + mMsgText + " mAttached " + mAttached + " SrcAudioPath " + SrcAudioPath + " SrcImagePath " + SrcImagePath);
                         GroupMsg groupMsg = new GroupMsg("", mAttached + "", "", mMsgText, "");
                         if (agent.onGroupSend(groupMsg))
                             addMsgtoTalklist(false);
@@ -1465,7 +1490,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
                 if (inGroup) {
                     agent.setAsGroup(mGroupID);
 
-                    android.util.Log.d("发送消息", "mAttached == 15 语音" + " addressList " + addressList + " mMsgText " + mMsgText + " mAttached " + mAttached + " SrcAudioPath " + SrcAudioPath + " SrcImagePath " + SrcImagePath);
+                    Log.d("发送消息  mAttached == 15 语音" + " addressList " + addressList + " mMsgText " + mMsgText + " mAttached " + mAttached + " SrcAudioPath " + SrcAudioPath + " SrcImagePath " + SrcImagePath);
                     GroupMsg groupMsg = new GroupMsg("", mAttached + "", SrcAudioPath, mMsgText, "");
                     if (agent.onGroupSend(groupMsg)) {
                         addMsgtoTalklist(false);
@@ -1485,7 +1510,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
 
                 if (inGroup) {
                     fileAgent.setAsGroup(mGroupID);
-                    android.util.Log.d("发送消息", "requestCode ==40  未知" + " addressList " + addressList + " mMsgText " + mMsgText + " mAttached " + mAttached + " SrcAudioPath " + SrcAudioPath + " SrcImagePath " + SrcImagePath);
+                    Log.d("发送消息  requestCode ==40  未知" + " addressList " + addressList + " mMsgText " + mMsgText + " mAttached " + mAttached + " SrcAudioPath " + SrcAudioPath + " SrcImagePath " + SrcImagePath);
 
                     if (!fileAgent.onMultipleSend(addressList, mMsgText, mAttached, SrcAudioPath, SrcImagePath))
                         mSend.setEnabled(true);
@@ -1995,9 +2020,9 @@ public class ConversationActivity extends Activity implements OnClickListener {
                     lpName.setMargins(largeScreen ? (int) (6 * mDensity) : (int) (4 * mDensity), 0,
                             0, largeScreen ? (int) (2 * mDensity) : (int) (1 * mDensity));
                     String nickname = mADB.getNicknameByIdx(msg.group_member);
-                    //群组中的陌生人
-                    if (nickname.isEmpty()) {
-                        android.util.Log.d("MsgListAdapter", "陌生人消息     " + msg.group_member);
+                    //jack 16/5/3 群组中的陌生人,不再mADB数据库中
+                    if (TextUtils.isEmpty(nickname)) {
+                        Log.d("MsgListAdapter  陌生人消息     " + msg.group_member);
                         nickname = mGDB.getGroupMemberNameByGroupIdxAndMemberIdx(mGroupID, msg.group_member);
                     }
                     holder.username.setText(nickname);
@@ -2395,6 +2420,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
                             obligate1_phpIP = AireJupiter.myPhpServer_default;
                         //jack hardcode don't like
                         fileDownloadUrl = msg.att_path_img;
+                        Log.d("下载地址 "+fileDownloadUrl);
                         if (msg.content.startsWith(getString(R.string.video)) && msg.content.contains("(vdo)")) {
                             String len = msg.content.substring(msg.content.indexOf("(vdo)") + 5);
                             type = 1;
@@ -2411,7 +2437,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
                             String len = msg.content.substring(msg.content.indexOf("(fl)") + 4);
                             type = 2;
                             try {
-                                // TODO: 2016/4/6 jack 因为ios Url改变,所以parse Url为准
+                                //jack 16/4/6 因为ios Url改变,所以parse Url为准
                                 dialogFileDownload(msg.att_path_aud, len.substring(0, len.indexOf("KB") + 3));
                             } catch (Exception e) {
                                 dialogFileDownload(msg.att_path_aud, len);
@@ -2624,9 +2650,13 @@ public class ConversationActivity extends Activity implements OnClickListener {
                         getString(R.string.smsfail), Toast.LENGTH_SHORT).show();
                 return;
             } else if (intent.getAction().equals(Global.Action_Hide_Group_Icon)) {
-                //jack 收到此广播隐藏群设置图标
-                android.util.Log.d("ConversationActivity", "隐藏图标");
-                mSetting.setVisibility(View.INVISIBLE);
+                //jack 16/4/18收到此广播隐藏群设置图标
+                Log.d("ConversationActivity  隐藏图标");
+                int removeGroupId = Integer.parseInt(intent.getStringExtra("GroupId"));
+                if (removeGroupId == mGroupID && mSetting!=null) {
+                    mSetting.setVisibility(View.INVISIBLE);
+                    finish();
+                }
             }
 
             if (msgListAdapter != null)
@@ -3563,7 +3593,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
 
             if (inGroup) {
                 fileAgent.setAsGroup(mGroupID);
-                android.util.Log.d("发送消息", "mAttached ==8 文件" + " addressList " + addressList + " mMsgText " + mMsgText + " mAttached " + mAttached + " SrcAudioPath " + SrcAudioPath + " SrcImagePath " + SrcImagePath);
+                Log.d("发送消息  mAttached ==8 文件" + " addressList " + addressList + " mMsgText " + mMsgText + " mAttached " + mAttached + " SrcAudioPath " + SrcAudioPath + " SrcImagePath " + SrcImagePath);
                 GroupMsg groupMsg = new GroupMsg("", mAttached + "", SrcAudioPath, mMsgText, "");
                 //jack 2.4.51
                 if (!fileAgent.onGroupSend(groupMsg)) {
@@ -3596,7 +3626,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
             if (inGroup) {
                 agent.setAsGroup(mGroupID);
                 GroupMsg groupMsg = null;
-                android.util.Log.d("发送消息", "requestCode == else 文字和图片" + " addressList " + addressList + " mMsgText " + mMsgText + " mAttached " + mAttached + " SrcAudioPath " + SrcAudioPath + " SrcImagePath " + SrcImagePath);
+                Log.d("发送消息  requestCode == else 文字和图片" + " addressList " + addressList + " mMsgText " + mMsgText + " mAttached " + mAttached + " SrcAudioPath " + SrcAudioPath + " SrcImagePath " + SrcImagePath);
                 if (mAttached == 2) {
                     //图片
                     groupMsg = new GroupMsg("", mAttached + "", SrcImagePath, mMsgText, "");

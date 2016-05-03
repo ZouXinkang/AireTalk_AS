@@ -39,6 +39,7 @@ public class Global {
 	//jack hide group icon
 	public static final String Action_Hide_Group_Icon = "com.pingshow.amper.hidegroupicon";
 
+	//jack 更新group信息
 	public static final String Action_Refresh_Groupinfo = "com.pingshow.amper.refreshgroupinfo";
 
 	public static final String SdcardPath=Environment.getExternalStorageDirectory()+"/.com.amper/";
@@ -105,6 +106,9 @@ public class Global {
 	public static final int CMD_Refresh_Group_Photo = 92;
 	public static final int CMD_Refresh_Failed = 94;
 	public static final int CMD_Refresh_Successful = 96;
+	public static final int CMD_Close_Activity = 98;
+	public static final int CMD_Refresh_Group_Member = 100;
+
 
 
 

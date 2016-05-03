@@ -1,22 +1,18 @@
 package com.pingshow.amper;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
-import android.util.*;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,8 +20,6 @@ import com.pingshow.amper.contacts.ContactsOnline;
 import com.pingshow.amper.contacts.ContactsQuery;
 import com.pingshow.amper.db.AmpUserDB;
 import com.pingshow.util.AsyncImageLoader;
-
-import android.widget.AdapterView.OnItemClickListener;
 
 import java.io.File;
 import java.util.ArrayList;

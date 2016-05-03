@@ -226,7 +226,7 @@ public class RegisterActivity extends Activity {
     			
 //    			if (usePhoneNumberRegis && devIsPhone && withSIM && !check_phonenumber(xusername)) {
         		if (usePhoneNumberRegis && withSIM && !check_phonenumber(xusername)) {
-    				// check phone number 
+    				// check phone number
     				Message msg = new Message();
     				msg.obj = "fail,phonenumber";
     				mHandler.sendMessage(msg);
@@ -244,9 +244,9 @@ public class RegisterActivity extends Activity {
 				if(usePhoneNumberRegis && !phoneNumberReadable && withSIM && MyTelephony.isPhoneNumber(xusername)){
 					xusername=MyTelephony.addPrefix(iso, iso, xusername, true);
 					if (!MyTelephony.checkValidePhone(iso, xusername) || !MyUtil.checkValidePhoneNumber(xusername)){
-						
+
 						String msgContent = getString(R.string.phonenumber_invalid);
-						
+
 		    			Intent it=new Intent(RegisterActivity.this, CommonDialog.class);
 		        		it.putExtra("msgContent", msgContent);
 		        		it.putExtra("numItems", 1);
@@ -406,7 +406,7 @@ public class RegisterActivity extends Activity {
 				finish();
 				return;
 			}
-			
+
 			if (Return.startsWith("fail,")){
 				Return = Return.substring(5);
 				if (progress!=null && progress.isShowing())
@@ -639,7 +639,7 @@ public class RegisterActivity extends Activity {
             
 //        	if (usePhoneNumberRegis && devIsPhone && withSIM && !check_phonenumber(username)) {
             if (usePhoneNumberRegis && withSIM && !check_phonenumber(username)) {
-				// check phone number 
+				// check phone number
 				Message msg = new Message();
 				msg.obj = "fail,phonenumber";
 				mHandler.sendMessage(msg);

@@ -1,24 +1,14 @@
 package com.pingshow.amper;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.net.URLEncoder;
-import java.util.Date;
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.AssetManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnimationSet;
@@ -43,6 +33,12 @@ import com.pingshow.util.MyProfile;
 import com.pingshow.util.MyTelephony;
 import com.pingshow.util.MyUtil;
 import com.pingshow.voip.AireVenus;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.URLEncoder;
+import java.util.Date;
 
 
 public class SplashScreen extends Activity {
@@ -280,10 +276,10 @@ public class SplashScreen extends Activity {
 		if (!regis) {
 			intent.setClass(SplashScreen.this, BeforeRegisterActivity.class);
 		} else if (!prof) {
-			android.util.Log.d("SplashScreen", "!prof");
+			Log.d("SplashScreen  !prof");
 			intent.setClass(SplashScreen.this, ProfileActivity.class);
 		} else if (enter1) {
-			android.util.Log.d("SplashScreen", "enter1");
+			Log.d("SplashScreen  enter1");
 			intent.setClass(SplashScreen.this, ProfileActivity.class);
 		} else {
 			intent.setClass(SplashScreen.this, UsersActivity.class);

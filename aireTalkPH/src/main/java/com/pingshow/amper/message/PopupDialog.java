@@ -97,7 +97,7 @@ public class PopupDialog extends Activity {
 		msgContent=bundle.getString("EXTRAS_MESSAGE_BODY");
 		attachment=bundle.getInt("EXTRAS_ATTACHMENT");
 		type=bundle.getInt("EXTRAS_SMS_TYPE");
-		
+
 	    Button button = (Button)findViewById(R.id.close);
         button.setOnClickListener(new OnClickListener() {
     		public void onClick(View v)

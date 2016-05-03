@@ -20,6 +20,7 @@ import android.database.Cursor;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -34,6 +35,7 @@ import com.pingshow.amper.ServiceZ;
 import com.pingshow.amper.SplashScreen;
 import com.pingshow.amper.UsersActivity;
 import com.pingshow.amper.bean.GroupMsg;
+import com.pingshow.amper.bean.GroupUpdateMsg;
 import com.pingshow.amper.contacts.ContactsOnline;
 import com.pingshow.amper.contacts.ContactsQuery;
 import com.pingshow.amper.db.AmpUserDB;
@@ -41,18 +43,23 @@ import com.pingshow.amper.db.GroupDB;
 import com.pingshow.amper.db.RelatedUserDB;
 import com.pingshow.amper.db.SmsDB;
 import com.pingshow.amper.map.LocationUpdate;
+import com.pingshow.amper.message.PopupDialog;
+import com.pingshow.util.LBMUtil;
 import com.pingshow.util.MyTelephony;
 import com.pingshow.util.MyUtil;
 import com.pingshow.voip.AireVenus;
 import com.pingshow.voip.DialerActivity;
 import com.pingshow.voip.core.VoipCall;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MySocket {
     //jack 2.4.51
     private Gson gson = new Gson();
 
     static int CLIENT_CONNECTION_TIMEOUT = 0;
-    static int TRANSIT_TIMEOUT = 10000; // 10,15 sec
+    static int TRANSIT_TIMEOUT = 5000; // 10,15 sec
     static long minOutPeriod = 100;  //tml*** outToServer period/
 
     static public String ServerIP = AireJupiter.myFafaServer_default;
@@ -235,7 +242,7 @@ public class MySocket {
                     Log.d("@fromServer(" + fromServerA.size() + "):: " + fromServer);
 
                     if (fromServer.startsWith("210")) {
-                        android.util.Log.d("Socket210", fromServer);
+                        Log.d("Socket210  " + fromServer);
                         String items[] = null;
                         Boolean isExist = false;
                         try {
@@ -243,7 +250,7 @@ public class MySocket {
 
                             // TODO: 2016/4/1 之后删除
                             for (int i = 0; i < items.length; i++) {
-                                android.util.Log.d("Socket210", "items[" + i + "] " + items[i]);
+                                Log.d("Socket210  items[" + i + "] " + items[i]);
                             }
 
                             if (fromServer.contains("[<NEW") || fromServer.contains("(iPh)<Z>4")) {
@@ -272,7 +279,7 @@ public class MySocket {
                                 } else {
                                     String ridItem = items[1] + ":" + rowid;
                                     // TODO: 2016/4/5 之后删除
-                                    android.util.Log.d("Socket210", "ridItem   " + ridItem);
+                                    Log.d("Socket210  ridItem   " + ridItem);
                                     if (ridList.size() > 0) {
                                         for (int i = 0; i < ridList.size(); i++) {
                                             if (ridList.get(i).equals(ridItem)) {
@@ -512,7 +519,7 @@ public class MySocket {
                         } catch (Exception e) {
                         }
                         /*
-						if (idx==BufferedIdxForCall)
+                        if (idx==BufferedIdxForCall)
 						{
 							Log.d("idx==BufferedIdxForCall");
 							if (AireJupiter.getInstance()!=null)
@@ -731,46 +738,83 @@ public class MySocket {
 
                     } else if (fromServer.startsWith("860")) {
                         Boolean isExist = false;
-                        android.util.Log.d("Socket860", "来自服务器: " + fromServer);
+                        Log.d("Socket860  来自服务器: " + fromServer);
 
                         int index = fromServer.indexOf("{");
                         String command = fromServer.substring(0, index);
-                        android.util.Log.d("Socket860", "截取非json字段: " + command);
+                        Log.d("Socket860  截取非json字段: " + command);
                         String[] msg860 = command.split("/");
 
                         String json = fromServer.substring(index);
-                        android.util.Log.d("Socket860", "截取json字段" + json);
+                        Log.d("Socket860  截取json字段" + json);
 
                         // 860/sender/receiver/groupId/msgId/TS/body(json)
                         if (msg860.length == 0)
                             return;
 
                         int groupID = Integer.parseInt(msg860[3], 16);
-                        GroupMsg groupMsg = gson.fromJson(json, GroupMsg.class);
-
 
                         //判断是否存在群组
                         if (groupDB == null) {
                             groupDB = new GroupDB(mContext);
+                        }
+                        GroupMsg groupMsg = new GroupMsg();
+                        try {
+                            JSONObject jsonObject = new JSONObject(json);
+                            if (TextUtils.isEmpty(jsonObject.getString("cmd"))) {
+                                groupMsg = gson.fromJson(json, GroupMsg.class);
+                            } else {
+                                GroupUpdateMsg groupUpdateMsg = gson.fromJson(json, GroupUpdateMsg.class);
+                                if ("Group_Remove".equals(groupUpdateMsg.getCt().getType()) && groupUpdateMsg.getCt().getIdxs().contains(mPref.read("myIdx"))) {
+                                    Log.d("我被删除了!删除群组数据");
+                                    mADB.deleteContactByAddress("[<GROUP>]" + groupID);
+                                    groupDB.deleteGroup(groupID);
+
+                                    try {
+                                        mSmsDB.deleteThreadByAddress("[<GROUP>]" + groupID);
+                                    } catch (Exception e) {
+                                    }
+                                    // TODO: 2016/4/12  发送广播隐藏群组显示
+                                    UsersActivity.needRefresh = true;
+                                    UsersActivity.forceRefresh = true;
+                                    Intent hideintent = new Intent(Global.Action_Hide_Group_Icon);
+                                    hideintent.putExtra("GroupId",groupID+"");
+                                    mContext.sendBroadcast(hideintent);
+
+                                    Intent closeIntent = new Intent(Global.Action_Refresh_Groupinfo);
+                                    closeIntent.putExtra("Command", Global.CMD_Close_Activity);
+                                    closeIntent.putExtra("GroupId",groupID+"");
+                                    LBMUtil.sendBroadcast(mContext, closeIntent);
+
+                                    Log.d("AireJupiter  发送完广播");
+
+                                    Intent intent = new Intent(Global.Action_Refresh_Gallery);
+                                    mContext.sendBroadcast(intent);
+                                }
+                                    groupMsg.setCmd(groupUpdateMsg.getCmd());
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
                         groupDB.open();
                         int memberCount = groupDB.getGroupMemberCount(groupID);
                         groupDB.close();
                         Intent it = new Intent(Global.Action_InternalCMD);
                         // TODO: 2016/3/30 判断是否有cmd,有cmd意味着对群组操作,没有则意味着信息
-                        if (!groupMsg.getCmd().isEmpty()) {
+                        if (!TextUtils.isEmpty(groupMsg.getCmd())) {
                             //只有当在群组中才解析群组消息,没有在群组中不解析消息
-                            if (memberCount != 0) {
+//                            if ("remove".equals(groupMsg.getCmd())) {
                                 switch (groupMsg.getCmd()) {
                                     case "groupUpdate":
                                         it.putExtra("Command", Global.CMD_JOIN_A_NEW_GROUP);
                                         it.putExtra("GroupID", groupID);
                                         mContext.sendBroadcast(it);
                                         break;
-                                }
-                                // TODO: 2016/4/7 下一步解析消息
-                                parseMsgFollow(fromServer, isExist, msg860);
+//                                }
                             }
+                            // TODO: 2016/4/7 下一步解析消息
+                            parseMsgFollow(fromServer, isExist, msg860);
 
                         } else {
                             // TODO: 2016/3/31 不存在CMD,意味着是文本消息,所以显示文本消息
@@ -779,7 +823,7 @@ public class MySocket {
                                 //为0表示群组不存在,请求php加入数据库
                                 it.putExtra("Command", Global.CMD_JOIN_A_NEW_GROUP);
                                 it.putExtra("GroupID", groupID);
-                                it.putExtra("Empty", true);
+//                                it.putExtra("Empty", true);
                                 mContext.sendBroadcast(it);
                             }
                             // TODO: 2016/4/7 下一步解析消息
@@ -793,7 +837,7 @@ public class MySocket {
                                     + msg860[1] + "/" + myId + "/" + msg860[3] + "/" + msg860[4]));
                             Log.d("870/" + msg860[1] + "/" + myId + "/" + msg860[3] + "/" + msg860[4]);
 
-                            android.util.Log.d("SocketCommThread", "发送返回消息:-------870/" + msg860[1] + "/" + myId + "/" + msg860[3] + "/" + msg860[4]);
+                            Log.d("SocketCommThread  发送返回消息:-------870/" + msg860[1] + "/" + myId + "/" + msg860[3] + "/" + msg860[4]);
                         } catch (Exception e) {
                             Log.e("Failed to send 870 ack back...");
                             disconnect("fail 870", true);
@@ -803,14 +847,14 @@ public class MySocket {
 
                     } else if (fromServer.startsWith("880")) {
                         // TODO: 2016/3/31 接收到880的消息,之后刷新信息状态
-                        android.util.Log.d("Socket880", "收到880消息:-----"+fromServer);
+                        Log.d("Socket880  收到880消息:-----" + fromServer);
                         String[] splits = fromServer.split("/");
                         try {
                             if (splits.length >= 2) {
                                 int row_id = Integer.valueOf(splits[splits.length - 2], 16);
                                 long sentTime = Long.parseLong(splits[splits.length - 1], 16) * 1000;
                                 Log.d("row_id=" + row_id);
-                                android.util.Log.d("Socket880", "row_id=" + row_id);
+                                Log.d("Socket880  row_id=" + row_id);
                                 if (row_id >= 0 && mSmsDB.isOpen()) {
                                     mSmsDB.setMessageSentById(row_id,
                                             SMS.STATUS_SENT,
@@ -823,13 +867,14 @@ public class MySocket {
                         Intent it = new Intent(Global.Action_MsgSent);
                         mContext.sendBroadcast(it);
 
+//                        //jack
                         SMSoK = true;
-                        synchronized (lock_200) {
-                            lock_200.notifyAll();
+                        synchronized (lock_850) {
+                            lock_850.notifyAll();
                         }
 
-                    }else if (fromServer.startsWith("890")) {
-                        android.util.Log.d("Socket890", "收到890消息:-----"+fromServer);
+                    } else if (fromServer.startsWith("890")) {
+                        Log.d("Socket890  收到890消息:-----" + fromServer);
                         // TODO: 2016/4/7 删除掉指定的group
                         String[] msg890 = fromServer.split("/");
                         int mGroupID = Integer.parseInt(msg890[2], 16);
@@ -838,7 +883,7 @@ public class MySocket {
                         GroupDB gdb = new GroupDB(mContext);
                         gdb.open();
                         boolean result = gdb.deleteGroup(mGroupID);
-                        android.util.Log.d("Socket890", "删除group的结果" + result);
+                        Log.d("Socket890  删除group的结果" + result);
                         gdb.close();
 
                         try {
@@ -848,6 +893,7 @@ public class MySocket {
 
                         // TODO: 2016/4/12  发送广播隐藏群组显示
                         Intent hideintent = new Intent(Global.Action_Hide_Group_Icon);
+                        hideintent.putExtra("GroupId", mGroupID + "");
                         mContext.sendBroadcast(hideintent);
 
                         //刷新Gallery
@@ -865,7 +911,7 @@ public class MySocket {
         //取row_id
         String rowid = msg860[4];
 
-        android.util.Log.d("860Socket", "ridList:" + ridList);
+        Log.d("860Socket  ridList:" + ridList);
         if ("0".equals(rowid)) {
             isExist = false;
         } else {
@@ -1095,9 +1141,9 @@ public class MySocket {
             } catch (Exception e) {
                 Log.e("TCP Socket Create !@#$ " + e.getMessage());
                 // TODO: 2016/4/8 网络不好,弹出消息
-                Looper.prepare();
-                Toast.makeText(mContext, "网络差!请稍等或者重新登录!", Toast.LENGTH_SHORT).show();
-                Looper.loop();
+//                Looper.prepare();
+//                Toast.makeText(mContext, "网络差!请稍等或者重新登录!", Toast.LENGTH_SHORT).show();
+//                Looper.loop();
                 tcpStatus0 = false;
                 Logging = 0;
                 alter++;
@@ -1172,7 +1218,7 @@ public class MySocket {
             if (tmp2[1].contentEquals("ok")) {
                 myId = tmp2[0];
                 mPref.write("myID", myId);
-                mPref.write("myIdx",Integer.parseInt(myId,16)+"");
+                mPref.write("myIdx", Integer.parseInt(myId, 16) + "");
                 mySipServer = tmp2[2];
 
                 if (tmp2.length > 4) {
@@ -1309,12 +1355,34 @@ public class MySocket {
         if (logged == 0)
             return false;
         try {
+            SMSoK = false;
             outToServerPeriod(); //tml*** outToServer period/
 //			UUID uuid = UUID.randomUUID();
 //			String msgId=uuid.toString();
             outToServer.write(MyUtil.encryptTCPCmd("850/" + myId + "/" + groupId + "/" + row_id + "/" + cmdStr));
-            android.util.Log.d("发送消息", "Socket850:------850/" + myId + "/" + groupId + "/" + row_id + "/" + cmdStr);
+            Log.d("发送消息  Socket850:------850/" + myId + "/" + groupId + "/" + row_id + "/" + cmdStr);
             Log.d("850/" + myId + "/" + groupId + "/" + row_id + "/" + cmdStr);
+
+            //jack
+            synchronized (lock_850) {
+                try {
+                    lock_850.wait(TRANSIT_TIMEOUT * 2);
+                } catch (Exception e) {
+                }
+            }
+
+            // TODO: 2016/4/26 重发消息
+            //发送失败,重发一次消息
+            if (!SMSoK) {
+                Log.d("MySocket  进来了");
+                int versionCode = mContext.getPackageManager()
+                        .getPackageInfo(mContext.getPackageName(), 0).versionCode;
+                if (!isLogged(false)) Login(versionCode);
+                if (AireJupiter.getInstance() != null) {
+                    AireJupiter.getInstance().sendPendingGroupSMS();
+                }
+                return false;
+            }
             return true;
         } catch (Exception e) {
             Log.e("FailtoSendtoServer.850");
@@ -1345,6 +1413,9 @@ public class MySocket {
     }
 
     private final Object lock_200 = new Object();
+    //jack
+    private final Object lock_850 = new Object();
+
     private boolean SMSoK = false, SMS280oK = true;
 
     public boolean send(String Callee, String MsgTexg, int Attached,

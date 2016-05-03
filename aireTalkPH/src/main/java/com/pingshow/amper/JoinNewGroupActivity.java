@@ -1,15 +1,11 @@
 package com.pingshow.amper;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.*;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -21,6 +17,8 @@ import android.widget.TextView;
 
 import com.pingshow.amper.db.GroupDB;
 import com.pingshow.util.ImageUtil;
+
+import java.util.ArrayList;
 
 public class JoinNewGroupActivity extends Activity {
 	private int mIdx;

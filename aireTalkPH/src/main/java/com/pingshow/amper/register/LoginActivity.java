@@ -298,7 +298,7 @@ public class LoginActivity extends Activity {
             super.handleMessage(msg);
 
             String Return = msg.obj.toString().toLowerCase();
-            android.util.Log.d("LoginActivity", Return);
+            Log.d("LoginActivity  "+ Return);
 //			if (Return.startsWith("ok,") || Return.contains("ok,registration"))
 //			{
 //				mPref.write("Registered", true);
@@ -546,7 +546,7 @@ public class LoginActivity extends Activity {
                                     "&password=" + URLEncoder.encode(password, "UTF-8") +
                                     "&format=json", null);
 
-                    android.util.Log.d("LoginActivity", Return);
+                    Log.d("LoginActivity  "+ Return);
                     if (Return.length() != 0 && !Return.startsWith("Error"))//no network
                         break;
                     count++;

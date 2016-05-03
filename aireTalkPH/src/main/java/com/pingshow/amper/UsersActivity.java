@@ -1,12 +1,5 @@
 package com.pingshow.amper;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -14,12 +7,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
@@ -54,7 +47,7 @@ import com.pingshow.amper.db.GroupDB;
 import com.pingshow.amper.db.RelatedUserDB;
 import com.pingshow.amper.db.SmsDB;
 import com.pingshow.amper.db.WTHistoryDB;
-import com.pingshow.amper.view.MySwipeRefreshLayout;
+import com.pingshow.amper.view.RefreshableView;
 import com.pingshow.qrcode.PopwindowDialog;
 import com.pingshow.util.AsyncImageLoader;
 import com.pingshow.util.AsyncImageLoader.ImageCallback;
@@ -64,6 +57,13 @@ import com.pingshow.voip.DialerActivity;
 import com.pingshow.voip.VideoCallActivity;
 import com.pingshow.voip.core.VoipCall;
 import com.pingshow.voip.core.VoipCore;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class UsersActivity extends Activity {
 
@@ -91,7 +91,8 @@ public class UsersActivity extends Activity {
 
     private ImageView mModeBtn;
     private ImageView mMoreBtn;
-    private boolean refresh = true;
+
+    private boolean refresh = true;//jack 控制刷新的boolean变量
 
     private Handler mHandler = new Handler();
 
@@ -107,9 +108,10 @@ public class UsersActivity extends Activity {
 
     static public boolean uiUAinFore = false;
 
-    //jack 2.4.51 hardcode
+    //jack 16/4/16 hardcode 应该通过回调关闭页面.....暂时这样
     public static Activity myUsersActivity;
-    private MySwipeRefreshLayout mSwipeRefreshLayout;
+    //jack 16/5/3 自定义的下拉刷新
+    private RefreshableView refreshableView;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -120,7 +122,7 @@ public class UsersActivity extends Activity {
         _this = this;
         neverSayNeverDie(_this);  //tml|bj*** neverdie/
 
-        myUsersActivity = this;
+        myUsersActivity = this;//jack hardcode
 
         mPref = new MyPreference(this);
         int ort = getResources().getConfiguration().orientation;
@@ -175,28 +177,34 @@ public class UsersActivity extends Activity {
         mModeBtn = (ImageView) findViewById(R.id.mode);
         mMoreBtn = (ImageView) findViewById(R.id.more);
 
-        //jack
-
-        mSwipeRefreshLayout = (MySwipeRefreshLayout) findViewById(R.id.srf_swipe_refresh);
-        mSwipeRefreshLayout.setColorScheme(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        //jack 下拉刷新
+        refreshableView = (RefreshableView) findViewById(R.id.refreshable_view);
+        refreshableView.setOnRefreshListener(new RefreshableView.PullToRefreshListener() {
             @Override
-            public void onRefresh() {
+            public void onRefresh() {//子线程回调的方法
                 if (refresh) {
-                    try {
-                        refresh = false;
-                        AireJupiter instance = AireJupiter.getInstance();
-                        if (instance!=null) {
-                            instance.notifyReconnectTCP();
-                            instance.onReconnect(instance.startConnection_beginning);
-                        }
+                    refresh = false;
+                    AireJupiter instance = AireJupiter.getInstance();
+                    if (instance == null) {
+                        Intent vip2 = new Intent(getApplicationContext(), AireJupiter.class);
+                        getApplicationContext().startService(vip2);
+                    }
 
-                    } catch (Exception e) {
+                    //jack 16/5/3 暂时补救 relogin,有时间重写
+                    try {
+                        int versionCode = getApplicationContext().getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+                        instance.tcpSocket.Login(versionCode);
+                        instance.notifyReconnectTCP();
+                        instance.onReconnect(instance.startConnection_beginning);
+
+                    } catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();
                     }
-                    //刷新主界面
-                    new Handler().postDelayed(new Runnable() {
 
+                    MyUtil.Sleep(2000);
+
+                    //刷新主界面
+                    mHandler.post(new Runnable() {
                         @Override
                         public void run() {
                             // TODO Auto-generated method stub
@@ -204,21 +212,24 @@ public class UsersActivity extends Activity {
                             UsersActivity.needRefresh = true;
                             Intent intent = new Intent(Global.Action_Refresh_Gallery);
                             sendBroadcast(intent);
-                            mSwipeRefreshLayout.setRefreshing(false);
+                            refreshableView.finishRefreshing();
                         }
-                    }, 2000);
+                    });
                 }
             }
-        });
+        }, 0);
+
         if (displayType == 1) {
             friendGrid.setVisibility(View.GONE);
             friendList.setVisibility(View.VISIBLE);
-            mSwipeRefreshLayout.setViewGroup(friendList);
+            //jack 16/5/3设置刷新的内容
+            refreshableView.initContainer(friendList);
             mModeBtn.setImageResource(R.drawable.mode_grid);
         } else {
             friendGrid.setVisibility(View.VISIBLE);
             friendList.setVisibility(View.GONE);
-            mSwipeRefreshLayout.setViewGroup(friendGrid);
+            //jack 16/5/3设置刷新的内容
+            refreshableView.initContainer(friendGrid);
             mModeBtn.setImageResource(R.drawable.mode_list);
         }
 
@@ -257,7 +268,7 @@ public class UsersActivity extends Activity {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if (mDropDownList.getVisibility() == View.VISIBLE) {
                     mDropDownList.setVisibility(View.GONE);
-                    mMoreBtn.setImageResource(R.drawable.add2);  //tml*** beta ui, was dropdown
+                    mMoreBtn.setImageResource(R.drawable.dropdown);  //tml*** beta ui, was dropdown| jack 之前修改失败
                     mMoreBtn.setBackgroundResource(R.drawable.optionbtn);
                     int mMoreBtnPad = 0;
                     if (largeScreen) {
@@ -299,7 +310,7 @@ public class UsersActivity extends Activity {
             @Override
             public void onClick(View v) {
                 editing = 2;
-                // TODO: 2016/4/18 隐藏按钮
+                // jack 16/4/18 隐藏按钮
 //				mMoreBtn.setImageResource(R.drawable.done);
 //				mMoreBtn.setBackgroundResource(R.drawable.graybtn);
                 int mMoreBtnPad = 0;
@@ -373,6 +384,7 @@ public class UsersActivity extends Activity {
             @Override
             public void onClick(View v) {
                 editing = 1;
+                //jack 16/5/3 修复显示bug
 //				mMoreBtn.setImageResource(R.drawable.done);
 //				mMoreBtn.setBackgroundResource(R.drawable.graybtn);
                 int mMoreBtnPad = 0;
@@ -455,13 +467,15 @@ public class UsersActivity extends Activity {
                     displayType = 1;
                     friendGrid.setVisibility(View.GONE);
                     friendList.setVisibility(View.VISIBLE);
-                    mSwipeRefreshLayout.setViewGroup(friendList);
+                    //jack 16/5/3设置刷新的内容
+                    refreshableView.initContainer(friendList);
                     mModeBtn.setImageResource(R.drawable.mode_grid);
                 } else {
                     displayType = 0;
                     friendGrid.setVisibility(View.VISIBLE);
                     friendList.setVisibility(View.GONE);
-                    mSwipeRefreshLayout.setViewGroup(friendGrid);
+                    //jack 16/5/3设置刷新的内容
+                    refreshableView.initContainer(friendGrid);
                     mModeBtn.setImageResource(R.drawable.mode_list);
                 }
                 mPref.write("displayType", displayType);
@@ -774,7 +788,7 @@ public class UsersActivity extends Activity {
                         it.putExtra("SendeeContactId", contact_id);
                         it.putExtra("SendeeNumber", address);
                         it.putExtra("SendeeDisplayname", Nickname);
-                        //jack 2.4.51 hardcode
+                        //jack 16/5/3 将头像路径传入ConversationActivity
                         it.putExtra("photopath", map.get("imagePath"));
                         startActivity(it);
                     } else {
@@ -1656,13 +1670,15 @@ public class UsersActivity extends Activity {
                     displayType = 1;
                     friendGrid.setVisibility(View.GONE);
                     friendList.setVisibility(View.VISIBLE);
-                    mSwipeRefreshLayout.setViewGroup(friendList);
+                    //jack 16/5/3设置刷新的内容
+                    refreshableView.initContainer(friendList);
                     mModeBtn.setImageResource(R.drawable.mode_grid);
                 } else {
                     displayType = 0;
                     friendGrid.setVisibility(View.VISIBLE);
                     friendList.setVisibility(View.GONE);
-                    mSwipeRefreshLayout.setViewGroup(friendGrid);
+                    //jack 16/5/3设置刷新的内容
+                    refreshableView.initContainer(friendGrid);
                     mModeBtn.setImageResource(R.drawable.mode_list);
                 }
                 mPref.write("displayType", displayType);
@@ -1830,7 +1846,7 @@ public class UsersActivity extends Activity {
                     map = new HashMap<String, String>();
 
 					/*
-					String containChinese = "no";
+                    String containChinese = "no";
 					
 					String [] spell = new String[1];
 					if (isChineseChar(disName, spell))

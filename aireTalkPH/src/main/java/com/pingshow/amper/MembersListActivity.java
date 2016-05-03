@@ -2,8 +2,10 @@ package com.pingshow.amper;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -12,8 +14,6 @@ import android.os.Message;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ImageSpan;
-import android.util.*;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -21,9 +21,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.pingshow.amper.bean.GroupMsg;
 import com.pingshow.amper.contacts.ContactsOnline;
 import com.pingshow.amper.contacts.ContactsQuery;
 import com.pingshow.amper.db.AmpUserDB;
@@ -31,10 +29,9 @@ import com.pingshow.amper.db.GroupDB;
 import com.pingshow.amper.db.SmsDB;
 import com.pingshow.network.MyNet;
 import com.pingshow.util.AsyncImageLoader;
-import com.pingshow.util.GroupUpdateMessageSender;
+import com.pingshow.util.LBMUtil;
 import com.pingshow.util.MyTelephony;
 import com.pingshow.util.MyUtil;
-import com.pingshow.util.ResizeImage;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -91,6 +88,22 @@ public class MembersListActivity extends Activity {
     private String groupID;
     private String mIdx;
 
+    BroadcastReceiver InternalCommand = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(Global.Action_Refresh_Groupinfo)) {
+                int command = intent.getIntExtra("Command", 0);
+                switch (command) {
+                    case Global.CMD_Close_Activity:
+                        int removeGroupId = Integer.parseInt(intent.getStringExtra("GroupId"));
+                        if (removeGroupId==Integer.parseInt(groupID)) {
+                            finish();
+                        }
+                        break;
+                }
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,51 +180,51 @@ public class MembersListActivity extends Activity {
         sendBroadcast(intent);
     }
 
-    private void insertMsg(final String content) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String obligate1 = null;
-                if (AireJupiter.getInstance() != null) {  //tml*** china ip
-                    obligate1 = AireJupiter.getInstance().getIsoPhp(0, true, null);
-                } else {
-                    obligate1 = AireJupiter.myPhpServer_default;
-                }
-                String address = "[<GROUP>]" + groupID;
+//    private void insertMsg(final String content) {
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                String obligate1 = null;
+//                if (AireJupiter.getInstance() != null) {  //tml*** china ip
+//                    obligate1 = AireJupiter.getInstance().getIsoPhp(0, true, null);
+//                } else {
+//                    obligate1 = AireJupiter.myPhpServer_default;
+//                }
+//                String address = "[<GROUP>]" + groupID;
+//
+//                ContactsQuery cq = new ContactsQuery(MembersListActivity.this);
+//                long contactid = cq.getContactIdByNumber(address);
+//
+//                boolean flag = ConversationActivity.sender != null && MyTelephony.SameNumber(ConversationActivity.sender, "[<GROUP>]" + groupID);
+//                int read = (flag == true ? 1 : 0);
+//
+//                String displayname = mADB.getNicknameByAddress(address);
+//                SmsDB smsDB = new SmsDB(MembersListActivity.this);
+//                smsDB.open();
 
-                ContactsQuery cq = new ContactsQuery(MembersListActivity.this);
-                long contactid = cq.getContactIdByNumber(address);
-
-                boolean flag = ConversationActivity.sender != null && MyTelephony.SameNumber(ConversationActivity.sender, "[<GROUP>]" + groupID);
-                int read = (flag == true ? 1 : 0);
-
-                String displayname = mADB.getNicknameByAddress(address);
-                SmsDB smsDB = new SmsDB(MembersListActivity.this);
-                smsDB.open();
-
-                // TODO: 2016/4/7 之后删除
-                android.util.Log.d("已知群组添加人", "将加人消息插入数据库:----------------"
-                        + "msg.address  " + address
-                        + "  msg.contactid  " + contactid
-                        + "  msg.time  方法中"
-                        + "  msg.read  1"
-                        + "  msg.status  -1"
-                        + "  msg.type  1"
-                        + "  msg.subject  为空串"
-                        + "  msg.content  " + content
-                        + "  msg.attached  0"
-                        + "  msg.att_path_aud  null"
-                        + "  msg.att_path_img  null"
-                        + "  msg.longitudeE6  0"
-                        + "  msg.latitudeE6  0"
-                        + "  msg.displayname  " + displayname
-                        + "  msg.obligate1  " + obligate1
-                        + "  msg.group_member  " + Integer.parseInt(myIdx));
-                smsDB.insertMessage(address, contactid, (new Date()).getTime(), read, -1, 1, "", content, 0, null, null, 0, 0, 0, 0, displayname, obligate1, Integer.parseInt(myIdx));
-                smsDB.close();
-            }
-        }).start();
-    }
+//                 TODO: 2016/4/7 之后删除
+//                android.util.Log.d("已知群组添加人", "将加人消息插入数据库:----------------"
+//                        + "msg.address  " + address
+//                        + "  msg.contactid  " + contactid
+//                        + "  msg.time  方法中"
+//                        + "  msg.read  1"
+//                        + "  msg.status  -1"
+//                        + "  msg.type  1"
+//                        + "  msg.subject  为空串"
+//                        + "  msg.content  " + content
+//                        + "  msg.attached  0"
+//                        + "  msg.att_path_aud  null"
+//                        + "  msg.att_path_img  null"
+//                        + "  msg.longitudeE6  0"
+//                        + "  msg.latitudeE6  0"
+//                        + "  msg.displayname  " + displayname
+//                        + "  msg.obligate1  " + obligate1
+//                        + "  msg.group_member  " + Integer.parseInt(myIdx));
+//                smsDB.insertMessage(address, contactid, (new Date()).getTime(), read, -1, 1, "", content, 0, null, null, 0, 0, 0, 0, displayname, obligate1, Integer.parseInt(myIdx));
+//                smsDB.close();
+//            }
+//        }).start();
+//    }
 
     //jack 创建群组
     private void createGroup(String idxArray) {
@@ -356,6 +369,11 @@ public class MembersListActivity extends Activity {
 
         //jack 组装数据
         new Thread(mFetchFriends).start();
+
+        //注册广播接收者
+        IntentFilter intentToReceiveFilter = new IntentFilter();
+        intentToReceiveFilter.addAction(Global.Action_Refresh_Groupinfo);
+        LBMUtil.registerReceiver(this, InternalCommand, intentToReceiveFilter);
     }
 
     //jack holder
@@ -527,6 +545,7 @@ public class MembersListActivity extends Activity {
 
     @Override
     protected void onDestroy() {
+        LBMUtil.unregisterReceiver(this, InternalCommand);
         super.onDestroy();
         if (mADB != null && mADB.isOpen())
             mADB.close();

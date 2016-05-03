@@ -3,6 +3,8 @@ package com.pingshow.amper;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
@@ -33,6 +35,7 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaRecorder;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -129,7 +132,7 @@ public class SettingActivity extends Activity {
 		this.overridePendingTransition(R.anim.freeze, R.anim.freeze);
 
 		neverSayNeverDie(SettingActivity.this);  //tml|bj*** neverdie/
-		
+
 		mPref = new MyPreference(this);
 
 		TextView et = (TextView) findViewById(R.id.phone_number);
@@ -154,9 +157,25 @@ public class SettingActivity extends Activity {
 				Intent logout = new Intent(SettingActivity.this, BeforeRegisterActivity.class);
 				ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 				UsersActivity.myUsersActivity.finish();
-				am.clearApplicationUserData();
-				startActivity(logout);
-				finish();
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+					am.clearApplicationUserData();
+					startActivity(logout);
+					finish();
+				}else {
+					Toast.makeText(SettingActivity.this, "Android版本过低!退出失败...", Toast.LENGTH_SHORT).show();
+				}
+////				Method method = am.getClass().getDeclaredMethod("clearApplicationUserData", IPackageDataObserver.class);
+//				try {
+//					Method method = am.getClass().getDeclaredMethod("clearApplicationUserData", IPackageDataObserver.class);
+//					method.invoke(am, "com.pingshow.amper", new ClearUserDataObserver());
+//				} catch (IllegalAccessException e) {
+//					e.printStackTrace();
+//				} catch (InvocationTargetException e) {
+//					e.printStackTrace();
+//				} catch (NoSuchMethodException e) {
+//					e.printStackTrace();
+//				}
+
 			}
 		});
 
@@ -1072,9 +1091,8 @@ public class SettingActivity extends Activity {
 					
 					try{
 						startActivityForResult(getCropImageIntent(uriOrig), 3);
-					}catch(Exception e)
-					{
-						
+					}catch(Exception e) {
+						android.util.Log.d("SettingActivity", e.getMessage());
 					}
 				
 				} else if (requestCode == 7) {
@@ -1108,32 +1126,32 @@ public class SettingActivity extends Activity {
 								return;
 							}
 						}
-						
+
 						Bitmap bitmap = data.getParcelableExtra("data");
 						String uriString = MediaStore.Images.Media.insertImage(
 								getContentResolver(), bitmap, null, null);
 						uri = Uri.parse(uriString);
 						SrcImagePath = getPath(uri);
 						Log.d("tmlpic SrcImagePath=" + SrcImagePath);
-	
+
 						int uid = Integer.valueOf(mPref.read("myID", "0"), 16);
 						String outFilename = Global.SdcardPath_sent + "myself_photo_" + uid + ".jpg";
 						ResizeImage.ResizeXY(this, SrcImagePath, outFilename, PHOTO_SIZE, 100);
-						
+
 						String outFilename2 = Global.SdcardPath_inbox + "photo_" + uid + "b.jpg";
 						ResizeImage.ResizeXY(this, SrcImagePath, outFilename2, PHOTO_SIZE, 100);
-						
+
 						photoPath = outFilename;
-	
+
 						if (uriOrig != null)
 							getContentResolver().delete(uriOrig, null, null);
 						getContentResolver().delete(uri, null, null);
-						
-						if (requestCode==3)//taken from camera
+
+						if (requestCode == 3)//taken from camera
 						{
 							Intent it = new Intent(SettingActivity.this, PictureRotationActivity.class);
 							startActivityForResult(it, 7);
-						}else{
+						} else {
 //							Drawable photo = ImageUtil.getBitmapAsRoundCorner(outFilename, 3, 10);// alec
 							Bitmap photo = ImageUtil.getCircleBitmapPath(photoPath, 3, 10);  //xwf*** circle pic
 							if (photo != null) {
@@ -1145,7 +1163,7 @@ public class SettingActivity extends Activity {
 								photoChanged = true;
 							}
 						}
-	
+
 					} catch (Exception e) {
 						msg.what = 40;//DATA_ERROR;
 						handler.sendMessage(msg);
@@ -1237,8 +1255,10 @@ public class SettingActivity extends Activity {
 		intent.putExtra("crop", "true");
 		intent.putExtra("aspectX", 1);
 		intent.putExtra("aspectY", 1);
-		intent.putExtra("outputX", PHOTO_SIZE+PHOTO_SIZE);
-		intent.putExtra("outputY", PHOTO_SIZE+PHOTO_SIZE);
+//		intent.putExtra("outputX", PHOTO_SIZE + PHOTO_SIZE);
+//		intent.putExtra("outputY", PHOTO_SIZE + PHOTO_SIZE);
+		intent.putExtra("outputX", PHOTO_SIZE);// FIXME: 2016/4/30 jack
+		intent.putExtra("outputY", PHOTO_SIZE);
 		intent.putExtra("return-data", true);
 		return intent;
 	}
@@ -1783,4 +1803,13 @@ public class SettingActivity extends Activity {
 			}
 		}
 	};
+
+	//jack 删除数据
+//	class ClearUserDataObserver extends IPackageDataObserver.Stub {
+//		public void onRemoveCompleted(final String packageName, final boolean succeeded) {
+//            final Message msg = mHandler.obtainMessage(CLEAR_USER_DATA);
+//            msg.arg1 = succeeded?OP_SUCCESSFUL:OP_FAILED;
+//            mHandler.sendMessage(msg);
+//		}
+//	}
 }

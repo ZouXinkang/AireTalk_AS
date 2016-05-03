@@ -1,7 +1,10 @@
 package com.pingshow.amper;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -46,6 +49,23 @@ public class GroupMembersActivity extends Activity{
         logicProcess();
     }
 
+    BroadcastReceiver InternalCommand = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(Global.Action_Refresh_Groupinfo)) {
+                int command = intent.getIntExtra("Command", 0);
+                switch (command) {
+                    case Global.CMD_Close_Activity:
+                        int removeGroupId = Integer.parseInt(intent.getStringExtra("GroupId"));
+                        if (removeGroupId==groupId) {
+                            finish();
+                        }
+                        break;
+                }
+            }
+        }
+    };
+
     private void logicProcess() {
         Intent intent = getIntent();
         String str = intent.getStringExtra("members").trim();
@@ -76,6 +96,10 @@ public class GroupMembersActivity extends Activity{
         }else{
             myAdapter.notifyDataSetChanged();
         }
+
+        IntentFilter intentToReceiveFilter = new IntentFilter();
+        intentToReceiveFilter.addAction(Global.Action_Refresh_Groupinfo);
+        LBMUtil.registerReceiver(this, InternalCommand, intentToReceiveFilter);
     }
 
     private void initData() {
@@ -117,8 +141,9 @@ public class GroupMembersActivity extends Activity{
                                 Log.d("修改群主  修改群主的返回值: " + Return);
                                 if (Return.startsWith("sucess")) {
                                     //发送群主变更消息和群主变更广播
-                                    String content = String.format(getString(R.string.group_creater_changed), members.get(position).getNickname());
-                                    GroupUpdateMessageSender.getInstance().send(GroupMembersActivity.this, Integer.parseInt(mPref.read("myIdx")), groupId, content);
+//                                    String content = String.format(getString(R.string.group_creater_changed), members.get(position).getNickname());
+
+                                    GroupUpdateMessageSender.getInstance().send(GroupMembersActivity.this, Integer.parseInt(mPref.read("myIdx")), groupId, "Group_Switch",members.get(position).getNickname(),null,members.get(position).getIdx()+"");
 
                                     //发送本地广播
                                     Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
@@ -147,6 +172,7 @@ public class GroupMembersActivity extends Activity{
 
     @Override
     protected void onDestroy() {
+        LBMUtil.unregisterReceiver(this, InternalCommand);
         if (mGDB != null && mGDB.isOpen())
             mGDB.close();
         super.onDestroy();

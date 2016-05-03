@@ -434,10 +434,18 @@ public class TimeLineCompose extends Activity {
 					} catch (OutOfMemoryError e) {
 					}
 				}
-				//jack data为null,所以直接使用路径代替
-				int result = ResizeImage.saveFromStreamNew(this, uriOrig, filename, 1600, 1600, 95);
-				String thumbnail = Global.SdcardPath_timeline + "thumb_" + ConversationActivity.getRandomName() + "s.jpg";
-				ResizeImage.saveFromStreamNew(this, uriOrig, thumbnail, 320, 320, 80);  //tml*** bitmap quality, 120>320, 50>80
+				int result =-1;
+				String thumbnail = null;
+				if (requestCode == 3) {
+					//jack data为null,所以直接使用路径代替
+					result = ResizeImage.saveFromStreamNew(this, uriOrig, filename, 1600, 1600, 95);
+					thumbnail = Global.SdcardPath_timeline + "thumb_" + ConversationActivity.getRandomName() + "s.jpg";
+					ResizeImage.saveFromStreamNew(this, uriOrig, thumbnail, 320, 320, 80);  //tml*** bitmap quality, 120>320, 50>80
+				}else if (requestCode ==1){
+					result = ResizeImage.saveFromStream(this, data, filename, 1600, 1600, 95);
+					thumbnail = Global.SdcardPath_timeline + "thumb_" + ConversationActivity.getRandomName() + "s.jpg";
+					ResizeImage.saveFromStream(this, data, thumbnail, 320, 320, 80);  //tml*** bitmap quality, 120>320, 50>80
+				}
 				if (result != -1) {
 					boolean found = false;
 					for (String filePath : attachedList) {

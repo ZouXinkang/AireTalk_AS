@@ -1,10 +1,5 @@
 package com.pingshow.amper;
 
-import java.io.File;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.LinkedList;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -18,8 +13,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.*;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AccelerateInterpolator;
@@ -31,15 +24,18 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
-import com.pingshow.amper.bean.GroupMsg;
 import com.pingshow.amper.db.AmpUserDB;
 import com.pingshow.amper.db.GroupDB;
 import com.pingshow.network.MyNet;
 import com.pingshow.util.ImageUtil;
 import com.pingshow.util.MyUtil;
 import com.pingshow.util.ResizeImage;
+
+import java.io.File;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class CreateGroupActivity extends Activity {
 
@@ -139,7 +135,7 @@ public class CreateGroupActivity extends Activity {
         public void run() {
             sendeeList.remove("0");
             // TODO: 2016/4/8  jack 2.4.51 原来的请求Php没有将创建的creator放在members里面,850是查询整个members群发,所以为了避免,缺少群发群主
-            int myIdx = Integer.parseInt(mPref.read("myID","0"),16);
+            int myIdx = Integer.parseInt(mPref.read("myID", "0"), 16);
             sendeeList.addFirst(myIdx + "");
             String Return = "";
             String members = "";
@@ -150,7 +146,7 @@ public class CreateGroupActivity extends Activity {
                 members += id;
             }
 
-            android.util.Log.d("新建群组", "创建群组的集合包含本身,作为群主.群成员: " + sendeeList);
+            Log.d("新建群组  创建群组的集合包含本身,作为群主.群成员: " + sendeeList);
 
             try {
                 int c = 0;
@@ -160,7 +156,7 @@ public class CreateGroupActivity extends Activity {
                             "id=" + myIdx + "&members=" + members + "&name="
                                     + URLEncoder.encode(groupName, "UTF-8"),
                             null);
-                    android.util.Log.d("新建群组", "新建群组的返回值: " + Return);
+                    Log.d("新建群组  新建群组的返回值: " + Return);
                     if (Return.startsWith("Done"))
                         break;
                     MyUtil.Sleep(2000);
@@ -235,7 +231,7 @@ public class CreateGroupActivity extends Activity {
                 progress.dismiss();
 
             // TODO: 2016/4/18 刷新UserActivity
-            UsersActivity.forceRefresh=true;
+            UsersActivity.forceRefresh = true;
             Intent intent = new Intent(Global.Action_Refresh_Gallery);
             sendBroadcast(intent);
 

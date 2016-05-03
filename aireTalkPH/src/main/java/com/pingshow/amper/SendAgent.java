@@ -1,17 +1,18 @@
 package com.pingshow.amper;
 
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.Intent;
 
 import com.google.gson.Gson;
 import com.pingshow.amper.bean.GroupMsg;
+import com.pingshow.amper.bean.GroupUpdateMsg;
 import com.pingshow.network.MyNet;
 import com.pingshow.util.MyUtil;
+
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 
 public class SendAgent {
 	
@@ -266,7 +267,7 @@ public class SendAgent {
 //					it.putExtra("attachmentURL", attachmentURL);
 //				}
 //					it.putExtra("phpIP",phpIP);
-//			android.util.Log.d("SendAgent", "row_id" + rowid + " Attached" + (mAttached == 9 ? 8 : mAttached) + " remoteAudioPath" + remoteAudioPath + " remoteImagePath" + remoteImagePath + " phpIP" + phpIP);
+//			Log.d("SendAgent", "row_id" + rowid + " Attached" + (mAttached == 9 ? 8 : mAttached) + " remoteAudioPath" + remoteAudioPath + " remoteImagePath" + remoteImagePath + " phpIP" + phpIP);
 //					mContext.sendBroadcast(it);
 //					MyUtil.Sleep(200);
 		}
@@ -372,7 +373,7 @@ public class SendAgent {
 
 	//jack 2.4.51
 	public boolean onGroupSend(final GroupMsg groupMsg) {
-		android.util.Log.d("发送消息", "发送消息的内容: "+groupMsg.toString());
+		Log.d("发送消息  发送消息的内容: "+groupMsg.toString());
 		if (groupMsg.getCt().length() == 0 && groupMsg.getAt().equals("0")) return false;
 		// TODO: 2016/3/30  jack 发送 图片 文字 消息
 		Thread thr = new Thread(new Runnable() {
@@ -396,7 +397,7 @@ public class SendAgent {
 		String attachmentURL = groupMsg.getUrl();
 		String content = groupMsg.getCt();
 
-		android.util.Log.d("SendAgent", attached + "---" + attachmentURL + "---" + content);
+		Log.d("SendAgent"+ attached + "---" + attachmentURL + "---" + content);
 		
 		String phpIP = null;
 		if (AireJupiter.getInstance() != null) {  //tml*** china ip
@@ -434,7 +435,7 @@ public class SendAgent {
 
 			}catch(Exception e){}
 
-			android.util.Log.d("发送消息", "上传语音的结果:"+Return);
+			Log.d("发送消息  上传语音的结果:"+Return);
 			if (Return.startsWith("Done"))
 			{
 				uploadSucess = 1;
@@ -464,7 +465,7 @@ public class SendAgent {
 				}while(count<4);
 			}catch(Exception e){}
 
-			android.util.Log.d("发送消息", "上传图片的结果:"+Return);
+			Log.d("发送消息  上传图片的结果:"+Return);
 
 			if (Return.startsWith("Done"))
 			{
@@ -491,13 +492,43 @@ public class SendAgent {
 			return;
 		}
 		//2.发送消息
-		android.util.Log.d("发送消息", "groupMsg.setUrl(url): "+url);
-		android.util.Log.d("发送消息", "groupMsg.setPath(remoteFilePath):  "+remoteFilePath);
+		Log.d("发送消息  groupMsg.setUrl(url): " + url);
+		Log.d("发送消息  groupMsg.setPath(remoteFilePath):  " + remoteFilePath);
 		groupMsg.setUrl(url);
 		groupMsg.setPath(remoteFilePath);
 		Gson gson = new Gson();
 		String msgJson = gson.toJson(groupMsg);
 		android.util.Log.d("发送消息", "发送850的body: "+msgJson);
 		AireJupiter.getInstance().tcpSocket.send850(Integer.toHexString(mGroupID),Integer.toHexString((int) row_id),msgJson);
+	}
+
+	public void onGroupUpdateSend(GroupUpdateMsg groupUpdate) {
+		String phpIP = null;
+		if (AireJupiter.getInstance() != null) {  //tml*** china ip
+			phpIP = AireJupiter.getInstance().getIsoPhp(1, true, null);
+		} else {
+			phpIP = AireJupiter.myLocalPhpServer;
+		}
+		Log.d("msgs.UploadMessageToServer phpIP=" + phpIP + " mAttached=" + groupUpdate.getAt() );
+
+		int uploadSucess = 0; // 0 no attachment,-1 attachment upload fail, 1 attachment upload sucess
+
+		synchronized(lock_200){
+			try{
+				lock_200.wait(1000);
+			}catch (Exception e){}
+		}
+
+		if(uploadSucess == -1){
+			// notify user sms send fail
+			Intent it = new Intent(Global.Action_SMS_Fail);
+			mContext.sendBroadcast(it);
+			return;
+		}
+		Gson gson = new Gson();
+		String msgJson = gson.toJson(groupUpdate);
+		android.util.Log.d("发送消息", "发送850的body: "+msgJson);
+		AireJupiter.getInstance().tcpSocket.send850(Integer.toHexString(mGroupID), Integer.toHexString((int) row_id), msgJson);
+
 	}
 }
