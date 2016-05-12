@@ -121,21 +121,42 @@
 		</RelativeLayout>
 	</FrameLayout>
 
-	<FrameLayout
+	<!--<FrameLayout-->
+		<!--android:layout_width="fill_parent"-->
+		<!--android:layout_height="fill_parent"-->
+		<!--android:layout_above="@+id/options"-->
+		<!--android:layout_below="@+id/title" >-->
+
+		<!--<GridView-->
+			<!--android:id="@+id/friendsGridView"-->
+			<!--android:layout_width="fill_parent"-->
+			<!--android:layout_height="fill_parent"-->
+			<!--android:listSelector="@drawable/optionbtn"-->
+			<!--android:background="#ecf0f1"-->
+			<!--android:gravity="center"-->
+			<!--android:numColumns="4"-->
+			<!--android:verticalSpacing="0dp" />-->
+
+		<!--<ListView-->
+			<!--android:id="@+id/friendsList"-->
+			<!--android:layout_width="fill_parent"-->
+			<!--android:layout_height="fill_parent"-->
+			<!--android:background="#ecf0f1"-->
+			<!--android:cacheColorHint="#ecf0f1"-->
+			<!--android:divider="#ecf0f1"-->
+			<!--android:dividerHeight="1dp"-->
+			<!--android:fastScrollEnabled="true"-->
+			<!--android:focusableInTouchMode="true"-->
+			<!--android:visibility="gone" />-->
+	<!--</FrameLayout>-->
+
+	<com.pingshow.amper.view.RefreshableView
+		android:id="@+id/refreshable_view"
+		android:orientation="vertical"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:layout_above="@+id/options"
-		android:layout_below="@+id/title" >
-
-		<GridView
-			android:id="@+id/friendsGridView"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:listSelector="@drawable/optionbtn"
-			android:background="#ecf0f1"
-			android:gravity="center"
-			android:numColumns="4"
-			android:verticalSpacing="0dp" />
+		android:layout_below="@id/title">
 
 		<ListView
 			android:id="@+id/friendsList"
@@ -143,12 +164,22 @@
 			android:layout_height="fill_parent"
 			android:background="#ecf0f1"
 			android:cacheColorHint="#ecf0f1"
-			android:divider="#ecf0f1"
+			android:divider="#e1dbdb"
 			android:dividerHeight="1dp"
 			android:fastScrollEnabled="true"
 			android:focusableInTouchMode="true"
 			android:visibility="gone" />
-	</FrameLayout>
+
+		<GridView
+			android:id="@+id/friendsGridView"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:background="#ecf0f1"
+			android:gravity="center"
+			android:listSelector="@drawable/optionbtn"
+			android:numColumns="4"
+			android:verticalSpacing="0dp" />
+	</com.pingshow.amper.view.RefreshableView>
 
 	<FrameLayout
 		android:id="@+id/dropdown_list"

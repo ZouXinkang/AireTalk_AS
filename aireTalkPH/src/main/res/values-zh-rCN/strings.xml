@@ -382,12 +382,7 @@
     <string name="add_new_member_in_group">您确定要为这个群组添加新成员吗？</string>
     <string name="group_invite_new_member">%1$s已经被邀请到\"%2$s\"群组</string>
 
-    <string name="group_invite_new_members">%1$s邀请\"%2$s\"加入群组</string>
-    <string name="group_removed_members">%1$s从群组中移除</string>
-    <string name="group_member_left">%1$s退出群组</string>//4/28
-    <string name="group_photo_changed">%1$s设置群组头像</string>
-    <string name="group_creater_changed">%1$s成为群主</string>
-    <string name="group_name_changed">%1$s修改群名称为\"%2$s\"</string>
+
 
     <!-- from iphone -->
     <!--jack 2.4.51-->
@@ -491,9 +486,7 @@
     <string name="iso_input_invalid">城市/地区号错误</string>
     <string name="add_successful">添加成功</string>
     <string name="logout">退出</string>
-    <string name="chat_info">聊天信息</string>
-    <string name="group_photo">群组头像</string>
-    <string name="ownership_transfer">群组管理权转让</string>
+
     <string name="creater_doesnt_change">群主未变更!</string>
     <string name="no_change">未改变</string>
     <string name="poor_network_doesnt_change">网络差!修改失败</string>
@@ -507,6 +500,18 @@
     <string name="waiting">请稍等!</string>
     <string name="photo_uploading">图片上传中...</string>
     <string name="refresh_failed">操作失败!请检查网络...</string>
+
+
+    <string name="chat_info">聊天信息</string>
+    <string name="group_photo">群组头像</string>
+    <string name="ownership_transfer">群组管理权转让</string>
+
+    <string name="group_invite_new_members">%1$s邀请\"%2$s\"加入群组</string>
+    <string name="group_removed_members">%1$s从群组中移除</string>
+    <string name="group_member_left">%1$s退出群组</string>//4/28
+    <string name="group_photo_changed">%1$s设置群组头像</string>
+    <string name="group_creater_changed">%1$s成为群主</string>
+    <string name="group_name_changed">%1$s修改群名称为\"%2$s\"</string>
 
     <string name="pull_to_refresh_pull_label">下拉刷新…</string>
     <string name="pull_to_refresh_release_label">放开以刷新…</string>

@@ -156,7 +156,7 @@ public class SettingActivity extends Activity {
 			public void onClick(View v) {
 				Intent logout = new Intent(SettingActivity.this, BeforeRegisterActivity.class);
 				ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-				UsersActivity.myUsersActivity.finish();
+
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 					am.clearApplicationUserData();
 					startActivity(logout);
@@ -1025,7 +1025,14 @@ public class SettingActivity extends Activity {
 			}
 		} else if (uri.toString().startsWith("file:")) {
 			String uriStr = uri.toString();
-			return uriStr.substring(uriStr.indexOf("sdcard"));
+			Log.d("file://  uri " + uri.toString());
+			if (uriStr.indexOf("sdcard") == -1) {
+				Log.d("判断Url不包含sdcard字段  " + uriStr.substring(uriStr.indexOf("/storage")));
+				return uriStr.substring(uriStr.indexOf("/storage"));
+			} else {
+				Log.d("判断Url包含sdcard字段  " + uriStr.substring(uriStr.indexOf("sdcard")));
+				return uriStr.substring(uriStr.indexOf("sdcard"));
+			}
 		}
 		return "";
 	}

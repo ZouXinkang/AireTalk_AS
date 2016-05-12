@@ -17,6 +17,7 @@ import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
+import android.util.Base64;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,6 +26,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
@@ -38,7 +40,9 @@ import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pingshow.amper.contacts.ContactsOnline;
 import com.pingshow.amper.contacts.ContactsQuery;
@@ -48,9 +52,10 @@ import com.pingshow.amper.db.RelatedUserDB;
 import com.pingshow.amper.db.SmsDB;
 import com.pingshow.amper.db.WTHistoryDB;
 import com.pingshow.amper.view.RefreshableView;
-import com.pingshow.qrcode.PopwindowDialog;
+import com.pingshow.amper.view.SettingPopupWindow;
 import com.pingshow.util.AsyncImageLoader;
 import com.pingshow.util.AsyncImageLoader.ImageCallback;
+import com.pingshow.util.MCrypt;
 import com.pingshow.util.MyUtil;
 import com.pingshow.voip.AireVenus;
 import com.pingshow.voip.DialerActivity;
@@ -59,6 +64,7 @@ import com.pingshow.voip.core.VoipCall;
 import com.pingshow.voip.core.VoipCore;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -112,6 +118,7 @@ public class UsersActivity extends Activity {
     public static Activity myUsersActivity;
     //jack 16/5/3 自定义的下拉刷新
     private RefreshableView refreshableView;
+    private SettingPopupWindow settingPopupWindow;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -176,6 +183,8 @@ public class UsersActivity extends Activity {
         //tml*** temp alpha ui, CX
         mModeBtn = (ImageView) findViewById(R.id.mode);
         mMoreBtn = (ImageView) findViewById(R.id.more);
+
+        initPopupWindow();
 
         //jack 下拉刷新
         refreshableView = (RefreshableView) findViewById(R.id.refreshable_view);
@@ -554,7 +563,11 @@ public class UsersActivity extends Activity {
         mMoreBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(UsersActivity.this, PopwindowDialog.class));
+//                startActivity(new Intent(UsersActivity.this, PopwindowDialog.class));
+                settingPopupWindow.setAnimationStyle(R.style.setting_popupwindow_anim);
+                settingPopupWindow.showAsDropDown(mMoreBtn, 0, -20);
+                lightOff();
+
                 // TODO: 2016/4/18 隐藏不显示的界面
                 if (mDropDownList.getVisibility() == View.VISIBLE) {
                     mDropDownList.setVisibility(View.GONE);
@@ -681,6 +694,31 @@ public class UsersActivity extends Activity {
 
         mHandler.postDelayed(mInstantQueryOnlineFriends, 3000);
 
+    }
+
+    /**
+     * 初始化popupwindow
+     */
+    private void initPopupWindow() {
+        settingPopupWindow = new SettingPopupWindow(UsersActivity.this);
+        settingPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                lightOn();
+            }
+        });
+    }
+
+    private void lightOn() {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = 1.0f;
+        getWindow().setAttributes(lp);
+    }
+
+    private void lightOff() {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = 0.3f;
+        getWindow().setAttributes(lp);
     }
 
     ;
@@ -927,6 +965,112 @@ public class UsersActivity extends Activity {
                 friendAdapter[displayType].notifyDataSetChanged();
             }
         } else if (requestCode == 3838) {
+        } else if (requestCode == 105) {  //tml|li*** qr addf
+            if (resultCode == RESULT_OK) {
+                Bundle bundle = data.getExtras();
+                String scanResult = bundle.getString("result");
+                String[] items = null;
+                boolean success = true;
+                String falseScan = "";
+
+                if (scanResult != null) {
+                    //li*** encrypt
+                    Log.d("qr preXN= " + scanResult);
+                    try {
+                        byte[] bytes = MCrypt.encrypt(Base64.decode(scanResult.getBytes(), Base64.DEFAULT));
+                        scanResult = new String(bytes);
+                    } catch (Exception e) {
+                        Log.e("qr decrypt !@#$ " + e.getMessage());
+                    }
+                    Log.d("qr postXN= " + scanResult);
+
+                    if (scanResult.contains(",")) {
+                        items = scanResult.split(",");
+
+                        if (items.length == 4 && items[0].equals("AddAireFriend")) {
+                            for (int i = 0; i < 4; i++) {
+                                if (items[i] == null || items[i].length() == 0) {
+                                    success = false;
+                                    break;
+                                }
+                                Log.d("scan friend item" + i + " " + items[i]);
+                            }
+
+                            try {
+                                if (!success) throw new IOException();
+                                String address = items[1];
+                                int idx = Integer.parseInt(items[2]);
+                                String nickname = items[3];
+                                if (mADB.isFafauser(address)) {
+                                    Intent it = new Intent(this, FunctionActivity.class);
+                                    long contactId = cq.getContactIdByNumber(address);
+                                    it.putExtra("Contact_id", contactId);
+                                    it.putExtra("Address", address);
+                                    it.putExtra("Nickname", nickname);
+                                    it.putExtra("Idx", idx);
+                                    startActivity(it);
+                                } else {
+                                    Intent it = new Intent(this, AddAsFriendActivity.class);
+                                    android.util.Log.d("PopwindowDialog", "Pop");
+                                    it.putExtra("Address", address);
+                                    it.putExtra("Nickname", nickname);
+                                    it.putExtra("Idx", idx);
+                                    startActivityForResult(it, 106);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                success = false;
+                            }
+                        } else {
+                            success = false;
+//							falseScan = "\n" + scanResult;
+                        }
+                    } else {
+                        success = false;
+//						falseScan = "\n" + scanResult;
+                    }
+                }
+
+                if (!success) {
+                    Toast.makeText(this, getString(R.string.qr_invalid) + falseScan, Toast.LENGTH_SHORT).show();
+                }
+            }
+        } else if (requestCode == 106) {
+            if (resultCode == RESULT_OK) {
+
+                if (!MyUtil.checkNetwork(this)) return;
+
+                String address = data.getExtras().getString("Address");
+                String nickname = data.getExtras().getString("Nickname");
+                int idx = data.getExtras().getInt("Idx");
+                mADB.insertUser(address, idx, nickname);
+                mRDB.deleteContactByAddress(address);
+
+                ContactsOnline.setContactOnlineStatus(address, 0);
+                UsersActivity.forceRefresh = true;
+
+                Intent it = new Intent(Global.Action_InternalCMD);
+                it.putExtra("Command", Global.CMD_UPLOAD_FRIENDS);
+                it.putExtra("type", 1);//Single Friend
+                it.putExtra("serverType", 1);//add
+                it.putExtra("idxlist", idx + "");
+                sendBroadcast(it);
+
+                try {
+                    Log.d("SENDING ADDF REQUEST.original");
+                    int myIdx = Integer.parseInt(mPref.read("myID", "0"), 16);
+                    SendAgent agent = new SendAgent(this, myIdx, 0, false);
+                    agent.onSend(address, Global.Hi_AddFriend1, 0, null, null, true);
+                } catch (Exception e) {
+                }
+
+                Intent it2 = new Intent(Global.Action_Refresh_Gallery);
+                sendBroadcast(it2);
+
+                Intent it3 = new Intent(Global.Action_InternalCMD);
+                it3.putExtra("Command", Global.CMD_SEARCH_POSSIBLE_FRIENDS);
+                sendBroadcast(it3);
+            }
         }
     }
 

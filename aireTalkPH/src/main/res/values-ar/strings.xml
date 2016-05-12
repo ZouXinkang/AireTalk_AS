@@ -395,14 +395,6 @@
 المجموعة 
 %2$s
 </string>
- //jack 2.4.51
- <string name="group_invite_new_members">%1$s added \"%2$s\"</string>
- <string name="group_removed_members">%1$s removed from the group</string>
- <string name="group_member_left">%1$s has left the group</string>//4/28
- <string name="group_photo_changed">%1$s changed group photo</string>
- <string name="group_name_changed">%1$s set group name as \"%2$s\"</string>
- <string name="group_creater_changed">%1$s become a group leader</string>
-
 
  <!-- from iphone -->
 <string name="aire_call">AireCall</string>
@@ -492,6 +484,13 @@ $%5$.3f $%4$s
  <string name="chat_info">Chat Info</string>
  <string name="group_photo">Group Photo</string>
  <string name="ownership_transfer">Ownership Transfer</string>
+ //jack 2.4.51
+ <string name="group_invite_new_members">%1$s added \"%2$s\"</string>
+ <string name="group_removed_members">%1$s removed from the group</string>
+ <string name="group_member_left">%1$s has left the group</string>//4/28
+ <string name="group_photo_changed">%1$s changed group photo</string>
+ <string name="group_name_changed">%1$s set group name as \"%2$s\"</string>
+ <string name="group_creater_changed">%1$s become a group leader</string>
 
  <string name="pull_to_refresh_pull_label">اسحب للتحديث…</string>
  <string name="pull_to_refresh_release_label">اترك للتحديث…</string>

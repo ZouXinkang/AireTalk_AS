@@ -191,7 +191,7 @@ public class SipCallActivity extends Activity implements FilterQueryProvider{
             tNumberField=(EditText)main_page.findViewById(R.id.number_to_call);
             mKeypad=(FrameLayout)main_page.findViewById(R.id.keypad);
             //xwf
-            mKeypad.setVisibility(View.INVISIBLE);
+//            mKeypad.setVisibility(View.INVISIBLE);
             tNumberField.setOnTouchListener(new OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {

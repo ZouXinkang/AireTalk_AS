@@ -4,8 +4,8 @@
     package="com.pingshow.amper"
     android:installLocation="auto"
 
-    android:versionCode="2455"
-    android:versionName="2.4.55">
+    android:versionCode="2558"
+    android:versionName="2.5.58">
     <!-- 	//also update SplashScreen versionCode if shortcut icon changes -->
     <!--android:sharedUserId="android.uid.system"-->
     <uses-sdk

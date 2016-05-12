@@ -97,6 +97,7 @@ public class Global {
 	public static final int CMD_CHECK_PAYPAL_AGAIN = 76;
 	public static final int CMD_CONNECTION_POOR = 78;
 	public static final int CMD_ADDF_280 = 282;
+
 	public static final int CMD_GROUP_SENDEE = 80; //jack send group sendee
 	public static final int CMD_Refresh_Add_Members = 82;
 	public static final int CMD_Refresh_Cut_Members = 84;

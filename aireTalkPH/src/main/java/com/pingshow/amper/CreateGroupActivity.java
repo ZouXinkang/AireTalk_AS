@@ -217,13 +217,13 @@ public class CreateGroupActivity extends Activity {
                 } catch (Exception e) {
                 }
             }
-            ArrayList<String> addressList = new ArrayList<String>();
-            try {
-                for (int i = 0; i < sendeeList.size(); i++)
-                    addressList.add(mADB.getAddressByIdx(Integer
-                            .parseInt(sendeeList.get(i))));
-            } catch (Exception e) {
-            }
+//            ArrayList<String> addressList = new ArrayList<String>();
+//            try {
+//                for (int i = 0; i < sendeeList.size(); i++)
+//                    addressList.add(mADB.getAddressByIdx(Integer
+//                            .parseInt(sendeeList.get(i))));
+//            } catch (Exception e) {
+//            }
 
             mADB.close();
 

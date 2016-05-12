@@ -353,6 +353,7 @@ public class PickupActivity extends FragmentActivity {
 																				  if (callList.size() > 0 || amperList.size() > 0 || contactsList.size() > 0) {
 																					  AireVenus.setCallType(AireVenus.CALLTYPE_CHATROOM);
 																					  MakeCall.ConferenceCall(getApplicationContext(), myIdx + "");
+																					  finish();
 																				  }
 																			  }
 																		  }

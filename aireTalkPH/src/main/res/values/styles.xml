@@ -87,4 +87,10 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
+    //jack popupWindow
+    <style name="setting_popupwindow_anim">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
+
 </resources>

@@ -212,6 +212,7 @@ public class SmsDB {
         return mDb.insert(SMS_DB_TABLE, null, vals);
     }
 
+    //jack
     public synchronized long insertMessageNew(
             String address, long person, long date,
             int read, int status, int type, String subject, String body,

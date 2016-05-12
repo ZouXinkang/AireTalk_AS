@@ -8,14 +8,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.pingshow.amper.bean.Person;
-
-import org.w3c.dom.Text;
 
 /**
  * Created by jack on 2016/3/2.

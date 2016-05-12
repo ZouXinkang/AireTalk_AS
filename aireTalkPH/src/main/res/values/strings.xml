@@ -392,13 +392,6 @@
 <string name="add_new_member_in_group">Sure to add new members?</string>
 <string name="group_invite_new_member">%1$s has been invited to Group \"%2$s\"</string>
 
-<string name="group_invite_new_members">%1$s added \"%2$s\"</string>
-<string name="group_removed_members">%1$s removed from the group</string>
-    <string name="group_member_left">%1$s has left the group</string>//4/28
-    <string name="group_photo_changed">%1$s changed group photo</string>
-    <string name="group_name_changed">%1$s set group name as \"%2$s\"</string>
-    <string name="group_creater_changed">%1$s become a group leader</string>
-
 <!-- from iphone -->
 <string name="aire_call">AireCall</string>
 <string name="purchase">Purchase</string>
@@ -520,6 +513,13 @@
     <string name="iso_input_invalid">Wrong country code</string>
     <string name="add_successful">Add successful!</string>
     <string name="logout">Logout</string>
+
+    <string name="group_invite_new_members">%1$s added \"%2$s\"</string>
+    <string name="group_removed_members">%1$s removed from the group</string>
+    <string name="group_member_left">%1$s has left the group</string>//4/28
+    <string name="group_photo_changed">%1$s changed group photo</string>
+    <string name="group_name_changed">%1$s set group name as \"%2$s\"</string>
+    <string name="group_creater_changed">%1$s become a group leader</string>
 
     <string name="chat_info">Chat Info</string>
     <string name="group_photo">Group Photo</string>
