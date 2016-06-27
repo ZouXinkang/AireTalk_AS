@@ -997,15 +997,15 @@ public class MyNet {
 			InputStream stream = URLConn.getInputStream();
 			FileOutputStream file = new FileOutputStream(filename);
 			URLConn.setReadTimeout(HTTP_READ_TIME_OUT);
-			byte [] data=new byte[1024];
+			byte [] data=new byte[10*1024];
 			int len;
-			while((len=stream.read(data)) > 0)
+			while((len=stream.read(data)) > 0){
 				file.write(data, 0, len);
+			}
 			file.flush();
 			file.close();
 			stream.close();
 			ret=true;
-
 			URLConn.disconnect();
 
 		} catch (Exception e) {

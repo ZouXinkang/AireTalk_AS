@@ -2460,18 +2460,35 @@ public class ConversationActivity extends Activity implements OnClickListener {
                         } catch (Exception e) {
                         }
                     } else {
-                        Intent i = new Intent(ConversationActivity.this, MessageDetailActivity.class);
-                        i.putExtra("imagePath", msg.att_path_img);
-                        i.putExtra("audioPath", msg.att_path_aud);
-                        i.putExtra("msgContent", msg.content);
-                        i.putExtra("longitude", msg.longitudeE6);
-                        i.putExtra("latitude", msg.latitudeE6);
-                        i.putExtra("displayname", mNickname);
-                        i.putExtra("time", msg.time);
-                        i.putExtra("type", msg.type);
-                        i.putExtra("status", msg.status);
-                        i.putExtra("address", msg.address);
-                        startActivity(i);
+                        android.util.Log.d("MsgListAdapter", "点击图片进入");
+                        android.util.Log.d("MsgListAdapter",
+                                " 1: " + msg.att_path_img +
+                                " 2: " + msg.att_path_aud +
+                                " 3: " + msg.content +
+                                " 4: " + msg.longitudeE6 +
+                                " 5: " + msg.latitudeE6 +
+                                " 6: " + mNickname +
+                                " 7: " + msg.time +
+                                " 8: " + msg.type +
+                                " 9: " + msg.status +
+                                " 10: " + msg.address);
+                        //jack 图片滚动
+                        if (!TextUtils.isEmpty(msg.att_path_img)) {
+                            imageBrower(msg.att_path_img, TalkList);
+                        }else{
+                            Intent i = new Intent(ConversationActivity.this, MessageDetailActivity.class);
+                            i.putExtra("imagePath", msg.att_path_img);
+                            i.putExtra("audioPath", msg.att_path_aud);
+                            i.putExtra("msgContent", msg.content);
+                            i.putExtra("longitude", msg.longitudeE6);
+                            i.putExtra("latitude", msg.latitudeE6);
+                            i.putExtra("displayname", mNickname);
+                            i.putExtra("time", msg.time);
+                            i.putExtra("type", msg.type);
+                            i.putExtra("status", msg.status);
+                            i.putExtra("address", msg.address);
+                            startActivity(i);
+                        }
                     }
                 }
             });
@@ -3788,5 +3805,30 @@ public class ConversationActivity extends Activity implements OnClickListener {
             super.startActivity(intent);
         }
     }
-    //***tml
+
+    //jack
+    /**
+     * 打开图片查看器
+     *  @param
+     * @param urls2*/
+    protected void imageBrower(String url, ArrayList<SMS> urls2) {
+        // TODO: 2016/5/17 取出sms消息中的图片信息
+        if (urls2!=null) {
+            ArrayList<String> urls = new ArrayList<>();
+            ArrayList<String> times = new ArrayList<>();
+            for (SMS sms : urls2) {
+                if (sms.att_path_img!=null) {
+                    urls.add(sms.att_path_img);
+                    times.add(sms.time+"");
+                }
+            }
+
+            Intent intent = new Intent(this, ImagePagerActivity.class);
+            // 图片url,为了演示这里使用常量，一般从数据库中或网络中获取
+            intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_URLS, urls);
+            intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_TIMES, times);
+            intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_INDEX, urls.indexOf(url));
+            this.startActivity(intent);
+        }
+    }
 }

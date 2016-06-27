@@ -541,5 +541,12 @@
     <string name="pull_to_refresh_release_label">Release to refresh…</string>
     <string name="pull_to_refresh_refreshing_label">Loading…</string>
 
+    <string name="viewpager_indicator">%1$d/%2$d</string>
+
+    <!--jack 索引列表-->
+    <string name="no_results">No results found for your query</string>
+    <string name="new_friends">New Friends</string>
+    <string name="saved_groups">Saved Groups</string>
+
 </resources>
 

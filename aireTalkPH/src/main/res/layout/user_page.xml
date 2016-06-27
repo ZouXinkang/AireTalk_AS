@@ -62,6 +62,17 @@
                 android:padding="10dp"
                 android:src="@drawable/timeline" />
 
+            <!--jack 测试-->
+            <!--<ImageView-->
+                <!--android:id="@+id/test"-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_toRightOf="@+id/timeline"-->
+                <!--android:background="@drawable/optionbtn"-->
+                <!--android:padding="10dp"-->
+                <!--android:src="@drawable/timeline" />-->
+
             <!-- 		    <ImageView -->
             <!-- 				android:id="@+id/conference" -->
             <!-- 				android:layout_width="50dp" -->

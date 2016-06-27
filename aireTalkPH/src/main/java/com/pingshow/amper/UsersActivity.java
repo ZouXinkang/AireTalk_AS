@@ -125,6 +125,17 @@ public class UsersActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_page);
+//        // TODO: 2016/5/19 测试字母索引
+//        ImageView test = (ImageView) findViewById(R.id.test);
+//        test.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(UsersActivity.this, UsersNewActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+
+
         this.overridePendingTransition(R.anim.freeze, R.anim.freeze);
         _this = this;
         neverSayNeverDie(_this);  //tml|bj*** neverdie/

@@ -14,6 +14,7 @@
     <!--     target 14+ removes menu nav -->
 
     <!--<uses-permission android:name="android.permission.CLEAR_APP_USER_DATA" />-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -78,6 +79,7 @@
         android:required="false" />
 
     <application
+        android:name="com.pingshow.AireApp"
         android:hardwareAccelerated="true"
         android:icon="@drawable/aire_icon_3s"
         android:label="@string/app_name">
@@ -593,6 +595,10 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity
+            android:name=".ImagePagerActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
 
         //jack 2.4.51 个人
         <activity
@@ -600,6 +606,14 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+
+        <!--jack 首页索引-->
+        <activity
+            android:name="com.pingshow.amper.UsersNewActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden|adjustPan" />
 
         <receiver android:name="com.pingshow.util.FileShareBroadcast">
             <intent-filter>

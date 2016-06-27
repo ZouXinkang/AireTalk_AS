@@ -1,7 +1,7 @@
 package com.pingshow.amper;
 //airetalk
 public class Log {
-	public static boolean enDEBUG = false;
+	public static boolean enDEBUG = true;
 
 	static public void d(String Msg)
 	{

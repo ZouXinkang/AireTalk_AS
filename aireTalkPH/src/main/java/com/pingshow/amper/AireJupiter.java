@@ -3889,12 +3889,11 @@ public class AireJupiter extends Service {
                     if (ContactsOnline.getContactOnlineStatus(address) > 0 && !address.startsWith("[<GROUP>]")) {
                         try {
                             Log.i("tml tellFriendsProfileChanged! > " + address);
-                            //BREE
                             if (mode == 2) {
                                 AireJupiter
                                         .getInstance()
                                         .tcpSocket()
-                                        .sendCmd(Integer.toHexString(receiver) + "", "{\"cmd\":UpdateNickname,\"nickname\":" + newMood + "}");
+                                        .sendCmd(Integer.toHexString(receiver) + "", "{\"cmd\":\"UpdateNickname\",\"nickname\":" + "\""+newMood+"\"}");// FIXME: 2016/6/14 jack
                             } else {
                                 SendAgent agent = new SendAgent(AireJupiter.this, myIdx, 0, false);
                                 agent.onSend(address, text, 0, null, null, true);

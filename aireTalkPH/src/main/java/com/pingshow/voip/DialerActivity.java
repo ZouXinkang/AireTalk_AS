@@ -244,6 +244,10 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 
 	public boolean HangingUp = false;
 
+	private boolean isOnceMem;// 一直没有人
+	private boolean isNowMem;// 现在有人
+	private int noManTimes = 3;// 检测没有人的次数
+
 	static public boolean uiDAinFore = false;
 
 	private Handler handler = new Handler() {
@@ -1205,6 +1209,31 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 
 	}
 
+	/**
+	 * 当没有人在通话时自动挂断
+	 */
+	private int countNull = 0;
+
+	private void nullEndCall() {
+
+		if (memberList.size() > 0) {
+			isOnceMem = true;
+			isNowMem = true;
+		} else {
+			isNowMem = false;
+			if (!isOnceMem)
+				countNull++;
+			Log.i("still now no man countNull " + countNull + " times");
+			// 刷新num次都没有人或者曾经有人并且现在没有人挂掉带电话
+			if (countNull == noManTimes || (isOnceMem && !isNowMem)) {
+				Message msg = handler.obtainMessage();
+				msg.what = 6;
+				handler.sendMessage(msg);
+				Log.e("NOW NO MAN HERE ENDCALL**");
+			}
+		}
+	}
+
 	OnItemLongClickListener onRemoveUserLongClick = new OnItemLongClickListener() {
 
 		@Override
@@ -1248,6 +1277,9 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 				if (Return.toLowerCase().contains("ok")) {
 					memberList.remove(arg2);
 					imageAdapter.notifyDataSetChanged();
+
+					nullEndCall();
+
 					String msg = getString(R.string.end_call) + " :"
 							+ displayname;
 					Toast.makeText(DialerActivity.this, msg, Toast.LENGTH_LONG)
@@ -3037,6 +3069,8 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 			((PhotoGallery) findViewById(R.id.members)).setSelection(memberList
 					.size() - 1);
 			mHandler.postDelayed(hideMembers, 2000); // tml*** vidconf
+			nullEndCall();
+
 		}
 	};
 

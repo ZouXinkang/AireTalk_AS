@@ -114,6 +114,7 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_details);
+
         //初始化视图和点击事件
         initView();
 
@@ -1015,8 +1016,8 @@ public class GroupSettingActivity extends Activity implements View.OnClickListen
                 if (cursor != null) {
                     cursor.moveToFirst();
                     String path = cursor.getString(column_index);
-                    Log.d("content://  uri "+uri.toString());
-                    Log.d("content://  path "+path);
+                    Log.d("content://  uri " + uri.toString());
+                    Log.d("content://  path " + path);
                     return path;
                 }
             } catch (Exception e) {

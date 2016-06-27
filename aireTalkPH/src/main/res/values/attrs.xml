@@ -1,8 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="type">
+        <enum name="circle" value="0" />
+        <enum name="round" value="1" />
+    </attr>
+    <attr name="borderRadius" format="dimension" />
+    <attr name="src" format="reference"></attr>
+
+    <declare-styleable name="RoundImageview">
+        <attr name="borderRadius" />
+        <attr name="type" />
+        <attr name="src" />
+    </declare-styleable>
+
     <declare-styleable name="ProgressView">
-        <attr name="frameCount" format="integer"/>
+        <attr name="frameCount" format="integer" />
         <attr name="duration" format="integer" />
     </declare-styleable>
+    <declare-styleable name="IndexableStickyListView">
+        <attr name="indexBar_selected_textColor" format="color" />
+        <attr name="indexBar_textColor" format="color" />
+        <attr name="indexBar_textSize" format="dimension" />
+        <attr name="indexListView_type_overlay" format="enum">
+            <enum name="center" value="1" />
+            <enum name="right" value="2" />
+        </attr>
+        <attr name="indexListView_rightOverlayColor" format="color" />
+    </declare-styleable>
+
 
 </resources>

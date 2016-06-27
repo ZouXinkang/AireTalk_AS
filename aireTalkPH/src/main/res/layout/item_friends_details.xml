@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:riv="http://schemas.android.com/apk/res-auto"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:minHeight="60dp"
+        android:background="@drawable/friends_item_selector">
+
+        <com.pingshow.amper.view.RoundImageview
+            android:id="@+id/photo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="6dp"
+            android:padding="6dp"
+            riv:borderRadius="20dp"
+            riv:src="@drawable/empty"
+            riv:type="round" />
+
+        <TextView
+            android:id="@+id/friendname"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/photo"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:maxWidth="140dp"
+            android:paddingLeft="10dp"
+            android:textColor="@color/darkgray"
+            android:textSize="18sp" />
+
+
+        <TextView
+            android:id="@+id/mood"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/online"
+            android:layout_toRightOf="@+id/friendname"
+            android:gravity="center_vertical|right"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textColor="@color/color_light"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/online"
+            android:layout_width="28dp"
+            android:layout_height="21dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
+            android:src="@drawable/offline" />
+
+        <!--     //tml*** beta ui -->
+        <ImageView
+            android:id="@+id/security_iam"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp"
+            android:src="@drawable/security_mark2"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/separator"
+            android:layout_width="fill_parent"
+            android:layout_height="25dp"
+            android:layout_alignParentBottom="true"
+            android:background="#738cba"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="@string/possible_friends"
+            android:textColor="#ffffff"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_unread"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/unread_count_bg"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+    </RelativeLayout>
