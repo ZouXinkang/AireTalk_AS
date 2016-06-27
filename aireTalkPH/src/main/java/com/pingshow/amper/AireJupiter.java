@@ -102,13 +102,21 @@ import org.xmlpull.v1.XmlPullParserFactory;
 public class AireJupiter extends Service {
 
     static public String myFafaServer_default = "74.3.164.16";
-    static public String myPhpServer_default = "42.121.54.216";
-    static public String myPhpServer_default2A = "42.121.54.216";
+
+    //    static public String myPhpServer_default = "42.121.54.216";
+//    static public String myPhpServer_default2A = "42.121.54.216";
+//    static public String myPhpServer_Xingfafa = "42.121.54.216";
+
+    // FIXME: 2016/6/27 更换服务器
+    static public String myPhpServer_default = "115.29.245.8";
+    static public String myPhpServer_default2A = "115.29.245.8";
+    static public String myPhpServer_Xingfafa = "115.29.245.8";
+
     static public String myPhpServer_default2B = "php.xingfafa.com.cn";
     static public String myLocalPhpServer = "1.34.148.152";
     static public String mySipServer_default = "1.34.148.152";
     static public String myPhpServer_main = "115.29.185.116";
-    static public String myPhpServer_Xingfafa = "42.121.54.216";
+
     static public String myPhpServer_PS = "74.3.165.158";
     static public String myConfSipServer_default = "96.44.173.84";
     static public String myConfServer_China = "115.29.234.27";
@@ -1374,12 +1382,12 @@ public class AireJupiter extends Service {
                                 boolean deleteResult = true;
                                 //群组存在的话,清除Group和组员
 //                                if (!empty) {
-                                    deleteResult = mGDB.deleteGroup(mGroupID);
-                                    Log.d("AireJupiter  deleteResult:" + deleteResult + "adasdasdasd");
+                                deleteResult = mGDB.deleteGroup(mGroupID);
+                                Log.d("AireJupiter  deleteResult:" + deleteResult + "adasdasdasd");
 //                                }
 //                                if (deleteResult) {
-                                    //查询组员(call php),并插入数据库(insert db)
-                                    queryGroupPhpAndInsertDB(mGroupID, mGDB, mADB);
+                                //查询组员(call php),并插入数据库(insert db)
+                                queryGroupPhpAndInsertDB(mGroupID, mGDB, mADB);
 
 //                                }
 
@@ -1487,7 +1495,7 @@ public class AireJupiter extends Service {
                                         // TODO: 2016/4/6 将加人消息写入数据库
 //                                        String content = String.format(getString(R.string.group_removed_members), nameBuffer);//4/28修改
 
-                                        GroupUpdateMessageSender.getInstance().send(AireJupiter.this, myIdx, mGroupID, "Group_Remove",nameBuffer,null,members.toString());
+                                        GroupUpdateMessageSender.getInstance().send(AireJupiter.this, myIdx, mGroupID, "Group_Remove", nameBuffer, null, members.toString());
 
                                         Log.d("删除组成员  组ID:" + mGroupID + "---" + members);
 
@@ -1501,7 +1509,7 @@ public class AireJupiter extends Service {
 
                                             Log.d("删除组成员  组成员开始: " + mGDB.getGroupMembersByGroupIdx(mGroupID).toString());
                                             for (int i = 0; i < idxs.length; i++) {
-                                                Log.d("AireJupiter  "+ i + "--------" + idxs[i]);
+                                                Log.d("AireJupiter  " + i + "--------" + idxs[i]);
                                                 if (!idxs[i].equals("")) {
                                                     boolean result = mGDB.deleteGroupMember(mGroupID, Integer.parseInt(idxs[i]));
                                                 }
@@ -1550,7 +1558,7 @@ public class AireJupiter extends Service {
                                     // TODO: 2016/4/18 发送TCP删除好友
                                     String content = String.format(getString(R.string.group_member_left), mPref.read("myNickname"));
 
-                                    GroupUpdateMessageSender.getInstance().send(AireJupiter.this, myIdx, mGroupID, "Group_Left", mPref.read("myNickname"),null,myIdx+"");
+                                    GroupUpdateMessageSender.getInstance().send(AireJupiter.this, myIdx, mGroupID, "Group_Left", mPref.read("myNickname"), null, myIdx + "");
 
                                     String Return;
                                     MyNet net = new MyNet(AireJupiter.this);
@@ -1569,7 +1577,7 @@ public class AireJupiter extends Service {
                                         UsersActivity.needRefresh = true;
                                         UsersActivity.forceRefresh = true;
                                         Intent hideintent = new Intent(Global.Action_Hide_Group_Icon);
-                                        hideintent.putExtra("GroupId",mGroupID+"");
+                                        hideintent.putExtra("GroupId", mGroupID + "");
                                         sendBroadcast(hideintent);
 
                                         Intent refreshIntent = new Intent(Global.Action_Refresh_Gallery);
@@ -1628,7 +1636,7 @@ public class AireJupiter extends Service {
                         }
                         //jack 2.4.51
                         if (members.length > 0) {
-                           Log.d("群组加人  idxs.size():" + members.length);
+                            Log.d("群组加人  idxs.size():" + members.length);
                             // TODO: 2016/3/21 加入已有group
                             new Thread(new Runnable() {
                                 public void run() {
@@ -1674,7 +1682,7 @@ public class AireJupiter extends Service {
                                             }
                                             // TODO: 2016/4/24 将加人消息写入数据库 对指定的人发送加群的tcp
 //                                            String content = String.format(getString(R.string.group_invite_new_members), mPref.read("myNickname"), nicknames);
-                                            GroupUpdateMessageSender.getInstance().send(AireJupiter.this, myIdx, mGroupID, "Group_Add",mPref.read("myNickname"),nicknames.toString(),idxSB.toString());
+                                            GroupUpdateMessageSender.getInstance().send(AireJupiter.this, myIdx, mGroupID, "Group_Add", mPref.read("myNickname"), nicknames.toString(), idxSB.toString());
 
                                             //发送广播通知进度框消失
                                             Intent intent = new Intent(Global.Action_Refresh_Groupinfo);
@@ -2095,13 +2103,13 @@ public class AireJupiter extends Service {
                                     myIdx = Integer.parseInt(mPref.read("myID", "0"), 16);
                                     do {
                                         Return = net.doPostHttps("updateprofile_x.php", "idx=" + myIdx
-                                                + "&gender=" + gender
-                                                + "&password=" + URLEncoder.encode(myPasswd, "UTF-8")
-                                                + "&facebook=" + myFacebookID
-                                                + "&weibo=" + myWeiboID
-                                                + "&nickname=" + URLEncoder.encode(myNickname, "UTF-8")
-                                                + "&version=" + versionCode
-                                                + "&device=" + URLEncoder.encode(Build.BRAND + "/" + Build.PRODUCT + "/" + Build.MODEL, "UTF-8")
+                                                        + "&gender=" + gender
+                                                        + "&password=" + URLEncoder.encode(myPasswd, "UTF-8")
+                                                        + "&facebook=" + myFacebookID
+                                                        + "&weibo=" + myWeiboID
+                                                        + "&nickname=" + URLEncoder.encode(myNickname, "UTF-8")
+                                                        + "&version=" + versionCode
+                                                        + "&device=" + URLEncoder.encode(Build.BRAND + "/" + Build.PRODUCT + "/" + Build.MODEL, "UTF-8")
                                                 , null);
                                         if (Return.startsWith("Done"))
                                             break;
@@ -2320,7 +2328,7 @@ public class AireJupiter extends Service {
             if (groupInfo.getCode() == 200) {
                 String groupname = groupInfo.getGname();
 
-                Log.d("AireJupiter  "+groupname);
+                Log.d("AireJupiter  " + groupname);
 
                 // TODO: 2016/4/5  存入组信息,4/18 groupname
                 adb.insertUser("[<GROUP>]" + mGroupID, mGroupID + 100000000,
@@ -2340,7 +2348,7 @@ public class AireJupiter extends Service {
                     adb.deleteContactByAddress("[<GROUP>]" + mGroupID);
                     gdb.deleteGroup(mGroupID);
 
-                    if (PopupDialog.getInstance()!=null) {
+                    if (PopupDialog.getInstance() != null) {
                         PopupDialog.getInstance().finish();
                     }
                     try {
@@ -2351,19 +2359,19 @@ public class AireJupiter extends Service {
                     UsersActivity.needRefresh = true;
                     UsersActivity.forceRefresh = true;
                     Intent hideintent = new Intent(Global.Action_Hide_Group_Icon);
-                    hideintent.putExtra("GroupId",mGroupID+"");
+                    hideintent.putExtra("GroupId", mGroupID + "");
                     sendBroadcast(hideintent);
 
                     Intent closeIntent = new Intent(Global.Action_Refresh_Groupinfo);
                     closeIntent.putExtra("Command", Global.CMD_Close_Activity);
-                    closeIntent.putExtra("GroupId",mGroupID+"");
+                    closeIntent.putExtra("GroupId", mGroupID + "");
                     LBMUtil.sendBroadcast(AireJupiter.this, closeIntent);
 
                     Log.d("AireJupiter  发送完广播");
 
                     Intent intent = new Intent(Global.Action_Refresh_Gallery);
                     sendBroadcast(intent);
-                }else{
+                } else {
                     // TODO: 2016/4/18 将nickname存入groupDB
                     // TODO: 2016/4/19 下载照片
                     for (Group.MembersEntity member : members) {
@@ -2377,7 +2385,7 @@ public class AireJupiter extends Service {
                     //发送广播刷新
                     Intent refreshIntent = new Intent(Global.Action_Refresh_Groupinfo);
                     refreshIntent.putExtra("Command", Global.CMD_Refresh_Group_Member);
-                    refreshIntent.putExtra("GroupId",mGroupID+"");
+                    refreshIntent.putExtra("GroupId", mGroupID + "");
                     LBMUtil.sendBroadcast(AireJupiter.this, refreshIntent);
 
                     //下载图片
@@ -3893,7 +3901,7 @@ public class AireJupiter extends Service {
                                 AireJupiter
                                         .getInstance()
                                         .tcpSocket()
-                                        .sendCmd(Integer.toHexString(receiver) + "", "{\"cmd\":\"UpdateNickname\",\"nickname\":" + "\""+newMood+"\"}");// FIXME: 2016/6/14 jack
+                                        .sendCmd(Integer.toHexString(receiver) + "", "{\"cmd\":\"UpdateNickname\",\"nickname\":" + "\"" + newMood + "\"}");// FIXME: 2016/6/14 jack
                             } else {
                                 SendAgent agent = new SendAgent(AireJupiter.this, myIdx, 0, false);
                                 agent.onSend(address, text, 0, null, null, true);
@@ -4070,7 +4078,7 @@ public class AireJupiter extends Service {
                     }
 
                     int pending = cursor.getInt(cursor.getColumnIndexOrThrow(SmsDB.KEY_OBLIGATE5));
-                    if (pending==1) {
+                    if (pending == 1) {
                         groupMsg = new GroupMsg("groupUpdate", "0", "", mMsgText, "");
                     }
                     int idx = mADB.getIdxByAddress(SendeeNumber);
@@ -4384,11 +4392,11 @@ public class AireJupiter extends Service {
                         do {
                             MyNet net = new MyNet(AireJupiter.this);
                             Return = net.doPost("getconferenceservice.php", "idx=" + myIdx +
-                                    "&iso=" + iso +
-                                    "&lang=" + lang +
-                                    "&lat=" + latitude +
-                                    "&lon=" + longitude +
-                                    "&os=and"
+                                            "&iso=" + iso +
+                                            "&lang=" + lang +
+                                            "&lat=" + latitude +
+                                            "&lon=" + longitude +
+                                            "&os=and"
                                     , null);
                             if (Return.startsWith("Done="))
                                 break;
@@ -4431,11 +4439,11 @@ public class AireJupiter extends Service {
                         do {
                             MyNet net = new MyNet(AireJupiter.this);
                             Return = net.doPost("getfreeswitchservice.php", "idx=" + myIdx +
-                                    "&iso=" + iso +
-                                    "&lang=" + lang +
-                                    "&lat=" + latitude +
-                                    "&lon=" + longitude +
-                                    "&os=and"
+                                            "&iso=" + iso +
+                                            "&lang=" + lang +
+                                            "&lat=" + latitude +
+                                            "&lon=" + longitude +
+                                            "&os=and"
                                     , null);
                             if (Return.startsWith("Done="))
                                 break;
@@ -4475,11 +4483,11 @@ public class AireJupiter extends Service {
                             lang = "test";
                         }
                         String Return = net.doPost("aspm.php", "idx=" + myIdx
-                                + "&lang=" + lang
-                                + "&iso=" + iso
-                                + "&lat=" + latitude
-                                + "&lon=" + longitude
-                                + "&gender=" + gender
+                                        + "&lang=" + lang
+                                        + "&iso=" + iso
+                                        + "&lat=" + latitude
+                                        + "&lon=" + longitude
+                                        + "&gender=" + gender
                                 , null);
                         if (Return.length() > 5 && Return.startsWith("Done")) {
                             String[] items = Return.split("/");
@@ -4801,20 +4809,20 @@ public class AireJupiter extends Service {
 
                                 if (pay_key != null && pay_key.length() > 0 && app_id != null && app_id.length() > 0) {
                                     Return = net.doPostHttps(".paypal/paybypaypal.php", "idx=" + myIdx
-                                            + "&id=" + URLEncoder.encode(myPhoneNumber, "UTF-8")
-                                            + "&password=" + URLEncoder.encode(myPasswd, "UTF-8")
-                                            + "&imei=" + URLEncoder.encode(android_id, "UTF-8")
-                                            + "&amount=" + URLEncoder.encode(amount, "UTF-8")
-                                            + "&pay_key=" + URLEncoder.encode(pay_key, "UTF-8")
-                                            + "&app_id=" + URLEncoder.encode(app_id, "UTF-8")
+                                                    + "&id=" + URLEncoder.encode(myPhoneNumber, "UTF-8")
+                                                    + "&password=" + URLEncoder.encode(myPasswd, "UTF-8")
+                                                    + "&imei=" + URLEncoder.encode(android_id, "UTF-8")
+                                                    + "&amount=" + URLEncoder.encode(amount, "UTF-8")
+                                                    + "&pay_key=" + URLEncoder.encode(pay_key, "UTF-8")
+                                                    + "&app_id=" + URLEncoder.encode(app_id, "UTF-8")
                                             , null);
                                 } else if (payment_id != null && payment_id.length() > 0) {
                                     Return = net.doPostHttps(".paypal/paybycard.php", "idx=" + myIdx
-                                            + "&id=" + URLEncoder.encode(myPhoneNumber, "UTF-8")
-                                            + "&password=" + URLEncoder.encode(myPasswd, "UTF-8")
-                                            + "&imei=" + URLEncoder.encode(android_id, "UTF-8")
-                                            + "&amount=" + URLEncoder.encode(amount, "UTF-8")
-                                            + "&payment_id=" + URLEncoder.encode(payment_id, "UTF-8")
+                                                    + "&id=" + URLEncoder.encode(myPhoneNumber, "UTF-8")
+                                                    + "&password=" + URLEncoder.encode(myPasswd, "UTF-8")
+                                                    + "&imei=" + URLEncoder.encode(android_id, "UTF-8")
+                                                    + "&amount=" + URLEncoder.encode(amount, "UTF-8")
+                                                    + "&payment_id=" + URLEncoder.encode(payment_id, "UTF-8")
                                             , null);
                                 }
                             } catch (Exception e) {
@@ -4973,12 +4981,12 @@ public class AireJupiter extends Service {
             try {
                 MyNet net = new MyNet(AireJupiter.this);
                 Return = net.doPost("timelinepost.php", "id=" + myIdx +
-                        "&writer=" + myIdx +
-                        "&name=" + URLEncoder.encode(myNickname, "UTF-8") +
-                        "&text=" + URLEncoder.encode(statement, "UTF-8") +
-                        "&pms=0" +
-                        "&attaches=" + URLEncoder.encode(ufile, "UTF-8") +
-                        "&srvr=" + URLEncoder.encode(myLocalPhpServer, "UTF-8")
+                                "&writer=" + myIdx +
+                                "&name=" + URLEncoder.encode(myNickname, "UTF-8") +
+                                "&text=" + URLEncoder.encode(statement, "UTF-8") +
+                                "&pms=0" +
+                                "&attaches=" + URLEncoder.encode(ufile, "UTF-8") +
+                                "&srvr=" + URLEncoder.encode(myLocalPhpServer, "UTF-8")
                         , null);
             } catch (Exception e) {
             }
@@ -5004,11 +5012,11 @@ public class AireJupiter extends Service {
             try {
                 MyNet net = new MyNet(AireJupiter.this);
                 Return = net.doPost("timelinepost.php", "id=" + myIdx +
-                        "&writer=" + myIdx +
-                        "&name=" + URLEncoder.encode(myNickname, "UTF-8") +
-                        "&text=" + URLEncoder.encode(newMood, "UTF-8") +
-                        "&srvr=" + URLEncoder.encode(myLocalPhpServer, "UTF-8") +
-                        "&pms=0"
+                                "&writer=" + myIdx +
+                                "&name=" + URLEncoder.encode(myNickname, "UTF-8") +
+                                "&text=" + URLEncoder.encode(newMood, "UTF-8") +
+                                "&srvr=" + URLEncoder.encode(myLocalPhpServer, "UTF-8") +
+                                "&pms=0"
                         , null);
             } catch (Exception e) {
             }
