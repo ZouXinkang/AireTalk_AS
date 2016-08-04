@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 android {
-    compileSdkVersion 'Google Inc.:Google APIs:19'
+    compileSdkVersion 'Google Inc.:Google APIs:21'
     buildToolsVersion "23.0.2"
 
     defaultConfig {
@@ -43,8 +43,12 @@ dependencies {
     compile files('libs/gson-2.5.jar')
     compile files('libs/universal-image-loader-1.9.3.jar')
     compile 'com.github.promeg:tinypinyin:1.0.0'
-//        compile 'com.android.support:appcompat-v7:23.3.0'
-
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.android.support:recyclerview-v7:24.1.0'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    //        compile 'com.android.support:appcompat-v7:23.3.0'
 }
 
 allprojects {

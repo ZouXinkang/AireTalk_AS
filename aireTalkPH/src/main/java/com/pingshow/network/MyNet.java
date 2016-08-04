@@ -1,5 +1,36 @@
 package com.pingshow.network;
 
+import android.content.Context;
+import android.content.Intent;
+import android.widget.Toast;
+
+import com.pingshow.amper.AireJupiter;
+import com.pingshow.amper.ConversationActivity;
+import com.pingshow.amper.Global;
+import com.pingshow.amper.Log;
+import com.pingshow.amper.contacts.RelatedUserInfo;
+import com.pingshow.amper.contacts.XMLContentHandler;
+import com.pingshow.amper.view.ProgressBar;
+import com.pingshow.network.NetworkControl.NetType;
+import com.pingshow.util.MyUtil;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.conn.params.ConnRouteParams;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.util.EntityUtils;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,37 +60,6 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.conn.params.ConnRouteParams;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.util.EntityUtils;
-
-import android.content.Context;
-import android.content.Intent;
-import android.widget.Toast;
-
-import com.pingshow.amper.AireJupiter;
-import com.pingshow.amper.ConversationActivity;
-import com.pingshow.amper.Global;
-import com.pingshow.amper.Log;
-import com.pingshow.amper.contacts.RelatedUserInfo;
-import com.pingshow.amper.contacts.XMLContentHandler;
-import com.pingshow.amper.view.ProgressBar;
-import com.pingshow.network.NetworkControl.NetType;
-import com.pingshow.util.MyUtil;
 
 public class MyNet {
 
@@ -584,6 +584,8 @@ public class MyNet {
 	}
 
 	public boolean DownloadGroupFile(String tmpCurFilePath, String filename, int attached) {
+		Log.d("群组下载文件:"+tmpCurFilePath+",文件名:"+filename+",attached:"+attached);
+
 		if (!getNetStatus()) return false;
 		boolean ret=false;
 		Intent intent = new Intent();

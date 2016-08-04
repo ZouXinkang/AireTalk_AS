@@ -2,4 +2,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 <!--     //tml*** beta ui -->
 	<solid android:color="#1FD0A6" />
+	<!--jack 0804 改UI-->
+	<!--<solid android:color="#809ccf" />-->
 </shape>

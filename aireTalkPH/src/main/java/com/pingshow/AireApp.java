@@ -2,13 +2,12 @@ package com.pingshow;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.pingshow.amper.R;
-import com.pingshow.util.CrashHandler;
+import com.squareup.leakcanary.LeakCanary;
 
 public class AireApp extends Application {
     public static Context context;
@@ -32,7 +31,7 @@ public class AireApp extends Application {
         ImageLoader.getInstance().init(config);
 
         context = getApplicationContext();
-
+        LeakCanary.install(this);
 //        CrashHandler crashHandler = CrashHandler.getInstance();
 //        crashHandler.init(getApplicationContext());
     }

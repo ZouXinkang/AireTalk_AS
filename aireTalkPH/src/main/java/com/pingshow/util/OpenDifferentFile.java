@@ -1,10 +1,12 @@
 package com.pingshow.util;
 
-import java.io.File;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+
+import com.pingshow.amper.Log;
+
+import java.io.File;
 
 public class OpenDifferentFile {
 	private Context mContext = null;
@@ -20,6 +22,7 @@ public class OpenDifferentFile {
 		intent.setAction(android.content.Intent.ACTION_VIEW);
       
 		String type = getType(file);
+		Log.d("文件的名字:" + file.getName() + ",类型:" + type + ",路径:" + file.getAbsolutePath());
 		intent.setDataAndType(Uri.fromFile(file),type);
 		try {
 			mContext.startActivity(intent);

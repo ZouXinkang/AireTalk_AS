@@ -1,5 +1,39 @@
 package com.pingshow.network;
 
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.text.TextUtils;
+
+import com.google.gson.Gson;
+import com.pingshow.amper.AireJupiter;
+import com.pingshow.amper.Global;
+import com.pingshow.amper.Log;
+import com.pingshow.amper.MyPreference;
+import com.pingshow.amper.R;
+import com.pingshow.amper.SMS;
+import com.pingshow.amper.ServiceZ;
+import com.pingshow.amper.UsersActivity;
+import com.pingshow.amper.bean.GroupMsg;
+import com.pingshow.amper.bean.GroupUpdateMsg;
+import com.pingshow.amper.contacts.ContactsOnline;
+import com.pingshow.amper.contacts.ContactsQuery;
+import com.pingshow.amper.db.AmpUserDB;
+import com.pingshow.amper.db.GroupDB;
+import com.pingshow.amper.db.RelatedUserDB;
+import com.pingshow.amper.db.SmsDB;
+import com.pingshow.amper.map.LocationUpdate;
+import com.pingshow.util.LBMUtil;
+import com.pingshow.util.MyTelephony;
+import com.pingshow.util.MyUtil;
+import com.pingshow.voip.AireVenus;
+import com.pingshow.voip.DialerActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -13,46 +47,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 import java.util.regex.Pattern;
-
-import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-import android.os.Looper;
-import android.text.TextUtils;
-import android.widget.Toast;
-
-import com.google.gson.Gson;
-import com.pingshow.amper.AireJupiter;
-import com.pingshow.amper.ConversationActivity;
-import com.pingshow.amper.Global;
-import com.pingshow.amper.Log;
-import com.pingshow.amper.MyPreference;
-import com.pingshow.amper.R;
-import com.pingshow.amper.SMS;
-import com.pingshow.amper.ServiceZ;
-import com.pingshow.amper.SplashScreen;
-import com.pingshow.amper.UsersActivity;
-import com.pingshow.amper.bean.GroupMsg;
-import com.pingshow.amper.bean.GroupUpdateMsg;
-import com.pingshow.amper.contacts.ContactsOnline;
-import com.pingshow.amper.contacts.ContactsQuery;
-import com.pingshow.amper.db.AmpUserDB;
-import com.pingshow.amper.db.GroupDB;
-import com.pingshow.amper.db.RelatedUserDB;
-import com.pingshow.amper.db.SmsDB;
-import com.pingshow.amper.map.LocationUpdate;
-import com.pingshow.amper.message.PopupDialog;
-import com.pingshow.util.LBMUtil;
-import com.pingshow.util.MyTelephony;
-import com.pingshow.util.MyUtil;
-import com.pingshow.voip.AireVenus;
-import com.pingshow.voip.DialerActivity;
-import com.pingshow.voip.core.VoipCall;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class MySocket {
     //jack 2.4.51

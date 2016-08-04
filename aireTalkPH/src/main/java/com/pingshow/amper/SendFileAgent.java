@@ -253,6 +253,8 @@ public class SendFileAgent {
 	//jack 2.4.51 group发送文件
 	public boolean onGroupSend(final GroupMsg groupMsg) {
 		Log.d("发送消息  发送消息的内容: "+groupMsg.toString());
+		//真不喜欢这样编程,ios改动,强行修改
+		groupMsg.setCt(groupMsg.getCt()+"\n"+groupMsg.getUrl().substring(groupMsg.getUrl().lastIndexOf("/")+1));
 		if (groupMsg.getCt().length()==0 && groupMsg.getAt().equals("0")) return false;
 		// TODO: 2016/3/30  jack 发送 文件 消息
 		Thread thr = new Thread(new Runnable(){

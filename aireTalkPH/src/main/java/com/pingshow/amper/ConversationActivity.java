@@ -1,16 +1,5 @@
 package com.pingshow.amper;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -79,7 +68,6 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.pingshow.amper.bean.GroupMsg;
 import com.pingshow.amper.contacts.ContactsOnline;
 import com.pingshow.amper.contacts.ContactsQuery;
@@ -104,6 +92,19 @@ import com.pingshow.util.ResizeImage;
 import com.pingshow.voip.AireVenus;
 import com.pingshow.voip.DialerActivity;
 import com.pingshow.voip.VideoCallActivity;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.pingshow.amper.R.string.start;
 
 
 public class ConversationActivity extends Activity implements OnClickListener {
@@ -2063,6 +2064,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
             }
 
             String s = msg.content;
+//            Log.d("文件内容 content: "+s);
             if (msg.attached == 8) {
                 if (!(msg.content.startsWith(getString(R.string.video)) && msg.content.contains("(vdo)"))) {
 
@@ -2085,6 +2087,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
                     }
                 }
             }
+//            Log.d("文件内容 改变后content: "+s);
             if (msg.attached == 10 && s.startsWith(getApplicationContext().getResources().getString(R.string.file))) {
                 s = s.replaceFirst(getApplicationContext().getResources().getString(R.string.file), "(fl)");
             }
@@ -2314,7 +2317,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
                     Log.d("msgs.onClick " + " 1=" + msg.displayname + " 2=" + msg.address + " 3=" + msg.content
                             + " 4=" + msg.contactid + " 5=" + msg.read + " 6=" + msg.type + " 7=" + msg.status
                             + " 8=" + msg.time + " 9=" + msg.attached + " 10=" + msg.longitudeE6 + " 11=" + msg.latitudeE6
-                            + " 12=" + msg.smsid);
+                            + " 12=" + msg.smsid+" 13="+msg.att_path_aud+" 14="+msg.att_path_img);
                     if (msg.content.startsWith("here I am (")) {
 //						try {
 //							Class.forName("com.google.android.maps.MapActivity");
@@ -2393,6 +2396,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
                         }
                     }
                     if (msg.att_path_aud != null) {
+                        Log.d("ConversationActivity 点击文件类型的数据");
                         File file = new File(msg.att_path_aud);
                         if ((msg.attached == 8 || msg.attached == 10 || msg.attached == 9) && file.exists()) {
                             OpenDifferentFile openDifferentFile = new OpenDifferentFile(
@@ -2420,7 +2424,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
                             obligate1_phpIP = AireJupiter.myPhpServer_default;
                         //jack hardcode don't like
                         fileDownloadUrl = msg.att_path_img;
-                        Log.d("下载地址 "+fileDownloadUrl);
+                        Log.d("下载地址 " + fileDownloadUrl);
                         if (msg.content.startsWith(getString(R.string.video)) && msg.content.contains("(vdo)")) {
                             String len = msg.content.substring(msg.content.indexOf("(vdo)") + 5);
                             type = 1;
@@ -2463,19 +2467,19 @@ public class ConversationActivity extends Activity implements OnClickListener {
                         android.util.Log.d("MsgListAdapter", "点击图片进入");
                         android.util.Log.d("MsgListAdapter",
                                 " 1: " + msg.att_path_img +
-                                " 2: " + msg.att_path_aud +
-                                " 3: " + msg.content +
-                                " 4: " + msg.longitudeE6 +
-                                " 5: " + msg.latitudeE6 +
-                                " 6: " + mNickname +
-                                " 7: " + msg.time +
-                                " 8: " + msg.type +
-                                " 9: " + msg.status +
-                                " 10: " + msg.address);
+                                        " 2: " + msg.att_path_aud +
+                                        " 3: " + msg.content +
+                                        " 4: " + msg.longitudeE6 +
+                                        " 5: " + msg.latitudeE6 +
+                                        " 6: " + mNickname +
+                                        " 7: " + msg.time +
+                                        " 8: " + msg.type +
+                                        " 9: " + msg.status +
+                                        " 10: " + msg.address);
                         //jack 图片滚动
                         if (!TextUtils.isEmpty(msg.att_path_img)) {
                             imageBrower(msg.att_path_img, TalkList);
-                        }else{
+                        } else {
                             Intent i = new Intent(ConversationActivity.this, MessageDetailActivity.class);
                             i.putExtra("imagePath", msg.att_path_img);
                             i.putExtra("audioPath", msg.att_path_aud);
@@ -2670,7 +2674,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
                 //jack 16/4/18收到此广播隐藏群设置图标
                 Log.d("ConversationActivity  隐藏图标");
                 int removeGroupId = Integer.parseInt(intent.getStringExtra("GroupId"));
-                if (removeGroupId == mGroupID && mSetting!=null) {
+                if (removeGroupId == mGroupID && mSetting != null) {
                     mSetting.setVisibility(View.INVISIBLE);
                     finish();
                 }
@@ -3196,6 +3200,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
                 getResources().getString(R.string.surveillance),
                 getResources().getString(R.string.home_iot_sensors),
                 getResources().getString(R.string.suv_status),
+                getResources().getString(R.string.smart_home_devices_management),
                 getResources().getString(R.string.home_monitor)};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -3214,6 +3219,12 @@ public class ConversationActivity extends Activity implements OnClickListener {
                     msgContent = null;
                     activityResult = 232;
                 } else if (item == 3) {
+                    // TODO: 2016/7/28 跳转到智能家居页面
+                    Intent intent = new Intent(ConversationActivity.this, ControlDevicesActivity.class);
+                    intent.putExtra("SendeeNumber", mAddress);
+                    intent.putExtra("SendeeDisplayname", mNickname);
+                    startActivity(intent);
+                } else if (item == 4) {
                     if (AireJupiter.getInstance() != null
                             && AireJupiter.getInstance().tcpSocket() != null) {
                         AireJupiter.getInstance().tcpSocket()
@@ -3231,7 +3242,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
                     itg.putExtra("ItemResult0", RESULT_CANCELED);
                     itg.putExtra("ItemCaption1", getString(R.string.stop));
                     itg.putExtra("ItemResult1", CommonDialog.STOP_SUV);
-                    itg.putExtra("ItemCaption2", getString(R.string.start));
+                    itg.putExtra("ItemCaption2", getString(start));
                     itg.putExtra("ItemResult2", RESULT_OK);
                     startActivityForResult(itg, activityResult);
                 } else if (activityResult == 232) {
@@ -3583,7 +3594,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
                 mMsgText = "(vdo)" + length
                         + (len == 0 ? " KB" : (" KB\n" + mMsgText));
             else
-                mMsgText = "(fl)" + length
+                mMsgText = "(fl)     " + length
                         + (len == 0 ? " KB" : (" KB\n" + mMsgText));
         } else {
             if (mMsgText.trim().equals("")) {  //tml*** msg control
@@ -3807,19 +3818,22 @@ public class ConversationActivity extends Activity implements OnClickListener {
     }
 
     //jack
+
     /**
      * 打开图片查看器
-     *  @param
-     * @param urls2*/
+     *
+     * @param
+     * @param urls2
+     */
     protected void imageBrower(String url, ArrayList<SMS> urls2) {
         // TODO: 2016/5/17 取出sms消息中的图片信息
-        if (urls2!=null) {
+        if (urls2 != null) {
             ArrayList<String> urls = new ArrayList<>();
             ArrayList<String> times = new ArrayList<>();
             for (SMS sms : urls2) {
-                if (sms.att_path_img!=null) {
+                if (sms.att_path_img != null) {
                     urls.add(sms.att_path_img);
-                    times.add(sms.time+"");
+                    times.add(sms.time + "");
                 }
             }
 

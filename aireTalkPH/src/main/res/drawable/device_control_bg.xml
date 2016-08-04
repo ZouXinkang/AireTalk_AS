@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true">
+        <shape android:shape="ring" android:innerRadius="25dp" android:thickness="5dp" android:useLevel="false">
+            <size android:width="65dp" android:height="65dp" />
+            <solid android:color="#22000000" />
+        </shape>
+    </item>
+    <item android:state_pressed="true">
+        <shape android:shape="ring" android:innerRadius="25dp" android:thickness="5dp" android:useLevel="false">
+            <size android:width="65dp" android:height="65dp" />
+            <solid android:color="#22000000" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="ring"  android:innerRadius="25dp" android:thickness="5dp" android:useLevel="false">
+            <solid android:color="#FFFFFF"/>
+            <size android:height="65dp" android:width="65dp"/>
+        </shape>
+
+    </item>
+</selector>

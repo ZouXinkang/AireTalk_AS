@@ -5,6 +5,9 @@
          <corners android:radius="6dp"/>
 <!--          //tml*** beta ui -->
       <solid android:color="#66CCCC"/>
+
+         <!--jack 0804 改UI-->
+         <!--<solid android:color="#667ca5"/>-->
       </shape>
    </item>
 </layer-list>

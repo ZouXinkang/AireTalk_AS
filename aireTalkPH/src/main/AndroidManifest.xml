@@ -661,6 +661,12 @@
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="502cab085270151eda0000af"></meta-data>
+
+        <activity
+            android:name="com.pingshow.amper.ControlDevicesActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="stateHidden" />
     </application>
 
 </manifest>

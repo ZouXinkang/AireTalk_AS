@@ -1,20 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 <!--     //tml*** beta ui -->
+   <!--<item>-->
+      <!--<shape>-->
+         <!--<corners android:radius="7dip"/>-->
+         <!--<gradient-->
+	    	<!--android:startColor="#667ca5"   -->
+			<!--android:endColor="#99afd8"-->
+			<!--android:angle="270"/>-->
+      <!--</shape>-->
+   <!--</item>-->
+   <!--<item android:left="3dip" android:top="3dip" android:right="3dip"  android:bottom="3dip">-->
+      <!--<shape>-->
+         <!--<padding android:top="10dp" android:bottom="10dp"/>-->
+         <!--<corners android:radius="6dip"/>-->
+         <!--<solid android:color="#1FD0A6"/>-->
+      <!--</shape>-->
+   <!--</item>-->
+
+   <!--jack 0804改UI-->
    <item>
       <shape>
          <corners android:radius="7dip"/>
          <gradient
-	    	android:startColor="#667ca5"   
-			android:endColor="#99afd8"
-			android:angle="270"/>
+             android:startColor="#667ca5"
+             android:endColor="#99afd8"
+             android:angle="270"/>
       </shape>
    </item>
    <item android:left="3dip" android:top="3dip" android:right="3dip"  android:bottom="3dip">
       <shape>
          <padding android:top="10dp" android:bottom="10dp"/>
          <corners android:radius="6dip"/>
-         <solid android:color="#1FD0A6"/>
+         <solid android:color="#809ccf"/>
       </shape>
    </item>
 </layer-list>

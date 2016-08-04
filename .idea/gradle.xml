@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$/xwalk_core_libraryARM" />
           </set>
         </option>
+        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
   </component>

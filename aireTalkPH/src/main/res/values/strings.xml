@@ -548,5 +548,14 @@
     <string name="new_friends">New Friends</string>
     <string name="saved_groups">Saved Groups</string>
 
+    <string name="smart_home_devices_management">Devices Management</string>
+    <string name="control_device">Connected Device: %1$s</string>
+    <string name="smart_home_devices_name_status">%1$s%2$s</string>
+    <string name="smart_home_device_status_open">Open</string>
+    <string name="smart_home_device_status_close">Close</string>
+    <string name="device_doing_failed">Failed!Try Again</string>
+
+
+
 </resources>
 

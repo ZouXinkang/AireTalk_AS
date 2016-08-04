@@ -521,6 +521,13 @@
     <string name="new_friends">新的朋友</string>
     <string name="saved_groups">群聊</string>
 
+    <string name="smart_home_devices_management">智能设备管理</string>
+    <string name="control_device">关联设备: %1$s</string>
+    <string name="smart_home_devices_name_status">%1$s\n%2$s</string>
+    <string name="smart_home_device_status_open">已打开</string>
+    <string name="smart_home_device_status_close">已关闭</string>
+    <string name="device_doing_failed">错误!请重试</string>
+
 
 
 
