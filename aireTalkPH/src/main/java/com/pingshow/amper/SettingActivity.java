@@ -67,6 +67,7 @@ import com.facebook.android.Facebook;
 import com.facebook.android.FacebookError;
 import com.facebook.android.Util;
 import com.google.zxing.WriterException;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pingshow.amper.register.BaseRequestListener;
 import com.pingshow.amper.register.BeforeRegisterActivity;
 import com.pingshow.codec.VoiceMemoPlayer_NB;
@@ -983,12 +984,12 @@ public class SettingActivity extends Activity {
 //		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 		Intent intent = new Intent(Intent.ACTION_PICK);  //yang*** profpic fix
 		intent.setType("image/*");
-		if (AmazonKindle.IsKindle())
-		{
-			String title = getResources().getString( R.string.choose_photo_source);
-			startActivityForResult(Intent.createChooser(intent, title), 16);
-			return;
-		}
+//		if (AmazonKindle.IsKindle())
+//		{
+//			String title = getResources().getString( R.string.choose_photo_source);
+//			startActivityForResult(Intent.createChooser(intent, title), 16);
+//			return;
+//		}
 		if (setTalkBackground == 1) {
 			String title = getResources().getString( R.string.choose_photo_source);
 			startActivityForResult(Intent.createChooser(intent, title), 1);
@@ -1009,7 +1010,7 @@ public class SettingActivity extends Activity {
 	}
 
 	public String getPath(Uri uri) {
-		Log.d("getPath=" + uri.getPath() + "\n  string=" + uri.toString());
+		Log.d("SettingActivity getPath=" + uri.getPath() + "\n  string=" + uri.toString());
 		if (uri.toString().startsWith("content:")) {
 			try {
 				String[] projection = { MediaStore.Images.Media.DATA };
@@ -1133,13 +1134,22 @@ public class SettingActivity extends Activity {
 								return;
 							}
 						}
+						Bitmap bitmap;
+						if (data.getData()==null) {
+							bitmap = data.getParcelableExtra("data");
+						}else{
+							bitmap = ImageLoader.getInstance().loadImageSync(data.getData().toString());
+						}
 
-						Bitmap bitmap = data.getParcelableExtra("data");
+
+						Log.d("SettingActivity bitmap = "+bitmap+"结果");
 						String uriString = MediaStore.Images.Media.insertImage(
 								getContentResolver(), bitmap, null, null);
+						Log.d("SettingActivity uriString = "+uriString);
+
 						uri = Uri.parse(uriString);
 						SrcImagePath = getPath(uri);
-						Log.d("tmlpic SrcImagePath=" + SrcImagePath);
+						Log.d("SettingActivity tmlpic SrcImagePath=" + SrcImagePath);
 
 						int uid = Integer.valueOf(mPref.read("myID", "0"), 16);
 						String outFilename = Global.SdcardPath_sent + "myself_photo_" + uid + ".jpg";

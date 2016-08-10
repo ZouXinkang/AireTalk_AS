@@ -74,7 +74,6 @@ public class RegisterActivity extends Activity {
 	int checked=0;
 	
 	static private LocationUpdate location=null;
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -82,7 +81,7 @@ public class RegisterActivity extends Activity {
 		this.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 
 		mPref=new MyPreference(this);
-		MyProfile.init(RegisterActivity.this);
+//		MyProfile.init(RegisterActivity.this);
 		
 		username_view = (EditText)findViewById(R.id.username);
 	    email_view = (EditText) findViewById(R.id.email);

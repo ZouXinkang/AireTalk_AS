@@ -2,7 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 	<corners android:radius="7dip"/>
 	<!--jack 0804 改UI-->
-	<solid android:color="#809ccf"/>
+	<solid android:color="#809caf"/>
 
 	<!--<solid android:color="#333332"/>-->
 </shape>

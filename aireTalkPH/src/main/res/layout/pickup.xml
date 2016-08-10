@@ -41,13 +41,15 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
+            <!--jack 0804 改UI-->
+            <!--android:background="@drawable/greenbtn"-->
             <ImageView
                 android:id="@+id/done"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/greenbtn"
+                android:background="@drawable/plainbtn_new"
                 android:padding="10dp"
                 android:src="@drawable/done" />
         </RelativeLayout>

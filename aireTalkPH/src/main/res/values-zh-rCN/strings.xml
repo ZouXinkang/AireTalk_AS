@@ -209,6 +209,7 @@
     <string name="filememo_send">文件发送</string>
     <string name="filememo_recv">文件接收</string>
     <string name="chose_file">选择文件发送给对方</string>
+    <string name="chose_photo">选择图片发送给对方</string>
 
     <string name="file_othernet">您当前使用的网络不支持传送文件, 请使用3G或WiFi进行传送</string>
     <string name="file_dnnotnet">没有网络连接，不能进行文件下载</string>
@@ -447,7 +448,7 @@
     <string name="delete_post_confirm">您确定要删除这个帖子？</string>
 
     <string name="free">免费</string>
-    <string name="security">监控</string>
+    <string name="security">家庭安防</string>
     <string name="sweep_add">扫一扫</string>
     <string name="qrcode">二维码</string>
     <string name="myqrcode">我的二维码</string>
@@ -461,7 +462,7 @@
     <string name="en_vzoom">视频缩放</string>
     <string name="pop_creating_chat">发起聊天</string>
     <string name="pop_create_group">创建群组</string>
-    <string name="home_monitor">家庭监控</string>
+    <string name="home_monitor">音视频侦测</string>
     <string name="surveillance">移动侦测</string>
     <string name="home_iot_sensors">家庭传感器</string>
     <string name="suv_status">安全状态</string>
@@ -528,6 +529,10 @@
     <string name="smart_home_device_status_close">已关闭</string>
     <string name="device_doing_failed">错误!请重试</string>
 
+    <!--jack 聊天功能键-->
+    <string name="conversation_photos">图片</string>
+    <string name="conversation_files">文件</string>
+    <string name="conversation_smartswitch">智能开关</string>
 
 
 

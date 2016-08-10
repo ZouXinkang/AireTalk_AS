@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 <!--     //tml*** beta ui -->
-	<solid android:color="#1FD0A6" />
+	<!--<solid android:color="#1FD0A6" />-->
 	<!--jack 0804 改UI-->
-	<!--<solid android:color="#809ccf" />-->
+	<solid android:color="#809ccf" />
 </shape>

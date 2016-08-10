@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/functions"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:layoutAnimation="@anim/layout_slide_in"
+    android:orientation="vertical"
+    android:padding="1dp">
+
+    <!--android:divider="@drawable/divider_hw"-->
+    <!--android:showDividers="middle"-->
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="90dp"
+        android:background="@color/conversation_functions">
+
+        <LinearLayout
+            android:id="@+id/funcsel1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <!--android:divider="@drawable/divider_vw"-->
+            <!--android:showDividers="middle"-->
+
+            <ImageView
+                android:id="@+id/call"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/tabbtn_new"
+                android:paddingBottom="23dp"
+                android:paddingLeft="23dp"
+                android:paddingRight="23dp"
+                android:paddingTop="23dp"
+                android:src="@drawable/new_conversation_call" />
+
+
+            <ImageView
+                android:id="@+id/videocall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/tabbtn_new"
+                android:paddingBottom="23dp"
+                android:paddingLeft="23dp"
+                android:paddingRight="23dp"
+                android:paddingTop="23dp"
+                android:src="@drawable/new_conversation_video" />
+
+            <ImageView
+                android:id="@+id/picmsg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+
+                android:layout_weight="1"
+                android:background="@drawable/tabbtn_new"
+                android:paddingBottom="23dp"
+                android:paddingLeft="23dp"
+                android:paddingRight="23dp"
+                android:paddingTop="23dp"
+                android:src="@drawable/new_conversation_media" />
+
+            <ImageView
+                android:id="@+id/location"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/tabbtn_new"
+                android:paddingBottom="23dp"
+                android:paddingLeft="23dp"
+                android:paddingRight="23dp"
+                android:paddingTop="23dp"
+                android:src="@drawable/new_conversation_location" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/func_1_desc"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/call_desc"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/call"
+                android:textColor="@color/grgray"
+                android:textSize="12sp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/videocall_desc"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/videocall"
+                android:textColor="@color/grgray"
+                android:textSize="12sp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/media"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/conversation_photos"
+                android:textColor="@color/grgray"
+                android:textSize="12sp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/locate_desc"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/fafauser_map"
+                android:textColor="@color/grgray"
+                android:textSize="12sp"
+                android:visibility="visible" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="90dp"
+        android:background="@color/conversation_functions">
+
+        <LinearLayout
+            android:id="@+id/funcsel2"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <!--android:showDividers="middle"-->
+            <!--android:divider="@drawable/divider_vw"-->
+
+            <ImageView
+                android:id="@+id/walkietalkie"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/tabbtn_new"
+                android:paddingBottom="23dp"
+                android:paddingLeft="23dp"
+                android:paddingRight="23dp"
+                android:paddingTop="23dp"
+                android:src="@drawable/new_conversation_voice" />
+
+            <ImageView
+                android:id="@+id/file_iv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/tabbtn_new"
+                android:paddingBottom="23dp"
+                android:paddingLeft="23dp"
+                android:paddingRight="23dp"
+                android:paddingTop="23dp"
+                android:src="@drawable/new_conversation_file" />
+
+            <ImageView
+                android:id="@+id/guard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/tabbtn_new"
+                android:paddingBottom="23dp"
+                android:paddingLeft="23dp"
+                android:paddingRight="23dp"
+                android:paddingTop="23dp"
+                android:src="@drawable/new_conversation_security" />
+
+            <ImageView
+                android:id="@+id/smartswitch_iv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/tabbtn_new"
+                android:paddingBottom="23dp"
+                android:paddingLeft="23dp"
+                android:paddingRight="23dp"
+                android:paddingTop="23dp"
+                android:src="@drawable/new_conversation_sensor" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/func_2_desc"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="2dp"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/walkietalkie_desc"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/fafauser_vmemo"
+                android:textColor="@color/grgray"
+                android:textSize="12sp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/picmsg_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/conversation_files"
+                android:textColor="@color/grgray"
+                android:textSize="12sp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/security"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/security"
+                android:textColor="@color/grgray"
+                android:textSize="12sp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/smarthome"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/conversation_smartswitch"
+                android:textColor="@color/grgray"
+                android:textSize="12sp"
+                android:visibility="visible" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>
+

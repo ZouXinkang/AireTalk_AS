@@ -3,6 +3,7 @@ package com.pingshow.amper;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.KeyguardManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -191,6 +192,10 @@ public class ConversationActivity extends Activity implements OnClickListener {
     private ImageView mSetting;
     private GroupDB mGDB;
 
+    private boolean surveillance = false;
+    private boolean sensors = false;
+    private MyProfile myProfile;
+
 
     static public ConversationActivity getInstance() {
         return msgpage;
@@ -258,7 +263,9 @@ public class ConversationActivity extends Activity implements OnClickListener {
 
         mPref = new MyPreference(this);
         mPref.write("GuardYou", false);
-        MyProfile.init(ConversationActivity.this);
+//        MyProfile.init(ConversationActivity.this);
+        //jack
+        myProfile = new MyProfile(this);
 
         mDB = new SmsDB(this);
         mDB.open();
@@ -484,10 +491,12 @@ public class ConversationActivity extends Activity implements OnClickListener {
         ((ImageView) findViewById(R.id.videocall)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.walkietalkie)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.picmsg)).setOnClickListener(this);
-        ((TextView) findViewById(R.id.picmsg_name)).setText(getResources().getString(R.string.fafauser_pic) +
-                " / " + getResources().getString(R.string.file));
+        ((ImageView) findViewById(R.id.file_iv)).setOnClickListener(this);
+//        ((TextView) findViewById(R.id.picmsg_name)).setText(getResources().getString(R.string.fafauser_pic) +
+//                " / " + getResources().getString(R.string.file));
         ((ImageView) findViewById(R.id.location)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.guard)).setOnClickListener(this);
+        ((ImageView) findViewById(R.id.smartswitch_iv)).setOnClickListener(this);
         ((EditText) findViewById(R.id.msginput)).setFocusable(true);
         ((EditText) findViewById(R.id.msginput)).setFocusableInTouchMode(true);
         ((EditText) findViewById(R.id.msginput)).requestFocus();
@@ -503,10 +512,10 @@ public class ConversationActivity extends Activity implements OnClickListener {
 
 
 //		if (isSTB || inGroup) {  //tml*** detect STB
-        if (true) {  //tml|alex*** rwt byebye X
-            ((ImageView) findViewById(R.id.walkietalkie)).setImageResource(R.drawable.func_vm);
-            ((TextView) findViewById(R.id.walkietalkie_desc)).setText(getString(R.string.fafauser_vmemo));
-        }
+//        if (true) {  //tml|alex*** rwt byebye X
+//            ((ImageView) findViewById(R.id.walkietalkie)).setImageResource(R.drawable.new_conversation_voice);
+//            ((TextView) findViewById(R.id.walkietalkie_desc)).setText(getString(R.string.fafauser_vmemo));
+//        }
         //tml*** broadcast
         if (mPref.readBoolean("BROADCAST", false))
             if (inGroup) {
@@ -1316,52 +1325,74 @@ public class ConversationActivity extends Activity implements OnClickListener {
     }
 
     public void onPickPictureOption() {
-        final CharSequence[] items = {  //tml|xwf*** beta ui2
-                getResources().getString(R.string.photo_gallery),
-                getResources().getString(R.string.takepicture),
-                getResources().getString(R.string.videomemo),
-                getResources().getString(R.string.filememo)};
-        final CharSequence[] items_noCamera = {  //tml|xwf*** beta ui2
-                getResources().getString(R.string.photo_gallery),
-                getResources().getString(R.string.filememo)};
+        LinearLayout layout = (LinearLayout) LayoutInflater.from(ConversationActivity.this).inflate(R.layout.dialog_send_photo, null);
+        final Dialog dialog = new Dialog(this, R.style.SecurityControlDialog);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setContentView(layout);
+        dialog.show();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        if (!AmazonKindle.canHandleCameraIntent(this)) {
-            builder.setItems(items_noCamera, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int item) {
-                    if (item == 0)
-                        onPickPicture();
-                    else if (item == 1)  //tml|xwf*** beta ui2
-                        onFileTransfer();
-                    dialog.dismiss();
-                }
-            });
-        } else {
-            builder.setItems(items, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int item) {
-                    if (item == 0)
-                        onPickPicture();
-                    else if (item == 1)
-                        onTakePicture();
-                    else if (item == 2)
-                        onPickVideo();
-                    else if (item == 3)  //tml|xwf*** beta ui2
-                        onFileTransfer();
-                    dialog.dismiss();
-                }
-            });
-        }
+        ((Button)dialog.findViewById(R.id.choose_gallery_bt)).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPickPicture();
+                dialog.dismiss();
+            }
+        });
 
-        builder.setTitle(ConversationActivity.this.getResources().getString(R.string.chose_file));
-        builder.setNegativeButton(R.string.cancel,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
+        ((Button)dialog.findViewById(R.id.takepicture_bt)).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onTakePicture();
+                dialog.dismiss();
+            }
+        });
+//
+//        final CharSequence[] items = {  //tml|xwf*** beta ui2
+//                getResources().getString(R.string.photo_gallery),
+//                getResources().getString(R.string.takepicture),
+//                getResources().getString(R.string.videomemo),
+//                getResources().getString(R.string.filememo)};
+//        final CharSequence[] items_noCamera = {  //tml|xwf*** beta ui2
+//                getResources().getString(R.string.photo_gallery),
+//                getResources().getString(R.string.filememo)};
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        if (!AmazonKindle.canHandleCameraIntent(this)) {
+//            builder.setItems(items_noCamera, new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int item) {
+//                    if (item == 0)
+//                        onPickPicture();
+//                    else if (item == 1)  //tml|xwf*** beta ui2
+//                        onFileTransfer();
+//                    dialog.dismiss();
+//                }
+//            });
+//        } else {
+//            builder.setItems(items, new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int item) {
+//                    if (item == 0)
+//                        onPickPicture();
+//                    else if (item == 1)
+//                        onTakePicture();
+//                    else if (item == 2)
+//                        onPickVideo();
+//                    else if (item == 3)  //tml|xwf*** beta ui2
+//                        onFileTransfer();
+//                    dialog.dismiss();
+//                }
+//            });
+//        }
+//
+//        builder.setTitle(ConversationActivity.this.getResources().getString(R.string.chose_file));
+//        builder.setNegativeButton(R.string.cancel,
+//                new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int item) {
+//                    }
+//                });
+//        AlertDialog alert = builder.create();
+//        alert.show();
     }
 
     public static String getRandomName() {
@@ -2317,7 +2348,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
                     Log.d("msgs.onClick " + " 1=" + msg.displayname + " 2=" + msg.address + " 3=" + msg.content
                             + " 4=" + msg.contactid + " 5=" + msg.read + " 6=" + msg.type + " 7=" + msg.status
                             + " 8=" + msg.time + " 9=" + msg.attached + " 10=" + msg.longitudeE6 + " 11=" + msg.latitudeE6
-                            + " 12=" + msg.smsid+" 13="+msg.att_path_aud+" 14="+msg.att_path_img);
+                            + " 12=" + msg.smsid + " 13=" + msg.att_path_aud + " 14=" + msg.att_path_img);
                     if (msg.content.startsWith("here I am (")) {
 //						try {
 //							Class.forName("com.google.android.maps.MapActivity");
@@ -3182,15 +3213,157 @@ public class ConversationActivity extends Activity implements OnClickListener {
             case R.id.picmsg:  //tml|xwf*** beta ui2
                 if (!MyUtil.checkSDCard(ConversationActivity.this))
                     return;
+                //jack
                 onPickPictureOption();
+                break;
+            case R.id.file_iv:
+                if (!MyUtil.checkSDCard(ConversationActivity.this))
+                    return;
+                //jack
+                onPickFileOption();
+
                 break;
             case R.id.location:  //tml|xwf*** beta ui2
                 onChooseLocation();
                 break;
             case R.id.guard:  //tml|xwf*** beta ui2
-                onPickSUVOption();  //tml*** iot control
+//                onPickSUVOption();  //tml*** iot control
+                newOnPickSUVOPtion();
+                break;
+            case R.id.smartswitch_iv:
+                //打开指定界面
+                Intent intent = new Intent(ConversationActivity.this, ControlDevicesActivity.class);
+                intent.putExtra("SendeeNumber", mAddress);
+                intent.putExtra("SendeeDisplayname", mNickname);
+                startActivity(intent);
                 break;
         }
+
+    }
+
+    /**
+     * jack 选择文件
+     */
+    private void onPickFileOption() {
+        LinearLayout layout = (LinearLayout) LayoutInflater.from(ConversationActivity.this).inflate(R.layout.dialog_send_file, null);
+        final Dialog dialog = new Dialog(this, R.style.SecurityControlDialog);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setContentView(layout);
+        dialog.show();
+
+        ((Button)dialog.findViewById(R.id.choose_video_bt)).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPickVideo();
+                dialog.dismiss();
+            }
+        });
+
+        ((Button)dialog.findViewById(R.id.choose_file_bt)).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFileTransfer();
+                dialog.dismiss();
+            }
+        });
+    }
+
+    /**
+     * 新的家庭安防dialog
+     */
+    private void newOnPickSUVOPtion() {
+        // TODO: 2016/8/9 根据状态改变图片的显示
+//        final CharSequence[] items = {
+//                getResources().getString(R.string.surveillance),
+//                getResources().getString(R.string.home_iot_sensors),
+//                getResources().getString(R.string.suv_status),
+//                getResources().getString(R.string.home_monitor)};
+        LinearLayout layout = (LinearLayout) LayoutInflater.from(ConversationActivity.this).inflate(R.layout.dialog_home_security, null);
+        final Dialog dialog = new Dialog(this, R.style.SecurityControlDialog);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setContentView(layout);
+        dialog.show();
+
+        if(!surveillance){
+            ((ImageView) dialog.findViewById(R.id.surveillance_iv)).setImageResource(R.drawable.switch_security_off);
+        }else{
+            ((ImageView) dialog.findViewById(R.id.surveillance_iv)).setImageResource(R.drawable.switch_security_on);
+        }
+
+        if(!sensors){
+            ((ImageView) dialog.findViewById(R.id.sensors_iv)).setImageResource(R.drawable.switch_security_off);
+        }else{
+            ((ImageView) dialog.findViewById(R.id.sensors_iv)).setImageResource(R.drawable.switch_security_on);
+        }
+
+        ((ImageView) dialog.findViewById(R.id.surveillance_iv)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (!surveillance) {
+                    surveillance = true;
+                    Log.d("Conversation 打开移动侦测");
+                    ((ImageView) dialog.findViewById(R.id.surveillance_iv)).setImageResource(R.drawable.switch_security_on);
+                    if (AireJupiter.getInstance() != null && AireJupiter.getInstance().tcpSocket.isLogged(false)) {
+                        AireJupiter.getInstance().tcpSocket.send(mAddress, Global.SUV_ON, 0, null, null, 0, null);
+                    }
+                } else {
+                    Log.d("Conversation 关闭移动侦测");
+                    surveillance=false;
+                    ((ImageView) dialog.findViewById(R.id.surveillance_iv)).setImageResource(R.drawable.switch_security_off);
+                    if (AireJupiter.getInstance() != null && AireJupiter.getInstance().tcpSocket.isLogged(false)) {
+                        AireJupiter.getInstance().tcpSocket.send(mAddress, Global.SUV_OFF, 0, null, null, 0, null);
+                    }
+                }
+            }
+        });
+
+        ((ImageView) dialog.findViewById(R.id.sensors_iv)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (!sensors) {
+                    Log.d("Conversation 打开家庭传感器");
+                    sensors=true;
+                    ((ImageView) ((ImageView) dialog.findViewById(R.id.sensors_iv))).setImageResource(R.drawable.switch_security_on);
+                    if (AireJupiter.getInstance() != null && AireJupiter.getInstance().tcpSocket.isLogged(false)) {
+                        AireJupiter.getInstance().tcpSocket.send(mAddress, Global.SUV_ON_IOTALL, 0, null, null, 0, null);
+                    }
+                } else {
+                    Log.d("Conversation 关闭家庭传感器");
+                    sensors = false;
+                    ((ImageView) ((ImageView) dialog.findViewById(R.id.sensors_iv))).setImageResource(R.drawable.switch_security_off);
+                    if (AireJupiter.getInstance() != null && AireJupiter.getInstance().tcpSocket.isLogged(false)) {
+                        AireJupiter.getInstance().tcpSocket.send(mAddress, Global.SUV_OFF_IOTALL, 0, null, null, 0, null);
+                    }
+                }
+            }
+        });
+
+        ((TextView)dialog.findViewById(R.id.security_status_tv)).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+                Intent itg = new Intent(ConversationActivity.this, SuvStatusActivity.class);
+                itg.putExtra("SendeeNumber", mAddress);
+                itg.putExtra("SendeeDisplayname", mNickname);
+                startActivity(itg);
+            }
+        });
+
+        ((TextView)dialog.findViewById(R.id.home_monitor_tv)).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                if (AireJupiter.getInstance() != null
+                        && AireJupiter.getInstance().tcpSocket() != null) {
+                    AireJupiter.getInstance().tcpSocket()
+                            .send(mAddress, Global.MONITOR, 0, null, null, 0, null);
+                    mPref.write("GuardYou", true);
+                }
+            }
+        });
 
     }
 
@@ -3291,27 +3464,41 @@ public class ConversationActivity extends Activity implements OnClickListener {
 //				}
 //			}
 //		}
-        found1 = MyProfile.load().givenSecurityAccess(mAddress);
+        found1 = myProfile.givenSecurityAccess(mAddress);
+        Log.d("ConversationActivity 判断是否开启家庭安防" + "found1:" + found1);
         if (!found1) {
-            ((ImageView) findViewById(R.id.guard)).setBackgroundColor(Color.GRAY);
-            if (largeScreen) {
-                ((ImageView) findViewById(R.id.guard)).setPadding((int) (20 * mDensity),
-                        (int) (15 * mDensity), (int) (20 * mDensity), (int) (40 * mDensity));
-            } else {
-                ((ImageView) findViewById(R.id.guard)).setPadding((int) (20 * mDensity),
-                        (int) (10 * mDensity), (int) (20 * mDensity), (int) (30 * mDensity));
-            }
-            ((ImageView) findViewById(R.id.guard)).setEnabled(false);
+            Log.d(" 关闭");
+            ((ImageView) findViewById(R.id.guard)).setVisibility(View.INVISIBLE);
+            ((TextView) findViewById(R.id.security)).setVisibility(View.INVISIBLE);
+
+            ((ImageView) findViewById(R.id.smartswitch_iv)).setVisibility(View.INVISIBLE);
+            ((TextView) findViewById(R.id.smarthome)).setVisibility(View.INVISIBLE);
+//            ((ImageView) findViewById(R.id.guard)).setBackgroundColor(Color.GRAY);
+//            if (largeScreen) {
+//                ((ImageView) findViewById(R.id.guard)).setPadding((int) (20 * mDensity),
+//                        (int) (15 * mDensity), (int) (20 * mDensity), (int) (40 * mDensity));
+//            } else {
+//                ((ImageView) findViewById(R.id.guard)).setPadding((int) (20 * mDensity),
+//                        (int) (10 * mDensity), (int) (20 * mDensity), (int) (30 * mDensity));
+//            }
+//            ((ImageView) findViewById(R.id.guard)).setEnabled(false);
         } else {
-            ((ImageView) findViewById(R.id.guard)).setBackgroundResource(R.drawable.tabbtn);
-            if (largeScreen) {
-                ((ImageView) findViewById(R.id.guard)).setPadding((int) (20 * mDensity),
-                        (int) (15 * mDensity), (int) (20 * mDensity), (int) (40 * mDensity));
-            } else {
-                ((ImageView) findViewById(R.id.guard)).setPadding((int) (20 * mDensity),
-                        (int) (10 * mDensity), (int) (20 * mDensity), (int) (30 * mDensity));
-            }
-            ((ImageView) findViewById(R.id.guard)).setEnabled(true);
+            Log.d(" 开启");
+            ((ImageView) findViewById(R.id.guard)).setVisibility(View.VISIBLE);
+            ((TextView) findViewById(R.id.security)).setVisibility(View.VISIBLE);
+
+            ((ImageView) findViewById(R.id.smartswitch_iv)).setVisibility(View.VISIBLE);
+            ((TextView) findViewById(R.id.smarthome)).setVisibility(View.VISIBLE);
+
+//            ((ImageView) findViewById(R.id.guard)).setBackgroundResource(R.drawable.tabbtn);
+//            if (largeScreen) {
+//                ((ImageView) findViewById(R.id.guard)).setPadding((int) (20 * mDensity),
+//                        (int) (15 * mDensity), (int) (20 * mDensity), (int) (40 * mDensity));
+//            } else {
+//                ((ImageView) findViewById(R.id.guard)).setPadding((int) (20 * mDensity),
+//                        (int) (10 * mDensity), (int) (20 * mDensity), (int) (30 * mDensity));
+//            }
+//            ((ImageView) findViewById(R.id.guard)).setEnabled(true);
         }
     }
 

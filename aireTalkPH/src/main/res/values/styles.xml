@@ -93,4 +93,9 @@
         <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
 
+    <style name="SecurityControlDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowBackground">@drawable/bt_rec_bg</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
 </resources>

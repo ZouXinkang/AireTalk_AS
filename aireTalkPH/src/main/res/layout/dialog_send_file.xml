@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="match_parent"
+    android:background="@color/conversation_functions"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/chose_file"
+        android:textColor="@color/conversation_functions_dialog_title"
+        android:textSize="20dp" />
+
+    <View
+        android:layout_width="280dp"
+        android:layout_height="1dp"
+        android:layout_gravity="center"
+        android:background="#1000" />
+
+    <Button
+        android:id="@+id/choose_video_bt"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bt_rec_sel_bg"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/videomemo"
+        android:textColor="@color/bt_rec_text"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/choose_file_bt"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bt_rec_sel_bg"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/filememo"
+        android:textColor="@color/bt_rec_text"
+        android:textSize="20dp" />
+</LinearLayout>

@@ -236,224 +236,226 @@
 				android:layout_height="wrap_content" />
 	        
 		</RelativeLayout>
-	        
-	    <LinearLayout
-			android:id="@+id/functions"
-			android:visibility="gone"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:gravity="center"
-			android:orientation="vertical"
-			android:padding="1dp"
-			android:divider="@drawable/divider_hw"
-			android:showDividers="middle"
-			android:layoutAnimation="@anim/layout_slide_in" >
-	
-			<RelativeLayout
-				android:layout_width="fill_parent"
-				android:layout_height="70dp"
-				android:background="@drawable/titlebar" >
-			    
-			    <LinearLayout
-					android:id="@+id/funcsel1"
-					android:layout_width="fill_parent"
-					android:layout_height="fill_parent"
-					android:gravity="center_vertical|left"
-					android:orientation="horizontal"
-					android:weightSum="3"
-					android:divider="@drawable/divider_vw"
-					android:showDividers="middle" >
-		        	
-					<ImageView
-						android:id="@+id/call"
-						android:layout_width="match_parent"
-						android:layout_height="match_parent"
-						android:layout_marginLeft="0dp"
-						android:layout_marginRight="0dp"
-						android:layout_weight="1"
-						android:background="@drawable/tabbtn"
-						android:paddingTop="10dp"
-						android:paddingBottom="30dp"
-						android:paddingLeft="20dp"
-						android:paddingRight="20dp"
-						android:src="@drawable/func_call" />
-		        	
-					<ImageView
-						android:id="@+id/videocall"
-						android:layout_width="match_parent"
-						android:layout_height="match_parent"
-						android:layout_marginLeft="0dp"
-						android:layout_marginRight="0dp"
-						android:layout_weight="1"
-						android:background="@drawable/tabbtn"
-						android:paddingTop="10dp"
-						android:paddingBottom="30dp"
-						android:paddingLeft="20dp"
-						android:paddingRight="20dp"
-						android:src="@drawable/func_video" />
-		        	
-					<ImageView
-						android:id="@+id/walkietalkie"
-						android:layout_width="match_parent"
-						android:layout_height="match_parent"
-						android:layout_marginLeft="0dp"
-						android:layout_marginRight="0dp"
-						android:layout_weight="1"
-						android:background="@drawable/tabbtn"
-						android:paddingTop="10dp"
-						android:paddingBottom="30dp"
-						android:paddingLeft="20dp"
-						android:paddingRight="20dp"
-						android:src="@drawable/func_wt" />
-					
-				</LinearLayout>
-			    
-				<LinearLayout
-				    android:id="@+id/func_1_desc"
-					android:visibility="visible"
-					android:orientation="horizontal"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_alignParentBottom="true"
-					android:layout_marginBottom="5dp" >
-					
-					<TextView
-					    android:id="@+id/call_desc"
-					    android:text="@string/call"
-					    android:gravity="center"
-					    android:textColor="@color/title"
-					    android:textSize="12sp"
-						android:layout_width="fill_parent"
-						android:layout_height="wrap_content"
-						android:layout_weight="1"/>
-					
-					<TextView
-					    android:id="@+id/videocall_desc"
-					    android:text="@string/videocall"
-					    android:gravity="center"
-					    android:textColor="@color/title"
-					    android:textSize="12sp"
-						android:layout_width="fill_parent"
-						android:layout_height="wrap_content"
-						android:layout_weight="1"/>
-					
-					<TextView
-					    android:id="@+id/walkietalkie_desc"
-					    android:text="@string/walkietalkie"
-					    android:gravity="center"
-					    android:textColor="@color/title"
-					    android:textSize="12sp"
-						android:layout_width="fill_parent"
-						android:layout_height="wrap_content"
-						android:layout_weight="1"/>
-					
-				</LinearLayout>
-		
-			</RelativeLayout>
-			
-			<RelativeLayout
-				android:layout_width="fill_parent"
-				android:layout_height="70dp"
-				android:background="@drawable/titlebar" >
-			    
-			    <LinearLayout
-					android:id="@+id/funcsel2"
-					android:layout_width="fill_parent"
-					android:layout_height="70dp"
-					android:gravity="center_vertical|left"
-					android:orientation="horizontal"
-					android:weightSum="3"
-					android:divider="@drawable/divider_vw"
-					android:showDividers="middle" >
-		        	
-					<ImageView
-						android:id="@+id/picmsg"
-						android:layout_width="match_parent"
-						android:layout_height="match_parent"
-						android:layout_marginLeft="0dp"
-						android:layout_marginRight="0dp"
-						android:layout_weight="1"
-						android:background="@drawable/tabbtn"
-						android:paddingTop="10dp"
-						android:paddingBottom="30dp"
-						android:paddingLeft="20dp"
-						android:paddingRight="20dp"
-						android:src="@drawable/func_pic" />
-		        	
-					<ImageView
-						android:id="@+id/location"
-						android:layout_width="match_parent"
-						android:layout_height="match_parent"
-						android:layout_marginLeft="0dp"
-						android:layout_marginRight="0dp"
-						android:layout_weight="1"
-						android:background="@drawable/tabbtn"
-						android:paddingTop="10dp"
-						android:paddingBottom="30dp"
-						android:paddingLeft="20dp"
-						android:paddingRight="20dp"
-						android:src="@drawable/func_loc" />
-		        	
-					<ImageView
-						android:id="@+id/guard"
-						android:layout_width="match_parent"
-						android:layout_height="match_parent"
-						android:layout_marginLeft="0dp"
-						android:layout_marginRight="0dp"
-						android:layout_weight="1"
-						android:background="@drawable/tabbtn"
-						android:paddingTop="10dp"
-						android:paddingBottom="30dp"
-						android:paddingLeft="20dp"
-						android:paddingRight="20dp"
-						android:src="@drawable/guard" />
-					
-				</LinearLayout>
-			    
-				<LinearLayout
-				    android:id="@+id/func_2_desc"
-					android:visibility="visible"
-					android:orientation="horizontal"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_alignParentBottom="true"
-					android:layout_marginBottom="5dp" >
-					
-					<TextView
-					    android:id="@+id/picmsg_name"
-					    android:text="@string/fafauser_pic"
-					    android:gravity="center"
-					    android:textColor="#ffffff"
-					    android:textSize="12sp"
-						android:layout_width="fill_parent"
-						android:layout_height="wrap_content"
-						android:layout_weight="1"/>
-					
-					<TextView
-					    android:id="@+id/locate_desc"
-					    android:text="@string/fafauser_map"
-					    android:gravity="center"
-					    android:textColor="@color/title"
-					    android:textSize="12sp"
-						android:layout_width="fill_parent"
-						android:layout_height="wrap_content"
-						android:layout_weight="1"/>
-					
-					<TextView
-					    android:id="@+id/security"
-					    android:text="@string/security"
-					    android:gravity="center"
-					    android:textColor="@color/title"
-					    android:textSize="12sp"
-						android:layout_width="fill_parent"
-						android:layout_height="wrap_content"
-						android:layout_weight="1"/>
-					
-				</LinearLayout>
-		
-			</RelativeLayout>
-		
-		</LinearLayout>
+
+		<include layout="@layout/activit_conversation_functions" />
+
+	    <!--<LinearLayout-->
+			<!--android:id="@+id/functions"-->
+			<!--android:visibility="gone"-->
+			<!--android:layout_width="fill_parent"-->
+			<!--android:layout_height="wrap_content"-->
+			<!--android:gravity="center"-->
+			<!--android:orientation="vertical"-->
+			<!--android:padding="1dp"-->
+			<!--android:divider="@drawable/divider_hw"-->
+			<!--android:showDividers="middle"-->
+			<!--android:layoutAnimation="@anim/layout_slide_in" >-->
+	<!---->
+			<!--<RelativeLayout-->
+				<!--android:layout_width="fill_parent"-->
+				<!--android:layout_height="70dp"-->
+				<!--android:background="@drawable/titlebar" >-->
+			    <!---->
+			    <!--<LinearLayout-->
+					<!--android:id="@+id/funcsel1"-->
+					<!--android:layout_width="fill_parent"-->
+					<!--android:layout_height="fill_parent"-->
+					<!--android:gravity="center_vertical|left"-->
+					<!--android:orientation="horizontal"-->
+					<!--android:weightSum="3"-->
+					<!--android:divider="@drawable/divider_vw"-->
+					<!--android:showDividers="middle" >-->
+		        	<!---->
+					<!--<ImageView-->
+						<!--android:id="@+id/call"-->
+						<!--android:layout_width="match_parent"-->
+						<!--android:layout_height="match_parent"-->
+						<!--android:layout_marginLeft="0dp"-->
+						<!--android:layout_marginRight="0dp"-->
+						<!--android:layout_weight="1"-->
+						<!--android:background="@drawable/tabbtn"-->
+						<!--android:paddingTop="10dp"-->
+						<!--android:paddingBottom="30dp"-->
+						<!--android:paddingLeft="20dp"-->
+						<!--android:paddingRight="20dp"-->
+						<!--android:src="@drawable/func_call" />-->
+		        	<!---->
+					<!--<ImageView-->
+						<!--android:id="@+id/videocall"-->
+						<!--android:layout_width="match_parent"-->
+						<!--android:layout_height="match_parent"-->
+						<!--android:layout_marginLeft="0dp"-->
+						<!--android:layout_marginRight="0dp"-->
+						<!--android:layout_weight="1"-->
+						<!--android:background="@drawable/tabbtn"-->
+						<!--android:paddingTop="10dp"-->
+						<!--android:paddingBottom="30dp"-->
+						<!--android:paddingLeft="20dp"-->
+						<!--android:paddingRight="20dp"-->
+						<!--android:src="@drawable/func_video" />-->
+		        	<!---->
+					<!--<ImageView-->
+						<!--android:id="@+id/walkietalkie"-->
+						<!--android:layout_width="match_parent"-->
+						<!--android:layout_height="match_parent"-->
+						<!--android:layout_marginLeft="0dp"-->
+						<!--android:layout_marginRight="0dp"-->
+						<!--android:layout_weight="1"-->
+						<!--android:background="@drawable/tabbtn"-->
+						<!--android:paddingTop="10dp"-->
+						<!--android:paddingBottom="30dp"-->
+						<!--android:paddingLeft="20dp"-->
+						<!--android:paddingRight="20dp"-->
+						<!--android:src="@drawable/func_wt" />-->
+					<!---->
+				<!--</LinearLayout>-->
+			    <!---->
+				<!--<LinearLayout-->
+				    <!--android:id="@+id/func_1_desc"-->
+					<!--android:visibility="visible"-->
+					<!--android:orientation="horizontal"-->
+					<!--android:layout_width="fill_parent"-->
+					<!--android:layout_height="wrap_content"-->
+					<!--android:layout_alignParentBottom="true"-->
+					<!--android:layout_marginBottom="5dp" >-->
+					<!---->
+					<!--<TextView-->
+					    <!--android:id="@+id/call_desc"-->
+					    <!--android:text="@string/call"-->
+					    <!--android:gravity="center"-->
+					    <!--android:textColor="@color/title"-->
+					    <!--android:textSize="12sp"-->
+						<!--android:layout_width="fill_parent"-->
+						<!--android:layout_height="wrap_content"-->
+						<!--android:layout_weight="1"/>-->
+					<!---->
+					<!--<TextView-->
+					    <!--android:id="@+id/videocall_desc"-->
+					    <!--android:text="@string/videocall"-->
+					    <!--android:gravity="center"-->
+					    <!--android:textColor="@color/title"-->
+					    <!--android:textSize="12sp"-->
+						<!--android:layout_width="fill_parent"-->
+						<!--android:layout_height="wrap_content"-->
+						<!--android:layout_weight="1"/>-->
+					<!---->
+					<!--<TextView-->
+					    <!--android:id="@+id/walkietalkie_desc"-->
+					    <!--android:text="@string/walkietalkie"-->
+					    <!--android:gravity="center"-->
+					    <!--android:textColor="@color/title"-->
+					    <!--android:textSize="12sp"-->
+						<!--android:layout_width="fill_parent"-->
+						<!--android:layout_height="wrap_content"-->
+						<!--android:layout_weight="1"/>-->
+					<!---->
+				<!--</LinearLayout>-->
+		<!---->
+			<!--</RelativeLayout>-->
+			<!---->
+			<!--<RelativeLayout-->
+				<!--android:layout_width="fill_parent"-->
+				<!--android:layout_height="70dp"-->
+				<!--android:background="@drawable/titlebar" >-->
+			    <!---->
+			    <!--<LinearLayout-->
+					<!--android:id="@+id/funcsel2"-->
+					<!--android:layout_width="fill_parent"-->
+					<!--android:layout_height="70dp"-->
+					<!--android:gravity="center_vertical|left"-->
+					<!--android:orientation="horizontal"-->
+					<!--android:weightSum="3"-->
+					<!--android:divider="@drawable/divider_vw"-->
+					<!--android:showDividers="middle" >-->
+		        	<!---->
+					<!--<ImageView-->
+						<!--android:id="@+id/picmsg"-->
+						<!--android:layout_width="match_parent"-->
+						<!--android:layout_height="match_parent"-->
+						<!--android:layout_marginLeft="0dp"-->
+						<!--android:layout_marginRight="0dp"-->
+						<!--android:layout_weight="1"-->
+						<!--android:background="@drawable/tabbtn"-->
+						<!--android:paddingTop="10dp"-->
+						<!--android:paddingBottom="30dp"-->
+						<!--android:paddingLeft="20dp"-->
+						<!--android:paddingRight="20dp"-->
+						<!--android:src="@drawable/func_pic" />-->
+		        	<!---->
+					<!--<ImageView-->
+						<!--android:id="@+id/location"-->
+						<!--android:layout_width="match_parent"-->
+						<!--android:layout_height="match_parent"-->
+						<!--android:layout_marginLeft="0dp"-->
+						<!--android:layout_marginRight="0dp"-->
+						<!--android:layout_weight="1"-->
+						<!--android:background="@drawable/tabbtn"-->
+						<!--android:paddingTop="10dp"-->
+						<!--android:paddingBottom="30dp"-->
+						<!--android:paddingLeft="20dp"-->
+						<!--android:paddingRight="20dp"-->
+						<!--android:src="@drawable/func_loc" />-->
+		        	<!---->
+					<!--<ImageView-->
+						<!--android:id="@+id/guard"-->
+						<!--android:layout_width="match_parent"-->
+						<!--android:layout_height="match_parent"-->
+						<!--android:layout_marginLeft="0dp"-->
+						<!--android:layout_marginRight="0dp"-->
+						<!--android:layout_weight="1"-->
+						<!--android:background="@drawable/tabbtn"-->
+						<!--android:paddingTop="10dp"-->
+						<!--android:paddingBottom="30dp"-->
+						<!--android:paddingLeft="20dp"-->
+						<!--android:paddingRight="20dp"-->
+						<!--android:src="@drawable/guard" />-->
+					<!---->
+				<!--</LinearLayout>-->
+			    <!---->
+				<!--<LinearLayout-->
+				    <!--android:id="@+id/func_2_desc"-->
+					<!--android:visibility="visible"-->
+					<!--android:orientation="horizontal"-->
+					<!--android:layout_width="fill_parent"-->
+					<!--android:layout_height="wrap_content"-->
+					<!--android:layout_alignParentBottom="true"-->
+					<!--android:layout_marginBottom="5dp" >-->
+					<!---->
+					<!--<TextView-->
+					    <!--android:id="@+id/picmsg_name"-->
+					    <!--android:text="@string/fafauser_pic"-->
+					    <!--android:gravity="center"-->
+					    <!--android:textColor="#ffffff"-->
+					    <!--android:textSize="12sp"-->
+						<!--android:layout_width="fill_parent"-->
+						<!--android:layout_height="wrap_content"-->
+						<!--android:layout_weight="1"/>-->
+					<!---->
+					<!--<TextView-->
+					    <!--android:id="@+id/locate_desc"-->
+					    <!--android:text="@string/fafauser_map"-->
+					    <!--android:gravity="center"-->
+					    <!--android:textColor="@color/title"-->
+					    <!--android:textSize="12sp"-->
+						<!--android:layout_width="fill_parent"-->
+						<!--android:layout_height="wrap_content"-->
+						<!--android:layout_weight="1"/>-->
+					<!---->
+					<!--<TextView-->
+					    <!--android:id="@+id/security"-->
+					    <!--android:text="@string/security"-->
+					    <!--android:gravity="center"-->
+					    <!--android:textColor="@color/title"-->
+					    <!--android:textSize="12sp"-->
+						<!--android:layout_width="fill_parent"-->
+						<!--android:layout_height="wrap_content"-->
+						<!--android:layout_weight="1"/>-->
+					<!---->
+				<!--</LinearLayout>-->
+		<!---->
+			<!--</RelativeLayout>-->
+		<!---->
+		<!--</LinearLayout>-->
 	
     </LinearLayout>
 	

@@ -2,275 +2,279 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-	android:background="#FFFFFF"
-	android:orientation="vertical">
+    android:background="#FFFFFF"
+    android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/title"
-        android:background="@drawable/titlebar"
         android:layout_width="fill_parent"
         android:layout_height="80dp"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:background="@drawable/titlebar">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
-			    android:id="@+id/cancel"
-			    android:src="@drawable/back"
-			    android:background="@drawable/optionbtn"
-				android:padding="15dp"
-				android:layout_centerVertical="true"
-				android:layout_alignParentLeft="true"
-				android:layout_width="80dp"
-				android:layout_height="80dp"/>
+                android:id="@+id/cancel"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/optionbtn"
+                android:padding="15dp"
+                android:src="@drawable/back" />
 
             <TextView
                 android:id="@+id/topic"
-                android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
+                android:shadowColor="#80000000"
+                android:shadowDx="1"
+                android:shadowDy="2"
+                android:shadowRadius="2"
                 android:text="@string/pickup_contact"
                 android:textColor="#ffffff"
                 android:textSize="32sp"
-                android:shadowColor="#80000000"
-		  	  	android:shadowDx="1"
-		  	  	android:shadowDy="2"
-		  	  	android:shadowRadius="2"
-                android:textStyle="bold"/>
-            
+                android:textStyle="bold" />
+
+            <!--jack 0804 改UI-->
+            <!--android:background="@drawable/greenbtn"-->
             <ImageView
-			    android:id="@+id/done"
-			    android:src="@drawable/done"
-			    android:background="@drawable/greenbtn"
-				android:padding="15dp"
-				android:layout_centerVertical="true"
-				android:layout_alignParentRight="true"
-				android:layout_width="80dp"
-				android:layout_height="80dp"/>
+                android:id="@+id/done"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/plainbtn_new"
+                android:padding="15dp"
+                android:src="@drawable/done" />
         </RelativeLayout>
     </FrameLayout>
-    
+
     <!--<FrameLayout-->
-        <!--android:id="@+id/results"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="fill_parent"-->
-        <!--android:background="#ecf0f1"-->
-        <!--android:layout_below="@+id/title"-->
-        <!--android:layout_above="@+id/done_frame">-->
-        <!--<GridView-->
-            <!--android:background="#ecf0f1"-->
-            <!--android:id="@+id/friends"-->
-            <!--android:listSelector="@drawable/optionbtn"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="fill_parent"-->
-            <!--android:gravity="center"-->
-            <!--android:numColumns="3"-->
-            <!--android:verticalSpacing="0dp"/>-->
+    <!--android:id="@+id/results"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="fill_parent"-->
+    <!--android:background="#ecf0f1"-->
+    <!--android:layout_below="@+id/title"-->
+    <!--android:layout_above="@+id/done_frame">-->
+    <!--<GridView-->
+    <!--android:background="#ecf0f1"-->
+    <!--android:id="@+id/friends"-->
+    <!--android:listSelector="@drawable/optionbtn"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="fill_parent"-->
+    <!--android:gravity="center"-->
+    <!--android:numColumns="3"-->
+    <!--android:verticalSpacing="0dp"/>-->
     <!--</FrameLayout>-->
 
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="0dp"
-		android:layout_weight="1"
-		android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-		<com.pingshow.amper.view.TabPageIndicator
-			android:id="@+id/tpi_Indicator"
-			style="@style/Theme.PageIndicatorDefaults"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+        <com.pingshow.amper.view.TabPageIndicator
+            android:id="@+id/tpi_Indicator"
+            style="@style/Theme.PageIndicatorDefaults"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-		</com.pingshow.amper.view.TabPageIndicator>
+        </com.pingshow.amper.view.TabPageIndicator>
 
-		<android.support.v4.view.ViewPager
-			android:id="@+id/vp_viewpager"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-		</android.support.v4.view.ViewPager>
+        </android.support.v4.view.ViewPager>
 
-	</LinearLayout>
-	<RelativeLayout
-		android:id="@+id/ll_status"
-		android:layout_width="match_parent"
-		android:layout_height="28dp"
-		android:layout_above="@id/done_frame"
-		android:gravity="center_vertical">
+    </LinearLayout>
 
-		<TextView
-			android:id="@+id/tv_selected"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="8dp"
-			android:text="@string/conference_person_selected"
-			android:textColor="#A000"
-			android:textSize="15sp" />
+    <RelativeLayout
+        android:id="@+id/ll_status"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:layout_above="@id/done_frame"
+        android:gravity="center_vertical">
 
-		<TextView
-			android:id="@+id/tv_count"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="3dp"
-			android:layout_toRightOf="@id/tv_selected"
-			android:text="0"
-			android:textColor="#000"
-			android:textSize="15sp" />
+        <TextView
+            android:id="@+id/tv_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="@string/conference_person_selected"
+            android:textColor="#A000"
+            android:textSize="15sp" />
 
-		<TextView
-			android:id="@+id/tv_cancel"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignParentRight="true"
-			android:layout_marginRight="8dp"
-			android:text="@string/conference_cancel"
-			android:textColor="#00F"
-			android:textSize="15sp" />
-	</RelativeLayout>
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:layout_toRightOf="@id/tv_selected"
+            android:text="0"
+            android:textColor="#000"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="8dp"
+            android:text="@string/conference_cancel"
+            android:textColor="#00F"
+            android:textSize="15sp" />
+    </RelativeLayout>
 
     <FrameLayout
         android:id="@+id/done_frame"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/options"
-        android:visibility="gone" >
-        <LinearLayout 
-            android:orientation="vertical"
-            android:padding="10dp"
-            android:background="@drawable/searchbar_bg"
+        android:visibility="gone">
+
+        <LinearLayout
             android:layout_width="fill_parent"
-       		android:layout_height="wrap_content">
-			
+            android:layout_height="wrap_content"
+            android:background="@drawable/searchbar_bg"
+            android:orientation="vertical"
+            android:padding="10dp">
+
             <ImageView
-			    android:id="@+id/done_conf"
-			    android:src="@drawable/done"
-			    android:background="@drawable/greenbtn"
-				android:padding="15dp"
-				android:layout_marginLeft="10dp"
-				android:layout_marginRight="10dp"
-				android:layout_centerVertical="true"
-				android:layout_width="fill_parent"
-				android:layout_height="80dp"/>
-            
-		</LinearLayout>
-	</FrameLayout>
-	
+                android:id="@+id/done_conf"
+                android:layout_width="fill_parent"
+                android:layout_height="80dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/greenbtn"
+                android:padding="15dp"
+                android:src="@drawable/done" />
+
+        </LinearLayout>
+    </FrameLayout>
+
     <FrameLayout
-		android:id="@+id/options"
-		android:layout_width="fill_parent"
-		android:layout_height="80dp"
-		android:layout_alignParentBottom="true"
-		android:background="@drawable/optionbar"
-		android:visibility="gone" >
+        android:id="@+id/options"
+        android:layout_width="fill_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/optionbar"
+        android:visibility="gone">
 
-		<LinearLayout
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:gravity="center_vertical"
-			android:orientation="horizontal"
-			android:paddingBottom="2dp"
-			android:paddingTop="2dp" >
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp">
 
-			<Button
-				android:id="@+id/bMessage"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
-				android:layout_marginLeft="3dp"
-				android:layout_marginRight="3dp"
-				android:layout_weight="1"
-				android:paddingTop="10dp"
-				android:background="@drawable/tabbtn"
-				android:drawablePadding="-20dp"
-				android:drawableTop="@drawable/tab_msg"
-				android:text="@string/messages"
-				android:textColor="@color/optionbtn_text"
-				android:textSize="16sp"/>
+            <Button
+                android:id="@+id/bMessage"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/tabbtn"
+                android:drawablePadding="-20dp"
+                android:drawableTop="@drawable/tab_msg"
+                android:paddingTop="10dp"
+                android:text="@string/messages"
+                android:textColor="@color/optionbtn_text"
+                android:textSize="16sp" />
 
-			<Button
-				android:id="@+id/bFafauser"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
-				android:layout_marginLeft="3dp"
-				android:layout_marginRight="3dp"
-				android:layout_weight="1"
-				android:paddingTop="10dp"
-				android:background="@drawable/tabbtn"
-				android:drawablePadding="-20dp"
-				android:drawableTop="@drawable/tab_user"
-				android:text="@string/friends"
-				android:textColor="#ffffff"
-				android:textSize="16sp"/>
-			
-			<Button
-				android:id="@+id/bAireCall"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
-				android:layout_marginLeft="3dp"
-				android:layout_marginRight="3dp"
-				android:layout_weight="1"
-				android:background="@drawable/tabbtn"
-				android:drawablePadding="-20dp"
-				android:paddingTop="10dp"
-				android:drawableTop="@drawable/tab_sipcall"
-				android:text="@string/aire_free_call"
-				android:textColor="@color/optionbtn_text"
-				android:textSize="16sp" />
-			
-			<Button
-				android:id="@+id/bConference"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
-				android:layout_marginLeft="3dp"
-				android:layout_marginRight="3dp"
-				android:layout_weight="1"
-				android:paddingTop="10dp"
-				android:background="@drawable/tabbtn_focused"
-				android:drawablePadding="-10dp"
-				android:drawableTop="@drawable/conf"
-				android:text="@string/conference_2"
-				android:textColor="@color/optionbtn_text"
-				android:textSize="15sp"/>
+            <Button
+                android:id="@+id/bFafauser"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/tabbtn"
+                android:drawablePadding="-20dp"
+                android:drawableTop="@drawable/tab_user"
+                android:paddingTop="10dp"
+                android:text="@string/friends"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
 
-			<Button
-				android:id="@+id/bSearch"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
-				android:layout_marginLeft="3dp"
-				android:layout_marginRight="3dp"
-				android:layout_weight="1"
-				android:background="@drawable/tabbtn"
-				android:drawablePadding="-20dp"
-				android:paddingTop="10dp"
-				android:drawableTop="@drawable/tab_search"
-				android:text="@string/aire_studio"
-				android:textColor="@color/optionbtn_text"
-				android:textSize="16sp"/>
+            <Button
+                android:id="@+id/bAireCall"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/tabbtn"
+                android:drawablePadding="-20dp"
+                android:drawableTop="@drawable/tab_sipcall"
+                android:paddingTop="10dp"
+                android:text="@string/aire_free_call"
+                android:textColor="@color/optionbtn_text"
+                android:textSize="16sp" />
 
-<!-- 			//tml*** temp alpha ui -->
-			<Button
-		        android:visibility="gone"
-				android:id="@+id/bSetting"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
-				android:layout_marginLeft="3dp"
-				android:layout_marginRight="3dp"
-				android:layout_weight="1"
-				android:paddingTop="10dp"
-				android:background="@drawable/tabbtn"
-				android:drawablePadding="-10dp"
-				android:drawableTop="@drawable/tab_setting"
-				android:text="@string/setting"
-				android:textColor="@color/optionbtn_text"
-				android:textSize="16sp"/>
-		</LinearLayout>
-	</FrameLayout>
-	
+            <Button
+                android:id="@+id/bConference"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/tabbtn_focused"
+                android:drawablePadding="-10dp"
+                android:drawableTop="@drawable/conf"
+                android:paddingTop="10dp"
+                android:text="@string/conference_2"
+                android:textColor="@color/optionbtn_text"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/bSearch"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/tabbtn"
+                android:drawablePadding="-20dp"
+                android:drawableTop="@drawable/tab_search"
+                android:paddingTop="10dp"
+                android:text="@string/aire_studio"
+                android:textColor="@color/optionbtn_text"
+                android:textSize="16sp" />
+
+            <!-- 			//tml*** temp alpha ui -->
+            <Button
+                android:id="@+id/bSetting"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/tabbtn"
+                android:drawablePadding="-10dp"
+                android:drawableTop="@drawable/tab_setting"
+                android:paddingTop="10dp"
+                android:text="@string/setting"
+                android:textColor="@color/optionbtn_text"
+                android:textSize="16sp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </FrameLayout>
+
     <View
-	 	android:id="@+id/large"
-	 	android:visibility="gone"
-		android:layout_width="0dp"
-	  	android:layout_height="0dp"/>
-    
+        android:id="@+id/large"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone" />
+
 </LinearLayout>

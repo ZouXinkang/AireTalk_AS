@@ -119,6 +119,7 @@ public class CommonDialog extends Activity {
     		
     		btn.setOnClickListener(new OnClickListener() {
 	    		public void onClick(View v) {
+					Log.d("点击的id:"+Results[v.getId()]);
 	    			setResult(Results[v.getId()]);
 	    			if (Results[v.getId()]==DOWNLOAD)
 	    			{

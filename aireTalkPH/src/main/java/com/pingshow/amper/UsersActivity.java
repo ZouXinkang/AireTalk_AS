@@ -74,7 +74,7 @@ import java.util.Map;
 public class UsersActivity extends Activity {
 
     //tml|bj*** neverdie
-    static public UsersActivity _this;
+//    static public UsersActivity _this;
 
     static final int MAX_USERS = 300;
     static int orientation = -1;
@@ -114,8 +114,6 @@ public class UsersActivity extends Activity {
 
     static public boolean uiUAinFore = false;
 
-    //jack 16/4/16 hardcode 应该通过回调关闭页面.....暂时这样
-    public static Activity myUsersActivity;
     //jack 16/5/3 自定义的下拉刷新
     private RefreshableView refreshableView;
     private SettingPopupWindow settingPopupWindow;
@@ -137,10 +135,9 @@ public class UsersActivity extends Activity {
 
 
         this.overridePendingTransition(R.anim.freeze, R.anim.freeze);
-        _this = this;
-        neverSayNeverDie(_this);  //tml|bj*** neverdie/
-
-        myUsersActivity = this;//jack hardcode
+        //jack 停止使用静态变量
+//        _this = this;
+        neverSayNeverDie(this);  //tml|bj*** neverdie/
 
         mPref = new MyPreference(this);
         int ort = getResources().getConfiguration().orientation;

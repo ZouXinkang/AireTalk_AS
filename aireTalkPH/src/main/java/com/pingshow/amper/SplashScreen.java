@@ -47,13 +47,15 @@ public class SplashScreen extends Activity {
     private MyPreference mPref;
     private boolean showSplash = false;
     private String mAddress = null;
+	private MyProfile myProfile;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 
     	mPref = new MyPreference(SplashScreen.this);
-    	MyProfile.init(SplashScreen.this);
+		myProfile = new MyProfile(this);
+//		MyProfile.init(SplashScreen.this);
     	
     	long last = mPref.readLong("last_show_time", 0);
     	if (new Date().getTime() - last > 300000)//5 minutes
@@ -125,7 +127,7 @@ public class SplashScreen extends Activity {
 	    			//tml*** shortcut update, versionCode
 					if (rwVersionCode(1) < 2302) {
 //    					boolean shortcut = mPref.readBoolean("shortcut2Created");
-						boolean shortcut = MyProfile.load().isShortcut2Created();
+						boolean shortcut = myProfile.isShortcut2Created();
 						if (shortcut) {
 							setShortCut(false);
 						}
@@ -162,8 +164,10 @@ public class SplashScreen extends Activity {
 		{
 			try{
 //				mPref.delect("myPhotoPath");
-				MyProfile.load().saveMyPhotoPath(null, true);
-				
+//				MyProfile.load().saveMyPhotoPath(null, true);
+				//jack
+				myProfile.saveMyPhotoPath(null,true);
+
 				AireCallLogDB a=new AireCallLogDB(SplashScreen.this);
 				a.open();
 				a.deleteTable();
@@ -248,7 +252,9 @@ public class SplashScreen extends Activity {
 //		}
 		//***alec
 //		boolean regis = mPref.readBoolean("Registered", false);
-		boolean regis = MyProfile.load().isRegistered();
+//		boolean regis = MyProfile.load().isRegistered();
+		//jack
+		boolean regis = myProfile.isRegistered();
 		if (regis) {
 			if (!MyUtil.CheckServiceExists(SplashScreen.this, "com.pingshow.amper.AireJupiter")) {
 	    		Intent x = new Intent(SplashScreen.this, AireJupiter.class);
@@ -268,9 +274,15 @@ public class SplashScreen extends Activity {
 //		boolean regis = mPref.readBoolean("Registered", false);
 //		boolean prof = mPref.readBoolean("ProfileCompleted", false);
 //		boolean enter1 = mPref.readBoolean("firstEnter", false);
-		boolean regis = MyProfile.load().isRegistered();
-		boolean prof = MyProfile.load().isProfileComplete();
-		boolean enter1 = MyProfile.load().isFirstEnter();
+
+//		boolean regis = MyProfile.load().isRegistered();
+//		boolean prof = MyProfile.load().isProfileComplete();
+//		boolean enter1 = MyProfile.load().isFirstEnter();
+		//jack
+		boolean regis = myProfile.isRegistered();
+		boolean prof = myProfile.isProfileComplete();
+		boolean enter1 = myProfile.isFirstEnter();
+
 		Log.d("REG startAmper " + regis + prof + enter1);
 		
 		if (!regis) {
@@ -295,8 +307,13 @@ public class SplashScreen extends Activity {
 		callee = MyTelephony.attachPrefix(this, callee);
 //		boolean regis = mPref.readBoolean("Registered", false);
 //		boolean prof = mPref.readBoolean("ProfileCompleted", false);
-		boolean regis = MyProfile.load().isRegistered();
-		boolean prof = MyProfile.load().isProfileComplete();
+
+//		boolean regis = MyProfile.load().isRegistered();
+//		boolean prof = MyProfile.load().isProfileComplete();
+
+		//jack
+		boolean regis = myProfile.isRegistered();
+		boolean prof = myProfile.isProfileComplete();
 		
 		if (!regis) {
 			intent.setClass(SplashScreen.this, BeforeRegisterActivity.class);
@@ -412,7 +429,10 @@ public class SplashScreen extends Activity {
 	private void setShortCut(boolean mode) 
 	{
 //		mPref.write("shortcut2Created", true);
-		MyProfile.load().okShortcut2Created();
+//		MyProfile.load().okShortcut2Created();
+		//jack
+		myProfile.okShortcut2Created();
+
 		Intent shortcutIntent = new Intent(Intent.ACTION_MAIN);
         shortcutIntent.setClassName(this.getPackageName(), "com.pingshow.amper.SplashScreen");
         shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -476,10 +496,14 @@ public class SplashScreen extends Activity {
 			versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
 			if (mode == 1) {  //read
 //				versionCode = mPref.readInt("versionCode", 0);
-				versionCode = MyProfile.load().getMyVersionCode();
+//				versionCode = MyProfile.load().getMyVersionCode();
+				//jack
+				versionCode = myProfile.getMyVersionCode();
 			} else if (mode == 2) {  //write
 //				mPref.write("versionCode", versionCode);
-				MyProfile.load().saveMyVersionCode(versionCode, false);
+//				MyProfile.load().saveMyVersionCode(versionCode, false);
+				//jack
+				myProfile.saveMyVersionCode(versionCode, false);
 			}
 		} catch (NameNotFoundException e) {
 			Log.e("rwVersionCode PKG !@#$ " + e.getMessage());

@@ -308,11 +308,9 @@ public class SendFileAgent {
 			{
 				uploadSucess = 1;
 				remoteFilePath=Return.substring(5);
-				try {
-					url ="http://"+phpIP+"/onair/ulfiles/"+URLEncoder.encode(remoteFilePath, "UTF-8");
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-				}
+
+					url ="http://"+phpIP+"/onair/ulfiles/"+remoteFilePath;
+
 			}else
 				uploadSucess = -1;
 		synchronized(lock_200){

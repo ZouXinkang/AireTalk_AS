@@ -3,6 +3,9 @@ package com.pingshow.amper.view;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -62,6 +65,18 @@ public class SettingPopupWindow extends PopupWindow implements View.OnClickListe
         calWidthAndHeight(context);
 
         mConvertView = (LinearLayout)LayoutInflater.from(context).inflate(R.layout.popup_main,null );
+
+        //jack 向下兼容,使用tint属性
+        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.title_function_bg);
+        Drawable.ConstantState state = drawable.getConstantState();
+        //对源文件进行拷贝
+        Drawable wrap = DrawableCompat.wrap(state == null ? drawable : state.newDrawable()).mutate();
+        //设置范围
+        wrap.setBounds(0,0,drawable.getIntrinsicWidth(),drawable.getIntrinsicHeight());
+        //设置drawable使用Tint属性
+        DrawableCompat.setTint(wrap,ContextCompat.getColor(context,R.color.new_ui_bg));
+
+        mConvertView.setBackground(wrap);
 
         Log.d("SettingPopupWindowNew2", "mWidth:" + mWidth+" mHeight:"+mHeight);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(mWidth, mHeight);

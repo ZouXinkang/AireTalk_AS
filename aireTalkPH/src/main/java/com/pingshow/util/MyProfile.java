@@ -9,7 +9,7 @@ import android.text.TextUtils;
 
 //tml*** profile manager
 public class MyProfile {
-	private static MyProfile instance;
+	private MyProfile instance;
 	private Context mContext;
 
 	private MyPreference mPref;
@@ -40,30 +40,30 @@ public class MyProfile {
 	private static final Long DEF_long = (long) 39976279;
 	private static final Long DEF_lat = (long) 116349386;
 	
-	private MyProfile (Context context) {
+	public MyProfile (Context context) {
 		mContext = context;
 		mPref = new MyPreference(context);
 	}
 	
-	public static void init(Context context) {
-		if (context != null) {
-			if (instance == null) {
-				instance = new MyProfile(context);
-//				instance = new MyProfile(context.getApplicationContext());
-			}
-			Log.i("profile init (" + context.getClass().getSimpleName() + ")");
-		} else {
-			throw new NullPointerException("MyProfile.init() NULL");
-		}
-	}
+//	public void init(Context context) {
+//		if (context != null) {
+//			if (instance == null) {
+//				instance = new MyProfile(context);
+////				instance = new MyProfile(context.getApplicationContext());
+//			}
+//			Log.i("profile init (" + context.getClass().getSimpleName() + ")");
+//		} else {
+//			throw new NullPointerException("MyProfile.init() NULL");
+//		}
+//	}
 	
-	public static MyProfile load() {
-		if (instance == null) {
-            throw new IllegalStateException("Call MyProfile.init() first");
-        }
-
-        return instance;
-	}
+//	public static MyProfile load() {
+//		if (instance == null) {
+//            throw new IllegalStateException("Call MyProfile.init() first");
+//        }
+//
+//        return instance;
+//	}
 	
 	public boolean isRegistered() {
 		boolean registered = mPref.readBoolean(KEY_registered, false);

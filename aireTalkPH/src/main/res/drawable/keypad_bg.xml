@@ -2,6 +2,9 @@
 <shape android:shape="rectangle" xmlns:android="http://schemas.android.com/apk/res/android">
 <corners android:radius="00dp"/>
 <!-- 	tml*** beta ui -->
-<solid android:color="#66CCCC"/>
-<stroke android:width="4dp" android:color="#80ffffff"/>
+
+<!--<solid android:color="#66CCCC"/>-->
+    <!--jack 0804 改UI-->
+    <solid android:color="#d0809ccf"/>
+    <stroke android:width="4dp" android:color="#80ffffff"/>
 </shape>

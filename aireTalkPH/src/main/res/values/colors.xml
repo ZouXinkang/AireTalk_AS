@@ -30,7 +30,11 @@
   <color name="grgray">#686868</color>
 
   <color name="conferenceNormal">#ffffffff</color>
-  <color name="conferenceSelect">#1FD0A6</color>
+
+  <!--<color name="conferenceSelect">#1FD0A6</color>-->
+  <!--jack 0804 改UI-->
+  <color name="conferenceSelect">#809ccf</color>
+
   <!--<color name="logout_bg">#d33f3f</color>-->
   <color name="logout">#ffffffff</color>
 
@@ -38,5 +42,9 @@
   <color name="common_top_bar_blue">#22292c</color>
   <color name="btn_logout_pressed">#DA5A4D</color>
   <color name="btn_logout_normal">#d33f3f</color>
+  <!--jack 0804 改UI-->
+  <color name="new_ui_bg">#809ccf</color>
+  <color name="conversation_functions">#01ECF0F1</color>
+  <color name="conversation_functions_dialog_title">#3997d5</color>
 
 </resources>

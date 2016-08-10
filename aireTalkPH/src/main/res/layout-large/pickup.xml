@@ -40,11 +40,13 @@
 		  	  	android:shadowDy="2"
 		  	  	android:shadowRadius="2"
                 android:textStyle="bold"/>
-            
+
+			<!--jack 0804 改UI-->
+			<!--android:background="@drawable/greenbtn"-->
             <ImageView
 			    android:id="@+id/done"
 			    android:src="@drawable/done"
-			    android:background="@drawable/greenbtn"
+				android:background="@drawable/plainbtn_new"
 				android:padding="15dp"
 				android:layout_centerVertical="true"
 				android:layout_alignParentRight="true"

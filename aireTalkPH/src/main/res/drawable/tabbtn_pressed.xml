@@ -3,10 +3,10 @@
    <item>
       <shape>
          <corners android:radius="6dp"/>
-        <solid android:color="#CCFFFF"/>
+        <!--<solid android:color="#CCFFFF"/>-->
 
          <!--jack 0804 改UI-->
-         <!--<solid android:color="#ffd200"/>-->
+         <solid android:color="#ffd200"/>
       </shape>
    </item>
 </layer-list>
