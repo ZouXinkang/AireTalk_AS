@@ -135,7 +135,7 @@ public class VideoCallActivity extends Activity implements
 	private AmpUserDB mADB;
 	private SmsDB mDB;
 	static private ArrayList<SMS> TalkList = new ArrayList<SMS>();
-	private static MsgListAdapter msgListAdapter;
+	private MsgListAdapter msgListAdapter;
 	private ListView listview;
 	private int mIdx, myIdx;
 	private Drawable myphoto;

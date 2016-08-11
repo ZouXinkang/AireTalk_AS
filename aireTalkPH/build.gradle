@@ -31,7 +31,7 @@ android {
 dependencies {
     compile project(':com_facebook_android')
     compile project(':com_weibo_android')
-    compile project(':xwalk_core_libraryARM')
+    compile project(':xwalk_core_library17')
     compile 'com.android.support:support-v4:20.+'
     compile 'com.android.support:appcompat-v7:19.1.0'
     compile files('libs/BaiduLBS_Android.jar')

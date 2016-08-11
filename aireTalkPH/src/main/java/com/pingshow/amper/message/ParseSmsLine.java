@@ -795,6 +795,11 @@ public class ParseSmsLine {
                                 }
 
                             }
+                            if ( ContactsOnline
+                                    .getContactOnlineStatus(msg.address)==5){
+                                mPref.write("pcCall",true);
+                                Log.d("BREE PC客户端来电");
+                            }
                             AireJupiter.getInstance().lanuchServiceYToJoinChatroom(ip, from, isBroadcast);
                         }
                     } catch (Exception e) {
@@ -803,6 +808,13 @@ public class ParseSmsLine {
 
                 if (mDB != null && mDB.isOpen()) mDB.close();
                 return smslist;
+            }else if(msg.content.startsWith(Global.Leave_Conference)){
+                if (DialerActivity.getDialer() != null) {
+                    Intent itcall = new Intent(Global.
+                            Leave_Conference);
+                    context.sendBroadcast(itcall);
+                    return smslist;
+                }
             }
 //			// bree
 //			else if (msg.content.startsWith(Global.Call_Conference_Mute)) {

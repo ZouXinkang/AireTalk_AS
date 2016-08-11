@@ -331,7 +331,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 						WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
 				XWalkPreferences.setValue(
 						XWalkPreferences.ANIMATABLE_XWALK_VIEW, false);
-				xWalkWebView = new XWalkView(theDialer, DialerActivity.this);
+				xWalkWebView = new XWalkView(DialerActivity.this, DialerActivity.this);
 				//bree:设置XWalkView背景为黑色，并去除ssh警告对话框
 				xWalkWebView.setBackgroundColor(Color.BLACK);
 				xWalkWebView.setResourceClient(new XWalkResourceClient(xWalkWebView){
@@ -1949,9 +1949,13 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 						});
 					}
 				}
+			}else if(intent.getAction().equals(Global.Leave_Conference)){
+				mHangup.performClick();
+//				endCall("Leave_Conference");
 			}
 		}
 	};
+
 
 	Runnable callToChatroom = new Runnable() {
 		public void run() {
@@ -2224,6 +2228,7 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 		intentToReceiveFilter.addAction(Global.ACTION_PLAY_AUDIO);
 		intentToReceiveFilter.addAction(Global.MSG_UNREAD_YES);
 		intentToReceiveFilter.addAction(Global.MSG_RETURN_NOM);
+		intentToReceiveFilter.addAction(Global.Leave_Conference);
 		this.registerReceiver(SliderResponse, intentToReceiveFilter);
 
 		// MobclickAgent.onResume(this);
@@ -3983,9 +3988,9 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 	public static List<Map<String, Object>> memberList = new ArrayList<Map<String, Object>>();
 	private ImageAdapter imageAdapter;
 
-	public static class Holder {
-		public static ImageView iv = null;
-		public static TextView tv = null;
+	public class Holder {
+		public ImageView iv = null;
+		public TextView tv = null;
 	}
 
 	class ImageAdapter extends BaseAdapter {
@@ -4013,21 +4018,26 @@ public class DialerActivity extends Activity implements VoipCoreListener,
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
+			Holder holder = null;
 			if (convertView == null) {
+				holder = new Holder();
 				convertView = View.inflate(context, R.layout.gallery_items,
 						null);
-			}
-			Holder.iv = (ImageView) convertView
-					.findViewById(R.id.gallery_imageview);
-			Holder.tv = (TextView) convertView
-					.findViewById(R.id.gallery_textview);
+				holder.iv =(ImageView) convertView
+						.findViewById(R.id.gallery_imageview);
+				holder.tv = (TextView) convertView
+						.findViewById(R.id.gallery_textview);
 
+				convertView.setTag(holder);
+			}else{
+				holder = (Holder) convertView.getTag();
+			}
 			String displayname = (String) memberList.get(position).get(
 					"displayname");
-			Holder.tv.setText(displayname);
-			Holder.iv.setImageDrawable((Drawable) memberList.get(position).get(
+			holder.tv.setText(displayname);
+			holder.iv.setImageDrawable((Drawable) memberList.get(position).get(
 					"photo"));
-			Holder.iv.setBackgroundResource(R.drawable.empty);
+			holder.iv.setBackgroundResource(R.drawable.empty);
 
 			return convertView;
 		}

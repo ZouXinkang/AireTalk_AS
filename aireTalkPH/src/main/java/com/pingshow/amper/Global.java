@@ -127,5 +127,6 @@ public class Global {
 
     public static final String ACTION_SMART_HOME = "com.pingshow.smart.home";
 
+    public static final String Leave_Conference = ":-) Leave u? :-)";
 
 }

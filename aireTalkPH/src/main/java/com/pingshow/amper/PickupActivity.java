@@ -77,6 +77,8 @@ public class PickupActivity extends FragmentActivity {
 	private String pass;
 	private String myUsername;
 	private String myPasswd;
+	private String myIdxHex;
+	private String myServerIP;
 
 	private void initCall() {
 		neverSayNeverDie(PickupActivity.this);  //tml|bj*** neverdie/
@@ -308,6 +310,9 @@ public class PickupActivity extends FragmentActivity {
 																						  if (chatroomMemberslist.size() > 0 && chatroomMemberslist.size() <= 9) {
 																							  mPref.write("incomingChatroom", false);
 																							  mPref.write("ChatroomHostIdx", myIdx);
+
+																							  myIdxHex = mPref.read("myID", "0");
+																							  myServerIP = mPref.read("conferenceSipServer", AireJupiter.myConfSipServer_default);
 																							  new Thread(sendNotifyForJoinChatroom).start();
 																						  }
 
@@ -400,13 +405,13 @@ public class PickupActivity extends FragmentActivity {
 	//tml*** beta ui, conference
 	Runnable sendNotifyForJoinChatroom = new Runnable() {
 		public void run() {
-			String myIdxHex = mPref.read("myID", "0");
-
-			String ServerIP = mPref.read("conferenceSipServer", AireJupiter.myConfSipServer_default);
+//			String myIdxHex = mPref.read("myID", "0");
+//
+//			String ServerIP = mPref.read("conferenceSipServer", AireJupiter.myConfSipServer_default);
 			if (AireJupiter.getInstance() != null) {
-				ServerIP = AireJupiter.getInstance().getIsoConf(ServerIP);  //tml*** china ip
+				myServerIP = AireJupiter.getInstance().getIsoConf(myServerIP);  //tml*** china ip
 			}
-			long ip = MyUtil.ipToLong(ServerIP);
+			long ip = MyUtil.ipToLong(myServerIP);
 			String HexIP = Long.toHexString(ip);
 
 			String content = Global.Call_Conference + "\n\n" + HexIP + "\n\n" + myIdxHex;
@@ -423,7 +428,7 @@ public class PickupActivity extends FragmentActivity {
 					if (AireJupiter.getInstance().tcpSocket.isLogged(false))
 					{
 						if (i > 0) MyUtil.Sleep(500);
-						Log.d("voip.inviteConf1 " + address + " " + ServerIP + " " + content);
+						Log.d("voip.inviteConf1 " + address + " " + myServerIP + " " + content);
 						AireJupiter.getInstance().tcpSocket.send(address, content, 0, null, null, 0, null);
 					}
 				}

@@ -124,7 +124,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
     private int mAttached = 0;
     private SendAgent agent;
     private SendFileAgent fileAgent;
-    private static MsgListAdapter msgListAdapter;
+    private MsgListAdapter msgListAdapter;
     private ArrayList<String> sendeeList;//alec
     private ArrayList<String> addressList = new ArrayList<String>();
     private Handler mHandler = new Handler();

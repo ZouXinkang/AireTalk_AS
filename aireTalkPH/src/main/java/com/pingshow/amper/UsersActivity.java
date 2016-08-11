@@ -790,6 +790,8 @@ public class UsersActivity extends Activity {
 //		
 //	}
 
+
+
     OnItemClickListener onChooseUser = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view,
@@ -1749,11 +1751,11 @@ public class UsersActivity extends Activity {
     @Override
     public boolean onKeyDown(int keycode, KeyEvent event) {
         int action = event.getAction();
-//		int source = event.getSource();
-//		int hwscan = event.getScanCode();
-//		int devid = event.getDeviceId();
-//		int label = event.getDisplayLabel();
-//		Log.e("test onKeyDown Action=" + action + " KeyCode=" + keycode + " Source=" + source + " HWScan=" + hwscan + " DevID=" + devid + " Label=" + label);
+		int source = event.getSource();
+		int hwscan = event.getScanCode();
+		int devid = event.getDeviceId();
+		int label = event.getDisplayLabel();
+		Log.e("UserActivity test onKeyDown Action=" + action + " KeyCode=" + keycode + " Source=" + source + " HWScan=" + hwscan + " DevID=" + devid + " Label=" + label);
         //tml*** hw-menu substitute
         onDownNow = System.currentTimeMillis();
         if (action == MotionEvent.ACTION_DOWN && !onDowned) {
@@ -1917,9 +1919,9 @@ public class UsersActivity extends Activity {
         if (mGDB != null && mGDB.isOpen())
             mGDB.close();
 
-        if (TimeLineAdapter.asyncImageLoader != null)
-            TimeLineAdapter.asyncImageLoader.release();
-        TimeLineAdapter.asyncImageLoader = null;
+//        if (TimeLineAdapter.asyncImageLoader != null)
+//            TimeLineAdapter.asyncImageLoader.release();
+//        TimeLineAdapter.asyncImageLoader = null;
         System.gc();
         System.gc();
 

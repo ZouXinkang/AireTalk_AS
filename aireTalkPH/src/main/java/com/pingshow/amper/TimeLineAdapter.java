@@ -34,7 +34,7 @@ import com.pingshow.util.MyUtil;
 public class TimeLineAdapter extends CursorAdapter {
 
 	private Context mContext;
-	static public AsyncImageLoader asyncImageLoader=null;
+	private AsyncImageLoader asyncImageLoader=null;
 	private ListView mList;
 	private AmpUserDB mADB;
 	private TimeLineDB mTL;

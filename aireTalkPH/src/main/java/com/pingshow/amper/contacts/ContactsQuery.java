@@ -25,7 +25,7 @@ import com.pingshow.util.MyTelephony;
 public class ContactsQuery {
 	
 	private Context mContext;
-	static private Cursor mPhoneCursor;
+	private Cursor mPhoneCursor;
 	
 	public ContactsQuery(Context context)
 	{
