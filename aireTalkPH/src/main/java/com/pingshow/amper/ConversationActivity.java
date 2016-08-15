@@ -196,6 +196,8 @@ public class ConversationActivity extends Activity implements OnClickListener {
     private boolean sensors = false;
     private MyProfile myProfile;
 
+    private boolean pcFriend;
+
 
     static public ConversationActivity getInstance() {
         return msgpage;
@@ -232,8 +234,11 @@ public class ConversationActivity extends Activity implements OnClickListener {
         mContactId = intent.getLongExtra("SendeeContactId", -1);
         mFromGroup = getIntent().getBooleanExtra("fromGroup", false);  //xwf*** beta ui3
         mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        pcFriend = (ContactsOnline
+                .getContactOnlineStatus(mAddress) == 5);
 
         Log.d("发送消息  " + mAddress + "--------" + mNickname);
+
 
         //tml*** detect stb
         if (mAddress.startsWith(Global.STB_HeaderName + Global.STB_Name1)
@@ -1331,7 +1336,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
         dialog.setContentView(layout);
         dialog.show();
 
-        ((Button)dialog.findViewById(R.id.choose_gallery_bt)).setOnClickListener(new OnClickListener() {
+        ((Button) dialog.findViewById(R.id.choose_gallery_bt)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 onPickPicture();
@@ -1339,7 +1344,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
             }
         });
 
-        ((Button)dialog.findViewById(R.id.takepicture_bt)).setOnClickListener(new OnClickListener() {
+        ((Button) dialog.findViewById(R.id.takepicture_bt)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 onTakePicture();
@@ -3124,7 +3129,6 @@ public class ConversationActivity extends Activity implements OnClickListener {
                 if (inGroup) {
                     broadcastConf = false;  //tml*** broadcast
                     try {
-
                         if (sendeeList.size() > 0 && sendeeList.size() <= 9) {
                             AireVenus.setCallType(AireVenus.CALLTYPE_CHATROOM);
                             mPref.write("incomingChatroom", false);
@@ -3149,7 +3153,13 @@ public class ConversationActivity extends Activity implements OnClickListener {
                         Log.e("Conv Call !@#$ " + e.getMessage());
                     }
                 } else {
-                    MakeCall.Call(ConversationActivity.this, mAddress, false);
+                    //bree
+                    if (pcFriend) {
+                        callPcConf();
+                    } else {
+                        MakeCall.Call(ConversationActivity.this, mAddress, false);
+                    }
+
                 }
                 break;
             case R.id.videocall:  //tml|xwf*** beta ui2
@@ -3186,7 +3196,12 @@ public class ConversationActivity extends Activity implements OnClickListener {
                         Log.e("Conv VideoCall !@#$ " + e.getMessage());
                     }
                 } else {
-                    MakeCall.Call(ConversationActivity.this, mAddress, true, false);
+                    if (pcFriend) {
+                        callPcConf();
+                    } else {
+                        MakeCall.Call(ConversationActivity.this, mAddress, true, false);
+                    }
+
                 }
                 break;
             case R.id.walkietalkie:  //tml|xwf*** beta ui2
@@ -3241,6 +3256,46 @@ public class ConversationActivity extends Activity implements OnClickListener {
 
     }
 
+    private void callPcConf() {
+
+        mPref.write("pcCall", true);
+        mPref.write("pcAdress", mAddress);
+        Runnable sendPcNotifyForJoinChatroom = new Runnable() {
+            public void run() {
+                String myIdxHex = mPref.read("myID", "0");
+                String ServerIP = mPref.read("conferenceSipServer", AireJupiter.myConfSipServer_default);
+                if (AireJupiter.getInstance() != null) {
+                    ServerIP = AireJupiter.getInstance().getIsoConf(ServerIP);  //tml*** china ip
+                }
+                long ip = MyUtil.ipToLong(ServerIP);
+                String HexIP = Long.toHexString(ip);
+
+                String content = Global.Call_Conference + "\n\n" + HexIP + "\n\n" + myIdxHex;
+
+                if (AireJupiter.getInstance() != null && AireJupiter.getInstance().tcpSocket != null) {
+                    if (AireJupiter.getInstance().tcpSocket.isLogged(false)) {
+                        Log.d("voip.inviteConf1 " + mAddress + " " + content);
+                        AireJupiter.getInstance().tcpSocket.send(mAddress, content, 0, null, null, 0, null);
+                    }
+                }
+            }
+        };
+
+        AireVenus.setCallType(AireVenus.CALLTYPE_CHATROOM);
+        mPref.write("incomingChatroom", false);
+
+        new Thread(sendPcNotifyForJoinChatroom).start();
+        int myIdx = 0;
+        try {
+            myIdx = Integer.parseInt(mPref.read("myID", "0"), 16);
+            mPref.write("ChatroomHostIdx", myIdx);
+        } catch (Exception e) {
+        }
+
+        String idx = "" + myIdx;
+        MakeCall.ConferenceCall(getApplicationContext(), idx);
+    }
+
     /**
      * jack 选择文件
      */
@@ -3251,7 +3306,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
         dialog.setContentView(layout);
         dialog.show();
 
-        ((Button)dialog.findViewById(R.id.choose_video_bt)).setOnClickListener(new OnClickListener() {
+        ((Button) dialog.findViewById(R.id.choose_video_bt)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 onPickVideo();
@@ -3259,7 +3314,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
             }
         });
 
-        ((Button)dialog.findViewById(R.id.choose_file_bt)).setOnClickListener(new OnClickListener() {
+        ((Button) dialog.findViewById(R.id.choose_file_bt)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 onFileTransfer();
@@ -3284,15 +3339,15 @@ public class ConversationActivity extends Activity implements OnClickListener {
         dialog.setContentView(layout);
         dialog.show();
 
-        if(!surveillance){
+        if (!surveillance) {
             ((ImageView) dialog.findViewById(R.id.surveillance_iv)).setImageResource(R.drawable.switch_security_off);
-        }else{
+        } else {
             ((ImageView) dialog.findViewById(R.id.surveillance_iv)).setImageResource(R.drawable.switch_security_on);
         }
 
-        if(!sensors){
+        if (!sensors) {
             ((ImageView) dialog.findViewById(R.id.sensors_iv)).setImageResource(R.drawable.switch_security_off);
-        }else{
+        } else {
             ((ImageView) dialog.findViewById(R.id.sensors_iv)).setImageResource(R.drawable.switch_security_on);
         }
 
@@ -3309,7 +3364,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
                     }
                 } else {
                     Log.d("Conversation 关闭移动侦测");
-                    surveillance=false;
+                    surveillance = false;
                     ((ImageView) dialog.findViewById(R.id.surveillance_iv)).setImageResource(R.drawable.switch_security_off);
                     if (AireJupiter.getInstance() != null && AireJupiter.getInstance().tcpSocket.isLogged(false)) {
                         AireJupiter.getInstance().tcpSocket.send(mAddress, Global.SUV_OFF, 0, null, null, 0, null);
@@ -3324,7 +3379,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
             public void onClick(View v) {
                 if (!sensors) {
                     Log.d("Conversation 打开家庭传感器");
-                    sensors=true;
+                    sensors = true;
                     ((ImageView) ((ImageView) dialog.findViewById(R.id.sensors_iv))).setImageResource(R.drawable.switch_security_on);
                     if (AireJupiter.getInstance() != null && AireJupiter.getInstance().tcpSocket.isLogged(false)) {
                         AireJupiter.getInstance().tcpSocket.send(mAddress, Global.SUV_ON_IOTALL, 0, null, null, 0, null);
@@ -3340,7 +3395,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
             }
         });
 
-        ((TextView)dialog.findViewById(R.id.security_status_tv)).setOnClickListener(new OnClickListener() {
+        ((TextView) dialog.findViewById(R.id.security_status_tv)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -3352,7 +3407,7 @@ public class ConversationActivity extends Activity implements OnClickListener {
             }
         });
 
-        ((TextView)dialog.findViewById(R.id.home_monitor_tv)).setOnClickListener(new OnClickListener() {
+        ((TextView) dialog.findViewById(R.id.home_monitor_tv)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();

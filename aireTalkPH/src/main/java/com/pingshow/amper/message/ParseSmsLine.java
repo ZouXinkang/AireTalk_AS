@@ -798,6 +798,7 @@ public class ParseSmsLine {
                             if ( ContactsOnline
                                     .getContactOnlineStatus(msg.address)==5){
                                 mPref.write("pcCall",true);
+                                mPref.write("pcAdress",msg.address);
                                 Log.d("BREE PC客户端来电");
                             }
                             AireJupiter.getInstance().lanuchServiceYToJoinChatroom(ip, from, isBroadcast);
@@ -813,8 +814,8 @@ public class ParseSmsLine {
                     Intent itcall = new Intent(Global.
                             Leave_Conference);
                     context.sendBroadcast(itcall);
-                    return smslist;
                 }
+                return smslist;
             }
 //			// bree
 //			else if (msg.content.startsWith(Global.Call_Conference_Mute)) {

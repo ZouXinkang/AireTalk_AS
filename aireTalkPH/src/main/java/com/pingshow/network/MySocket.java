@@ -428,7 +428,7 @@ public class MySocket {
                                         if (k < numbers.length) {
                                             char a = fromServer.charAt(k);
                                             int online_type = -1;
-                                            if (a >= '0' && a <= '4')
+                                            if (a >= '0' && a <= '5')
                                                 online_type = a - '0';
                                             ContactsOnline.setContactOnlineStatus(numbers[k], online_type);
                                         }

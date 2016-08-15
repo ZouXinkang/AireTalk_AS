@@ -1052,7 +1052,7 @@ public class FunctionActivity extends Activity {
 	
 	private Intent mPickedIntent;
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == 109) { //user agees to add member
+		if (requestCode == 109) { //user agees to add Member
 			if (resultCode == RESULT_OK) {
 				new Thread(addNewMembersInGroup).start();
 			}

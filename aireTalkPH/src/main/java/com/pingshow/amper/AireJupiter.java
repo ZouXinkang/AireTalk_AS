@@ -1442,7 +1442,7 @@ public class AireJupiter extends Service {
                             }
                         }).start();
                         break;
-                    case Global.CMD_LEAVE_GROUP://some member leaves the group, and he notifies me.
+                    case Global.CMD_LEAVE_GROUP://some Member leaves the group, and he notifies me.
                         mGroupID = intent.getIntExtra("GroupID", 0);
                         UnknownIdx = intent.getIntExtra("idx", 0);
 
